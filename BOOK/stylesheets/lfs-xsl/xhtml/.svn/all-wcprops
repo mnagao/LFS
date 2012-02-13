@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml
+END
+lfs-navigational.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-navigational.xsl
+END
+lfs-admon.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-admon.xsl
+END
+lfs-titles.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-titles.xsl
+END
+lfs-xref.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-xref.xsl
+END
+lfs-toc.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-toc.xsl
+END
+lfs-legalnotice.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-legalnotice.xsl
+END
+lfs-mixed.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-mixed.xsl
+END
+lfs-index.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-index.xsl
+END
+lfs-sections.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/xhtml/lfs-sections.xsl
+END

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9476 -->
+
+<sect1 id="ch-system-kernfs">
+  <?dbhtml filename="kernfs.html"?>
+
+  <title>バーチャル・カーネル・ファイルシステムの準備</title>
+
+  <indexterm zone="ch-system-kernfs">
+    <primary sortas="e-/dev/">/dev/*</primary>
+  </indexterm>
+
+    <para>Various file systems exported by the kernel are used to communicate to
+    and from the kernel itself. These file systems are virtual in that no disk
+    space is used for them. The content of the file systems resides in
+    memory.</para>
+
+    <para>カーネルによってエクスポートされている様々なファイルシステムは、カーネルとのやりとりに使用されます。
+    それらファイルシステムは、仮想的なものでディスクスペースは使用されません。
+    このファイルシステムの内容はメモリ上に常駐します。
+    </para>
+
+    <para>Begin by creating directories onto which the file systems will be
+    mounted:</para>
+
+    <para>ファイルシステムがマウントされるディレクトリを作成することから始めましょう：</para>
+
+<screen><userinput>mkdir -v $LFS/{dev,proc,sys}</userinput></screen>
+
+  <sect2>
+    <title>初期デバイスノードの作成</title>
+
+    <para>When the kernel boots the system, it requires the presence of a few
+    device nodes, in particular the <filename
+    class="devicefile">console</filename> and <filename
+    class="devicefile">null</filename> devices. The device nodes must be created
+    on the hard disk so that they are available before <command>udevd</command>
+    has been started, and additionally when Linux is started with
+    <parameter>init=/bin/bash</parameter>. Create the devices by running the
+    following commands:</para>
+
+    <para>カーネルがシステムをブートする時、いくつかのデバイスノードの存在が必要です。特に、<filename class="devicefile">コンソール</filename>デバイスや<filename class="devicefile">null</filename>デバイスです。
+    デバイスノードは<command>udevd</command>が起動する前にLinuxが<parameter>init=/bin/bash</parameter>を指定して起動するときに有効になるので、デバイスノードはハードディスク上に作成されなければなりません。
+    次のコマンドを実行し、デバイスを作成します：
+    </para>
+
+<screen><userinput>mknod -m 600 $LFS/dev/console c 5 1
+mknod -m 666 $LFS/dev/null c 1 3</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="ch-system-bindmount">
+    <title>マウントと/devへの配置</title>
+
+      <para>The recommended method of populating the <filename
+      class="directory">/dev</filename> directory with devices is to mount a
+      virtual filesystem (such as <systemitem
+      class="filesystem">tmpfs</systemitem>) on the <filename
+      class="directory">/dev</filename> directory, and allow the devices to be
+      created dynamically on that virtual filesystem as they are detected or
+      accessed. Device creation is generally done during the boot process
+      by Udev. Since this new system does not yet have Udev and has not yet
+      been booted, it is necessary to mount and populate <filename
+      class="directory">/dev</filename> manually. This is accomplished by bind
+      mounting the host system's <filename class="directory">/dev</filename>
+      directory. A bind mount is a special type of mount that allows you to
+      create a mirror of a directory or mount point to some other location. Use
+      the following command to achieve this:</para>
+      <para>デバイスを<filename class="directory">/dev</filename>ディレクトリに配置する推奨の方法は、<filename class="directory">/dev</filename>ディレクトリ上に仮想ファイルシステム(<systemitem class="filesystem">tmpfs</systemitem>のような)をマウントすることです。
+      デバイスの作成は一般的に、ブートプロセスの過程でUdevによって行われます。
+      現在構築中のLFSシステムはまだUdevを持っておらず、ブートも行われていないため、手作業で<filename class="directory">/dev</filename>のマウントと配置を行います。
+      これは、ホストシステムの<filename class="directory">/dev</filename>をbindマウントすることで実現します。
+      </para>
+
+<screen><userinput>mount -v --bind /dev $LFS/dev</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="ch-system-kernfsmount">
+    <title>仮想カーネルファイルシステムのマウント</title>
+
+      <para>Now mount the remaining virtual kernel filesystems:</para>
+      <para>では、残りの仮想カーネルファイルシステムをマウントします：</para>
+
+<screen><userinput>mount -vt devpts devpts $LFS/dev/pts
+mount -vt tmpfs shm $LFS/dev/shm
+mount -vt proc proc $LFS/proc
+mount -vt sysfs sysfs $LFS/sys</userinput></screen>
+
+  </sect2>
+
+</sect1>

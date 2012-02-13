@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9257 -->
+
+<sect1 id="ch-tools-coreutils" role="wrap">
+  <?dbhtml filename="coreutils.html"?>
+
+  <sect1info condition="script">
+    <productname>coreutils</productname>
+    <productnumber>&coreutils-version;</productnumber>
+    <address>&coreutils-url;</address>
+  </sect1info>
+
+  <title>Coreutils-&coreutils-version;</title>
+
+  <indexterm zone="ch-tools-coreutils">
+    <primary sortas="a-Coreutils">Coreutils</primary>
+    <secondary>tools</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/coreutils.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&coreutils-ch5-sbu;</seg>
+        <seg>&coreutils-ch5-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Coreutils</title>-->
+    <title>Coreutilsのインストール</title>
+
+    <para>Prepare Coreutils for compilation:</para>
+    <para>Coreutilsをコンパイルする準備を行います：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/tools --enable-install-program=hostname</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><envar>--enable-install-program=hostname</envar></term>
+        <listitem>
+          <para>This enables the <command>hostname</command> binary to be built
+          and installed &ndash; it is disabled by default but is required by the
+          Perl test suite.</para>
+          <para><command>hostname</command>のバイナリをビルドしインストールします。
+          デフォルトでは<command>hostname</command>はビルドされませんが、Perlのテストツール実行のために必要となります。</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージをコンパイルします：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Compilation is now complete. As discussed earlier, running the test
+    suite is not mandatory for the temporary tools here in this chapter. To run
+    the Coreutils test suite anyway, issue the following command:</para>
+    <para>これでコンパイルは終わりです。前に述べたように、一時的なツールに対してテストツールを実行することは、必須ではありません。Coreutilsのテストツールをとにかく実行するのであれば、次のコマンドを実行してください：</para>
+
+<screen><userinput remap="test">make RUN_EXPENSIVE_TESTS=yes check</userinput></screen>
+
+    <para>The <parameter>RUN_EXPENSIVE_TESTS=yes</parameter> parameter tells the
+    test suite to run several additional tests that are considered
+    relatively expensive (in terms of CPU power and memory usage) on some
+    platforms, but generally are not a problem on Linux.</para>
+
+    <para><parameter>RUN_EXPENSIVE_TESTS=yes</parameter>というパラメータを指定することで、テストツールに対して、比較的(CPUパワーやメモリ使用量の観点で)高価な追加テストの実施を行うように指示します。
+    ただ、Linuxにおいては一般的に、それら追加テストは問題にはならないでしょう。
+    </para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>The above command refuses to install <filename>su</filename>
+    because the program cannot be installed setuid root as a non-privileged
+    user. By manually installing it with a different name, we can use it for
+    running tests in the final system as a non-privileged user and we keep a
+    possibly useful <command>su</command> from our host first place in our PATH.
+    Install it with:</para>
+
+    <para>上記コマンドを実行すると、<filename>su</filename>のインストールが拒否されます。これは、非特権ユーザがrootのsetuidを指定してプログラムをインストール出来ないためです。
+    手作業で異なる名前の<filename>su</filename>をインストールすることにより、非特権ユーザで最終的なLFSシステムにおけるテストが実行出来るようになります。そして、PATHの先頭に配置することで<command>su</command>を出来る限り便利にします。
+    それでは、次のとおりインストールを行います：
+    </para>
+
+<screen><userinput remap="install">cp -v src/su /tools/bin/su-tools</userinput></screen>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-coreutils" role="."/></para>
+
+    <para>このパッケージの詳細は、<xref linkend="contents-coreutils" role="."/>にあります。
+    </para>
+  </sect2>
+
+</sect1>

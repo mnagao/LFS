@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9304 -->
+
+<sect1 id="ch-tools-dejagnu" role="wrap">
+  <?dbhtml filename="dejagnu.html"?>
+
+  <sect1info condition="script">
+    <productname>dejagnu</productname>
+    <productnumber>&dejagnu-version;</productnumber>
+    <address>&dejagnu-url;</address>
+  </sect1info>
+
+  <title>DejaGNU-&dejagnu-version;</title>
+
+  <indexterm zone="ch-tools-dejagnu">
+    <primary sortas="a-DejaGNU">DejaGNU</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The DejaGNU package contains a framework for testing other
+    programs.</para>
+
+    <para>DejeGNUパッケージは、他プログラムをテストするためのフレームワークです。
+    </para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&dejagnu-ch5-sbu;</seg>
+        <seg>&dejagnu-ch5-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of DejaGNU</title>-->
+    <title>DejeGNUのインストール</title>
+
+    <para>The most recent version of this package was released in 2004.  Apply 
+    some fixes that have accumulated since then:</para>
+    <para>このパッケージの最新版のリリースは2004年ですので、それ以降に蓄積されたいくつかのパッチを適用します：</para> 
+
+<screen><userinput remap="pre">patch -Np1 -i ../&dejagnu-consolidated-patch;</userinput></screen>
+
+    <para>Prepare DejaGNU for compilation:</para>
+    <para>DejeGNUをコンパイルするための準備は次のとおりです：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/tools</userinput></screen>
+
+    <para>Build and install the package:</para>
+    <para>パッケージのビルドとインストールを行います：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+  </sect2>
+
+
+  <sect2 id="contents-dejagnu" role="content">
+    <title>DejaGNUの内容</title>
+
+    <segmentedlist>
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>runtest</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <bridgehead renderas="sect3">説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="runtest">
+        <term><command>runtest</command></term>
+        <listitem>
+          <para>A wrapper script that locates the proper
+          <command>expect</command> shell and then runs DejaGNU</para>
+          <para>正しい<command>expect</command>シェルの位置を突き止め、DejaGNUを実行するラッパースクリプト。
+          </para>
+          <indexterm zone="ch-tools-dejagnu runtest">
+            <primary sortas="b-runtest">runtest</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

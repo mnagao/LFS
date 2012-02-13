@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9379 -->
+
+<sect1 id="ch-system-patch" role="wrap">
+  <?dbhtml filename="patch.html"?>
+
+  <sect1info condition="script"> 
+    <productname>patch</productname> 
+    <productnumber>&patch-version;</productnumber> 
+    <address>&patch-url;</address> 
+  </sect1info>
+
+  <title>Patch-&patch-version;</title>
+
+  <indexterm zone="ch-system-patch">
+    <primary sortas="a-Patch">Patch</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Patch package contains a program for modifying or creating files
+    by applying a <quote>patch</quote> file typically created by the
+    <command>diff</command> program.</para>
+    <para>Patchパッケージは、<quote>patch</quote>ファイルを適用することで、ファイルの修正や作成を行うプログラムを含んでいます。<quote>patch</quote>ファイルは、通常<command>diff</command>プログラムによって作成されます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&patch-ch6-sbu;</seg>
+        <seg>&patch-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Patch</title>-->
+    <title>Patchのインストール</title>
+
+    <para>Apply a patch to prevent the test suite from running a test that
+    requires <command>ed</command>:</para>
+    <para><command>ed</command>を必要とするテストの実行を防ぐため、パッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&patch-test-patch;</userinput></screen>
+
+    <para>Prepare Patch for compilation:</para>
+    <para>パッチをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果をテストするには、次を実行します：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-patch" role="content">
+    <!--<title>Contents of Patch</title>-->
+    <title>Patchの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed program</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>patch</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="patch">
+        <term><command>patch</command></term>
+        <listitem>
+          <para>Modifies files according to a patch file. A patch file is
+          normally a difference listing created with the <command>diff</command>
+          program. By applying these differences to the original files,
+          <command>patch</command> creates the patched versions.</para>
+          <para>patchファイルの内容に沿ってファイルを変更します。
+          patchファイルは通常、<command>diff</command>プログラムによって作られた差分のリストです。
+          それら差分をオリジナルのファイルに適用することで、<command>patch</command>はパッチ適用済みのバージョンのファイルを作成します。</para>
+          <indexterm zone="ch-system-patch patch">
+            <primary sortas="b-patch">patch</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

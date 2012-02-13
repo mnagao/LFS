@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8965 -->
+
+<sect1 id="prepare-abouttestsuites">
+  <?dbhtml filename="abouttestsuites.html"?>
+
+  <title>テストについて</title>
+
+  <para>Most packages provide a test suite. Running the test suite for a
+  newly built package is a good idea because it can provide a <quote>sanity
+  check</quote> indicating that everything compiled correctly. A test suite
+  that passes its set of checks usually proves that the package is
+  functioning as the developer intended. It does not, however, guarantee
+  that the package is totally bug free.</para>
+
+  <para>ほとんどのパッケージはテストツールを提供しています。
+  新しくビルドしたパッケージに対してテストツールを実行することは、良いアイデアです。
+  なぜなら、テストツールは、全てが正しくコンパイルされていることを示す正当性チェックを提供してくれるからです。
+  テストツールのチェックにパスするということは、開発者の意図したとおりにパッケージが機能することが証明されたことになります。
+  しかしながら、テストツールはパッケージにバグがないことを保証はしません。
+  </para>
+
+  <para>Some test suites are more important than others. For example,
+  the test suites for the core toolchain packages&mdash;GCC, Binutils, and
+  Glibc&mdash;are of the utmost importance due to their central role in a
+  properly functioning system. The test suites for GCC and Glibc can
+  take a very long time to complete, especially on slower hardware, but
+  are strongly recommended.</para>
+
+  <para>いくつかのテストツールは他のそれよりもより重要です。
+  例えば、コアとなるtoolchainのパッケージ &mdash; GCC、Binutils、Glibc &mdash; は、正しく機能するシステムにおいて中心的な役割を担うため、最も重要となっています。
+  GCCとGlibcのテストは、特に遅いハードウェアにおいて、とても長い時間を必要としますが、テストの実施を強くお勧めします。
+
+  </para>
+
+  <note>
+    <para>Experience has shown that there is little to be gained from running
+    the test suites in <xref linkend="chapter-temporary-tools"/>. There can be
+    no escaping the fact that the host system always exerts some influence on
+    the tests in that chapter, often causing inexplicable failures. Because
+    the tools built in <xref linkend="chapter-temporary-tools"/> are temporary
+    and eventually discarded, we do not recommend running the test suites in
+    <xref linkend="chapter-temporary-tools"/> for the average reader. The
+    instructions for running those test suites are provided for the benefit of
+    testers and developers, but they are strictly optional.</para>
+
+    <para>経験上、<xref linkend="chapter-temporary-tools"/>においてテストを実施することで得られる利益は少ないです。
+    <xref linkend="chapter-temporary-tools"/>においては、ホストシステムがテストに影響(しばしば説明のつかないエラーが生じる)を与える事実からは逃れられません。
+    <xref linkend="chapter-temporary-tools"/>でビルドするツールは、一時的なもので最終的に捨てられるものなので、通常のユーザについてはテストを実行することをお勧めしません。
+    テストを実施する手順は、テスターや開発者の利益のために提供されますが、厳密に言えば任意なものです。
+    </para>
+  </note>
+
+  <para>A common issue with running the test suites for Binutils and GCC
+  is running out of pseudo terminals (PTYs). This can result in a high
+  number of failing tests. This may happen for several reasons, but the
+  most likely cause is that the host system does not have the
+  <systemitem class="filesystem">devpts</systemitem> file system set up
+  oorrectly. This issue is discussed in greater detail at
+  <ulink url="&lfs-root;/lfs/faq.html#no-ptys"/>.</para>
+
+  <para>BinutilsとGCCのテストを実施することの共通の問題は、仮想端末を使い果たすことです。
+  そのため、多数のテスト失敗が発生する結果となります。
+  これはいくつかの理由により発生しますが、最もよくある原因は、ホストシステムの<systemitem class="filesystem">devpts</systemitem>が正しくセットアップされていないことです。
+  この問題は<ulink url="&lfs-root;/lfs/faq.html#no-ptys"/>で詳細に取り上げます。
+  </para>
+
+  <para>Sometimes package test suites will fail, but for reasons which the
+  developers are aware of and have deemed non-critical. Consult the logs located
+  at <ulink url="&test-results;"/> to verify whether or not these failures are
+  expected. This site is valid for all tests throughout this book.</para>
+
+  <para>パッケージのテストで失敗が起こることがありますが、開発者が理由を承知しているのであれば、重大な問題とはみなしません。
+  <ulink url="&test-results;"/>にあるログを参考にして、それらテストの失敗が予期されたものであるか確認してください。
+  </para>
+</sect1>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="ch-scripts-hosts">
+  <?dbhtml filename="hosts.html"?>
+
+  <!--<title>Customizing the /etc/hosts File</title>-->
+  <title>/etc/hostsファイルのカスタマイズ</title>
+
+  <indexterm zone="ch-scripts-hosts">
+    <primary sortas="e-/etc/hosts">/etc/hosts</primary>
+  </indexterm>
+
+  <indexterm zone="ch-scripts-hosts">
+    <primary sortas="d-localnet">localnet</primary>
+  <secondary>/etc/hosts</secondary></indexterm>
+
+  <indexterm zone="ch-scripts-hosts">
+    <primary sortas="d-network">network</primary>
+  <secondary>/etc/hosts</secondary></indexterm>
+
+  <para>If a network card is to be configured, decide on the IP address,
+  fully-qualified domain name (FQDN), and possible aliases for use in the
+  <filename>/etc/hosts</filename> file. The syntax is:</para>
+  <para>もしネットワークカードを設定しようとしているならば、IPアドレス、FQDN(Fully-Qualified Domain Name)、使用を予定している別名を決め、<filename>/etc/hosts</filename>ファイルに記述します。
+  その構文は次の通りです：</para>
+
+<screen><literal>IP_address myhost.example.org aliases</literal></screen>
+
+  <para>Unless the computer is to be visible to the Internet (i.e.,
+  there is a registered domain and a valid block of assigned IP
+  addresses&mdash;most users do not have this), make sure that the IP
+  address is in the private network IP address range. Valid ranges
+  are:</para>
+  <para>コンピュータをインターネット(ここには登録されたドメインと割り当てられた有効なIPアドレスの集合が存在します &mdash; 多くのユーザはそれらを持っていません)からアクセス可能にするつもりがないのであれば、IPアドレスがプライベートIPアドレスの範囲にあることを確認してください。
+  有効な範囲は：</para>
+
+<screen><literal>Private Network Address Range      Normal Prefix
+10.0.0.1 - 10.255.255.254           8
+172.x.0.1 - 172.x.255.254           16
+192.168.y.1 - 192.168.y.254         24</literal></screen>
+
+  <para>x can be any number in the range 16-31. y can be any number in
+  the range 0-255.</para>
+  <para>xは16-31の範囲の数値です。yは0-255の範囲の数値です。</para>
+
+  <para>A valid private IP address could be 192.168.1.1. A valid FQDN for this
+  IP could be lfs.example.org.</para>
+  <para>運用するプライベートIPアドレスとして、192.168.1.1を使用することが出来ます。
+  またこのIPアドレスに対応するFQDNとして、lfs.example.orgを使用することが出来ます。</para>
+
+  <para>Even if not using a network card, a valid FQDN is still required.
+  This is necessary for certain programs to operate correctly.</para>
+  <para>たとえネットワークカードを使用しないとしても、それでも有効なFQDNは必要です。
+  これは、特定のプログラムが正しく処理を行うために必要です。</para>
+
+  <para>Create the  <filename>/etc/hosts</filename> file by running:</para>
+  <para>以下を実行することで、<filename>/etc/hosts</filename>を作成します：</para>
+
+<screen><userinput>cat &gt; /etc/hosts &lt;&lt; "EOF"
+<literal># Begin /etc/hosts (network card version)
+
+127.0.0.1 localhost
+<replaceable>&lt;192.168.1.1&gt;</replaceable> <replaceable>&lt;HOSTNAME.example.org&gt;</replaceable> <replaceable>[alias1] [alias2 ...]</replaceable>
+
+# End /etc/hosts (network card version)</literal>
+EOF</userinput></screen>
+
+  <para>The <replaceable>&lt;192.168.1.1&gt;</replaceable> and
+  <replaceable>&lt;HOSTNAME.example.org&gt;</replaceable>
+  values need to be changed for specific users or requirements (if
+  assigned an IP address by a network/system administrator and the
+  machine will be connected to an existing network). The optional alias
+  name(s) can be omitted.</para>
+  <para><replaceable>&lt;192.168.1.1&gt;</replaceable>と<replaceable>&lt;HOSTNAME.example.org&gt;</replaceable>は、特定のユーザや要求によっては、変更する必要があります(IPアドレスがネットワーク/システム管理者によって割り当てられ、マシンが既存のネットワークに接続するのであれば)。
+  オプションである別名は省略することが出来ます。</para>
+
+  <para>If a network card is not going to be configured, create the
+  <filename>/etc/hosts</filename> file by running:</para>
+  <para>もしネットワークカードを設定するつもりがなｋれば、<filename>/etc/hosts</filename>ファイルを次のように作成します：</para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/hosts &lt;&lt; "EOF"
+<literal># Begin /etc/hosts (no network card version)
+
+127.0.0.1 <replaceable>&lt;HOSTNAME.example.org&gt;</replaceable> <replaceable>&lt;HOSTNAME&gt;</replaceable> localhost
+
+# End /etc/hosts (no network card version)</literal>
+EOF</userinput></screen>
+
+</sect1>

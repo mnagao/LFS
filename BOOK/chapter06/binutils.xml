@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9285 -->
+
+<sect1 id="ch-system-binutils" role="wrap">
+  <?dbhtml filename="binutils.html"?>
+
+  <sect1info condition="script">
+    <productname>binutils</productname>
+    <productnumber>&binutils-version;</productnumber>
+    <address>&binutils-url;</address>
+  </sect1info>
+
+  <title>Binutils-&binutils-version;</title>
+
+  <indexterm zone="ch-system-binutils">
+    <primary sortas="a-Binutils">Binutils</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Binutils package contains a linker, an assembler, and other
+    tools for handling object files.</para>
+
+    <para>Binutilsパッケージは、リンカ、アセンブラ、オブジェクトファイルを取り扱うその他ツールを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&binutils-ch6-sbu;</seg>
+        <seg>&binutils-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Binutils</title>-->
+    <title>Binutilsのインストール</title>
+
+    <para>Verify that the PTYs are working properly inside the chroot
+    environment by performing a simple test:</para>
+
+    <para>次の簡単なテストを実行し、chroot後の環境でPTYsが正しく動作することを確かめてください：
+    </para>
+
+<screen><userinput remap="test">expect -c "spawn ls"</userinput></screen>
+
+    <para>This command should output the following:</para>
+    <para>このコマンドの出力は次のとおりになるはずです：</para>
+
+<screen><computeroutput>spawn ls</computeroutput></screen>
+
+    <para>If, instead, the output includes the message below, then the environment
+    is not set up for proper PTY operation.  This issue needs to be resolved before
+    running the test suites for Binutils and GCC:</para>
+    <para>もし、代わりに以下のようなメッセージを含む出力があった場合、PTYが正しくセットアップされていません。
+    この問題はBinutilsとGCCのテストツールを実行する前に、解決する必要があります：</para>
+
+<screen><computeroutput>The system has no more ptys.
+Ask your system administrator to create more.</computeroutput></screen>
+
+    <para>Suppress the installation of an outdated 
+    <filename>standards.info</filename> file as a newer one is installed later 
+    on in the Autoconf instructions:</para> 
+    <para>後で行うAutoconfのインストールで、より新しいファイルがインストールされるので、古い<filename>standards.info</filename>ファイルのインストールを行わないようにします：</para>
+ 
+<screen><userinput remap="pre">rm -fv etc/standards.info 
+sed -i.bak '/^INFO/s/standards.info //' etc/Makefile.in</userinput></screen> 
+
+    <para>The Binutils documentation recommends building Binutils outside of the
+    source directory in a dedicated build directory:</para>
+    <para>Binutilsのドキュメントは、Binutilsの構築をソースディレクトリの外の専用のビルドディレクトリで行うことを薦めています：</para>
+
+<screen><userinput remap="pre">mkdir -v ../binutils-build
+cd ../binutils-build</userinput></screen>
+
+    <para>Prepare Binutils for compilation:</para>
+
+    <para>Binutilsをコンパイルするための準備：</para>
+
+<screen><userinput remap="configure">../binutils-&binutils-version;/configure --prefix=/usr \
+    --enable-shared</userinput></screen>
+
+    <para>Compile the package:</para>
+
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make tooldir=/usr</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the make parameter:</title>-->
+      <title>makeパラメータの意味：</title>
+
+      <varlistentry>
+        <term><parameter>tooldir=/usr</parameter></term>
+        <listitem>
+          <para>Normally, the tooldir (the directory where the executables will
+          ultimately be located) is set to <filename
+          class="directory">$(exec_prefix)/$(target_alias)</filename>. For
+          example, x86_64 machines would expand that to <filename
+          class="directory">/usr/x86_64-unknown-linux-gnu</filename>. Because this is
+          a custom system, this target-specific directory in <filename
+          class="directory">/usr</filename> is not required. <filename
+          class="directory">$(exec_prefix)/$(target_alias)</filename> would be
+          used if the system was used to cross-compile (for example, compiling a
+          package on an Intel machine that generates code that can be executed
+          on PowerPC machines).</para>
+
+          <para>通常、tooldir (実行形式ファイルが最終的に置かれるディレクトリ)は、<filename class="directory">$(exec_prefix)/$(target_alias)</filename>にセットされます。
+          例えばx86_64マシンであれば、<filename class="directory">/usr/x86_64-unknown-linux-gnu</filename>に展開されます。
+          これはカスタムのシステムですので、<filename class="directory">/usr</filename>に、このターゲット特有のディレクトリは必要ありません。
+          もしシステムをクロスコンパイル(例えば、Intelマシン上でコンパイルし、作成された実行ファイルはPowerPCマシンで実行することが出来ます)で使用するのであれば、<filename class="directory">$(exec_prefix)/$(target_alias)</filename>が使用されます。
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <important>
+      <para>The test suite for Binutils in this section is considered critical.
+      Do not skip it under any circumstances.</para>
+
+      <para>このセクションのBinutilsのテストは重要です。
+      どんな事情があっても、テストをスキップしないでください。</para>
+    </important>
+
+    <para>Test the results:</para>
+    <para>テストの実施：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make tooldir=/usr install</userinput></screen>
+
+    <para>Install the <filename class="headerfile">libiberty</filename> header
+    file that is needed by some packages:</para>
+
+    <para>いくつかのパッケージで必要とされている、<filename class="headerfile">libiberty</filename>のヘッダファイルをインストールします：</para>
+
+<screen><userinput remap="install">cp -v ../binutils-&binutils-version;/include/libiberty.h /usr/include</userinput></screen>
+
+  </sect2>
+
+
+  <sect2 id="contents-binutils" role="content">
+    <!--<title>Contents of Binutils</title>-->
+    <title>Binutilsの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>addr2line, ar, as, c++filt, gprof, ld, nm, objcopy, objdump,
+        ranlib, readelf, size, strings, and strip</seg>
+        <seg>libiberty.a, libbfd.{a,so}, and libopcodes.{a,so}</seg>
+        <seg>/usr/lib/ldscripts</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="addr2line">
+        <term><command>addr2line</command></term>
+        <listitem>
+          <para>Translates program addresses to file names and line numbers;
+          given an address and the name of an executable, it uses the debugging
+          information in the executable to determine which source file and line
+          number are associated with the address</para>
+          <para>プログラムのアドレスをファイル名と行番号に変換します。
+          アドレスと実行ファイル名が与えられると、実行ファイルのデバッグ情報を用いて、アドレスに結びついたソースファイル名と行番号を見つけ出します。
+          </para>
+          <indexterm zone="ch-system-binutils addr2line">
+            <primary sortas="b-addr2line">addr2line</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ar">
+        <term><command>ar</command></term>
+        <listitem>
+          <para>Creates, modifies, and extracts from archives</para>
+          <para>アーカイブファイルの作成、更新、アーカイブファイルからの抽出を行います。</para>
+          <indexterm zone="ch-system-binutils ar">
+            <primary sortas="b-ar">ar</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="as">
+        <term><command>as</command></term>
+        <listitem>
+          <para>An assembler that assembles the output of <command>gcc</command>
+          into object files</para>
+          <para>gccの出力をアセンブルし、オブジェクトファイルに出力します。</para>
+          <indexterm zone="ch-system-binutils as">
+            <primary sortas="b-as">as</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="c-filt">
+        <term><command>c++filt</command></term>
+        <listitem>
+          <para>Used by the linker to de-mangle C++ and Java symbols and to keep
+          overloaded functions from clashing</para>
+          <para>C++とJavaのシンボルを整理し、オーバーロードされたファンクションの衝突を避けます。</para>
+          <indexterm zone="ch-system-binutils c-filt">
+            <primary sortas="b-c++filt">c++filt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gprof">
+        <term><command>gprof</command></term>
+        <listitem>
+          <para>Displays call graph profile data</para>
+          <para>コール・グラフのプロファイルデータを表示します。</para>
+          <indexterm zone="ch-system-binutils gprof">
+            <primary sortas="b-gprof">gprof</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ld">
+        <term><command>ld</command></term>
+        <listitem>
+          <para>A linker that combines a number of object and archive files
+          into a single file, relocating their data and tying up symbol
+          references</para>
+          <para>多数のオブジェクトとアーカイブファイルを結合し、1つのファイルにします。また、データの配置やシンボルへの参照を結び付けます。</para>
+          <indexterm zone="ch-system-binutils ld">
+            <primary sortas="b-ld">ld</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="nm">
+        <term><command>nm</command></term>
+        <listitem>
+          <para>Lists the symbols occurring in a given object file</para>
+          <para>オブジェクトファイル内に存在するシンボルを表示します。</para>
+          <indexterm zone="ch-system-binutils nm">
+            <primary sortas="b-nm">nm</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="objcopy">
+        <term><command>objcopy</command></term>
+        <listitem>
+          <para>Translates one type of object file into another</para>
+          <para>オブジェクトファイルを別の形式に変換します。</para>
+          <indexterm zone="ch-system-binutils objcopy">
+            <primary sortas="b-objcopy">objcopy</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="objdump">
+        <term><command>objdump</command></term>
+        <listitem>
+          <para>Displays information about the given object file, with options
+          controlling the particular information to display; the information
+          shown is useful to programmers who are working on the compilation
+          tools</para>
+          <para>オブジェクトファイルの情報を表示します。
+          また、オプションにより特別な情報を表示するように制御します。
+          表示される情報は、コンパイルツールを使用するプログラマーにとって便利です。</para>
+          <indexterm zone="ch-system-binutils objdump">
+            <primary sortas="b-objdump">objdump</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ranlib">
+        <term><command>ranlib</command></term>
+        <listitem>
+          <para>Generates an index of the contents of an archive and stores it
+          in the archive; the index lists all of the symbols defined by archive
+          members that are relocatable object files</para>
+          <para>アーカイブファイルの内容のインデックスを生成し、アーカイブファイル内に保持します。
+          インデックスは、アーカイブのメンバーによって定義される全てのシンボルをリストアップします。</para>
+          <indexterm zone="ch-system-binutils ranlib">
+            <primary sortas="b-ranlib">ranlib</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="readelf">
+        <term><command>readelf</command></term>
+        <listitem>
+          <para>Displays information about ELF type binaries</para>
+          <para>ELF形式のバイナリの情報を表示します。</para>
+          <indexterm zone="ch-system-binutils readelf">
+            <primary sortas="b-readelf">readelf</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="size">
+        <term><command>size</command></term>
+        <listitem>
+          <para>Lists the section sizes and the total size for the given
+          object files</para>
+          <para>オブジェクトファイルのセクションサイズとトータルサイズを表示します。</para>
+          <indexterm zone="ch-system-binutils size">
+            <primary sortas="b-size">size</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="strings">
+        <term><command>strings</command></term>
+        <listitem>
+          <para>Outputs, for each given file, the sequences of printable
+          characters that are of at least the specified length (defaulting to
+          four); for object files, it prints, by default, only the strings from
+          the initializing and loading sections while for other types of files, it
+          scans the entire file</para>
+          <para>与えられたファイルの中身から、指定された最低文字数(デフォルトは4文字)の表示可能な文字列を出力します。
+          オブジェクトファイルの場合、デフォルトでは初期化セクションとローディングセクションから文字列を抜き出し表示します。
+          オブジェクトファイル以外のファイルの場合、ファイル全体をスキャンします。
+          </para>
+          <indexterm zone="ch-system-binutils strings">
+            <primary sortas="b-strings">strings</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="strip">
+        <term><command>strip</command></term>
+        <listitem>
+          <para>Discards symbols from object files</para>
+          <para>オブジェクトファイルからシンボルを削除します。</para>
+          <indexterm zone="ch-system-binutils strip">
+            <primary sortas="b-strip">strip</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libiberty">
+        <term><filename class="libraryfile">libiberty</filename></term>
+        <listitem>
+          <para>Contains routines used by various GNU programs, including
+          <command>getopt</command>, <command>obstack</command>,
+          <command>strerror</command>, <command>strtol</command>, and
+          <command>strtoul</command></para>
+          <para><command>getopt</command>, <command>obstack</command>, <command>strerror</command>, <command>strtol</command>, <command>strtoul</command>等の様々なGNUプログラムによって使用されるルーチンを含んでいます。
+          </para>
+          <indexterm zone="ch-system-binutils libiberty">
+            <primary sortas="c-libiberty">libiberty</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libbfd">
+        <term><filename class="libraryfile">libbfd</filename></term>
+        <listitem>
+          <para>The Binary File Descriptor library</para>
+          <para>バイナリファイル記述ライブラリ。</para>
+          <indexterm zone="ch-system-binutils libbfd">
+            <primary sortas="c-libbfd">libbfd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libopcodes">
+        <term><filename class="libraryfile">libopcodes</filename></term>
+        <listitem>
+          <para>A library for dealing with opcodes&mdash;the <quote>readable
+          text</quote> versions of instructions for the processor;
+          it is used for building utilities like
+          <command>objdump</command>.</para>
+          <para>Opcode(プロセッサの命令を<quote>可読なテキスト</quote>にしたもの)を取り扱うライブラリです。
+          <command>objdump</command>コマンドのように、ビルドユーティリティとして使用されます。
+          </para>
+          <indexterm zone="ch-system-binutils libopcodes">
+            <primary sortas="c-libopcodes">libopcodes</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

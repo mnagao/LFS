@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9394 -->
+
+<sect1 id="ch-tools-perl" role="wrap">
+  <?dbhtml filename="perl.html"?>
+
+  <sect1info condition="script">
+    <productname>perl</productname>
+    <productnumber>&perl-version;</productnumber>
+    <address>&perl-url;</address>
+  </sect1info>
+
+  <title>Perl-&perl-version;</title>
+
+  <indexterm zone="ch-tools-perl">
+    <primary sortas="a-Perl">Perl</primary>
+    <secondary>tools</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/perl.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&perl-ch5-sbu;</seg>
+        <seg>&perl-ch5-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <title>Perlのインストール</title>
+
+    <para>First apply the following patch to adapt some hard-wired paths to the
+    C library:</para>
+    <para>まず最初に、ハードコードされたCライブラリへのパスを修正するために次のパッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&perl-libc-patch;</userinput></screen>
+
+    <!-- <para>Fix an incompatibility with gcc-&gcc-version;:</para>
+
+<screen><userinput remap="pre">mv -v makedepend.SH{,.orig}
+sed 's/command /command[ -]/' makedepend.SH.orig &gt; makedepend.SH</userinput></screen> -->
+
+    <para>Prepare Perl for compilation (make sure to get the
+    'Data/Dumper Fcntl IO' part of the command correct&mdash;they are all
+    letters):</para>
+
+    <para>Perlをコンパイルする準備('Data/Dumper Fcntl IO'の部分が正しいことを確認してください)
+    </para>
+
+<screen><userinput remap="configure">sh Configure -des -Dprefix=/tools \
+                  -Dstatic_ext='Data/Dumper Fcntl IO'</userinput></screen>
+
+    <variablelist>
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>-Dstatic_ext='Data/Dumper Fcntl IO'</parameter></term>
+        <listitem>
+          <para>This tells Perl to build the minimum set of static extensions
+          needed for installing and testing the Coreutils and Glibc packages in the
+	  next chapter.</para>
+          <para>次章のCoreutilsとGlibcパッケージのインストールとテストで必要となる、最小限の静的エクステンションをビルドします。
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Only a few of the utilities contained in this package, and one of its
+    libraries, need to be build:</para>
+    <para>Perlパッケージに含まれるいくつかのユーティリティと、1つのライブラリをビルドする必要があります：
+    </para>
+
+<screen><userinput remap="make">make perl utilities ext/Errno/pm_to_blib</userinput></screen>
+
+    <para>Although Perl comes with a test suite, it is not recommended to
+    run it at this point. Only part of Perl was built and running
+    <command>make test</command> now will cause the rest of Perl to be
+    built as well, which is unnecessary at this point. The test suite can
+    be run in the next chapter if desired.</para>
+
+    <para>Perlにはテストツールが付属していますが、この時点でのテスト実行はお勧めしません。
+    Perlパッケージの一部分だけがビルドされた状況で、<command>make test</command>を実行すると、この時点で不必要である未コンパイルのモジュールまでビルドされることになってしまいます。
+    必要であれば、テストツールは次章で実行することが出来ます。
+    </para>
+
+    <para>Install these tools and their libraries:</para>
+    <para>ツールとライブラリのインストール：</para>
+
+<screen><userinput remap="install">cp -v perl pod/pod2man /tools/bin
+mkdir -pv /tools/lib/perl5/&perl-version;
+cp -Rv lib/* /tools/lib/perl5/&perl-version;</userinput></screen>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-perl" role="."/></para>
+    <para>このパッケージの詳細は、<xref linkend="contents-perl" role="."/>にあります。</para>
+  </sect2>
+
+</sect1>

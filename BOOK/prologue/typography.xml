@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8929 -->
+
+<sect1 id="pre-typography">
+  <?dbhtml filename="typography.html"?>
+  
+  <title>文章の体裁</title>
+
+  <para>To make things easier to follow, there are a few typographical
+  conventions used throughout this book. This section contains some
+  examples of the typographical format found throughout Linux From
+  Scratch.</para>
+
+  <para>文章を読みやすくするため、いくつかの表記上のルールを定めます。
+  このセクションではそれらいくつかの書式について説明します。</para>
+
+<screen role="nodump"><userinput>./configure --prefix=/usr</userinput></screen>
+
+  <para>This form of text is designed to be typed exactly as seen unless
+  otherwise noted in the surrounding text. It is also used in the explanation
+  sections to identify which of the commands is being referenced.</para>
+  <para>この書式は、特に注記がない限り、見たままを正確に入力する必要があるテキストを示しています。この書式は、コマンドの説明を行うセクションでも使用されます。</para>
+
+  <para>In some cases, a logical line is extended to two or more physical lines 
+  with a backslash at the end of the line.</para> 
+  <para>いくつかのケースにおいて、論理的な1行は、行末のバックスラッシュにより2行以上になります。</para>
+
+<screen role="nodump"><userinput>CC="gcc -B/usr/bin/" ../binutils-2.18/configure \ 
+  --prefix=/tools --disable-nls --disable-werror</userinput></screen> 
+
+  <para>Note that the backslash must be followed by an immediate return.  Other 
+  whitespace characters like spaces or tab characters will create incorrect 
+  results.</para>
+  <para>バックスラッシュは、直後にリターンが必要です。
+  バックスラッシュの直後にスペースやタブのような空白の文字が続くと、おかしな結果になります。</para>
+
+<screen><computeroutput>install-info: unknown option '--dir-file=/mnt/lfs/usr/info/dir'</computeroutput></screen>
+
+  <para>This form of text (fixed-width text) shows screen output, usually as
+  the result of commands issued.  This format is also used to show filenames,
+  such as <filename>/etc/ld.so.conf</filename>.</para>
+
+  <para>この固定幅フォントの書式は、通常、コマンドの実行結果等の画面出力を表しています。この書式はまた、/etc/ld.so.confのようなファイル名を表す場合にも使わます。</para>
+
+  <para><emphasis>Emphasis</emphasis></para>
+
+  <para>This form of text is used for several purposes in the book. Its main
+  purpose is to emphasize important points or items.</para>
+
+  <para>この書式は本書ではいくつかの目的で使われます。この書式を用いる主な目的は、重要なポイントもしくは物事を強調することです。</para>
+
+  <para><ulink url="&lfs-root;"/></para>
+
+  <para>This format is used for hyperlinks both within the LFS community and to
+  external pages. It includes HOWTOs, download locations, and websites.</para>
+
+  <para>この書式はハイパーリンクを表す。例えば、HOWTO、ダウンロードリンク、ウェブサイトです。</para>
+
+<screen role="nodump"><userinput>cat &gt; $LFS/etc/group &lt;&lt; "EOF"
+<literal>root:x:0:
+bin:x:1:
+......</literal>
+EOF</userinput></screen>
+
+  <para>This format is used when creating configuration files. The first command
+  tells the system to create the file <filename>$LFS/etc/group</filename> from
+  whatever is typed on the following lines until the sequence End Of File (EOF)
+  is encountered. Therefore, this entire section is generally typed as
+  seen.</para>
+
+  <para>この書式は設定ファイルを作成する際に用いられます。
+  1行目のコマンドは、"EOF"が現れるまでにタイプされた内容を <filename>$LFS/etc/group</filename> に書き込みます。したがって、上記内容は見たままを入力することになります。</para>
+
+  <para><replaceable>&lt;REPLACED TEXT&gt;</replaceable></para>
+
+  <para>This format is used to encapsulate text that is not to be typed
+  as seen or for copy-and-paste operations.</para>
+  
+  <para>この書式はそのまま入力するものではなく、環境に応じて置き換えを行う必要がある場合に用いられます。</para>
+
+  <para><replaceable>[OPTIONAL TEXT]</replaceable></para>
+
+  <para>This format is used to encapsulate text that is optional.</para>
+
+  <para>この書式は任意のオプションを示しています。</para>
+
+  <para><filename>passwd(5)</filename></para>
+
+  <para>This format is used to refer to a specific manual (man) page. The number inside parentheses
+  indicates a specific section inside the manuals. For example,
+  <command>passwd</command> has two man pages. Per LFS installation instructions,
+  those two man pages will be located at
+  <filename>/usr/share/man/man1/passwd.1</filename> and
+  <filename>/usr/share/man/man5/passwd.5</filename>. When the book uses <filename>passwd(5)</filename> it is
+  specifically referring to <filename>/usr/share/man/man5/passwd.5</filename>.
+  <command>man passwd</command> will print the first man page it finds that
+  matches <quote>passwd</quote>, which will be
+  <filename>/usr/share/man/man1/passwd.1</filename>. For this example, you will
+  need to run <command>man 5 passwd</command> in order to read the specific page
+  being referred to. It should be noted that most man pages do not have duplicate
+  page names in different sections. Therefore, <command>man <replaceable>&lt;program
+  name&gt;</replaceable></command> is generally sufficient.</para>
+
+  <para>この書式は指定したマニュアル(man)ページへの参照を示しています。
+  括弧内の数字はマニュアルのセクション番号を表しています。
+  例えば、<command>passwd</command>コマンドは2つのmanページを持っています。
+  LFSの導入手順においては、<filename>/usr/share/man/man1/passwd.1</filename>と<filename>/usr/share/man/man5/passwd.5</filename>の2つのmanページが存在します。
+  本書で<filename>passwd(5)</filename>と表記されている場合は、<filename>/usr/share/man/man5/passwd.5</filename>を明確に指しています。
+  <command>man passwd</command>を実行すると、<quote>passwd</quote>でマッチする最初に見つかったmanページが表示されます。
+  おそらく<filename>/usr/share/man/man1/passwd.1</filename>が表示されると思います。
+  上記例では、<command>man 5 passwd</command>を実行する必要があります。
+  ただし、ほとんどコマンドは複数のセクションにmanページを持ちません。
+  したがって、<command>man <replaceable>&lt;program name&gt;</replaceable></command>で大抵は問題ないです。</para>
+</sect1>
+

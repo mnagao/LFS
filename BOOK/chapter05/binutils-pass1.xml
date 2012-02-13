@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9379 -->
+
+<sect1 id="ch-tools-binutils-pass1" role="wrap">
+  <?dbhtml filename="binutils-pass1.html"?>
+
+  <sect1info condition="script">
+    <productname>binutils</productname>
+    <productnumber>&binutils-version;</productnumber>
+    <address>&binutils-url;</address>
+  </sect1info>
+
+  <title>Binutils-&binutils-version; - Pass 1</title>
+
+  <indexterm zone="ch-tools-binutils-pass1">
+    <primary sortas="a-Binutils">Binutils</primary>
+    <secondary>tools, pass 1</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/binutils.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&binutils-ch5p1-sbu;</seg>
+        <seg>&binutils-ch5p1-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <title>Cross Binutilsのインストール</title>
+
+    <note><para>Go back and re-read the notes in the previous section.  
+    Understanding the notes labeled important will save you a lot 
+    of problems later.</para>
+    <para>前セクションに戻り、Notesを再度読み直してください。
+    "重要(Important)"のNotesを理解することで、あなたは後ほどの問題の多くを防ぐことができるでしょう。</para></note>
+
+    <para>It is important that Binutils be the first package compiled
+    because both Glibc and GCC perform various tests on the available
+    linker and assembler to determine which of their own features to
+    enable.</para>
+
+    <para>Binutilsを真っ先にコンパイルすることは重要です。なぜなら、GlibcとGCCは利用可能なリンカ・アセンブラに対して、どの機能が有効か調べるためにテストを行うからです。
+    </para>
+
+    <para>The Binutils documentation recommends building Binutils outside of the
+    source directory in a dedicated build directory:</para>
+
+    <para>Binutilsのドキュメントでは、ソースディレクトリ外の専用のディレクトリにおいて、ビルドを行うことを推奨しています。
+    </para>
+
+<screen><userinput remap="pre">mkdir -v ../binutils-build
+cd ../binutils-build</userinput></screen>
+
+    <note>
+      <para>In order for the SBU values listed in the rest of the book
+      to be of any use, measure the time it takes to build this package from
+      the configuration, up to and including the first install. To achieve
+      this easily, wrap the three commands in a <command>time</command>
+      command like this: <userinput>time { ./configure ... &amp;&amp; make
+      &amp;&amp; make install; }</userinput>.</para>
+
+      <para>本書に記載されているSBU値を役立てるため、パッケージのコンフィグレーションからインストールが完了するまでの時間を計ってください。
+      これを簡単に行うには、次のように<command>time</command>コマンドで3つのコマンドを一まとめにします：
+      <userinput>time { ./configure ... &amp;&amp; make &amp;&amp; make install; }</userinput>.
+      </para>
+    </note>
+
+    <note><para>The approximate build SBU values and required disk space 
+    in Chapter 5 does not include test suite data.</para>
+    <para>第5章において、SBU値と必要なディスクスペースについては、テストツールのデータを含んでいません。</para>
+    </note>
+
+    <para>Now prepare Binutils for compilation:</para>
+    <para>さて、Binutilsをコンパイルする準備を行いましょう：</para>
+
+<screen><userinput remap="configure">../binutils-&binutils-version;/configure \
+    --target=$LFS_TGT --prefix=/tools \
+    --disable-nls --disable-werror</userinput></screen>
+
+    <variablelist>
+      <title>configure オプションの意味：</title>
+
+      <varlistentry>
+        <term><envar>--target=$LFS_TGT</envar></term>
+        <listitem>
+          <para>Because the machine description in the <envar>LFS_TGT</envar>
+          variable is slightly different than the value returned by the
+          <command>config.guess</command> script, this switch will tell the
+          <command>configure</command> script to adjust Binutil's build system
+          for building a cross linker.  </para>
+          <para>環境変数<envar>LFS_TGT</envar>の内容は、<command>config.guess</command>スクリプトが返す値よりも少し異なっているため、このスイッチによって、<command>configure</command>スクリプトに対して、クロスリンカをビルドするためのBinutilのビルドシステムを調整します。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--prefix=/tools</parameter></term>
+        <listitem>
+          <para>This tells the configure script to prepare to install the
+          Binutils programs in the <filename class="directory">/tools</filename>
+          directory.</para>
+          <para>configureスクリプトに対して、Binutilsのプログラムを<filename class="directory">/tools</filename>ディレクトリにインストールするよう指示します。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-nls</parameter></term>
+        <listitem>
+          <para>This disables internationalization as i18n is not needed for the
+          temporary tools.</para>
+          <para>LFSを構築するための一時的なツールでは国際化は必要ないため、国際化をオフにします。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-werror</parameter></term>
+        <listitem>
+          <para>This prevents the build from stopping in the event that there
+          are warnings from the host's compiler.</para>
+          <para>このオプションを指定することで、ホストシステムのコンパイラが出力するワーニングによってビルドがストップすることを防ぎます。
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Continue with compiling the package:</para>
+    <para>続いて、パッケージのコンパイルを行います：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Compilation is now complete. Ordinarily we would now run the
+    test suite, but at this early stage the test suite framework (Tcl,
+    Expect, and DejaGNU) is not yet in place. The benefits of running the
+    tests at this point are minimal since the programs from this
+    first pass will soon be replaced by those from the second.</para>
+
+    <para>コンパイルが終わると、通常はテストツールを実行しますが、構築の早い段階である今、テストツールのフレームワーク(Tcl、Expect、DejaGNU)はまだ揃っていません。
+    1回目のコンパイルで生成されたプログラムは、すぐに2回目のコンパイルで置き換えられてしまうため、この時点でテストを実行する利点はほとんどありません。
+    </para>
+
+    <para>If building on x86_64, create a symlink to ensure the sanity of
+    the toolchain:</para>
+    <para>x86_64のシステム上でビルドを行っている場合は、ツールチェインの正しさを確かにするために、シンボリックリンクを作成します。</para>
+
+<screen><userinput remap="install">case $(uname -m) in
+  x86_64) mkdir -v /tools/lib &amp;&amp; ln -sv lib /tools/lib64 ;;
+esac</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-binutils" role="."/></para>
+
+    <para>このパッケージの詳細は、<xref linkend="contents-binutils" role="."/>にあります。</para>
+  </sect2>
+
+</sect1>

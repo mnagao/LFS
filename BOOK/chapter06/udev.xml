@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9442 -->
+
+<sect1 id="ch-system-udev" role="wrap">
+  <?dbhtml filename="udev.html"?>
+
+  <sect1info condition="script"> 
+    <productname>udev</productname> 
+    <productnumber>&udev-version;</productnumber> 
+    <address>&udev-url;</address> 
+  </sect1info>
+
+  <title>Udev-&udev-version;</title>
+
+  <indexterm zone="ch-system-udev">
+    <primary sortas="a-Udev">Udev</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Udev package contains programs for dynamic creation of device
+    nodes.</para>
+    <para>Udevパッケージは、ダイナミックなデバイスノード作成のためのプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&udev-ch6-sbu;</seg>
+        <seg>&udev-ch6-du; plus &udev-testfiles-du; for testfiles</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Udev</title>-->
+    <title>Udevのインストール</title>
+
+    <para>The udev-config tarball contains LFS-specific files used to configure
+    Udev. Unpack it into the Udev source directory:</para>
+    <para>udev-configのtarballに、Udevを設定するために使用されるLFS固有のファイルが含まれています。
+    そのtarballをUdevのソースディレクトリにUnpackします：</para>
+
+<screen><userinput remap="pre">tar -xvf ../&udev-config;.tar.bz2</userinput></screen>
+
+    <para>The udev-testfiles tarball contains files needed to test udev. The  
+    file expands to an apparent size of about 37MB but the actual disk usage 
+    is less than 7MB.</para> 
+    <para>udev-testfiles tarballには、udevをテストするために必要なファイルが含まれています。
+    展開後のファイルサイズは見かけ上約37MBですが、実際のディスク消費量は7MB以下です。</para>
+ 
+<screen><userinput remap="pre">tar -xvf ../udev-&udev-version;-testfiles.tar.bz2 --strip-components=1</userinput></screen>
+
+    <para>Create some devices and directories that Udev cannot handle due to
+    them being required very early in the boot process, or by Udev itself:</para>
+    <para>Udevは、ブートプロセスの初期またはUdev自身が必要とするデバイスやディレクトリを取り扱えないため、ここでそれらを作成します：</para>
+
+<screen><userinput remap="install">install -dv /lib/{firmware,udev/devices/{pts,shm}}
+mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
+
+    <para>Prepare the package for compilation:</para> 
+    <para>パッケージをコンパイルするための準備：</para>
+
+<!-- Note that "libdir=/usr/lib64" would be required for multilib. -->
+<screen><userinput remap="configure">./configure --prefix=/usr \
+    --sysconfdir=/etc --sbindir=/sbin \
+    --with-rootlibdir=/lib --libexecdir=/lib/udev \
+    --disable-extras --disable-introspection</userinput></screen>
+
+    <variablelist> 
+      <!--<title>The meaning of the new configure options</title>--> 
+      <title>新しいconfigureオプションの意味</title> 
+
+      <varlistentry> 
+        <term><parameter>--with-rootlibdir=/lib</parameter></term> 
+        <listitem> 
+          <para>This controls where the <filename 
+          class="libraryfile">libudev</filename> library is installed.  The 
+          library needs to be in <filename class="directory">/lib</filename> 
+          because it's used by Udev at boot time, before <filename 
+          class="directory">/usr</filename> might be available, and the default 
+          --rootlibdir is <filename class="directory">/usr/lib</filename>.</para>
+          <para><filename class="libraryfile">libudev</filename>ライブラリをインストールする場所を指定します。
+          このライブラリは<filename class="directory">/lib</filename>に置く必要があります。それは、<filename class="directory">/usr</filename>が利用可能になる前のブート時に、Udevがそのライブラリを使用するからです。
+          また、--rootlibdirのデフォルトは<filename class="directory">/usr/lib</filename>になっているため、この指定が必要になります。</para> 
+        </listitem> 
+      </varlistentry> 
+
+      <!-- Note that libexecdir *MUST* stay /lib/udev, even on a 64-bit 
+           / multilib system where udev is compiled for 64-bit.  Other 
+           packages require this exact path; the udev maintainers have 
+           said this is part of the udev API. --> 
+      <varlistentry> 
+        <term><parameter>--libexecdir=/lib/udev</parameter></term> 
+        <listitem> 
+          <para>This controls where Udev-internal rules and helper programs 
+          are installed.</para>
+          <para>Udevの内部ルールとヘルパープログラムをインストールする場所を指定します。</para> 
+        </listitem> 
+      </varlistentry> 
+
+      <varlistentry> 
+        <term><parameter>--disable-extras</parameter></term> 
+        <listitem> 
+          <para>This option prevents Udev from installing helper programs and 
+          other extras which require more external libraries.  These libraries 
+          are not part of the base LFS system.  See the Udev 
+          <filename>README</filename> file for more information.</para>
+          <para>ヘルパープログラムおよび、外部ライブラリを必要とするその他の余分なものをインストールしないようにします。</para> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry> 
+        <term><parameter>--disable-introspection</parameter></term> 
+        <listitem> 
+          <para>This option prevents Udev's instrospection feature, which 
+          requires packages not installed as part of the base LFS system.  See 
+          the Udev <filename>README</filename> file for more information.</para>
+          <para>このオプションはUdevの内部機能を止めます。
+          この内部機能が必要とするパッケージは、ベースとなるLFSではインストールしません。
+          より追加の情報はUdevの<filename>README</filename>ファイルを参照してください。</para>
+        </listitem> 
+      </varlistentry> 
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>This package does not come with a test suite.</para>
+    <para>このパッケージにはテストツールは付属していません。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Remove an empty documentation directory:</para>
+    <para>空のドキュメントディレクトリを削除します：</para>
+
+<screen><userinput remap="install">rmdir -v /usr/share/doc/udev</userinput></screen>
+
+    <para>Now install the LFS-specific custom rules files:</para>
+    <para>そして、LFS固有のカスタムルールをインストールします：</para>
+
+<screen><userinput remap="install">cd &udev-config;
+make install</userinput></screen>
+
+    <para>Install the documentation that explains the LFS-specific rules
+    files:</para>
+    <para>LFS固有のルールファイルを説明したドキュメントをインストールします：</para>
+
+<screen><userinput remap="install">make install-doc</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-udev" role="content">
+    <!--<title>Contents of Udev</title>-->
+    <title>Udevの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>
+      <segtitle>Installed libraries</segtitle>
+      <segtitle>Installed directories</segtitle>-->
+
+      <segtitle>インストールされるプログラム</segtitle>
+      <segtitle>インストールされるライブラリ</segtitle>
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>ata_id, cdrom_id, collect, create_floppy_devices, edd_id,
+        firmware.sh, fstab_import, path_id, scsi_id, udevadm, udevd,
+        usb_id, write_cd_rules, and write_net_rules</seg>
+        <seg>libudev.{a,so}</seg>
+        <seg>/etc/udev, /lib/udev, /lib/firmware</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="ata_id">
+        <term><command>ata_id</command></term>
+        <listitem>
+          <para>Provides Udev with a unique string and
+          additional information (uuid, label) for an ATA drive</para>
+          <para>Udevに対して、ATAドライブのユニークな文字列と追加情報(uuid、label)を提供します。</para>
+          <indexterm zone="ch-system-udev ata_id">
+            <primary sortas="b-ata_id">ata_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="cdrom_id">
+        <term><command>cdrom_id</command></term>
+        <listitem>
+          <para>Provides Udev with the capabilities of a
+          CD-ROM or DVD-ROM drive</para>
+          <para>Udevに対して、CD-ROMまたはDVD-ROMドライブの機能に関する情報を提供します。</para>
+          <indexterm zone="ch-system-udev cdrom_id">
+            <primary sortas="b-cdrom_id">cdrom_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="collect"> 
+        <term><command>collect</command></term> 
+        <listitem> 
+          <para>Given an ID for the current uevent and a list of 
+          IDs (for all target uevents), registers the current ID 
+          and indicates whether all target IDs have been registered</para> 
+          <para>現在のueventと(全てのターゲットueventのための)IDのリストを与えると、現在のIDと全てのターゲットIDが登録されているかどうかを表示します。</para>
+          <indexterm zone="ch-system-udev collect"> 
+            <primary sortas="b-collect">collect</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="create_floppy_devices">
+        <term><command>create_floppy_devices</command></term>
+        <listitem>
+          <para>Creates all possible floppy devices based on the CMOS type</para>
+          <para>CMOSのタイプに基づき、全ての利用可能なフロッピーデバイスを作成します。</para>
+          <indexterm zone="ch-system-udev create_floppy_devices">
+            <primary sortas="b-create_floppy_devices">create_floppy_devices</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="edd_id">
+        <term><command>edd_id</command></term>
+        <listitem>
+          <para>Provides Udev with the EDD ID for a BIOS disk drive</para>
+          <para>Udevに対して、BIOSが管理するディスクドライブのEDD IDを提供します。</para>
+          <indexterm zone="ch-system-udev edd_id">
+            <primary sortas="b-edd_id">edd_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="firmware.sh">
+        <term><command>firmware.sh</command></term>
+        <listitem>
+          <para>Uploads firmware to devices</para>
+          <para>デバイスに対してファームウェアのアップロードを行います。</para>
+          <indexterm zone="ch-system-udev firmware.sh">
+            <primary sortas="b-firmware.sh">firmware.sh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="fstab_import"> 
+        <term><command>fstab_import</command></term> 
+        <listitem> 
+          <para>Finds an entry in <filename>/etc/fstab</filename> that 
+          matches the current device, and provides its information to 
+          Udev</para>
+          <para><filename>/etc/fstab</filename>の中から、現在のデバイスとマッチするエントリーを検索し、その情報をUdevに提供します。</para>
+          <indexterm zone="ch-system-udev fstab_import"> 
+            <primary sortas="b-fstab_import">fstab_import</primary>
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="path_id">
+        <term><command>path_id</command></term>
+        <listitem>
+          <para>Provides the shortest possible unique hardware path to a
+          device</para>
+          <para>デバイスに対して、最も短いユニークなハードウェアパスを提供します。</para>
+          <indexterm zone="ch-system-udev path_id">
+            <primary sortas="b-path_id">path_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="scsi_id">
+        <term><command>scsi_id</command></term>
+        <listitem>
+          <para>Provides Udev with a unique SCSI identifier
+          based on the data returned from sending a SCSI INQUIRY command to
+          the specified device</para>
+          <para>デバイスにSCSI INQUIRYコマンドを送信して得られたデータに基づき、Udevに対してユニークなSCSI識別子を提供します。</para>
+          <indexterm zone="ch-system-udev scsi_id">
+            <primary sortas="b-scsi_id">scsi_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="udevadm">
+        <term><command>udevadm</command></term>
+        <listitem>
+          <para>Generic udev administration tool: controls the udevd daemon,
+          provides info from the Udev database, monitors uevents, waits for
+          uevents to finish, tests Udev configuration, and triggers uevents
+          for a given device</para>
+          <para>udevの管理ツール：udevdデーモンのコントロール、Udevデータベースの情報提供、ueventのモニター、ueventの完了の待機、Udev設定のテスト、デバイスに対してueventのトリガー起動を行います。</para>
+          <indexterm zone="ch-system-udev udevadm">
+            <primary sortas="b-udevadm">udevadm</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="udevd">
+        <term><command>udevd</command></term>
+        <listitem>
+          <para>A daemon that listens for uevents on the netlink socket,
+          creates devices and runs the configured external programs in
+          response to these uevents</para>
+          <para>netlink socket上のueventを見張り、それらueventのレスポンスによりデバイスの作成と、設定された外部プログラムを実行するデーモンです。</para>
+          <indexterm zone="ch-system-udev udevd">
+            <primary sortas="b-udevd">udevd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="usb_id">
+        <term><command>usb_id</command></term>
+        <listitem>
+          <para>Provides Udev with information about USB
+          devices</para>
+          <para>Udevに対して、USBデバイスに関する情報を提供します。</para>
+          <indexterm zone="ch-system-udev usb_id">
+            <primary sortas="b-usb_id">usb_id</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="write_cd_rules">
+        <term><command>write_cd_rules</command></term>
+        <listitem>
+          <para>A script which generates Udev rules to provide stable names for
+          optical drives (see also <xref linkend="ch-scripts-symlinks"/>)</para>
+          <para>光学ドライブの固定的な名称を提供するUdevルールを生成するスクリプトです。
+          (<xref linkend="ch-scripts-symlinks"/>を参照してください)</para>
+          <indexterm zone="ch-system-udev write_cd_rules">
+            <primary sortas="b-write_cd_rules">write_cd_rules</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="write_net_rules">
+        <term><command>write_net_rules</command></term>
+        <listitem>
+          <para>A script which generates rules to provide stable names for
+          network interfaces (see also <xref linkend="ch-scripts-network"/>)
+          </para>
+          <para>ネットワークインタフェースの固定的な名称を提供するUdevルールを生成するスクリプトです(<xref linkend="ch-scripts-network"/>を参照してください)。</para>
+          <indexterm zone="ch-system-udev write_net_rules">
+            <primary sortas="b-write_net_rules">write_net_rules</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libudev">
+        <term><filename class="libraryfile">libudev</filename></term>
+        <listitem> 
+          <para>A library interface to udev device information</para> 
+          <para>udevのデバイス情報へのインタフェースライブラリです。</para>
+          <indexterm zone="ch-system-udev libudev"> 
+            <primary sortas="c-libudev">libudev</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="etc-udev">
+        <term><filename class="directory">/etc/udev</filename></term>
+        <listitem>
+          <para>Contains Udev configuration files,
+          device permissions, and rules for device naming</para>
+          <para>Udevの設定ファイル、デバイスのパーミッション、デバイスの命名ルールを含んでいます。</para>
+          <indexterm zone="ch-system-udev etc-udev">
+            <primary sortas="e-/etc/udev">/etc/udev</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

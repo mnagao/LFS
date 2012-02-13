@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9258 -->
+
+<sect1 id="ch-system-mpc" role="wrap">
+  <?dbhtml filename="mpc.html"?>
+
+  <sect1info condition="script">
+    <productname>mpc</productname>
+    <productnumber>&mpc-version;</productnumber>
+    <address>&mpc-url;</address>
+  </sect1info>
+
+  <title>MPC-&mpc-version;</title>
+
+  <indexterm zone="ch-system-mpc">
+    <primary sortas="a-MPC">MPC</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The MPC package contains a library for the arithmetic of complex
+    numbers with arbitrarily high precision and correct rounding of the
+    result.</para>
+    <para>MPCパッケージは、任意の高精度な複素数計算や計算結果を正しく四捨五入するためのライブラリです。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&mpc-ch6-sbu;</seg>
+        <seg>&mpc-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of MPC</title>-->
+    <title>MPCのインストール</title>
+
+    <para>Prepare MPC for compilation:</para>
+    <para>MPCをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+
+  <sect2 id="contents-mpc" role="content">
+    <!--<title>Contents of MPC</title>-->
+    <title>MPCの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed Libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+
+      <seglistitem>
+        <seg>libmpc.{a,so}</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="libmpc">
+        <term><filename class="libraryfile">libmpc</filename></term>
+        <listitem>
+          <para>Contains complex math functions</para>
+          <para>複素数計算のライブラリです。</para>
+          <indexterm zone="ch-system-mpc libmpc">
+            <primary sortas="c-libmpc">libmpc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

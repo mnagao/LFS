@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9285 -->
+
+<sect1 id="ch-scripts-bootscripts" role="wrap">
+  <?dbhtml filename="bootscripts.html"?>
+
+  <sect1info condition="script"> 
+    <productname>lfs-bootscripts</productname> 
+    <productnumber>&lfs-bootscripts-version;</productnumber> 
+    <address>&lfs-bootscripts-url;</address> 
+  </sect1info>
+
+  <!--<title>LFS-Bootscripts-&lfs-bootscripts-version;</title>-->
+  <title>LFS-ブートスクリプト-&lfs-bootscripts-version;</title>
+
+  <indexterm zone="ch-scripts-bootscripts">
+    <primary sortas="a-Bootscripts">Bootscripts</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The LFS-Bootscripts package contains a set of scripts to start/stop the
+    LFS system at bootup/shutdown.</para>
+    <para>LFS-ブートスクリプトパッケージは、ブート/シャットダウン時にLFSシステムの起動/停止を行うためのスクリプトを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&lfs-bootscripts-ch7-sbu;</seg>
+        <seg>&lfs-bootscripts-ch7-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of LFS-Bootscripts</title>-->
+    <title>LFS-ブートスクリプトのインストール</title>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-bootscripts" role="content">
+    <!--<title>Contents of LFS-Bootscripts</title>-->
+    <title>LFS-ブートスクリプトの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed scripts</segtitle>-->
+      <segtitle>インストールされるスクリプト</segtitle>
+      <!--<segtitle>Installed directories</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>checkfs, cleanfs, console, consolelog, functions, halt, ifdown,
+        ifup, localnet, modules, mountfs, mountkernfs, network, rc, reboot,
+        sendsignals, setclock, static, swap, sysctl, sysklogd, template,
+        udev, and udev_retry</seg>
+        <seg>/etc/rc.d, /etc/sysconfig</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="checkfs-bootscripts">
+        <term><command>checkfs</command></term>
+        <listitem>
+          <para>Checks the integrity of the file systems before they are mounted
+          (with the exception of journal and network based file systems)</para>
+          <para>マウントされる前に、ファイルシステムの整合性をチェックします(ジャーナルとネットワークベースのファイルシステムを除く)。</para>
+          <indexterm zone="ch-scripts-bootscripts checkfs-bootscripts">
+            <primary sortas="d-checkfs">checkfs</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="cleanfs-bootscripts">
+        <term><command>cleanfs</command></term>
+        <listitem>
+          <para>Removes files that should not be preserved between reboots, such
+          as those in <filename class="directory">/var/run/</filename> and
+          <filename class="directory">/var/lock/</filename>; it re-creates
+          <filename>/var/run/utmp</filename> and removes the possibly present
+          <filename>/etc/nologin</filename>, <filename>/fastboot</filename>, and
+          <filename>/forcefsck</filename> files</para>
+          <para>リブートの際に、保持されるべきでないファイルを削除します。
+          例えば、<filename class="directory">/var/run/</filename>や<filename class="directory">/var/lock/</filename>の中にあるファイルです。
+          また、<filename>/var/run/utmp</filename>を再作成し、おそらく存在していると思われる、<filename>/etc/nologin</filename>, <filename>/fastboot</filename>, <filename>/forcefsck</filename>を削除します。</para>
+          <indexterm zone="ch-scripts-bootscripts cleanfs-bootscripts">
+            <primary sortas="d-cleanfs">cleanfs</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="console-bootscripts">
+        <term><command>console</command></term>
+        <listitem>
+          <para>Loads the correct keymap table for the desired keyboard layout;
+          it also sets the screen font</para>
+          <para>要求したキーボードレイアウト用の正しいキーマップテーブルをロードします。</para>
+          <indexterm zone="ch-scripts-bootscripts console-bootscripts">
+            <primary sortas="d-console">console</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="consolelog-bootscripts">
+        <term><command>consolelog</command></term>
+        <listitem>
+          <para>Sets the kernel log level to control messages reaching the
+          console.</para>
+          <para>コンソールに届くメッセージを制御するために、カーネルのログレベルをセットします。</para>
+          <indexterm zone="ch-scripts-bootscripts consolelog-bootscripts">
+            <primary sortas="d-consolelog">consolelog</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="functions-bootscripts">
+        <term><command>functions</command></term>
+        <listitem>
+          <para>Contains common functions, such as error and status checking,
+          that are used by several bootscripts</para>
+          <para>エラーやステータスのチェック処理のような、共通のファンクションを含んでいます。
+          それらは様々なブートスクリプトから使用されます。</para>
+          <indexterm zone="ch-scripts-bootscripts functions-bootscripts">
+            <primary sortas="d-functions">functions</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="halt-bootscripts">
+        <term><command>halt</command></term>
+        <listitem>
+          <para>Halts the system</para>
+          <para>システムを停止します。</para>
+          <indexterm zone="ch-scripts-bootscripts halt-bootscripts">
+            <primary sortas="d-halt">halt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ifdown-bootscripts">
+        <term><command>ifdown</command></term>
+        <listitem>
+          <para>Assists the network script with stopping network devices</para>
+          <para>ネットワークデバイスを停止するスクリプトを支援します。</para>
+          <indexterm zone="ch-scripts-bootscripts ifdown-bootscripts">
+            <primary sortas="d-ifdown">ifdown</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ifup-bootscripts">
+        <term><command>ifup</command></term>
+        <listitem>
+          <para>Assists the network script with starting network devices</para>
+          <para>ネットワークデバイスを開始するスクリプトを支援します。</para>
+          <indexterm zone="ch-scripts-bootscripts ifup-bootscripts">
+            <primary sortas="d-ifup">ifup</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="localnet-bootscripts">
+        <term><command>localnet</command></term>
+        <listitem>
+          <para>Sets up the system's hostname and local loopback device</para>
+          <para>システムのホスト名とローカルループバックデバイスをセットアップします。</para>
+          <indexterm zone="ch-scripts-bootscripts localnet-bootscripts">
+            <primary sortas="d-localnet">localnet</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="modules-bootscripts">
+        <term><command>modules</command></term>
+        <listitem>
+          <para>Loads kernel modules listed in
+          <filename>/etc/sysconfig/modules</filename>, using arguments
+          that are also given there</para>
+          <para><filename>/etc/sysconfig/modules</filename>にリストされたカーネルモジュールをロードします。
+          その際、上記ファイルで指定した引数が使用されます。</para>
+          <indexterm zone="ch-scripts-bootscripts modules-bootscripts">
+            <primary sortas="d-modules">modules</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="mountfs-bootscripts">
+        <term><command>mountfs</command></term>
+        <listitem>
+          <para>Mounts all file systems, except ones that are marked
+          <emphasis>noauto</emphasis> or are network based</para>
+          <para>全てのファイルシステムをマウントします。ただし、<emphasis>noauto</emphasis>指定とネットワークベースのファイルシステムを除きます。</para>
+          <indexterm zone="ch-scripts-bootscripts mountfs-bootscripts">
+            <primary sortas="d-mountfs">mountfs</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="mountkernfs-bootscripts">
+        <term><command>mountkernfs</command></term>
+        <listitem>
+          <para>Mounts virtual kernel file systems, such as <systemitem
+          class="filesystem">proc</systemitem></para>
+          <para>仮想カーネルファイルシステムをマウントします。例えば、<systemitem class="filesystem">proc</systemitem>ファイルシステムです。</para>
+          <indexterm zone="ch-scripts-bootscripts mountkernfs-bootscripts">
+            <primary sortas="d-mountkernfs">mountkernfs</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="network-bootscripts">
+        <term><command>network</command></term>
+        <listitem>
+          <para>Sets up network interfaces, such as network cards, and sets up
+          the default gateway (where applicable)</para>
+          <para>ネットワークカード等のネットワークインタフェースをセットアップします。
+          また、デフォルトゲートウェイのセットアップを行います。</para>
+          <indexterm zone="ch-scripts-bootscripts network-bootscripts">
+            <primary sortas="d-network">network</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rc-bootscripts">
+        <term><command>rc</command></term>
+        <listitem>
+          <para>The master run-level control script; it is responsible for
+          running all the other bootscripts one-by-one, in a sequence determined
+          by the name of the symbolic links being processed</para>
+          <para>ランレベルを制御するメインのスクリプトです。
+          シンボリックリンクの名前によって決定される順序で、全てのブートスクリプトを一つずつ実行する役目を持ちます。</para>
+          <indexterm zone="ch-scripts-bootscripts rc-bootscripts">
+            <primary sortas="d-rc">rc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="reboot-bootscripts">
+        <term><command>reboot</command></term>
+        <listitem>
+          <para>Reboots the system</para>
+          <para>システムをリブートします。</para>
+          <indexterm zone="ch-scripts-bootscripts reboot-bootscripts">
+            <primary sortas="d-reboot">reboot</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sendsignals-bootscripts">
+        <term><command>sendsignals</command></term>
+        <listitem>
+          <para>Makes sure every process is terminated before the system reboots
+          or halts</para>
+          <para>システムをリブートもしくは停止する前に、各プロセスが終了されていることを確認します。</para>
+          <indexterm zone="ch-scripts-bootscripts sendsignals-bootscripts">
+            <primary sortas="d-sendsignals">sendsignals</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="setclock-bootscripts">
+        <term><command>setclock</command></term>
+        <listitem>
+          <para>Resets the kernel clock to local time in case the hardware clock
+          is not set to UTC time</para>
+          <para>ハードウェアクロックがUTC時刻にセットされていない場合、カーネルクロックをローカル時刻にリセットします。</para>
+          <indexterm zone="ch-scripts-bootscripts setclock-bootscripts">
+            <primary sortas="d-setclock">setclock</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="static-bootscripts">
+        <term><command>static</command></term>
+        <listitem>
+          <para>Provides the functionality needed to assign a static Internet
+          Protocol (IP) address to a network interface</para>
+          <para>ネットワークインタフェースに対して、静的なIP(Internet Protocol)アドレスを割り当てるために必要な機能を提供します。</para>
+          <indexterm zone="ch-scripts-bootscripts static-bootscripts">
+            <primary sortas="d-static">static</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="swap-bootscripts">
+        <term><command>swap</command></term>
+        <listitem>
+          <para>Enables and disables swap files and partitions</para>
+          <para>スワップファイルとスワップパーティションを有効/無効にします。</para>
+          <indexterm zone="ch-scripts-bootscripts swap-bootscripts">
+            <primary sortas="d-swap">swap</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sysctl-bootscripts">
+        <term><command>sysctl</command></term>
+        <listitem>
+          <para>Loads system configuration values from
+          <filename>/etc/sysctl.conf</filename>, if that file exists,
+          into the running kernel</para>
+          <para><filename>/etc/sysctl.conf</filename>が存在している場合、実行中のカーネルに対して、そのファイルから設定値をロードします。</para>
+          <indexterm zone="ch-scripts-bootscripts sysctl-bootscripts">
+            <primary sortas="d-sysctl">sysctl</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sysklogd-bootscripts">
+        <term><command>sysklogd</command></term>
+        <listitem>
+          <para>Starts and stops the system and kernel log daemons</para>
+          <para>システムとカーネルのログデーモンを開始/終了します。</para>
+          <indexterm zone="ch-scripts-bootscripts sysklogd-bootscripts">
+            <primary sortas="d-sysklogd">sysklogd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="template-bootscripts">
+        <term><command>template</command></term>
+        <listitem>
+          <para>A template to create custom bootscripts for other
+          daemons</para>
+          <para>他のデーモン用に、カスタムのブートスクリプトを作成するためのテンプレートです。</para>
+          <indexterm zone="ch-scripts-bootscripts template-bootscripts">
+            <primary sortas="d-template">template</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="udev-bootscripts">
+        <term><command>udev</command></term>
+        <listitem>
+          <para>Prepares the <filename class="directory">/dev</filename>
+          directory and starts Udev</para>
+          <para><filename class="directory">/dev</filename>ディレクトリを準備し、Udevを起動します。</para>
+          <indexterm zone="ch-scripts-bootscripts udev-bootscripts">
+            <primary sortas="d-udev">udev</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="udev-retry-bootscripts">
+        <term><command>udev_retry</command></term>
+        <listitem>
+          <para>Retries failed udev uevents, and copies generated rules
+          files from <filename class="directory">/dev/.udev</filename> to
+          <filename class="directory">/etc/udev/rules.d</filename> if required</para>
+          <para>失敗したudevのueventをリトライします。そして必要に応じて、生成されたルールファイルを<filename class="directory">/dev/.udev</filename>から<filename class="directory">/etc/udev/rules.d</filename>にコピーします。</para>
+          <indexterm zone="ch-scripts-bootscripts udev-retry-bootscripts">
+            <primary sortas="d-udev-retry">udev_retry</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

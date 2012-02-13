@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 7970 -->
+
+<sect1 id="space-introduction">
+  <?dbhtml filename="introduction.html"?>
+
+  <title>はじめに</title>
+
+  <para>In this chapter, the partition which will host the LFS system is
+  prepared. We will create the partition itself, create a file system
+  on it, and mount it.</para>
+
+  <para>この章では、LFSシステムを導入するパーティションを準備します。
+  パーティションそのものの作成、ファイルシステムの作成、そしてマウントを行います。
+  </para>
+
+</sect1>

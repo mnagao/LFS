@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9238 -->
+
+<sect1 id="space-creatingfilesystem">
+  <?dbhtml filename="creatingfilesystem.html"?>
+
+  <title>ファイルシステムの作成</title>
+
+  <para>Now that a blank partition has been set up, the file system can be created.
+  The most widely-used system in the Linux world is the second extended file
+  system (<systemitem class="filesystem">ext2</systemitem>), but with newer
+  high-capacity hard disks, journaling file systems are becoming increasingly
+  popular. The third extended filesystem (<systemitem
+  class="filesystem">ext3</systemitem>) is a widely used enhancement to
+  <systemitem class="filesystem">ext2</systemitem>, which adds journaling
+  capabilities and is compatible with the E2fsprogs utilities.
+  We will create an <systemitem class="filesystem">ext3</systemitem>
+  file system. Instructions for creating other file systems can be found at
+  <ulink url="&blfs-root;view/svn/postlfs/filesystems.html"/>.</para>
+
+  <para>パーティションが準備されたので、ファイルシステムの作成が可能となります。
+  Linuxの世界で最も広く使われているファイルシステムは、second extended file system (<systemitem class="filesystem">ext2</systemitem>)ですが、より新しい大容量なハードディスクにおいて、ジャーナリングファイルシステムが次第に広まっています。
+  Third extended filesystem (<systemitem class="filesystem">ext3</systemitem>)は、<systemitem class="filesystem">ext2</systemitem>を強化したもので広く使用されており、ジャーナリング機能を持ち、E2fsprogsユーティリティと互換性があります。
+  本書では<systemitem class="filesystem">ext3</systemitem>ファイルシステムを作成することにします。別のファイルシステムを作成するための手順は、<ulink url="&blfs-root;view/svn/postlfs/filesystems.html"/>にあります。
+  </para>
+
+  <para>To create an <systemitem class="filesystem">ext3</systemitem> file
+  system on the LFS partition, run the following:</para>
+
+  <para>LFSで使用するパーティションに<systemitem class="filesystem">ext3</systemitem>ファイルシステムを作成するには、以下を実行します。</para>
+
+<screen role="nodump"><userinput>mke2fs -jv /dev/<replaceable>&lt;xxx&gt;</replaceable></userinput></screen>
+
+  <para>Replace <replaceable>&lt;xxx&gt;</replaceable> with the name of the LFS
+  partition (<filename class="devicefile">hda5</filename> in our previous
+  example).</para>
+
+  <para><replaceable>&lt;xxx&gt;</replaceable>は、LFSで使用するパーティション名に置き換えてください。(前に出した例では、<filename class="devicefile">hda5</filename>)
+  </para>
+
+  <note>
+    <para>Some host distributions use custom features in their filesystem
+    creation tools (E2fsprogs). This can cause problems when booting into your new
+    LFS in Chapter 9, as those features will not be supported by the LFS-installed
+    E2fsprogs; you will get an error similar to <quote>unsupported filesystem
+    features, upgrade your e2fsprogs</quote>. To check if your host system
+    uses custom enhancements, run the following command:</para>
+
+    <para>いくつかのホストディストリビューションは、ファイルシステム作成ツール(E2fsprogs)のカスタム機能を使用しています。
+    LFSでインストールするE2fsprogsでそれらカスタム機能はサポートされないため、第9章でLFSシステムをブートするときに問題を引き起こすことがあります。その場合は、<quote>unsupported filesystem featues, upgrade your e2fsprogs</quote>というエラーが発生します。
+    あなたのホストシステムがカスタム機能を使用しているかチェックするには、以下のコマンドを実行してください。
+    </para>
+
+<screen role="nodump"><userinput>debugfs -R feature /dev/<replaceable>&lt;xxx&gt;</replaceable></userinput></screen>
+
+    <para>If the output contains features other than
+    <option>has_journal</option>, <option>ext_attr</option>,
+    <option>resize_inode</option>, <option>dir_index</option>,
+    <option>filetype</option>, <option>sparse_super</option>,
+    <option>large_file</option> or <option>needs_recovery</option>, then your
+    host system may have custom enhancements.  In that case, to avoid later
+    problems, you should compile the stock E2fsprogs package and use the
+    resulting binaries to re-create the filesystem on your LFS partition:</para>
+
+    <para>もし、コマンドの出力結果に、<option>has_journal</option>, <option>ext_attr</option>,
+    <option>resize_inode</option>, <option>dir_index</option>,
+    <option>filetype</option>, <option>sparse_super</option>,
+    <option>large_file</option>, <option>needs_recovery</option> 以外が含まれていたら、あなたが使用しているホストシステムは、拡張機能を使用しています。
+    そのようなケースでは、後々に問題になることを避けるため、E2fsprogsパッケージをコンパイルして、そのバイナリでLFSパーティションのファイルシステムを再作成すべきです。
+    </para>
+
+<screen role="nodump"><userinput>cd /tmp
+tar -xzvf /path/to/sources/e2fsprogs-&e2fsprogs-version;.tar.gz
+cd e2fsprogs-&e2fsprogs-version;
+mkdir -v build
+cd build
+../configure
+make #note that we intentionally don't 'make install' here!
+./misc/mke2fs -jv /dev/<replaceable>&lt;xxx&gt;</replaceable>
+cd /tmp
+rm -rfv e2fsprogs-&e2fsprogs-version;</userinput></screen>
+  </note>
+
+  <para>If you are using an existing <systemitem class="filesystem">swap
+  </systemitem> partition, there is no need to format it. If a new
+  <systemitem class="filesystem"> swap</systemitem> partition was created,
+  it will need to be initialized with this command:</para>
+
+  <para>すでに存在する<systemitem class="filesystem">swap </systemitem>パーティションを使用する場合は、フォーマットを行う必要はありません。
+  新しい<systemitem class="filesystem"> swap</systemitem>パーティションを作る場合は、以下のコマンドで初期化を行う必要があります。
+  </para>
+
+<screen role="nodump"><userinput>mkswap /dev/<replaceable>&lt;yyy&gt;</replaceable></userinput></screen>
+
+  <para>Replace <replaceable>&lt;yyy&gt;</replaceable> with the name of the
+  <systemitem class="filesystem">swap</systemitem> partition.</para>
+
+  <para><replaceable>&lt;yyy&gt;</replaceable>は、<systemitem class="filesystem">swap</systemitem>パーティションの名前に置き換えてください。
+  </para>
+</sect1>

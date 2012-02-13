@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9373 -->
+
+<sect1 id="ch-tools-gcc-pass2" role="wrap">
+  <?dbhtml filename="gcc-pass2.html"?>
+
+  <sect1info condition="script">
+    <productname>gcc</productname>
+    <productnumber>&gcc-version;</productnumber>
+    <address>&gcc-url;</address>
+  </sect1info>
+
+  <title>GCC-&gcc-version; - Pass 2</title>
+
+  <indexterm zone="ch-tools-gcc-pass2">
+    <primary sortas="a-GCC">GCC</primary>
+    <secondary>tools, pass 2</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/gcc.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gcc-ch5p2-sbu;</seg>
+        <seg>&gcc-ch5p2-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of GCC</title>-->
+    <title>GCCのインストール</title>
+
+    <para>Versions of GCC later than 4.3 will treat this build as if
+    it were a relocated compiler and disallow searching for startfiles in
+    the location specified by <parameter>--prefix</parameter>. Since this
+    will not be a relocated compiler, and the startfiles in
+    <filename class="directory">/tools</filename> are crucial to building
+    a working compiler linked to the libs in <filename class="directory">/tools</filename>,
+    apply the following patch which partially reverts GCC to its old behavior:</para>
+    <para>GCCバージョン4.3以降は、ここでのビルドをリロケイトされたコンパイラのように取り扱います。
+    また、<parameter>--prefix</parameter>で指定されたパスのスタートファイルをサーチすることを許しません。
+    ここでは、リロケイトされるコンパイラではなく、<filename class="directory">/tools</filename>のライブラリとリンクされる作業用のコンパイラをビルドするため、<filename class="directory">/tools</filename>のスタートファイルは重要です。
+    したがって、GCCを前の挙動に一部戻す次のパッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&gcc-startfiles-patch;</userinput></screen>
+
+
+    <para>Under normal circumstances the GCC <command>fixincludes</command> script
+    is run in order to fix potentially broken header files. As GCC-&gcc-version;
+    and Glibc-&glibc-version; have already been installed at this point, and
+    their respective header files are known to not require fixing, the
+    <command>fixincludes</command> script is not required. In fact, running
+    this script may actually pollute the build environment by
+    installing fixed headers from the host system into GCC's private include
+    directory. The running of the <command>fixincludes</command> script can
+    be suppressed by issuing the following commands:</para>
+
+    <para>通常はGCCの<command>fixincludes</command>スクリプトが、潜在的に壊れているヘッダファイルを修正するために実行されます。
+    この時点でGCC-&gcc-version;とGlibc-&glibc-version;は既にインストールされており、それぞれのヘッダファイルは修正する必要がないことが知られているため、<command>fixincludes</command>スクリプトは必要ではありません。
+    実際、このスクリプトを実行してみると、ホストシステムからGCCのプライベートなインクルードディレクトリに、修正されたヘッダファイルがインストールされることによって、構築環境を汚染してしまいます。
+    次のコマンドを実行することによって、<command>fixincludes</command>の実行を抑えることが出来ます：
+    </para>
+
+<screen><userinput remap="pre">cp -v gcc/Makefile.in{,.orig}
+sed 's@\./fixinc\.sh@-c true@' gcc/Makefile.in.orig &gt; gcc/Makefile.in</userinput></screen>
+
+    <para>For x86 machines, a bootstrap build of GCC uses the
+    <option>-fomit-frame-pointer</option> compiler flag.  Non-bootstrap builds
+    omit this flag by default, and the goal should be to produce a compiler
+    that is exactly the same as if it were bootstrapped. Apply the following
+    <command>sed</command> command to force the build to use the flag:</para>
+    <para>x86マシンでは、GCCのbootstrapビルドはコンパイラフラグ<option>-fomit-frame-pointer</option>を使用します。
+    非bootstrapビルドでは、デフォルトでこのフラグを除外します。
+    また、非bootstrapビルドでは、bootstrapビルドと全く同一のコンパイラが生成されるべきです。
+    したがって、次の<command>sed</command>コマンドで、このフラグを使用してビルドするようにします：</para>
+
+<screen><userinput remap="pre">cp -v gcc/Makefile.in{,.tmp}
+sed 's/^T_CFLAGS =$/&amp; -fomit-frame-pointer/' gcc/Makefile.in.tmp \
+  &gt; gcc/Makefile.in</userinput></screen>
+
+    <para>The following command will change the location of GCC's default
+    dynamic linker to use the one installed in
+    <filename class="directory">/tools</filename>. It also removes <filename
+    class="directory">/usr/include</filename> from GCC's include search path.
+    Doing this now rather than adjusting the specs file after installation
+    ensures that the new dynamic linker is used during the actual build of
+    GCC. That is, all of the binaries created during the build will link
+    against the new Glibc. Issue:</para>
+    <para>次のコマンドは、<filename class="directory">/tools</filename>にインストールしたGCCのデフォルトのダイナミックリンカの位置を変更します。
+    また、GCCのインクルードサーチパスから<filename class="directory">/usr/include</filename>を取り除きます。
+    このコマンドによって、インストール後のspecsファイルの調整ではなく、最終的なGCCのビルドにおいて、新しいダイナミックリンカが使用されることを保証します。
+    すなわち、ビルドされるバイナリ全ては新しいGlibcにリンクされることになります：
+    </para>
+
+<screen><userinput remap="pre">for file in \
+ $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
+do
+  cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
+  -e 's@/usr@/tools@g' $file.orig &gt; $file
+  echo '
+#undef STANDARD_INCLUDE_DIR
+#define STANDARD_INCLUDE_DIR 0
+#define STANDARD_STARTFILE_PREFIX_1 ""
+#define STANDARD_STARTFILE_PREFIX_2 ""' &gt;&gt; $file
+  touch $file.orig
+done</userinput></screen>
+
+    <para>In case the above seems hard to follow, let's break it down a bit.
+    First we find all the files under the
+    <filename class="directory">gcc/config</filename> directory that are named
+    either <filename>linux.h</filename>, <filename>linux64.h</filename> or
+    <filename>sysv4.h</filename>.
+    For each file found, we copy it to a file of the same name but with an added
+    suffix of <quote>.orig</quote>. Then the first sed expression prepends
+    <quote>/tools</quote> to every instance of <quote>/lib/ld</quote>,
+    <quote>/lib64/ld</quote> or <quote>/lib32/ld</quote>, while the second one
+    replaces hard-coded instances of <quote>/usr</quote>. Then we add our define
+    statements which alter the include search path and the default startfile prefix
+    to the end of the file. 
+    Finally, we use <command>touch</command> to update the timestamp on the copied files.
+    When used in conjunction with <command>cp -u</command>, this prevents unexpected
+    changes to the original files in case the commands are inadvertently run twice.
+    </para>
+    <para>上記を理解するのが難しい場合は、少し段階を踏んで考えてみましょう。
+    まず最初に、gcc/configディレクトリ以下にある<filename>linux.h</filename>または<filename>linux64.h</filename>または<filename>sysv4.h</filename>という名前のファイルを検索します。
+    それらのファイルが見つかったら、拡張子に<quote>.orig</quote>を付加したファイル名でコピーします。
+    そして、最初のsedの処理で、<quote>/lib/ld</quote>または<quote>/lib64/ld</quote>または<quote>/lib32/ld</quote>の前に、<quote>/tools</quote>を追加します。
+    同時に、2つ目のsedの処理で、ハードコーディングされた<quote>/usr</quote>を<quote>/tools</quote>で置き換えます。
+    次に、インクルードサーチパスとデフォルトのstartfileのprefixを変更するdefine文をファイルの最後に追加します。
+    最後に、<command>touch</command>でコピーされたファイルのタイムスタンプを更新します。
+    <command>cp -u</command>を指定しているのは、コマンドが不注意で2回実行された場合に、オリジナルのファイルが思いがけずに変更されてしまうのを防ぐためです。
+    </para>
+
+    <para>On x86_64, unsetting the multilib spec for GCC ensures that it 
+    won't attempt to link against libraries on the host:</para> 
+    <para>x86_64の環境においては、GCCのmultilib specの設定を外すことで、ホストシステム上のライブラリに対してリンクしないようにします。</para>
+ 
+<screen><userinput remap="pre">case $(uname -m) in
+  x86_64)
+    for file in $(find gcc/config -name t-linux64) ; do \
+      cp -v $file{,.orig}
+      sed '/MULTILIB_OSDIRNAMES/d' $file.orig &gt; $file
+    done
+  ;;
+esac</userinput></screen>
+
+    <para>As in the first build of GCC it requires the GMP, MPFR and MPC
+    packages. Unpack the tarballs and move them into the required directory
+    names:</para>
+    <para>GCCの最初のビルドの時に、GMPとMPFRとMPCパッケージが必要になります。
+    tarballを展開し、ディレクトリを必要とされる名前に変更します：</para>
+
+<screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
+mv -v mpfr-&mpfr-version; mpfr
+tar -jxf ../gmp-&gmp-version;.tar.bz2
+mv -v gmp-&gmp-version; gmp 
+tar -zxf ../mpc-&mpc-version;.tar.gz 
+mv -v mpc-&mpc-version; mpc</userinput></screen>
+
+    <para>Create a separate build directory again:</para>
+    <para>再び、ソースツリーとは別のビルド用ディレクトリを作成します：</para>
+
+<screen><userinput remap="pre">mkdir -v ../gcc-build
+cd ../gcc-build</userinput></screen>
+
+    <para>Before starting to build GCC, remember to unset any environment
+    variables that override the default optimization flags.</para>
+
+    <para>GCCをビルドする前に、デフォルトの最適化フラグをオーバーライドするような環境変数をunsetすることを忘れないでください。
+    </para>
+
+    <para>Now prepare GCC for compilation:</para>
+    <para>GCCをコンパイルする準備を行います：</para>
+
+<screen><userinput remap="configure">CC="$LFS_TGT-gcc -B/tools/lib/" \
+    AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib \
+    ../gcc-&gcc-version;/configure --prefix=/tools \
+    --with-local-prefix=/tools --enable-clocale=gnu \
+    --enable-shared --enable-threads=posix \
+    --enable-__cxa_atexit --enable-languages=c,c++ \
+    --disable-libstdcxx-pch --disable-multilib \
+    --disable-bootstrap --disable-libgomp \
+    --with-gmp-include=$(pwd)/gmp --with-gmp-lib=$(pwd)/gmp/.libs \
+    --without-ppl --without-cloog</userinput></screen>
+
+    <variablelist>
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--enable-clocale=gnu</parameter></term>
+        <listitem>
+          <para>This option ensures the correct locale model is selected
+          for the C++ libraries under all circumstances. If the configure
+          script finds the <emphasis>de_DE</emphasis> locale installed,
+          it will select the correct gnu locale model. However, if the
+          <emphasis>de_DE</emphasis> locale is not installed, there is the
+          risk of building Application Binary Interface (ABI)-incompatible
+          C++ libraries because the incorrect generic locale model may be
+          selected.</para>
+
+          <para>全ての環境において、C++ライブラリのための正しいロケールが選ばれることを保証します。
+          もしconfigureスクリプトが<emphasis>de_DE</emphasis>ロケールがインストールされていることを検知した場合、configureスクリプトは、正しいgnuロケールを選択します。
+          しかしながら、もし<emphasis>de_DE</emphasis>ロケールがインストールされていなかったら、間違った標準のロケールが選択されるため、C++ライブラリと互換性のないABI(Application Binary Interface)がビルドされる危険性があります。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-threads=posix</parameter></term>
+        <listitem>
+          <para>This enables C++ exception handling for multi-threaded code.</para>
+          <para>マルチスレッドのコードにおいて、C++例外ハンドリングを有効にします。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-__cxa_atexit</parameter></term>
+        <listitem>
+          <para>This option allows use of <function>__cxa_atexit</function>,
+          rather than <function>atexit</function>, to register C++ destructors
+          for local statics and global objects. This option is essential for
+          fully standards-compliant handling of destructors. It also affects
+          the C++ ABI, and therefore results in C++ shared libraries and C++
+          programs that are interoperable with other Linux distributions.</para>
+          <para>ローカルのstatic変数とグローバルなオブジェクトのためのC++デストラクタを登録するため、このオプションにより、<function>atexit</function>ではなく、<function>__cxa_atexit</function>の使用を許します。
+          このオプションは、デストラクタ処理の標準に完全に準拠するため必要です。
+          このオプションはまた、C++のABIに影響を与え、その結果C++共有ライブラリとC++プログラムが、他のLinuxディストリビューションと互換性を持つようになります。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-languages=c,c++</parameter></term>
+        <listitem>
+          <para>This option ensures that both the C and C++ compilers are
+          built.</para>
+          <para>CコンパイラとC++コンパイラをビルドします。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-libstdcxx-pch</parameter></term>
+        <listitem>
+          <para>Do not build the pre-compiled header (PCH) for
+          <filename class="libraryfile">libstdc++</filename>. It takes up a
+          lot of space, and we have no use for it.</para>
+          <para><filename class="libraryfile">libstdc++</filename>用のプリコンパイルヘッダ(PCH)をビルドしません。
+          PCHは多くのスペースを消費しますし、また、PCHを使用することはないからです。
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-bootstrap</parameter></term>
+        <listitem>
+          <para>For native builds of GCC, the default is to do a "bootstrap"
+          build. This does not just compile GCC, but compiles it several times.
+          It uses the programs compiled in a first round to compile itself a
+          second time, and then again a third time.  The second and third 
+          iterations are compared to make sure it can reproduce itself 
+          flawlessly. This also implies that it was compiled correctly. 
+          However, the LFS build method should provide a solid compiler 
+          without the need to bootstrap each time.</para>
+          <para>GCCの通常のビルドは、デフォルトで"bootstrap"ビルドを実行します。
+          これはGCCを単にコンパイルするだけではなく、複数回コンパイルを行います。
+          最初にコンパイルしたプログラムを使って、自分自身(GCC)の2回目のコンパイルを行います。
+          そして次に3回目のコンパイルを行います。
+          2回目・3回目のコンパイルは、GCCが自分自身を完全に生成できることを確かめるために、コンペアされます。
+          これはまた、コンペアによってGCCが正しくコンパイルされたことを示します。
+          しかしながら、LFSのビルド方法はbootstrapビルドの必要がない、確かなコンパイラを提供するはずです。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージをコンパイルします：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージをインストールします：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>As a finishing touch, create a symlink. Many programs and scripts
+    run <command>cc</command> instead of <command>gcc</command>, which is
+    used to keep programs generic and therefore usable on all kinds of UNIX
+    systems where the GNU C compiler is not always installed. Running 
+    <command>cc</command> leaves the system administrator free to decide 
+    which C compiler to install:</para> 
+    <para>最後の仕上げにシンボリックリンクを作成します。
+    多くのプログラムやスクリプトは<command>gcc</command>の代わりに<command>cc</command>を実行します。
+    それはプログラムを汎用的に保つためで、それにより、GNU CコンパイラがインストールされていないようなUNIX機上でも、それらプログラム・スクリプトが使用できるようになっています。
+    <command>cc</command>を実行することは、システム管理者にどのCコンパイラをインストールするか決定する自由を残しています。</para>
+
+<screen><userinput remap="install">ln -vs gcc /tools/bin/cc</userinput></screen> 
+
+  <caution> 
+    <para>At this point, it is imperative to stop and ensure that the basic 
+    functions (compiling and linking) of the new toolchain are working as 
+    expected. To perform a sanity check, run the following commands:</para> 
+    <para>ここで、新しいツールチェインの基本的な機能(コンパイルとリンク)が、期待通りに動くことを確認することが必須です。
+    サニティチェックを実行するには、次のコマンドを実行してください：</para>
+ 
+<screen><userinput>echo 'main(){}' &gt; dummy.c 
+cc dummy.c 
+readelf -l a.out | grep ': /tools'</userinput></screen> 
+ 
+    <para>If everything is working correctly, there should be no errors, 
+      and the output of the last command will be of the form:</para> 
+    <para>もし全てが正しく動作するなら、エラーが発生せず、最後のコマンドの出力は次のようになるはずです：</para>
+
+<screen><computeroutput>[Requesting program interpreter: /tools/lib/ld-linux.so.2]</computeroutput></screen> 
+
+    <para>Note that <filename class="directory">/tools/lib</filename>, or 
+    <filename class="directory">/tools/lib64</filename> for 64-bit machines 
+    appears as the prefix of the dynamic linker.</para> 
+    <para><filename class="directory">/tools/lib</filename>または64-bitマシンの場合は<filename class="directory">/tools/lib64</filename>が、ダイナミックリンカのプリフィックスとして表示されることに注意してください。</para>
+ 
+    <para>If the output is not shown as above or there was no output at all, 
+    then something is wrong. Investigate and retrace the steps to find out 
+    where the problem is and correct it. This issue must be resolved before 
+    continuing on. First, perform the sanity check again, using 
+    <command>gcc</command> instead of <command>cc</command>. If this works, 
+    then the <filename class="symlink">/tools/bin/cc</filename> symlink is 
+    missing. Install the symlink as per above. 
+    Next, ensure that the <envar>PATH</envar> is correct. This 
+    can be checked by running <command>echo $PATH</command> and verifying that 
+    <filename class="directory">/tools/bin</filename> is at the head of the 
+    list. If the <envar>PATH</envar> is wrong it could mean that you are not 
+    logged in as user <systemitem class="username">lfs</systemitem> or that 
+    something went wrong back in <xref linkend="ch-tools-settingenviron" 
+    role="."/></para> 
+    <para>もし出力上記の通りではない場合、または何も出力されない場合は、何か異常があります。
+    手順をたどって詳細に調査し、どこに問題があるか見つけて修正してください。
+    以降の手順を続ける前に、この問題を片付ける必要があります。
+    最初に、<command>cc</command>ではなく<command>gcc</command>を使ってサニティチェックをやり直してみてください。
+    もしそれでうまくいくのであれば、シンボリックリンク<filename class="symlink">/tools/bin/cc</filename>が存在しないことが原因です。
+    上記の通りシンボリックリンクを作成してください。
+    次に、環境変数<envar>PATH</envar>が正しいことを確認してください。
+    これは、<command>echo $PATH</command>を実行することでチェックすることが出来ます。
+    <filename class="directory">/tools/bin</filename>が出力結果の先頭にあることを確認してください。
+    もし<envar>PATH</envar>が間違っている場合は、<systemitem class="username">lfs</systemitem>ユーザでログインしていないか、<xref linkend="ch-tools-settingenviron" role="."/>で何か間違っていることを意味します。</para>
+ 
+    <para>Once all is well, clean up the test files:</para> 
+    <para>全てがうまくいったら、テストファイルを片付けます：</para>
+ 
+<screen><userinput>rm -v dummy.c a.out</userinput></screen> 
+ 
+  </caution>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-gcc" role="."/></para>
+
+    <para>このパッケージの詳細は、<xref linkend="contents-gcc" role="."/>に記載されています。
+    </para>
+  </sect2>
+
+</sect1>

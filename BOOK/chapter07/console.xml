@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9472 -->
+
+<sect1 id="ch-scripts-console">
+  <?dbhtml filename="console.html"?>
+
+  <!--<title>Configuring the Linux Console</title>-->
+  <title>コンソールの設定</title>
+
+  <indexterm zone="ch-scripts-console">
+    <primary sortas="d-console">console</primary>
+    <secondary>configuring</secondary>
+  </indexterm>
+
+  <indexterm zone="ch-scripts-console">
+    <primary sortas="d-consolelog">consolelog</primary>
+    <secondary>configuring</secondary>
+  </indexterm>
+
+  <para>This section discusses how to configure the <command>console</command>
+  and <command>consolelog</command> bootscripts that set up the keyboard map,
+  console font and console kernel log level. If non-ASCII characters (e.g.,
+  the copyright sign, the British pound sign and Euro symbol) will not be used
+  and the keyboard is a U.S. one, much of this section can be skipped. Without
+  the configuration file, the <command>console</command> bootscript will do
+  nothing.</para>
+  <para>このセクションでは、キーボードマップ、コンソールフォント、コンソールへのカーネルログレベルを設定する、<command>console</command>と<command>consolelog</command>ブートスクリプトの設定方法を取り扱います。
+  もし非ASCII文字(例：copyrightマーク、英ポンド記号、ユーロ記号)を使用せずキーボードがUSであれば、このセクションの大半はスキップ可能です。
+  設定ファイルがない場合、<command>console</command>ブートスクリプトは何もしません。</para>
+
+  <para>The <command>console</command>  and <command>consolelog</command>
+  scripts read the <filename>/etc/sysconfig/console</filename> file for
+  configuration information.
+  Decide which keymap and screen font will be used. Various language-specific
+  HOWTOs can also help with this, see <ulink
+  url="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html"/>. If still in
+  doubt, look in the <filename class="directory">/lib/kbd</filename>
+  directory for valid keymaps and screen fonts. Read
+  <filename>loadkeys(1)</filename> and <filename>setfont(8)</filename> manual
+  pages to determine the correct arguments for these programs.</para>
+  <para><command>console</command>と<command>consolelog</command>ブートスクリプトは、設定情報を取得するため<filename>/etc/sysconfig/console</filename>ファイルを読み込みます。
+  そしてどのキーマップ、どのスクリーンフォントを使用するか決定します。
+  各言語のHOWTOもまた手助けとなりますので、<ulink url="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html"/>を参照してください。
+  それでも不明確な点がある場合は、<filename class="directory">/lib/kbd</filename>ディレクトリを見て有効なキーマップ・スクリーンフォントを探してください。
+  また、<filename>loadkeys(1)</filename>と<filename>setfont(8)</filename>のマニュアルページを読み、それらプログラムの正しい引数を調べてください。</para>
+
+  <para>The <filename>/etc/sysconfig/console</filename> file should contain lines
+  of the form: VARIABLE="value". The following variables are recognized:</para>
+  <para><filename>/etc/sysconfig/console</filename>ファイルの内容は、VARIABLE="value"の形式にする必要があります。
+  次の変数を認識することが出来ます。</para>
+
+  <variablelist>
+
+    <varlistentry>
+      <term>LOGLEVEL</term>
+      <listitem>
+        <para>This variable specifies the log level for kernel messages sent
+        to the console as set by <command>dmesg</command>. Valid levels are
+        from "1" (no messages) to "8". The default level is "7".</para>
+        <para><command>dmesg</command>コマンドによる設定と同じように、この変数でコンソールに送られるカーネルメッセージのログレベルを指定します。
+        有効なレベルは、"1"(メッセージなし)から"8"までです。デフォルトのレベルは"7"です。</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>KEYMAP</term>
+      <listitem>
+        <para>This variable specifies the arguments for the
+        <command>loadkeys</command> program, typically, the name of keymap
+        to load, e.g., <quote>es</quote>. If this variable is not set, the
+	bootscript will not run the <command>loadkeys</command> program,
+	and the default kernel keymap will be used.</para>
+        <para>この変数に<command>loadkeys</command>プログラムの引数を指定します。
+        通常は、ロードするキーマップの名前を指定します。例：<quote>es</quote>。
+        もしこの変数をセットしない場合、ブートスクリプトは<command>loadkeys</command>プログラムを実行せず、デフォルトのカーネルキーマップが使用されます。
+</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>KEYMAP_CORRECTIONS</term>
+      <listitem>
+        <para>This (rarely used) variable
+        specifies the arguments for the second call to the
+        <command>loadkeys</command> program. This is useful if the stock keymap
+        is not completely satisfactory and a small adjustment has to be made. E.g.,
+        to include the Euro sign into a keymap that normally doesn't have it,
+        set this variable to <quote>euro2</quote>.</para>
+        <para>この(めったに使われない)変数に、<command>loadkeys</command>プログラムを2回目に呼び出す際の引数を指定します。
+        この機能は、もし手持ちのキーマップが完全に希望を満たしておらず、少しの調整が必要である場合に便利です。
+        例えば、通常はユーロ記号が含まれていないキーマップに対して、ユーロ記号を含めるためには、この変数に<quote>euro2</quote>をセットします。
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>FONT</term>
+      <listitem>
+        <para>This variable specifies the arguments for the
+        <command>setfont</command> program. Typically, this includes the font
+        name, <quote>-m</quote>, and the name of the application character
+	map to load. E.g., in order to load the <quote>lat1-16</quote> font
+	together with the <quote>8859-1</quote> application character map
+	(as it is appropriate in the USA),
+        <!-- because of the copyright sign -->
+	set this variable to <quote>lat1-16 -m 8859-1</quote>.
+        In UTF-8 mode, the kernel uses the application character map for
+        conversion of composed 8-bit key codes in the keymap to UTF-8, and thus
+        the argument of the "-m" parameter should be set to the encoding of the
+        composed key codes in the keymap.</para>
+        <para>この変数に<command>setfont</command>プログラムへの引数を指定します。
+        通常は、フォント名、<quote>-m</quote>、ロードするキャラクターマップの名前を指定します。
+        例：キャラクターマップ<quote>8859-1</quote>(米国において適切なキャラクターマップです)で一緒に<quote>lat1-16</quote>フォントをロードするためには、この変数に<quote>lat1-16 -m 8859-1</quote>をセットします。
+        UTF-8モードでは、キーマップ中の8-bitのキーコードをUTF-8に変換するために、カーネルはアプリケーション・キャラクターマップを使用します。
+        したがって、"-m"パラメータの引数は、キーマップの中で構成されたキーコードのエンコーディングにセットされるべきです。</para>
+
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>UNICODE</term>
+      <listitem>
+        <para>Set this variable to <quote>1</quote>, <quote>yes</quote> or
+	<quote>true</quote> in order to put the
+        console into UTF-8 mode. This is useful in UTF-8 based locales and
+        harmful otherwise.</para>
+        <para>コンソールをUTF-8モードにするためには、この変数に<quote>1</quote>または<quote>yes</quote>または<quote>true</quote>をセットしてください。
+        この変数は、UTF-8ベースのロケールで有用ですが、その他ロケールにおいては害を及ぼします。</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>LEGACY_CHARSET</term>
+      <listitem>
+        <para>For many keyboard layouts, there is no stock Unicode keymap in
+        the Kbd package. The <command>console</command> bootscript will
+        convert an available keymap to UTF-8 on the fly if this variable is
+	set to the encoding of the available non-UTF-8 keymap.</para>
+        <para>多くのキーボードレイアウトに対して、KbdパッケージではUnicodeキーマップは用意されていません。
+        もしこの変数に、利用可能な非UTF-8キーマップのエンコーディングがセットされている場合、<command>console</command>ブートスクリプトは、利用可能なキーマップを実行時にUTF-8へ変換します。</para>
+      </listitem>
+    </varlistentry>
+
+  </variablelist>
+
+  <para>Some examples:</para>
+  <para>いくつかの例：</para>
+
+  <itemizedlist>
+
+    <listitem>
+      <para>For a non-Unicode setup, only the KEYMAP and FONT variables are
+      generally needed. E.g., for a Polish setup, one would use:</para>
+      <para>非Unicodeの場合は、KEYMAPとFONTのみが通常必要です。
+      例：ポーランドの設定の場合、次を使用します：
+      </para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/console
+
+KEYMAP="pl2"
+FONT="lat2a-16 -m 8859-2"
+
+# End /etc/sysconfig/console</literal>
+EOF</userinput></screen>
+    </listitem>
+
+    <listitem>
+      <para>As mentioned above, it is sometimes necessary to adjust a
+      stock keymap slightly. The following example adds the Euro symbol to the
+      German keymap:</para>
+      <para>前に述べたとおり、ケースによってはキーマップを少し調整する必要があります。
+      次の例はドイツのキーマップにユーロ記号を追加します：</para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/console
+
+KEYMAP="de-latin1"
+KEYMAP_CORRECTIONS="euro2"
+FONT="lat0-16 -m 8859-15"
+
+# End /etc/sysconfig/console</literal>
+EOF</userinput></screen>
+    </listitem>
+
+    <listitem>
+      <para>The following is a Unicode-enabled example for Bulgarian, where a
+      stock UTF-8 keymap exists:</para>
+      <para>次はブルガリアのためのUnicodeの例で、UTF-8キーマップが存在しています：</para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="bg_bds-utf8"
+FONT="LatArCyrHeb-16"
+
+# End /etc/sysconfig/console</literal>
+EOF</userinput></screen>
+    </listitem>
+
+    <listitem>
+      <para>Due to the use of a 512-glyph LatArCyrHeb-16 font in the previous
+      example, bright colors are no longer available on the Linux console unless
+      a framebuffer is used. If one wants to have bright colors without
+      framebuffer and can live without characters not belonging to his language,
+      it is still possible to use a language-specific 256-glyph font, as
+      illustrated below:</para>
+      <para>直前の例における、512個の記号を持つLatArCyrHeb-16フォントを使用するとしても、フレームバッファを使わない限り、Linuxコンソールでもはやbrightカラーは使用できません。
+      もしフレームバッファなしでbrightカラーを使用したければ、また、使用する言語に存在しないキャラクターを使わないで済ます場合、以下に示すとおり、言語固有の256記号のフォントを使うことが可能です。</para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="bg_bds-utf8"
+FONT="cyr-sun16"
+
+# End /etc/sysconfig/console</literal>
+EOF</userinput></screen>
+    </listitem>
+
+    <listitem>
+      <para>The following example illustrates keymap autoconversion from
+      ISO-8859-15 to UTF-8 and enabling dead keys in Unicode mode:</para>
+      <para>次の例は、ISO-8859-15からUTF-8へのキーマップの自動変換と、Unicodeモードのデッドキーを有効にすることについて説明しています。</para>
+
+<screen role="nodump"><userinput>cat &gt; /etc/sysconfig/console &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/console
+
+UNICODE="1"
+KEYMAP="de-latin1"
+KEYMAP_CORRECTIONS="euro2"
+LEGACY_CHARSET="iso-8859-15"
+FONT="LatArCyrHeb-16 -m 8859-15"
+
+# End /etc/sysconfig/console</literal>
+EOF</userinput></screen>
+    </listitem>
+
+    <listitem>
+
+      <para>Some keymaps have dead keys (i.e., keys that don't produce a
+      character by themselves, but put an accent on the character produced
+      by the next key) or define composition rules (such as: <quote>press
+      Ctrl+. A E to get &AElig;</quote> in the default keymap).
+      Linux-&linux-version; interprets dead keys and composition rules in the
+      keymap correctly only when the source characters to be composed together
+      are not multibyte. This deficiency doesn't affect keymaps for European
+      languages, because there accents are added to unaccented ASCII
+      characters, or two ASCII characters are composed together. However, in
+      UTF-8 mode it is a problem, e.g., for the Greek language, where one
+      sometimes needs to put an accent on the letter <quote>alpha</quote>.
+      The solution is either to avoid the use of UTF-8, or to install the
+      X window system that doesn't have this limitation in its input
+      handling.</para>
+      <para>いくつかのキーマップはデッドキーを持っています(例：そのキー自身は何も文字を入力しませんが、次に入力するキーによりキャラクターに修飾を与えます)。
+      または、複合機能を定義します(デフォルトキーマップにおける<quote>Ctrl+. A E で&AElig;</quote>が得られるように)。
+      元々のキャラクターがマルチバイトではないときのみ、Linux-&linux-version;は、キーマップのデッドキーと複合キーを正しく解釈します。
+      この欠陥はヨーロッパ圏の言語用のキーマップには影響は与えません。それは、修飾されていないASCIIキャラクターに修飾が追加されるか、二つのASCIIキャラクターが組み合わされるからです。
+      しかしながら、UTF-8モードではそのことが問題となります。例えば、ギリシャ語では、たまに文字<quote>&alpha;</quote>に装飾をする必要があります。
+      解決方法としては、UTF-8の使用を避けるか、入力に制限を持たないX Window Systemをインストールすることが挙げられます。</para>
+    </listitem>
+
+    <listitem>
+      <para>For Chinese, Japanese, Korean and some other languages, the Linux
+      console cannot be configured to display the needed characters. Users
+      who need such languages should install the X Window System, fonts that
+      cover the necessary character ranges, and the proper input method (e.g.,
+      SCIM, it supports a wide variety of languages).</para>
+      <para>中国語、日本語、韓国語、その他言語については、必要な文字をLinuxコンソールに表示させるような設定は出来ません。
+      そのような言語を使用する必要があるユーザは、X Window System、必要な文字の範囲をカバーするフォント、適切なInput Method(例：SCIM。これは広く様々な言語をサポートしています)をインストールすべきです。</para>
+    </listitem>
+
+  </itemizedlist>
+
+  <!-- Added because folks keep posting their console file with X questions
+  to blfs-support list -->
+  <note>
+    <para>The <filename>/etc/sysconfig/console</filename> file only controls the    Linux text console localization. It has nothing to do with setting the
+    proper keyboard layout and terminal fonts in the X Window System, with ssh
+    sessions or with a serial console. In such situations, limitations mentioned
+    in the last two list items above do not apply.</para>
+    <para><filename>/etc/sysconfig/console</filename>ファイルは、Linuxのテキストコンソールのローカライズだけを制御します。
+    したがってコンソールは、SSHセッションまたはシリアルコンソール経由のX Window Systemの利用において、正しいキーボードレイアウトやターミナルフォントの設定に関係しません。
+    そのような状況なので、上で取り上げた最後の2つの項目についての制限は当てはまりません。
+    </para>
+  </note>
+
+</sect1>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="pre-organization">
+  <?dbhtml filename="organization.html"?>
+
+  <title>構成</title>
+
+  <para>This book is divided into the following parts.</para>
+  <para>本書は以下の構成となっています。</para>
+
+  <sect2>
+    <title>Part I - イントロダクション</title>
+
+    <para>Part I explains a few important notes on how to proceed with the
+    LFS installation.  This section also provides meta-information about
+    the book.</para>
+
+    <para>Part I は、LFS構築方法についていくつかの重要な情報について説明しています。
+    このセクションでは、本書に関するメタ情報についても扱っています。</para>
+  </sect2>
+
+  <sect2>
+    <title>Part II - 構築準備</title>
+
+    <para>Part II describes how to prepare for the building process&mdash;making
+    a partition, downloading the packages, and compiling temporary
+    tools.</para>
+
+    <para>Part IIは構築のための準備(パーティション作成、パッケージのダウンロード、構築のための一時的なツールのコンパイル)について書かれています。</para>
+  </sect2>
+
+  <sect2>
+    <title>Part III - LFSの構築</title>
+
+    <para>Part III guides the reader through the building of the LFS
+    system&mdash;compiling and installing all the packages one by one,
+    setting up the boot scripts, and installing the kernel. The resulting
+    Linux system is the foundation on which other software can be built to
+    expand the system as desired. At the end of this book, there is an
+    easy to use reference listing all of the programs, libraries, and
+    important files that have been installed.</para>
+
+    <para>Part III は、LFSの構築手順 - 全てのパッケージのコンパイル・インストール、
+    ブートスクリプトの設定、カーネルのインストール - について書かれています。
+    構築されたLFSは、システムを拡張するためのベースとなり、望む形に拡張するために他の
+    ソフトウェアをインストールすることが可能です。
+    本書の最後に、インストールされたプログラム、ライブラリ、重要なファイル全てについての
+    参照リストを用意しています。</para>
+
+  </sect2>
+
+</sect1>

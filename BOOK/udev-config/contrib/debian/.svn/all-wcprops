@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/LFS/!svn/ver/8548/trunk/BOOK/udev-config/contrib/debian
+END
+write_cd_aliases
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/LFS/!svn/ver/8548/trunk/BOOK/udev-config/contrib/debian/write_cd_aliases
+END
+81-cdrom.rules
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/LFS/!svn/ver/8548/trunk/BOOK/udev-config/contrib/debian/81-cdrom.rules
+END
+83-cdrom-symlinks.rules
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/LFS/!svn/ver/8548/trunk/BOOK/udev-config/contrib/debian/83-cdrom-symlinks.rules
+END

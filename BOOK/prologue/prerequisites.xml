@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8929 -->
+
+<sect1 id="pre-prerequisites">
+  <?dbhtml filename="prerequisites.html"?>
+
+  <title>前提条件</title>
+
+  <para>Building an LFS system is not a simple task. It requires a certain
+  level of existing knowledge of Unix system administration in order to resolve
+  problems and correctly execute the commands listed. In particular, as an
+  absolute minimum, you should already have the ability to use the
+  command line (shell) to copy or move files and directories, list directory
+  and file contents, and change the current directory. It is also expected that
+  you have a reasonable knowledge of using and installing Linux
+  software.</para>
+
+  <para>LFSシステムを構築することは、単純な作業ではありません。
+  問題を解決したり、記載されたコマンドを正しく実行するために、Unixシステム管理の知識が必要となります。
+  特に、最低限、コマンドライン(シェル)にて、ファイル・ディレクトリのコピーや移動、ディレクトリのリスト、ファイルの閲覧、カレントディレクトリの移動等の知識を持っておく必要があります。
+  また、Linuxソフトウェアの使い方やインストール方法を知っておく必要もあります。
+  </para>
+
+  <para>Because the LFS book assumes <emphasis>at least</emphasis> this basic
+  level of skill, the various LFS support forums are unlikely to be able to
+  provide you with much assistance in these areas. You will find that your
+  questions regarding such basic knowledge will likely go unanswered or you
+  will simply be referred to the LFS essential pre-reading list.</para>
+
+  <para>LFSブックは、<emphasis>少なくとも</emphasis>読者が上記のような基本的なUnixのスキルを持っていると仮定しているため、
+  LFSのサポートフォーラムでは、十分な手助けをあなたに与えることが出来ないかもしれません。
+  あなたの質問が基本的な知識についてのものだとしたら、回答は得られないでしょう。
+  そんな場合は、LFS構築に必須となる知識についての情報を参照してください。
+  </para>
+
+  <para>Before building an LFS system, we recommend reading the following
+  HOWTOs:</para>
+
+  <para>LFSシステム構築前に、以下のHOWTOを読むことをお勧めします。
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>Software-Building-HOWTO
+      <ulink url="http://www.tldp.org/HOWTO/Software-Building-HOWTO.html"/></para>
+
+      <para>This is a comprehensive guide to building and installing
+      <quote>generic</quote> Unix software packages under Linux. Although it 
+      was written some time ago, it still provides a good summary of the 
+      basic techniques needed to build and install software.</para>
+      <para>このHOWTOは、<quote>一般的な</quote>UnixソフトウェアをLinuxにインストールするためのガイドです。
+      ある程度前に書かれたものですが、ソフトウェアをビルド・インストールするために必要な基本テクニックの良い概要となっています。
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>The Linux Users' Guide
+      <ulink url="http://www.linuxhq.com/guides/LUG/guide.html"/></para>
+
+      <para>This guide covers the usage of assorted Linux software. This
+      reference is also fairly old, but still valid.</para>
+      <para>このガイドは、さまざまなLinuxソフトウェアの使い方について書かれています。
+      このガイドもかなり古いですが、有益です。</para>
+    </listitem>
+
+    <listitem>
+      <para>The Essential Pre-Reading Hint
+      <ulink url="&hints-root;essential_prereading.txt"/></para>
+
+      <para>This is an LFS Hint written specifically for users new to Linux.
+      It includes a list of links to excellent sources of information on a
+      wide range of topics. Anyone attempting to install LFS should have an
+      understanding of many of the topics in this hint.</para>
+
+      <para>これはLinux初心者向けに書かれた、LFSのヒントです。
+      幅広い範囲の素晴らしい情報源へのリンクを含んでいます。
+      LFSをインストールしようとする誰もが、このヒントに含まれる内容を理解すべきです。
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+</sect1>

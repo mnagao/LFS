@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8918 -->
+
+<sect1 id="ch-tools-changingowner">
+  <?dbhtml filename="changingowner.html"?>
+
+  <title>ファイル所有者の変更</title>
+
+  <note>
+    <para>The commands in the remainder of this book must be performed while
+    logged in as user <systemitem class="username">root</systemitem> and no
+    longer as user <systemitem class="username">lfs</systemitem>. Also, double
+    check that <envar>$LFS</envar> is set in <systemitem
+    class="username">root</systemitem>'s environment.</para>
+    <para>これ以降のコマンドは、<systemitem class="username">lfs</systemitem>ユーザではなく、<systemitem class="username">root</systemitem>ユーザで実行する必要があります。
+    また、<systemitem class="username">root</systemitem>の環境変数に、<systemitem class="username">lfs</systemitem>がセットされていることを再確認してください。
+    </para>
+  </note>
+
+  <para>Currently, the <filename class="directory">$LFS/tools</filename> directory
+  is owned by the user <systemitem class="username">lfs</systemitem>, a user
+  that exists only on the host system. If the <filename
+  class="directory">$LFS/tools</filename> directory is kept as is, the files are
+  owned by a user ID without a corresponding account. This is dangerous because
+  a user account created later could get this same user ID and would own the
+  <filename class="directory">$LFS/tools</filename> directory and all the files
+  therein, thus exposing these files to possible malicious manipulation.</para>
+
+  <para>今のところ<filename class="directory">$LFS/tools</filename>は、ホストシステム上だけに存在しているユーザ<systemitem class="username">lfs</systemitem>に所有されています。
+  もし<filename class="directory">$LFS/tools</filename>ディレクトリが今の状態のままであれば、対応するアカウントが存在しないユーザIDによって、ファイルが所有されることになります。
+  これは危険です。なぜなら、後に作成されるユーザアカウントは、この同じユーザIDが割り当てられ、その結果<filename class="directory">$LFS/tools</filename>ディレクトリとその中の全てのファイルを所有することになるからです。その結果、それらディレクトリ・ファイルが悪意のある操作にさらされることになります。
+  </para>
+
+  <para>To avoid this issue, you could add the <systemitem
+  class="username">lfs</systemitem> user to the new LFS system later when
+  creating the <filename>/etc/passwd</filename> file, taking care to assign it
+  the same user and group IDs as on the host system. Better yet, change the
+  ownership of the <filename class="directory">$LFS/tools</filename> directory to
+  user <systemitem class="username">root</systemitem> by running the following
+  command:</para>
+
+  <para>この問題を避けるため、後ほど<filename>/etc/passwd</filename>ファイルを作成するときに、新しいLFSシステムに<systemitem class="username">lfs</systemitem>ユーザを追加します。
+  その時は、ホストシステムにおけるユーザIDとグループIDを割り当てるように気を付けてください。
+  できれば、次のコマンドを実行し、<filename class="directory">$LFS/tools</filename>ディレクトリの所有者を<systemitem class="username">root</systemitem>ユーザに変更します。
+  </para>
+
+<screen><userinput>chown -R root:root $LFS/tools</userinput></screen>
+
+  <para>Although the <filename class="directory">$LFS/tools</filename> directory
+  can be deleted once the LFS system has been finished, it can be retained to build
+  additional LFS systems <emphasis>of the same book version</emphasis>. How best
+  to backup <filename class="directory">$LFS/tools</filename> is a matter of
+  personal preference.</para>
+
+  <para>LFSシステムの構築が終われば、<filename class="directory">$LFS/tools</filename>ディレクトリは削除できますが、<emphasis>同じバージョン</emphasis>のLFSシステムを追加で構築するために、<filename class="directory">$LFS/tools</filename>を保持することも出来ます。
+  <filename class="directory">$LFS/tools</filename>をバックアップするベストな方法は、個人の好みの問題となりますのでここでは言及しません。
+  </para>
+
+  <caution>
+    <para>If you intend to keep the temporary tools for use in building future LFS
+    systems, <emphasis>now</emphasis> is the time to back them up. Subsequent
+    commands in chapter 6 will alter the tools currently in place, rendering them
+    useless for future builds.</para>
+    <para>将来のLFSシステム構築時のためにテンポラリツールを保持するのであれば、<emphasis>今</emphasis>がテンポラリツールをバックアップするタイミングです。
+    第6章で実行するコマンドによって、現在のテンポラリツールが変更され、将来のLFSシステム構築に使用できなくなります。
+    </para>
+  </caution>
+
+</sect1>

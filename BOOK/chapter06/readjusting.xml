@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8755 -->
+
+<sect1 id="ch-system-readjusting">
+  <?dbhtml filename="readjusting.html"?>
+
+  <!--<title>Re-adjusting the Toolchain</title>-->
+  <title>Toolchainの再調整</title>
+
+  <para>Now that the final C libraries have been installed, it is time to adjust
+  the toolchain again. The toolchain will be adjusted so that it will link any
+  newly compiled program against these new libraries. This is a similar process
+  used in the <quote>Adjusting</quote> phase in the beginning of <xref
+  linkend="chapter-temporary-tools"/>, but with the adjustments reversed. In <xref
+  linkend="chapter-temporary-tools"/>, the chain was guided from the host's
+  <filename class="directory">/{,usr/}lib</filename> directories to the new
+  <filename class="directory">/tools/lib</filename> directory. Now, the chain will
+  be guided from that same <filename class="directory">/tools/lib</filename>
+  directory to the LFS <filename class="directory">/{,usr/}lib</filename>
+  directories.</para>
+
+  <para>これで最終的なCライブラリがインストールされました。ここでまた、toolchainを調整します。
+  新しくコンパイルされるどのプログラムも、これら新しいライブラリに対してリンクするようにするため、Toolchainを調整します。
+  これは、<xref linkend="chapter-temporary-tools"/>のはじめに行った、<quote>調整</quote>の段階で用いた手順と似ています。
+  しかし、今回はそのときとは逆の調整を行います。
+  <xref linkend="chapter-temporary-tools"/>では、toolchainは、ホストシステムの<filename class="directory">/{,usr/}lib</filename>ディレクトリから、新しい<filename class="directory">/tools/lib</filename>ディレクトリへ導かれていました。
+  今回toolchainは、同じ<filename class="directory">/tools/lib</filename>ディレクトリから、<filename class="directory">/{,usr/}lib</filename>に導かれます。
+  </para>
+
+  <para>First, backup the <filename class="directory">/tools</filename> linker,
+  and replace it with the adjusted linker we made in chapter 5. We'll also create
+  a link to its counterpart in <filename class="directory">/tools/$(gcc
+  -dumpmachine)/bin</filename>:</para>
+
+  <para>最初に、<filename class="directory">/tools</filename>のリンカをバックアップし、第5章で作った調整済みのリンカで置き換えます。
+  また、<filename class="directory">/tools/$(gcc -dumpmachine)/bin</filename>に対応するリンクを作ります：
+  </para>
+
+<screen><userinput>mv -v /tools/bin/{ld,ld-old}
+mv -v /tools/$(gcc -dumpmachine)/bin/{ld,ld-old}
+mv -v /tools/bin/{ld-new,ld}
+ln -sv /tools/bin/ld /tools/$(gcc -dumpmachine)/bin/ld</userinput></screen>
+
+  <para>Next, amend the GCC specs file so that it points to the new
+  dynamic linker. Simply deleting all instances of <quote>/tools</quote> should
+  leave us with the correct path to the dynamic linker. Also adjust the specs file
+  so that GCC knows where to find the correct headers and Glibc start files.
+  A <command>sed</command> command accomplishes this:</para>
+  <para>次に、新しいダイナミックリンカを指し示すようにするため、GCCのspecsファイルを修正します。
+  単に、全ての<quote>/tools</quote>行を削除することで、ダイナミックリンカに対する正しいパスが残るはずです。
+  また、正しいヘッダファイルやGlibcのスタートファイルが存在する場所をGCCに知らせるためにも、specsファイルを調整します。
+  次の<command>sed</command>コマンドでこれら修正を実施します：</para>
+
+<screen><userinput>gcc -dumpspecs | sed -e 's@/tools@@g' \
+    -e '/\*startfile_prefix_spec:/{n;s@.*@/usr/lib/ @}' \
+    -e '/\*cpp:/{n;s@$@ -isystem /usr/include@}' &gt; \
+    `dirname $(gcc --print-libgcc-file-name)`/specs</userinput></screen>
+
+  <para>It is a good idea to visually inspect the specs file to verify the
+  intended change was actually made.</para>
+
+  <para>意図した変更が実際に行われているか確かめるため、specsファイルの内容を調べるのはいい考えです。</para>
+
+  <para>It is imperative at this point to ensure that the basic
+  functions (compiling and linking) of the adjusted toolchain are working
+  as expected. To do this, perform the following sanity checks:</para>
+
+  <para>調整したtoolchainの基本的な機能(コンパイルやリンク)が、期待通りに動くことを確実にすることは、この時点で絶対に必要です。
+  これを行うには、次のサニティチェックを実行します：
+  </para>
+
+<screen os="a"><userinput>echo 'main(){}' &gt; dummy.c
+cc dummy.c -v -Wl,--verbose &amp;&gt; dummy.log
+readelf -l a.out | grep ': /lib'</userinput></screen>
+
+  <para os="b">If everything is working correctly, there should be no errors,
+  and the output of the last command will be (allowing for
+  platform-specific differences in dynamic linker name):</para>
+
+  <para os="b">もし全てが正しい場合は、エラーは発生せず、上記の最後のコマンドの出力は以下のようになります(プラットフォームの仕様によるダイナミックリンカの名前の違いは問題ありません)。
+  </para>
+
+<screen os="c"><computeroutput>[Requesting program interpreter: /lib/ld-linux.so.2]</computeroutput></screen>
+
+  <para>Note that <filename class="directory">/lib</filename> is now
+  the prefix of our dynamic linker.</para>
+
+  <para><filename class="directory">/lib</filename>は、今やダイナミックリンカのプリフィックスになっていることに留意してください。</para>
+
+  <para os="d">Now make sure that we're setup to use the correct startfiles:</para>
+
+  <para os="d">正しいスタートファイルを使うようにセットアップされたことを確認しましょう：</para>
+
+<screen os="e"><userinput>grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log</userinput></screen>
+
+  <para os="f">If everything is working correctly, there should be no errors,
+    and the output of the last command will be:</para>
+
+  <para os="f">もし全てが正しいのであれば、エラーは表示されず、最後のコマンドの出力は次のようになります：</para>
+
+<screen><computeroutput>/usr/lib/crt1.o succeeded
+/usr/lib/crti.o succeeded
+/usr/lib/crtn.o succeeded</computeroutput></screen>
+
+  <para os="g">Verify that the compiler is searching for the correct header
+  files:</para>
+
+  <para os="g">コンパイラが正しいヘッダファイルを探しにいくことを確かめます：</para>
+
+<screen><userinput>grep -B1 '^ /usr/include' dummy.log</userinput></screen>
+
+  <para os="h">This command should return successfully with the following output:</para>
+
+  <para os="h">このコマンドは、次の出力が返されるはずです：</para>
+
+<screen><computeroutput>#include &lt;...&gt; search starts here:
+ /usr/include</computeroutput></screen>
+
+  <para os="i">Next, verify that the new linker is being used with the correct search paths:</para>
+
+  <para os="i">次に、新しいリンカが正しいサーチパスで使用されることを確認します：</para>
+
+<screen os="j"><userinput>grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'</userinput></screen>
+
+  <para os="k">If everything is working correctly, there should be no errors,
+  and the output of the last command (allowing for platform-specific target triplets)
+  will be:</para>
+
+  <para os="k">全てが正しく動作する場合は、エラーは出力されず、直前のコマンドの出力は次のとおりになるはずです(プラットフォーム固有のターゲットの三つ揃い[i686-pc-linux]が異なるのは問題ないです)：</para>
+
+<screen><computeroutput>SEARCH_DIR("/tools/i686-pc-linux-gnu/lib")
+SEARCH_DIR("/usr/lib")
+SEARCH_DIR("/lib");</computeroutput></screen>
+
+  <para os="l">Next make sure that we're using the correct libc:</para>
+
+  <para os="l">次に、正しいlibcが使われることを確認します：</para>
+
+<screen os="m"><userinput>grep "/lib.*/libc.so.6 " dummy.log</userinput></screen>
+
+  <para os="n">If everything is working correctly, there should be no errors,
+  and the output of the last command (allowing for a lib64 directory on 64-bit hosts)
+  will be:</para>
+
+  <para os="n">全てが正しく動作するのであれば、エラーは出力されず、直前のコマンドの出力は次のようになるはずです(64-bitホストではlib64となります)：</para>
+
+<screen os="o"><computeroutput>attempt to open /lib/libc.so.6 succeeded</computeroutput></screen>
+
+  <para os="p">Lastly, make sure GCC is using the correct dynamic linker:</para>
+
+  <para os="p">最後に、GCCが正しいダイナミックリンカを使用することを確認します：</para>
+
+<screen os="q"><userinput>grep found dummy.log</userinput></screen>
+
+  <para os="r">If everything is working correctly, there should be no errors,
+  and the output of the last command will be (allowing for
+  platform-specific differences in dynamic linker name and a lib64 directory
+  on 64-bit hosts):</para>
+
+  <para os="r">全てがうまくいっているのであれば、エラーは出力されず、コマンドの出力は次のようになるはずです(プラットフォームの仕様によるダイナミックリンカの名前の違いと、64-bitホストでのlib64という出力は問題ありません)</para>
+
+<screen os="s"><computeroutput>found ld-linux.so.2 at /lib/ld-linux.so.2</computeroutput></screen>
+
+  <para os="t">If the output does not appear as shown above or is not received
+  at all, then something is seriously wrong. Investigate and retrace the
+  steps to find out where the problem is and correct it. The most likely
+  reason is that something went wrong with the specs file adjustment. Any
+  issues will need to be resolved before continuing on with the process.</para>
+
+  <para os="t">もし出力結果が上記のようになっていない場合、または全然出力がない場合、何かがひどくおかしい状態です。
+  もしそうであれば、問題がどこにあるのか見つけるため、修正するために、今までの手順を振り返り詳細に調べてください。
+  よくある原因としては、specsファイルの調整の間違いが挙げられます。
+  LFS構築の手順を進める前に、問題があれば解決する必要があります。</para>
+
+  <para os="u">Once everything is working correctly, clean up the test files:</para>
+
+  <para os="u">全てが正しく動作することが確認できれば、テストファイルを片付けます：</para>
+
+<screen os="v"><userinput>rm -v dummy.c a.out dummy.log</userinput></screen>
+
+</sect1>

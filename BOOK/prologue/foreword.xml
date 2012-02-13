@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9241 -->
+
+<sect1 id="pre-foreword">
+  <?dbhtml filename="foreword.html"?>
+
+  <!--<title>Foreword</title>-->
+  <title>まえがき</title>
+
+<para>My journey to learn and better understand Linux began over a decade ago,
+back in 1998. I had just installed my first Linux distribution and had
+quickly become intrigued with the whole concept and philosophy behind
+Linux.</para> 
+<para>Linuxを学び、より理解しようとする道のりは、10年前の1998年に遡ります。
+私の最初のLinuxディストリビューションをまさにインストールし、Linuxのコンセプトや理念にすぐに興味をそそられました。</para>
+
+<para>There are always many ways to accomplish a single task. The same can be
+said about Linux distributions. A great many have existed over the years.  Some
+still exist, some have morphed into something else, yet others have been
+relegated to our memories.  They all do things differently to suit the needs of
+their target audience.  Because so many different ways to accomplish the same
+end goal exist, I began to realize I no longer had to be limited by any one
+implementation. Prior to discovering Linux, we simply put up with issues in
+other Operating Systems as you had no choice. It was what it was, whether you
+liked it or not. With Linux, the concept of choice began to emerge.  If you
+didn't like something, you were free, even encouraged, to change it.</para>
+<para>一つの仕事を達成するには、いつも多くの方法があります。
+Linuxディストリビューションについても同じことが言えます。
+長い年月の間、とてもたくさんのディストリビューションが存在してきました。
+いくつかは現在も存在し、いくつかはその他のディストリビューションに姿を変え、もう私たちの記憶へ追いやられています。
+それらディストリビューションは全て、ターゲットとする顧客のニーズに合わせて、別々に変化しています。
+同じゴールに向かう色々な方法があるので、私はもはや一つの手段に制限されることはないということに気づくことから始めました。
+Linuxを見つける前は、私たちは、選択の余地がないような他のOSの問題点に対して、我慢するだけでした。
+あなたが好もうが、好まなかろうが、そういうことだったのです。
+Linuxでは、選択の考え方が広がり始めました。
+もしあなたが何か気に入らないのであれば、自由に自信を持って変えればいいのです。
+</para>
+
+<para>I tried a number of distributions and could not decide on any one. They
+were great systems in their own right. It wasn't a matter of right and
+wrong anymore. It had become a matter of personal taste. With all that
+choice available, it became apparent that there would not be a single
+system that would be perfect for me. So I set out to create my own Linux
+system that would fully conform to my personal preferences.</para>
+<para>私はたくさんのディストリビューションを試してきましたが、どれを使うか決めることが出来ませんでした。
+それらディストリビューションは、とても良いシステムでした。
+しかし、良い・悪いの問題ではなかったのです。
+言ってみれば、個人的な趣味の問題になっていたのです。
+全て選択が可能で、私にとってパーフェクトなシステムがあることが、明らかになってきました。
+そのようなことで、私の個人的な好みに完全に一致するような、私自身のLinuxを作成し始めました。</para>
+
+<para>To truly make it my own system, I resolved to compile everything from
+source code instead of using pre-compiled binary packages. This
+<quote>perfect</quote> Linux system would have the strengths of various
+systems without their perceived weaknesses. At first, the idea was rather
+daunting. I remained committed to the idea that such a system could be
+built.</para>
+<para>真に私自身のシステムを作るため、バイナリパッケージを使用する代わりに、全てをソースからコンパイルすることを固く決心しました。
+この<quote>パーフェクト</quote>なLinuxシステムは、脆弱さを見せることなしに様々な長所を持つことでしょう。
+最初、この考えはかなり手ごわいものでした。
+しかし、私は、そのようなシステムを構築するというアイデアに全力を尽くし続けていました。
+</para>
+
+<para>After sorting through issues such as circular dependencies and compile-time
+errors, I finally built a custom-built Linux system. It was fully
+operational and perfectly usable like any of the other Linux systems out
+there at the time. But it was my own creation. It was very satisfying to
+have put together such a system myself. The only thing better would have
+been to create each piece of software myself. This was the next best
+thing.</para>
+<para>パッケージ間の循環依存や、コンパイルエラーのような問題をかき分けて調べたあと、私はついにカスタムビルドのLinuxシステムを構築しました。
+それは、現時点で世の中にある他のLinuxシステムのように、完全に使えるものでした。
+しかし、それは私自身の作成したものでした。
+あなた自身がそのようなシステムを組み立てることに、とても満足します。
+それよりも良いことは、私自身で構成するソフトウェアそれぞれを作ることです。
+これは次の目標としていました。
+</para>
+
+<para>As I shared my goals and experiences with other members of the Linux
+community, it became apparent that there was a sustained interest in these
+ideas. It quickly became plain that such custom-built Linux systems
+serve not only to meet user specific requirements, but also serve as an
+ideal learning opportunity for programmers and system administrators to
+enhance their (existing) Linux skills. Out of this broadened interest, the
+<emphasis>Linux From Scratch Project</emphasis> was born.</para>
+<para>Linuxコミュニティの他のメンバーと、私の目標と経験を共有した時、これらアイデアには継続した興味があることが明らかになりました。
+また、そのようなカスタムビルドのLinuxシステムは、ユーザ特有の要求に合うだけでなく、プログラマーやシステム管理者に彼らの(現在の)Linuxスキルを強化する理想的な学習の機会を提供します。
+この広がる興味によって、<emphasis>Linux From Scratch Project</emphasis>は生まれました。</para>
+
+<para>This Linux From Scratch book is the central core around that project. It
+provides the background and instructions necessary for you to design and
+build your own system. While this book provides a template that will result
+in a correctly working system, you are free to alter the instructions to
+suit yourself, which is, in part, an important part of this project. You
+remain in control; we just lend a helping hand to get you started on your
+own journey.</para>
+<para>このLinux From Scratchブックは、プロジェクトの中心となるものです。
+このブックは、あなた自身のシステムをデザイン・構築するために必要な背景と手順を提供します。
+このブックは、結果的に正しく動作するシステムのテンプレートを提供しますが、自分に合ったように手順を変更しても構いません。このことは、このプロジェクトの重要なことです。
+あなたは主導権を持っています。私たちは、あなたが自分自身の(Linuxシステムを構築するという)旅を始めるための手助けを行います。</para>
+
+<para>I sincerely hope you will have a great time working on your own Linux From
+Scratch system and enjoy the numerous benefits of having a system that is
+truly your own.</para>
+<para>あなた自身のLinux From Scratchシステムで良い時間を過ごすことと、真に自分自身のシステムを持つ数々のメリットを楽しむことを心から望みます。
+</para>
+
+<literallayout>--
+Gerard Beekmans
+gerard@linuxfromscratch.org</literallayout>
+
+</sect1>

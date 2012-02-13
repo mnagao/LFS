@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8768 -->
+
+<sect1 id="ch-scripts-network">
+  <?dbhtml filename="network.html"?>
+
+  <!--<title>Configuring the network Script</title>-->
+  <title>ネットワークスクリプトの設定</title>
+
+  <indexterm zone="ch-scripts-network">
+    <primary sortas="d-network">network</primary>
+  <secondary>configuring</secondary></indexterm>
+
+  <para>This section only applies if a network card is to be
+  configured.</para>
+  <para>ネットワークカードを設定する場合のみ、このセクションの手順を行ってください。</para>
+
+  <para>If a network card will not be used, there is likely no need to
+  create any configuration files relating to network cards. If that is
+  the case, remove the <filename class="symlink">network</filename>
+  symlinks from all run-level directories (<filename
+  class="directory">/etc/rc.d/rc*.d</filename>).</para>
+  <para>もしネットワークカードを使用するつもりがないのであれば、ネットワークカードに関する設定ファイルを作成する必要はないと思います。
+  もしそうであれば、全てのrun-levelディレクトリ(<filename class="directory">/etc/rc.d/rc*.d</filename>)から、シンボリックリンク<filename class="symlink">network</filename>を削除してください。</para>
+
+  <sect2>
+    <!--<title>Creating stable names for network interfaces</title>-->
+    <title>ネットワークインタフェースに固定的な名前を付ける</title>
+
+    <para>With Udev and modular network drivers, the network interface numbering
+    is not persistent across reboots by default, because the drivers are loaded
+    in parallel and, thus, in random order. For example, on a computer having
+    two network cards made by Intel and Realtek, the network card manufactured
+    by Intel may become <filename class="devicefile">eth0</filename> and the
+    Realtek card becomes  <filename class="devicefile">eth1</filename>. In some
+    cases, after a reboot the cards get renumbered the other way around. To
+    avoid this, Udev comes with a script and some rules to assign stable names
+    to network cards based on their MAC address.</para>
+    <para>Udevとmodularネットワークドライバにおいて、ネットワークインタフェースの番号付けは、デフォルトではブート毎に固定されません。
+    なぜなら、ドライバは並行してロードされ、その結果ランダムな順番で認識されるからです。
+    例えば、コンピュータにIntelとRealtekの2つのネットワークカードが存在している場合、Intelの方が<filename class="devicefile">eth0</filename>で、Realtekが<filename class="devicefile">eth1</filename>と認識されるかもしれません。
+    リブートの後、カードには異なった順番で番号付けされることがあります。
+    これを避けるには、Udevに付属するスクリプトと、MACアドレスによってネットワークカードに固定的な名称を割り当てるルールを作る方法があります。</para>
+
+    <para>Pre-generate the rules to ensure the same names get assigned to the
+    same devices at every boot, including the first:</para>
+    <para>ブートの際、デバイスに同じ名称を割り付けるルールを事前に作成します：</para>
+
+<screen><userinput>for NIC in /sys/class/net/* ; do
+    INTERFACE=${NIC##*/} udevadm test --action=add $NIC
+done</userinput></screen>
+
+    <para>Now, inspect the <filename>/etc/udev/rules.d/70-persistent-net.rules</filename>
+    file, to find out which name was assigned to which network device:</para>
+    <para>では、<filename>/etc/udev/rules.d/70-persistent-net.rules</filename>の内容を確認し、どのネットワークデバイスにどの名称が割り付けられているか調べます：</para>
+
+<screen><userinput>cat /etc/udev/rules.d/70-persistent-net.rules</userinput></screen>
+
+    <para>The file begins with a comment block followed by two lines for each
+    NIC. The first line for each NIC is a commented description showing its
+    hardware IDs (e.g. its PCI vendor and device IDs, if it's a PCI card),
+    along with its driver in parentheses, if the driver can be found. Neither
+    the hardware ID nor the driver is used to determine which name to give an
+    interface; this information is only for reference. The second line is the
+    Udev rule that matches this NIC and actually assigns it a name.</para>
+    <para>このファイルは、1枚のNICに対して2行のコメント行で始まります。
+    それぞれのNICの最初の行はコメントで、そのハードウェアID(例えば、PCIカードであればベンダーとデバイスID)、ドライバが見つかれば、カッコ内にそのドライバ名が記述されています。
+    ハードウェアIDもドライバも、インタフェースに与える名称を決めるためには使用されません。この情報は参照するためだけのものです。
+    2行目は、そのNICにマッチしたUdevルールと実際にNICに割り当てた名称です。</para>
+
+    <para>All Udev rules are made up of several keys, separated by commas and
+    optional whitespace. This rule's keys and an explanation of each of them
+    are as follows:</para>
+    <para>Udevルールはカンマと任意のスペースで区切られた、いくつかのキーから構成されています。
+    キーとそれぞれの説明は以下のとおりです：</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><literal>SUBSYSTEM=="net"</literal> - This tells Udev to ignore
+        devices that are not network cards.</para>
+        <para><literal>SUBSYSTEM=="net"</literal> - Udevに対して、ネットワークカードではないデバイスを無視するように指示します。</para>
+      </listitem>
+      <listitem> 
+        <para><literal>ACTION=="add"</literal> - This tells Udev to ignore this 
+        rule for a uevent that isn't an add ("remove" and "change" uevents also 
+        happen, but don't need to rename network interfaces).</para>
+        <para><literal>ACTION=="add"</literal> - Udevに対して、追加ではないueventに対するルールを無視するように指示します。
+        ("remove"と"change" ueventも発生しますが、ネットワークインタフェース名を変更する必要はありません)</para>
+      </listitem>
+      <listitem>
+        <para><literal>DRIVERS=="?*"</literal> - This exists so that Udev will
+        ignore VLAN or bridge sub-interfaces (because these sub-interfaces do
+        not have drivers). These sub-interfaces are skipped because the name
+        that would be assigned would collide with their parent devices.</para>
+        <para><literal>DRIVERS=="?*"</literal> - UdevがVLANまたはbridgeサブインタフェース(これらサブインタフェースはドライバを持ちません)を無視するようにするため、この設定が存在します。
+        これらサブインタフェースは、割り付けられる名称が親デバイスと衝突するためスキップされます。</para>
+      </listitem>
+      <listitem>
+        <para><literal>ATTRS{address}</literal> - The value of this key is the
+        NIC's MAC address.</para>
+        <para><literal>ATTRS{address}</literal> - このキーの値は、NICのMACアドレスです。</para>
+      </listitem>
+      <listitem> 
+        <para><literal>ATTR{type}=="1"</literal> - This ensures the rule only 
+        matches the primary interface in the case of certain wireless drivers, 
+        which create multiple virtual interfaces. The secondary interfaces are 
+        skipped for the same reason that VLAN and bridge sub-interfaces are 
+        skipped: there would be a name collision otherwise.</para>
+        <para><literal>ATTR{type}=="1"</literal> - 複数の仮想インタフェースを作るような、特定のワイヤレスドライバにおいて、プライマリインタフェースだけにマッチすることを保証します。
+        VLANやブリッジ・サブインタフェースがスキップされることと同じ理由で、セカンダリインタフェースはスキップされます。さもなければ名称の衝突が起こります。</para>
+      </listitem> 
+      <listitem> 
+        <para><literal>KERNEL=="eth*"</literal> - This key was added to the 
+        Udev rule generator to handle machines that have multiple network 
+        interfaces, all with the same MAC address (the PS3 is one such 
+        machine).  If the independent interfaces have different basenames, 
+        this key will allow Udev to tell them apart.  This is generally not 
+        necessary for most Linux From Scratch users, but does not hurt.</para>
+        <para><literal>KERNEL=="eth*"</literal> - 同じMACアドレスである複数のネットワークインタフェースを持つマシンに対処するため、Udevルール・ジェネレータにこのキーが追加されました(例えば、PS3がそのようなマシンです)。
+        もしそれぞれの独立したインタフェースが異なるベースネームを持つ場合、このキーによってUdevがそれらインタフェースを区別するようにします。
+        ほとんどのLinux From Scratchのユーザにとって、通常はこの設定は不要ですが、設定が存在しても害はありません。</para>
+      </listitem>
+      <listitem>
+        <para><literal>NAME</literal> - The value of this key is the name that
+        Udev will assign to this interface.</para>
+        <para><literal>NAME</literal> - このキーの値は、Udevがこのインタフェースに割り当てようとする名称です。</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The value of <literal>NAME</literal> is the important part. Make sure
+    you know which name has been assigned to each of your network cards before
+    proceeding, and be sure to use that <literal>NAME</literal> value when
+    creating your configuration files below.</para>
+    <para><literal>NAME</literal>の値は重要な役目をします。
+    処理の前にネットワークカードそれぞれにどの名称が割り当てられるか確認してください。
+    そして以下のとおり設定ファイルを作成するときに、必ずその<literal>NAME</literal>の値を使用してください。
+    </para>
+
+  </sect2>
+
+  <sect2>
+    <!--<title>Creating Network Interface Configuration Files</title>-->
+    <title>ネットワークインタフェースの設定ファイルの作成</title>
+
+    <para>Which interfaces are brought up and down by the network script
+    depends on the files and directories in the <filename
+    class="directory">/etc/sysconfig/network-devices</filename> hierarchy.
+    This directory should contain a sub-directory for each interface to be
+    configured, such as <filename>ifconfig.xyz</filename>, where
+    <quote>xyz</quote> is a network interface name. Inside this directory
+    would be files defining the attributes to this interface, such as its IP
+    address(es), subnet masks, and so forth.</para>
+    <para>ネットワークスクリプトによってどのインタフェースが起動・停止されるかは、<filename class="directory">/etc/sysconfig/network-devices</filename>階層のファイル・ディレクトリによって決まります。
+    このディレクトリには、インタフェース毎に<filename>ifconfig.xyz</filename>の形式のサブディレクトリを用意する必要があります。
+    <quote>xyz</quote>はネットワークインタフェースの名前です。
+    このサブディレクトリの中には、IPアドレス、サブネットマスク等のインタフェースの設定を書いたファイルを置きます。
+    </para>
+
+    <para>The following command creates a sample <filename>ipv4</filename>
+    file for the <emphasis>eth0</emphasis> device:</para>
+    <para>以下のコマンドは、<emphasis>eth0</emphasis>デバイスの<filename>ipv4</filename>用のサンプル設定を作成します：</para>
+
+<screen><userinput>cd /etc/sysconfig/network-devices
+mkdir -v ifconfig.eth0
+cat &gt; ifconfig.eth0/ipv4 &lt;&lt; "EOF"
+<literal>ONBOOT=yes
+SERVICE=ipv4-static
+IP=192.168.1.1
+GATEWAY=192.168.1.2
+PREFIX=24
+BROADCAST=192.168.1.255</literal>
+EOF</userinput></screen>
+
+    <para>The values of these variables must be changed in every file to match
+    the proper setup. If the <envar>ONBOOT</envar> variable is set to
+    <quote>yes</quote> the network script will bring up the Network Interface
+    Card (NIC) during booting of the system. If set to anything but
+    <quote>yes</quote> the NIC will be ignored by the network script and not
+    be brought up.</para>
+    <para>これら変数の値は、正しい設定に合わせるため、それぞれのファイルで変更する必要があります。
+    もし<envar>ONBOOT</envar>が<quote>yes</quote>に設定されている場合、ネットワークスクリプトはブート時にNIC(Network Interface Card)を起動します。
+    もし<quote>yes</quote>以外に設定されている場合は、NICはネットワークスクリプトから無視され、起動されません。</para>
+
+    <para>The <envar>SERVICE</envar> variable defines the method used for
+    obtaining the IP address. The LFS-Bootscripts package has a modular IP
+    assignment format, and creating additional files in the <filename
+    class="directory">/etc/sysconfig/network-devices/services</filename>
+    directory allows other IP assignment methods. This is commonly used for
+    Dynamic Host Configuration Protocol (DHCP), which is addressed in the
+    BLFS book.</para>
+    <para><envar>SERVICE</envar>はIPアドレスを取得するための方法を定義します。
+    LFS-Bootscriptsパッケージはモジュール化されたIP割り当ての形式を持っており、<filename class="directory">/etc/sysconfig/network-devices/services</filename>ディレクトリに追加のファイルを作成することで、他のIP割り当て方法を追加することが出来ます。
+    これは一般にDHCP(Dynamic Host Configuration Protocol)で使用され、BLFSブックの中で取り扱っています。</para>
+
+    <para>The <envar>GATEWAY</envar> variable should contain the default
+    gateway IP address, if one is present. If not, then comment out the
+    variable entirely.</para>
+    <para><envar>GATEWAY</envar>は、もし存在するならば、デフォルトゲートウェイのIPアドレスをセットします。
+    もしセットしなければ、変数を完全にコメントアウトしてください。</para>
+
+    <para>The <envar>PREFIX</envar> variable needs to contain the number of
+    bits used in the subnet. Each octet in an IP address is 8 bits. If the
+    subnet's netmask is 255.255.255.0, then it is using the first three octets
+    (24 bits) to specify the network number. If the netmask is 255.255.255.240,
+    it would be using the first 28 bits.  Prefixes longer than 24 bits are
+    commonly used by DSL and cable-based Internet Service Providers (ISPs).
+    In this example (PREFIX=24), the netmask is 255.255.255.0. Adjust the
+    <envar>PREFIX</envar> variable according to your specific subnet.</para>
+    <para><envar>PREFIX</envar>はサブネットとして使用するビットの数をセットします。
+    IPアドレスのそれぞれのオクテットは8ビットです。
+    もしサブネットマスクが255.255.255.0であれば、ネットワークアドレスの指定に、最初の3つのオクテット(24ビット)を使用します。
+    24ビットを越えるPrefixは、一般にDSLやケーブルのISP(Internet Service Provider)で使用されます。
+    この例では(PREFIX=24)、ネットマスクは255.255.255.0となります。
+    ここではあなたのサブネットに合わせて<envar>PREFIX</envar>の設定を調整してください。</para>
+  </sect2>
+
+  <sect2 id="resolv.conf">
+    <!--<title>Creating the /etc/resolv.conf File</title>-->
+    <title>/etc/resolv.confファイルの作成 </title>
+
+    <indexterm zone="resolv.conf">
+      <primary sortas="e-/etc/resolv.conf">/etc/resolv.conf</primary>
+    </indexterm>
+
+    <para>If the system is going to be connected to the Internet, it will
+    need some means of Domain Name Service (DNS) name resolution to
+    resolve Internet domain names to IP addresses, and vice versa. This is
+    best achieved by placing the IP address of the DNS server, available
+    from the ISP or network administrator, into
+    <filename>/etc/resolv.conf</filename>. Create the file by running the
+    following:</para>
+    <para>もしシステムをインターネットに接続するつもりであれば、ドメイン名からIPアドレスを引くために、DNS(Domain Name Service)の名前解決の手段が必要になります。
+    これを実現する最良の方法は、ISPまたはネットワーク管理者から得られるDNSサーバのIPアドレスを<filename>/etc/resolv.conf</filename>に設定することです。
+    このファイルを次の通り作成します：</para>
+
+<screen><userinput>cat &gt; /etc/resolv.conf &lt;&lt; "EOF"
+<literal># Begin /etc/resolv.conf
+
+domain <replaceable>&lt;Your Domain Name&gt;</replaceable>
+nameserver <replaceable>&lt;IP address of your primary nameserver&gt;</replaceable>
+nameserver <replaceable>&lt;IP address of your secondary nameserver&gt;</replaceable>
+
+# End /etc/resolv.conf</literal>
+EOF</userinput></screen>
+
+    <para>Replace <replaceable>&lt;IP address of the nameserver&gt;</replaceable>
+    with the IP address of the DNS most appropriate for the setup. There will
+    often be more than one entry (requirements demand secondary servers for
+    fallback capability). If you only need or want one DNS server, remove the
+    second <emphasis>nameserver</emphasis> line from the file. The IP address
+    may also be a router on the local network.</para>
+    <para><replaceable>&lt;IP address of the nameserver&gt;</replaceable>を最も適したDNSのIPアドレスに置き換えてください。
+    大抵は1つ以上のDNSを登録します(万が一のため、2つ目のサーバを必要とする)。
+    もし1つのDNSサーバだけでいい場合、ファイルから2番目の<emphasis>nameserver</emphasis>を削除してください。
+    IPアドレスはローカルネットワークのルータかもしれません。</para>
+  </sect2>
+
+</sect1>

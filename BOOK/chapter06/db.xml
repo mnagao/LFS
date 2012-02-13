@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8870 -->
+
+<sect1 id="ch-system-db" role="wrap">
+  <?dbhtml filename="db.html"?>
+
+  <sect1info condition="script">
+    <productname>db</productname>
+    <productnumber>&db-version;</productnumber>
+    <address>&db-url;</address>
+  </sect1info>
+
+  <title>Berkeley DB-&db-version;</title>
+
+  <indexterm zone="ch-system-db">
+    <primary sortas="a-Berkeley-DB">Berkeley DB</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Berkeley DB package contains programs and utilities used by many
+    other applications for database related functions.</para>
+
+    <para>Berkeley DBパッケージは、多くのアプリケーションが使用するデータベース関連のプログラムとユーティリティを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&db-ch6-sbu;</seg>
+        <seg>&db-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <tip>
+      <!--<title>Other Installation Possibilities</title>-->
+      <title>別のインストールの可能性</title>
+
+      <para>There are instructions to build this package in the BLFS book if you
+      need to build the RPC server or additional language bindings. The
+      additional language bindings will require additional packages to be
+      installed. See <ulink url="&blfs-root;view/svn/server/databases.html#db"/>
+      for suggested installation instructions.</para>
+
+      <para>もしRPCサーバまたは追加のLanguage Bindingをビルドする必要がある場合に、このパッケージをビルドする手順がBLFSブックにあります。
+      追加のLanguage Bindingは、追加のパッケージをインストールする必要が出てくるでしょう。
+      お勧めのインストール手順を確認するには、<ulink url="&blfs-root;view/svn/server/databases.html#db"/>を参照してください。
+      </para>
+
+      <para>Also, GDBM <emphasis>could</emphasis> be used in place of Berkeley
+      DB to satisfy Man-DB. However, since Berkeley DB is considered a core part
+      of the LFS build, it will not be listed as a dependency for any package in
+      the BLFS book. Likewise, many hours go into testing LFS with Berkeley DB
+      installed, not with GDBM. If you fully understand the risks versus
+      benefits of using GDBM and wish to use it anyway, see the BLFS
+      instructions located at <ulink
+      url="&blfs-root;view/svn/general/gdbm.html"/></para>
+
+      <para>また、Man-DBの条件を満たすため、Berkely DBの代わりにGDBMを使用することが<emphasis>出来ます</emphasis>。
+      しかしながら、Berkeley DBはLFS構築のコアとなる部分なので、BLFSブックのどのパッケージにおいても、依存するパッケージにリストされていません。
+      同じように、GDBMよりも、Berkeley DBがインストールされたLFSが、多くの時間をかけてテストされてきました。
+      もしあなたが、GDBMを使用するリスクと利益を完全に理解し、GDBMをどうにかして使用したいと思っているのであれば、<ulink url="&blfs-root;view/svn/general/gdbm.html"/>にあるBLFSの手順を見てください。
+      </para>
+    </tip>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Berkeley DB</title>-->
+    <title>Berkeley DBのインストール</title>
+
+    <para>Apply an upstream patch so that replication clients can open a
+    sequence:</para>
+    <para>レプリケーションクライアントがシーケンスをオープン出来るようにするため、upstreamパッチを適用します：</para>
+
+<screen><userinput>patch -Np1 -i ../&db-fixes-patch;</userinput></screen>
+
+    <para>Prepare Berkeley DB for compilation:</para>
+    <para>Berkeley DBのコンパイル準備：</para>
+
+<screen><userinput remap="configure">cd build_unix
+../dist/configure --prefix=/usr --enable-compat185 --enable-cxx</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureのオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--enable-compat185</parameter></term>
+        <listitem>
+          <para>This option enables building Berkeley DB 1.85 compatibility
+          API.</para>
+          <para>Berkeley DB 1.85互換APIをビルドします。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-cxx</parameter></term>
+        <listitem>
+          <para>This option enables building C++ API libraries.</para>
+          <para>C++ APIライブラリのビルドを行います。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>It is not possible to test the package meaningfully, because
+    that would involve building Tcl bindings. Tcl bindings cannot be
+    built properly now because Tcl is linked against Glibc in
+    <filename class="directory">/tools</filename>, not against Glibc in
+    <filename class="directory">/usr</filename>.</para>
+
+    <para>意味のあるパッケージのテストを行うことは不可能です。
+    なぜなら、Tcl Bindingの構築が必要になるからです。
+    Tclは<filename class="directory">/tools</filename>のGlibcに対してリンクされており、<filename class="directory">/usr</filename>のGlibcにリンクされていないため、Tcl Bindingは現時点で正しくビルドすることは出来ません。
+    </para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make docdir=/usr/share/doc/db-&db-version; install</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the make parameter:</title>-->
+      <title>makeパラメータの意味：</title>
+
+      <varlistentry>
+        <term><parameter>docdir=...</parameter></term>
+        <listitem>
+          <para>This variable specifies the correct place for the
+          documentation.</para>
+          <para>ドキュメントの正しい位置を指定します。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Fix the ownership of the installed documentation:</para>
+    <para>インストールされたドキュメントの所有者の修正：</para>
+
+<screen><userinput remap="install">chown -Rv root:root /usr/share/doc/db-&db-version;</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-db" role="content">
+    <!--<title>Contents of Berkeley DB</title>-->
+    <title>Berkeley DBの内容：</title>
+
+    <segmentedlist>
+      <segtitle>インストールされるプログラム</segtitle>
+      <segtitle>インストールされるライブラリ</segtitle>
+
+      <seglistitem>
+        <seg>db_archive, db_checkpoint, db_codegen, db_deadlock, db_dump,
+        db_hotbackup, db_load, db_printlog, db_recover, db_stat, db_upgrade, and
+        db_verify</seg>
+        <seg>libdb.{a,so}and libdb_cxx.{a,so}</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <bridgehead renderas="sect3">Short Descriptions</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="db_archive">
+        <term><command>db_archive</command></term>
+        <listitem>
+          <para>Prints the pathnames of log files that are no longer in use</para>
+          <para>使われていないログファイルのパスを表示します。</para>
+          <indexterm zone="ch-system-db db_archive">
+            <primary sortas="b-db_archive">db_archive</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_checkpoint">
+        <term><command>db_checkpoint</command></term>
+        <listitem>
+          <para>A daemon used to monitor and checkpoint database logs</para>
+          <para>データベースログのモニターとチェックポイント処理を行うdaemonです。</para>
+          <indexterm zone="ch-system-db db_checkpoint">
+            <primary sortas="b-db_checkpoint">db_checkpoint</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_codegen"> 
+        <term><command>db_codegen</command></term> 
+        <listitem> 
+          <para>Generates application code to create and configure Berkeley DB 
+          database environments and databases based on a simple description 
+          language, and writes it to one or more output files</para>
+          <para>Berkeley DBデータベース環境の設定および作成と、シンプルな記述言語によるデータベースを作成するアプリケーションコードを生成します。
+          そしてそのアプリケーションコードを1つまたはそれ以上の出力ファイルに書き込みます。
+          </para> 
+          <indexterm zone="ch-system-db db_codegen"> 
+            <primary sortas="b-db_codegen">db_codegen</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="db_deadlock">
+        <term><command>db_deadlock</command></term>
+        <listitem>
+          <para>A daemon used to abort lock requests when deadlocks are
+          detected</para>
+          <para>デッドロックを検知した際、ロックしているリクエストを中止を行うdaemonです。</para>
+          <indexterm zone="ch-system-db db_deadlock">
+            <primary sortas="b-db_deadlock">db_deadlock</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_dump">
+        <term><command>db_dump</command></term>
+        <listitem>
+          <para>Converts database files to a plain-text file format readable
+          by <command>db_load</command></para>
+          <para>データベースファイルを<command>db_load</command>コマンドで読み込み可能なプレーンテキストファイルに変換します。</para>
+          <indexterm zone="ch-system-db db_dump">
+            <primary sortas="b-db_dump">db_dump</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_hotbackup">
+        <term><command>db_hotbackup</command></term>
+        <listitem>
+          <para>Creates <quote>hot backup</quote> or <quote>hot failover</quote>
+          snapshots of Berkeley DB databases</para>
+          <para>Berkeley DB データベースの<quote>hot backup</quote>または<quote>hot failover</quote>のスナップショットを作成します。</para>
+          <indexterm zone="ch-system-db db_hotbackup">
+            <primary sortas="b-db_hotbackup">db_hotbackup</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_load">
+        <term><command>db_load</command></term>
+        <listitem>
+          <para>Is used to create database files from plain-text files</para>
+          <para>プレーンテキストファイルからデータベースファイルを作るために使用されます。</para>
+          <indexterm zone="ch-system-db db_load">
+            <primary sortas="b-db_load">db_load</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_printlog">
+        <term><command>db_printlog</command></term>
+        <listitem>
+          <para>Converts database log files to human readable text</para>
+          <para>データベースログファイルを人が読めるテキスト形式に変換します。</para>
+          <indexterm zone="ch-system-db db_printlog">
+            <primary sortas="b-db_printlog">db_printlog</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_recover">
+        <term><command>db_recover</command></term>
+        <listitem>
+          <para>Is used to restore a database to a consistent state after a
+          failure</para>
+          <para>障害のあと、データベースを一貫性の取れた状態に回復させるために使用されます。</para>
+          <indexterm zone="ch-system-db db_recover">
+            <primary sortas="b-db_recover">db_recover</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_stat">
+        <term><command>db_stat</command></term>
+        <listitem>
+          <para>Displays statistics for Berkeley databases</para>
+          <para>Berkeley データベースの統計情報を表示します。</para>
+          <indexterm zone="ch-system-db db_stat">
+            <primary sortas="b-db_stat">db_stat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_upgrade">
+        <term><command>db_upgrade</command></term>
+        <listitem>
+          <para>Is used to upgrade database files to a newer version of
+          Berkeley DB</para>
+          <para>データベースファイルを新しいBerkeley DBのバージョン用にアップグレードします。</para>
+          <indexterm zone="ch-system-db db_upgrade">
+            <primary sortas="b-db_upgrade">db_upgrade</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="db_verify">
+        <term><command>db_verify</command></term>
+        <listitem>
+          <para>Is used to run consistency checks on database files</para>
+          <para>データベースファイルの一貫性チェックを実行するために使用されます。</para>
+          <indexterm zone="ch-system-db db_verify">
+            <primary sortas="b-db_verify">db_verify</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+
+      <varlistentry id="libdb">
+        <term><filename class="libraryfile">libdb.{so,a}</filename></term>
+        <listitem>
+          <para>Contains functions to manipulate database files from C
+          programs</para>
+          <para>Cのプログラムからデータベースファイルを操作するためのファンクションを含みます。</para>
+          <indexterm zone="ch-system-db libdb">
+            <primary sortas="c-libdb">libdb</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libdb_cxx">
+        <term><filename class="libraryfile">libdb_cxx.{so,a}</filename></term>
+        <listitem>
+          <para>Contains functions to manipulate database files from C++
+          programs</para>
+          <para>C++のプログラムからデータベースファイルを操作するためのファンクションを含みます。</para>
+          <indexterm zone="ch-system-db libdb_cxx">
+            <primary sortas="c-libdb_cxx">libdb_cxx</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

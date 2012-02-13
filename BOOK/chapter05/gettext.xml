@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9379 -->
+
+<sect1 id="ch-tools-gettext" role="wrap">
+  <?dbhtml filename="gettext.html"?>
+
+  <sect1info condition="script">
+    <productname>gettext</productname>
+    <productnumber>&gettext-version;</productnumber>
+    <address>&gettext-url;</address>
+  </sect1info>
+
+  <title>Gettext-&gettext-version;</title>
+
+  <indexterm zone="ch-tools-gettext">
+    <primary sortas="a-Gettext">Gettext</primary>
+    <secondary>tools</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/gettext.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gettext-ch5-sbu;</seg>
+        <seg>&gettext-ch5-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <title>Gettextのインストール</title>
+
+    <para>For our temporary set of tools, we only need to build and install
+    one binary from Gettext.</para>
+
+    <para>LFS構築に使用する一時的なツールとしては、Gettextパッケージのただ1つのバイナリだけが必要です。
+    </para>
+
+    <para>Prepare Gettext for compilation:</para>
+    <para>Gettextをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">cd gettext-tools
+./configure --prefix=/tools --disable-shared</userinput></screen>
+
+    <variablelist>
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--disable-shared</parameter></term>
+        <listitem>
+          <para>We do not need to install any of the shared Gettext libraries at
+          this time, therefore there is no need to build them.</para>
+          <para>この時点では、Gettextの共有ライブラリをインストールする必要はありません。
+          したがって、共有ライブラリをビルドする必要はありません。
+          </para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make -C gnulib-lib
+make -C src msgfmt</userinput></screen>
+
+    <para>As only one binary has been compiled, it is not possible to run the
+    test suite without compiling additional support libraries from the Gettext
+    package. It is therefore not recommended to attempt to run the test suite at
+    this stage.</para>
+
+    <para>この時点では、たった一つのバイナリのみをコンパイルするだけなので、Gettextパッケージの追加のサポートライブラリをコンパイルしなければ、テストツールを実行することは出来ません。
+    したがって、この時点ではテストツールを実行することはお勧めしません。
+    </para>
+
+    <para>Install the <command>msgfmt</command> binary:</para>
+    <para><command>msgfmt</command>バイナリのインストール：</para>
+
+<screen><userinput remap="install">cp -v src/msgfmt /tools/bin</userinput></screen>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-gettext" role="."/></para>
+    <para>このパッケージの詳細は、<xref linkend="contents-gettext" role="."/>にあります。
+    </para>
+  </sect2>
+
+</sect1>

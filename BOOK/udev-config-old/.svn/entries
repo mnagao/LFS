@@ -1,0 +1,82 @@
+8
+
+dir
+9099
+http://svn.linuxfromscratch.org/LFS/tags/6.5/BOOK/udev-config
+http://svn.linuxfromscratch.org/LFS
+
+
+
+2009-05-23T12:29:29.270075Z
+8902
+bdubbs
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4aa44e1e-78dd-0310-a6d2-fbcd4c07a689
+
+contrib
+dir
+
+61-cdrom.rules
+file
+
+
+
+
+2009-11-13T10:27:53.000000Z
+6c51aa84bc0155bd2af7e4f04c3a2ef7
+2008-12-07T17:37:27.696306Z
+8771
+bryan
+
+55-lfs.rules
+file
+
+
+
+
+2009-11-13T10:27:53.000000Z
+927dfdbdbf09a4c980ef3d2784e341ba
+2009-05-23T12:29:29.270075Z
+8902
+bdubbs
+
+doc
+dir
+
+ChangeLog
+file
+
+
+
+
+2009-11-13T10:27:53.000000Z
+eab3eadec1a1f7f212a7e035694ee746
+2009-05-18T05:19:52.662360Z
+8891
+bryan
+
+Makefile
+file
+
+
+
+
+2009-11-13T10:27:53.000000Z
+ab2008ea4d632d6f534d7c546d6d7118
+2008-05-22T23:54:28.758396Z
+8544
+bryan
+

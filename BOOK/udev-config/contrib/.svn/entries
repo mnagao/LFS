@@ -1,0 +1,31 @@
+8
+
+dir
+9410
+http://svn.linuxfromscratch.org/LFS/trunk/BOOK/udev-config/contrib
+http://svn.linuxfromscratch.org/LFS
+
+
+
+2006-07-12T13:54:53.557796Z
+7658
+dnicholson
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4aa44e1e-78dd-0310-a6d2-fbcd4c07a689
+
+debian
+dir
+

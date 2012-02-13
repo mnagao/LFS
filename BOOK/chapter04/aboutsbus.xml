@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9339 -->
+
+<sect1 id="prepare-aboutsbus">
+  <?dbhtml filename="aboutsbus.html"?>
+
+  <title>SBUについて</title>
+
+  <para>Many people would like to know beforehand approximately how long
+  it takes to compile and install each package. Because Linux From
+  Scratch can be built on many different systems, it is impossible to
+  provide accurate time estimates. The biggest package (Glibc) will
+  take approximately 20 minutes on the fastest systems, but could take
+  up to three days on slower systems! Instead of providing actual times,
+  the Standard Build Unit (SBU) measure will be
+  used instead.</para>
+
+  <para>それぞれのパッケージをコンパイル・インストールするおおよその時間を前もって知りたくなるでしょう。
+  Linux From Scratchは多くの様々なシステム上で構築されるため、正確な見積もり時間を出すことは不可能です。
+  最も大きいパッケージ(Glibc)は、高速なシステム上では約20分かかりますが、遅いシステムでは3日間もかかってしまいます！
+  実際の時間の代わりに、Standard Build Unit (SBU)を基準として用います。
+  </para>
+
+  <para>The SBU measure works as follows. The first package to be compiled
+  from this book is Binutils in <xref linkend="chapter-temporary-tools"/>. The
+  time it takes to compile this package is what will be referred to as the
+  Standard Build Unit or SBU. All other compile times will be expressed relative
+  to this time.</para>
+
+  <para>SBUの仕組みは以下のとおりです。本書にて最初にコンパイルを行うパッケージは、<xref linkend="chapter-temporary-tools"/>のBinutilsです。
+  このBinutilsをコンパイルするために必要な時間をStandard Build UnitまたはSBUとします。
+  全ての他のパッケージのコンパイル時間は、このSBUの相対値として表されます。
+  </para>
+
+  <para>For example, consider a package whose compilation time is 4.5
+  SBUs. This means that if a system took 10 minutes to compile and
+  install the first pass of Binutils, it will take
+  <emphasis>approximately</emphasis> 45 minutes to build this example package.
+  Fortunately, most build times are shorter than the one for Binutils.</para>
+
+  <para>例えば、コンパイル時間が4.5 SBUであるパッケージを考えてみましょう。
+  Binutilsの1回目のコンパイルとインストールに10分かかるとすると、そのパッケージをビルドするには、約45分間かかることになります。
+  幸運にもほとんどのパッケージのビルド時間は、Binutilsよりも短いです。
+  </para>
+
+  <para>In general, SBUs are not entirely accurate because they depend on many
+  factors, including the host system's version of GCC. They are provided here
+  to give an estimate of how long it might take to install a package, but the
+  numbers can vary by as much as dozens of minutes in some cases.</para>
+
+  <para>一般的に、ホストシステムのGCCのバージョンを含む多くの要因が関係しているため、SBUは完全には正確ではありません。
+  本書にて、パッケージのインストールにかかる時間見積もりを記載していいますが、いくつかのケースで、その見積もりは大きく変化します。
+  </para>
+
+  <para>To view actual timings for a number of specific machines, we recommend
+  The LinuxFromScratch SBU Home Page at <ulink url="&lfs-root;~sbu/"/>.</para>
+  <para>あるマシンの実際のSBUを確認するには、LinuxFromScratch SBU Home Page (<ulink url="&lfs-root;~sbu/"/>)を見ることをお勧めします。
+  </para>
+
+  <note><para>For many modern systems with multiple processors (or cores) the 
+  compilation time for a package can be reduced by performing a "parallel make" 
+  by either setting an environment variable or telling the 
+  <command>make</command> program how many processors are available.  For 
+  instance, a Core2Duo can support two simultaneous processes with:</para> 
+  <para>マルチプロセッサ(またはマルチコア)を持つ最近の多くのシステムでは、"並行make"を実行することでコンパイル時間を減らすことが出来ます。
+  "並行make"を行うには、環境変数をセットするか<command>make</command>プログラムにいくつのプロセッサが利用可能か指示する方法があります。
+  例えば、Core2Duoであれば2つのプロセスを同時実行出来ます：</para>
+ 
+  <screen><userinput>export MAKEFLAGS='-j 2'</userinput></screen> 
+ 
+  <para>or just building with:</para>
+  <para>または、以下のコマンドでコンパイルします：</para>
+ 
+  <screen><userinput>make -j2</userinput></screen> 
+ 
+  <para>When multiple processors are used in this way, the SBU units in the 
+  book will vary even more than they normally would.  Analyzing the output of 
+  the build process will also be more difficult because the lines of different 
+  processes will be interleaved.  If you run into a problem with a build step, 
+  revert back to a single processor build to properly analyze the error 
+  messages.</para> 
+  <para>このような方法で複数のプロセッサを使用するとき、本書中のSBUとは異なってきます。
+  ビルド中の出力を解析するのが難しくなります。それは複数のプロセスの画面出力が混ざり合ってしまうからです。
+  もしビルドに問題が生じたら、シングルプロセッサのビルドに変えて、エラーメッセージを正しく解析してください。</para>
+ 
+  </note>
+
+</sect1>
+

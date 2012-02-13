@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9353 -->
+
+<sect1 id="ch-system-bison" role="wrap">
+  <?dbhtml filename="bison.html"?>
+
+  <sect1info condition="script">
+    <productname>bison</productname>
+    <productnumber>&bison-version;</productnumber>
+    <address>&bison-url;</address>
+  </sect1info>
+
+  <title>Bison-&bison-version;</title>
+
+  <indexterm zone="ch-system-bison">
+    <primary sortas="a-Bison">Bison</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Bison package contains a parser generator.</para>
+    <para>Bisonパッケージは、パーサー・ジェネレータを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&bison-ch6-sbu;</seg>
+        <seg>&bison-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Bison</title>-->
+    <title>Bisonのインストール</title>
+
+    <para>Prepare Bison for compilation:</para>
+    <para>Bisonをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
+    <para>The configure system causes Bison to be built without support for
+    internationalization of error messages if a <command>bison</command>
+    program is not already in $PATH. The following addition will correct
+    this:</para>
+
+    <para><command>bison</command>が$PATHに存在しない場合、configureはエラーメッセージの国際化サポートなしで、Bisonのビルドを行ってしまいます。
+    次の追加は、その問題を直します。
+    </para>
+
+<screen><userinput remap="configure">echo '#define YYENABLE_NLS 1' &gt;&gt; lib/config.h</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:
+    <userinput>make check</userinput>.</para>
+    <para>コンパイル結果を確認するために、<userinput>make check</userinput>を実行します。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-bison" role="content">
+    <!--<title>Contents of Bison</title>-->
+    <title>Bisonの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed library</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>bison and yacc</seg>
+        <seg>liby.a</seg>
+        <seg>/usr/share/bison</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="bison">
+        <term><command>bison</command></term>
+        <listitem>
+          <para>Generates, from a series of rules, a program for analyzing the
+          structure of text files; Bison is a replacement for Yacc (Yet Another
+          Compiler Compiler)</para>
+          <para>一連のルールから、テキストファイルの構造を解析するためのプログラムを生成します。
+          BisonはYacc(Yet Another Compiler Compiler)の代替品です。</para>
+          <indexterm zone="ch-system-bison bison">
+            <primary sortas="b-bison">bison</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="yacc">
+        <term><command>yacc</command></term>
+        <listitem>
+          <para>A wrapper for <command>bison</command>, meant for programs that
+          still call <command>yacc</command> instead of <command>bison</command>;
+          it calls <command>bison</command> with the <parameter>-y</parameter>
+          option</para>
+          <para><command>bison</command>のラッパーです。
+          <command>bison</command>の代わりに、いまだ<command>yacc</command>を呼んでいるプログラム用のものです。
+          <command>yacc</command>は、<parameter>-y</parameter> オプション付きで<command>bison</command>を呼び出します。
+          </para>
+          <indexterm zone="ch-system-bison yacc">
+            <primary sortas="b-yacc">yacc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="liby.a">
+        <term><filename class="libraryfile">liby.a</filename></term>
+        <listitem>
+          <para>The Yacc library containing implementations of Yacc-compatible
+          <function>yyerror</function> and <function>main</function> functions;
+          this library is normally not very useful, but POSIX requires it</para>
+          <para>Yaccライブラリは、Yacc互換の<function>yyerror</function>と<function>main</function>の実装を含んでいます。
+          このライブラリは、通常はとても便利とはいえませんが、POSIXはこのライブラリを必要としています。</para>
+          <indexterm zone="ch-system-bison liby.a">
+            <primary sortas="c-liby.a">liby.a</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

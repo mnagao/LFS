@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 7970 -->
+
+<sect1 id="space-mounting">
+  <?dbhtml filename="mounting.html"?>
+
+  <title>パーティションのマウント</title>
+
+  <para>Now that a file system has been created, the partition needs to
+  be made accessible. In order to do this, the partition needs to be
+  mounted at a chosen mount point. For the purposes of this book, it is
+  assumed that the file system is mounted under <filename
+  class="directory">/mnt/lfs</filename>, but the directory choice is up
+  to you.</para>
+
+  <para>ファイルシステムが作られたところで、そのパーティションにアクセスできるようにする必要があります。
+  そのためには、パーティションはマウントポイントにマウントされる必要があります。
+  本書では、ファイルシステムは<filename class="directory">/mnt/lfs</filename>にマウントされることを前提とします。
+  ただし、どのディレクトリを選ぶかは、あなた次第です。</para>
+
+  <para>Choose a mount point and assign it to the <envar>LFS</envar>
+  environment variable by running:</para>
+
+  <para>マウントポイントを選び、以下のように環境変数<envar>LFS</envar>を設定してください。</para>
+
+<screen role="nodump"><userinput>export LFS=/mnt/lfs</userinput></screen>
+
+  <para>Next, create the mount point and mount the LFS file system by
+  running:</para>
+
+  <para>次に、マウントポイントを作成し、LFSのファイルシステムを以下のようにマウントしてください。</para>
+
+<screen role="nodump"><userinput>mkdir -pv $LFS
+mount -v -t ext3 /dev/<replaceable>&lt;xxx&gt;</replaceable> $LFS</userinput></screen>
+
+  <para>Replace <replaceable>&lt;xxx&gt;</replaceable> with the designation of the LFS
+  partition.</para>
+
+  <para><replaceable>&lt;xxx&gt;</replaceable> は、LFSのパーティションに置き換えてください。</para>
+
+  <para>If using multiple partitions for LFS (e.g., one for <filename
+  class="directory">/</filename> and another for <filename
+  class="directory">/usr</filename>), mount them using:</para>
+
+  <para>複数のパーティションを使用する場合(例えば、一つは <filename class="directory">/</filename>、もう一つは<filename class="directory">/usr</filename>)、以下のようにマウントを行ってください。
+  </para>
+
+<screen role="nodump"><userinput>mkdir -pv $LFS
+mount -v -t ext3 /dev/<replaceable>&lt;xxx&gt;</replaceable> $LFS
+mkdir -v $LFS/usr
+mount -v -t ext3 /dev/<replaceable>&lt;yyy&gt;</replaceable> $LFS/usr</userinput></screen>
+
+  <para>Replace <replaceable>&lt;xxx&gt;</replaceable> and
+  <replaceable>&lt;yyy&gt;</replaceable> with the appropriate partition
+  names.</para>
+
+  <para><replaceable>&lt;xxx&gt;</replaceable>と <replaceable>&lt;yyy&gt;</replaceable>は、適切なパーティション名に置き換えてください。
+  </para>
+
+  <para>Ensure that this new partition is not mounted with permissions that
+  are too restrictive (such as the <option>nosuid</option>, <option>nodev</option>,
+  or <option>noatime</option> options). Run the <command>mount</command> command
+  without any parameters to see what options are set for the mounted LFS
+  partition. If <option>nosuid</option>, <option>nodev</option>, and/or
+  <option>noatime</option> are set, the partition will need to be
+  remounted.</para>
+
+  <para>この新しいパーティションは、制限の大きい(例えば、<option>nosuid</option>, <option>nodev</option>,<option>noatime</option>オプション)パーミッションでマウントしないようにしてください。
+  </para>
+
+  <para>If you are using a <systemitem
+  class="filesystem">swap</systemitem> partition, ensure that it is enabled
+  using the <command>swapon</command> command:</para>
+
+  <para>もし<systemitem class="filesystem">swap</systemitem>パーティションを使用している場合は、<command>swapon</command> コマンドで有効にしてください。
+  </para>
+
+<screen role="nodump"><userinput>/sbin/swapon -v /dev/<replaceable>&lt;zzz&gt;</replaceable></userinput></screen>
+
+  <para>Replace <replaceable>&lt;zzz&gt;</replaceable> with the name of the
+  <systemitem class="filesystem">swap</systemitem> partition.</para>
+
+  <para><replaceable>&lt;zzz&gt;</replaceable> を<systemitem class="filesystem">swap</systemitem> パーティションの名前に置き換えてください。
+  </para>
+
+  <para>Now that there is an established place to work, it is time to
+  download the packages.</para>
+
+  <para>これで作業の場が整いました。パッケージをダウンロードするときが来ました。
+  </para>
+
+</sect1>
+

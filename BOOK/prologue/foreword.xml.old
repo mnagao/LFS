@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="pre-foreword">
+  <?dbhtml filename="foreword.html"?>
+
+  <title>前書き</title>
+
+  <para>My adventures in Linux began in 1998 when I downloaded and
+  installed my first distribution. After working with it for a while, I
+  discovered issues I definitely would have liked to see improved upon.
+  For example, I didn't like the arrangement of the bootscripts or the way
+  programs were configured by default. I tried a number of alternative
+  distributions to address these issues, yet each had its pros and cons.
+  Finally, I realized that if I wanted full satisfaction from my Linux
+  system, I would have to build my own from scratch.</para>
+
+  <para>私が初めてLinuxディストリビューションをダウンロードしインストールした1998年から、私のLinuxの冒険が始まりました。
+  しばらくそのディストリビューションを使っていると、改善したい部分をいくつか見つけました。
+  例えば、ブートスクリプトの配置やプログラムのデフォルトの設定値が気に入りませんでした。。
+  それらの問題を解決するために、多くのディストリビューションを試してみましたが、満足のいく部分もあれば不満な部分もありました。
+  そこで、完全に満足のいくLinuxシステムを手に入れるためには、自分のためのLinuxシステムを一から作る必要があるという結論に至ったのです。</para>
+
+  <para>What does this mean? I resolved not to use pre-compiled packages
+  of any kind, nor CD-ROMs or boot disks that would install basic
+  utilities. I would use my current Linux system to develop my own
+  customized system. This <quote>perfect</quote> Linux system would then
+  have the strengths of various systems without their associated
+  weaknesses. In the beginning, the idea was rather daunting, but I
+  remained committed to the idea that a system could be built that would
+  conform to my needs and desires rather than to a standard that just
+  did not fit what I was looking for.</para>
+
+  <para>その「結論」は何を意味するのでしょうか？
+  それは、コンパイル済みのパッケージやCD-ROMは使わないように決心したことです。
+  私独自のLinuxシステムを構築するために、現在使用しているLinuxシステムを活用しようと考えました。
+  そして、その<quote>完全</quote>なLinuxシステムは、弱点を持たない強力なものになるでしょう。
+  当初、独自のLinuxを構築することにくじけそうになったこともありましたが、私が思い描いたシステムは構築できるという考えにのめりこみ続けました。
+  </para>
+
+  <para>After sorting through issues such as circular dependencies and
+  compile-time errors, I created a custom-built Linux system that was
+  fully operational and suitable to individual needs. This process also
+  allowed me to create compact and streamlined Linux systems which are
+  faster and take up less space than traditional operating systems. I
+  called this system a Linux From Scratch system, or an LFS system for
+  short.</para>
+
+  <para>プログラム同士の依存関係や、コンパイルエラーのような問題を一つ一つ分類した後、中身を完全に掌握でき、個々のニーズに合わせることが出来るカスタム仕様のLinuxシステムを構築しました。
+  その構築のプロセスで、伝統的なOSよりも動作の軽い、コンパクトなLinuxシステムを作ることが可能となったのです。
+  私はこのシステムをLinux From Scratchシステムあるいは、略してLFSシステムと呼ぶことにしました。</para>
+
+  <para>As I shared my goals and experiences with other members of the
+  Linux community, it became apparent that there was sustained interest
+  in the ideas set forth in my Linux adventures. Such custom-built LFS
+  systems serve not only to meet user specifications and requirements, but
+  also serve as an ideal learning opportunity for programmers and system
+  administrators to enhance their Linux skills. Out of this broadened
+  interest, the Linux From Scratch Project was born.</para>
+
+  <para>LFS構築の目標と経験をLinuxコミュニティのメンバーと共有できたとき、私のLinuxの冒険の中で述べたアイデアが支持されたことが実感できました。
+  LFSシステムは、ユーザーの要求を満たすだけではなく、プログラマーやシステム管理者がスキルを高めるために、理想的な学習の機会を提供します。
+  このような支持の広がりによって、Linux From Scratchプロジェクトは生まれたのです。
+  </para>
+
+  <para>This <emphasis>Linux From Scratch</emphasis> book provides
+  readers with the background and instruction to design and build custom
+  Linux systems. This book highlights the Linux from Scratch project and
+  the benefits of using this system. Users can dictate all aspects of
+  their system, including directory layout, script setup, and security.
+  The resulting system will be compiled completely from the source code,
+  and the user will be able to specify where, why, and how programs are
+  installed. This book allows readers to fully customize Linux systems
+  to their own needs and allows users more control over their
+  system.</para>
+
+  <para>この<emphasis>Linux From Scratch</emphasis>ブックは、カスタム仕様のLinuxシステムをデザイン・構築するために、予備知識と手順を提供します。
+  また、このブックはLinux From ScratchプロジェクトとLFSシステムを使うことの利益に光を当てています。
+  ユーザーは、ディレクトリレイアウト、スクリプト、セキュリティを含むシステムの全ての仕様を決定することが出来ます。
+  構築するシステムは完全にソースコードからコンパイルされ、ユーザーはどこに・なんのために・どのようにプログラムをインストールするか、決めることが出来ます。
+  このLFSブックによって、読者はLinuxシステムを思い通りにカスタマイズすることが可能となります。また、ユーザーはシステムをよりコントロールできるようになります。
+  </para>
+
+  <para>I hope you will have a great time working on your own LFS
+  system, and enjoy the numerous benefits of having a system that is
+  truly <emphasis>your own</emphasis>.</para>
+
+  <para>あなたのLFSシステムによって素晴らしい時間をすごせることを期待します。また、本当に<emphasis>あなた自身</emphasis>のシステムを持つことによるたくさんの利点を楽しめますように。
+  </para>
+<literallayout>--
+Gerard Beekmans
+gerard@linuxfromscratch.org</literallayout>
+
+</sect1>

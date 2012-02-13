@@ -1,0 +1,75 @@
+Making tarballs...
+Creating and cleaning /home/makoto/tmp
+Processing bootscripts...
+Validating the book...
+warning: failed to load external entity "prologue/why.xml"
+prologue/preface.xml:18: element include: XInclude error : could not load prologue/why.xml, and no fallback was found
+chapter01/whatsnew.xml:225: parser error : Entity 'make-upstream_fixes-patch' not defined
+      <para>&make-upstream_fixes-patch;</para>
+                                       ^
+chapter01/whatsnew.xml:233: parser error : Entity 'perl-utf8-patch' not defined
+      <para>&perl-utf8-patch;</para>
+                             ^
+chapter03/patches.xml:133: parser error : Entity 'make-upstream_fixes-patch-size' not defined
+      <term>Make Upstream Fixes Patch - <token>&make-upstream_fixes-patch-size;<
+                                                                               ^
+chapter03/patches.xml:135: parser error : Entity 'make-upstream_fixes-patch' not defined
+        <para>Download: <ulink url="&patches-root;&make-upstream_fixes-patch;"/>
+                                                                             ^
+chapter03/patches.xml:136: parser error : Entity 'make-upstream_fixes-patch-md5' not defined
+        <para>MD5 sum: <literal>&make-upstream_fixes-patch-md5;</literal></para>
+                                                               ^
+chapter03/patches.xml:141: parser error : Entity 'patch-test-patch-size' not defined
+      <term>Patch Testsuite Fix Patch - <token>&patch-test-patch-size;</token>:<
+                                                                      ^
+chapter03/patches.xml:143: parser error : Entity 'patch-test-patch' not defined
+        <para>Download: <ulink url="&patches-root;&patch-test-patch;"/></para> 
+                                                                    ^
+chapter03/patches.xml:144: parser error : Entity 'patch-test-patch-md5' not defined
+        <para>MD5 sum: <literal>&patch-test-patch-md5;</literal></para> 
+                                                      ^
+chapter03/patches.xml:157: parser error : Entity 'perl-libc-patch-size' not defined
+      <term>Perl Libc Patch - <token>&perl-libc-patch-size;</token>:</term>
+                                                           ^
+chapter03/patches.xml:159: parser error : Entity 'perl-libc-patch' not defined
+        <para>Download: <ulink url="&patches-root;&perl-libc-patch;"/></para>
+                                                                   ^
+chapter03/patches.xml:160: parser error : Entity 'perl-libc-patch-md5' not defined
+        <para>MD5 sum: <literal>&perl-libc-patch-md5;</literal></para>
+                                                     ^
+chapter03/patches.xml:165: parser error : Entity 'perl-utf8-patch-size' not defined
+      <term>Perl UTF8 Patch - <token>&perl-utf8-patch-size;</token>:</term>
+                                                           ^
+chapter03/patches.xml:167: parser error : Entity 'perl-utf8-patch' not defined
+        <para>Download: <ulink url="&patches-root;&perl-utf8-patch;"/></para>
+                                                                   ^
+chapter03/patches.xml:168: parser error : Entity 'perl-utf8-patch-md5' not defined
+        <para>MD5 sum: <literal>&perl-utf8-patch-md5;</literal></para>
+                                                     ^
+chapter06/make.xml:50: parser error : Entity 'make-upstream_fixes-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&make-upstream_fixes-patch;</use
+                                                                           ^
+chapter06/patch.xml:52: parser error : Entity 'patch-test-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&patch-test-patch;</userinput></
+                                                                  ^
+chapter05/perl.xml:51: parser error : Entity 'perl-libc-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&perl-libc-patch;</userinput></s
+                                                                 ^
+chapter06/perl.xml:60: parser error : Entity 'perl-utf8-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&perl-utf8-patch;</userinput></s
+                                                                 ^
+chapter06/perl.xml:60: parser error : Entity 'perl-utf8-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&perl-utf8-patch;</userinput></s
+                                                                 ^
+chapter06/make.xml:50: parser error : Entity 'make-upstream_fixes-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&make-upstream_fixes-patch;</use
+                                                                           ^
+chapter06/patch.xml:52: parser error : Entity 'patch-test-patch' not defined
+<screen><userinput remap="pre">patch -Np1 -i ../&patch-test-patch;</userinput></
+                                                                  ^
+prologue/preface.xml:8: element preface: validity error : Element preface content does not follow the DTD, expecting (beginpage? , prefaceinfo? , (title , subtitle? , titleabbrev?) , (toc | lot | index | glossary | bibliography)* , tocchap? , (((calloutlist | glosslist | bibliolist | itemizedlist | orderedlist | segmentedlist | simplelist | variablelist | caution | important | note | tip | warning | literallayout | programlisting | programlistingco | screen | screenco | screenshot | synopsis | cmdsynopsis | funcsynopsis | classsynopsis | fieldsynopsis | constructorsynopsis | destructorsynopsis | methodsynopsis | formalpara | para | simpara | address | blockquote | graphic | graphicco | mediaobject | mediaobjectco | informalequation | informalexample | informalfigure | informaltable | equation | example | figure | table | msgset | procedure | sidebar | qandaset | task | anchor | bridgehead | remark | highlights | abstract | authorblurb | epigraph | indexterm | beginpage)+ , (sect1* | refentry* | simplesect* | section*)) | sect1+ | refentry+ | simplesect+ | section+) , (toc | lot | index | glossary | bibliography)*), got (title sect1 sect1 sect1 sect1 xi:include sect1 sect1 sect1 sect1 sect1 )
+prologue/preface.xml:18: element include: validity error : No declaration for element include
+prologue/preface.xml:18: element include: validity error : No declaration for attribute href of element include
+prologue/preface.xml:18: element include: validity error : No declaration for attribute xmlns:xi of element include
+Document index.xml does not validate
+make: *** [validxml] ¥¨¥é¡¼ 3

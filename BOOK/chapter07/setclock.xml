@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8902 -->
+
+<sect1 id="ch-scripts-setclock">
+  <?dbhtml filename="setclock.html"?>
+
+  <!--<title>Configuring the setclock Script</title>-->
+  <title>setclockスクリプトの設定</title>
+
+  <indexterm zone="ch-scripts-setclock">
+    <primary sortas="d-setclock">setclock</primary>
+  <secondary>configuring</secondary></indexterm>
+
+  <para>The <command>setclock</command> script reads the time from the hardware
+  clock, also known as the BIOS or the Complementary Metal Oxide Semiconductor
+  (CMOS) clock. If the hardware clock is set to UTC, this script will convert the
+  hardware clock's time to the local time using the
+  <filename>/etc/localtime</filename> file (which tells the
+  <command>hwclock</command> program which timezone the user is in). There is no
+  way to detect whether or not the hardware clock is set to UTC, so this
+  needs to be configured manually.</para>
+  <para><command>setclock</command>スクリプトはハードウェアクロックから時刻を読み込みます。
+  ハードウェアクロックは、BIOSまたはCMOS(Complementary Metal Oxide Semiconductor)クロックとも呼ばれます。
+  もしハードウェアクロックがUTCにセットされている場合、このスクリプトは<filename>/etc/localtime</filename>ファイル(<command>hwclock</command>プログラムに対して、どのtimezoneにユーザが属しているか確認します)を用いて、ハードウェアクロックの時刻をローカルタイムに変換します。
+  ハードウェアクロックがUTCにセットされているかどうかを検出する方法はありません。
+  したがって、ここでの作業は手動で行う必要があります。 </para>
+
+  <para>The <command>setclock</command> is run via 
+  <application>udev</application> when the kernel detects the hardware 
+  capability upon boot.  It can also be run manually with the stop parameter to 
+  store the system time to the CMOS clock.</para>
+  <para>ブート中にカーネルがハードウェアを検知した際、<application>udev</application>経由で<command>setclock</command>が実行されます。
+  システム時刻をCMOSクロックに保存するために、stopパラメータを与えて手動で実行することもできます。</para>
+
+  <para>If you cannot remember whether or not the hardware clock is set to UTC,
+  find out by running the <userinput>hwclock --localtime --show</userinput>
+  command. This will display what the current time is according to the hardware
+  clock. If this time matches whatever your watch says, then the hardware clock is
+  set to local time. If the output from <command>hwclock</command> is not local
+  time, chances are it is set to UTC time. Verify this by adding or subtracting
+  the proper amount of hours for the timezone to the time shown by
+  <command>hwclock</command>. For example, if you are currently in the MST
+  timezone, which is also known as GMT -0700, add seven hours to the local
+  time.</para>
+  <para>もしハードウェアクロックがUTCにセットされているかどうか思い出せない場合は、<userinput>hwclock --localtime --show</userinput>コマンドを実行して確認してください。
+  このコマンドは現在時刻がハードウェアクロックと一致していることを表示します。
+  もしこのコマンドの結果があなたの腕時計と一致しているのであれば、ハードウェアクロックはローカルタイムに設定されています。
+  もし<command>hwclock</command>の出力がローカルタイムでなければ、おそらくUTCタイムにセットされていると思われます。
+  <command>hwclock</command>の実行で表示された時刻に対して、timezoneに対応する適切な時間を加算または減算することで、UTCタイムにセットされていることを確認してください。
+  例えば、現在MST timezoneにいるのであれば、timezoneはGMT -0700であることが知られています。
+  7時間を加算すればローカルタイムになります。
+  </para>
+
+  <para>Change the value of the <envar>UTC</envar> variable below
+  to a value of <parameter>0</parameter> (zero) if the hardware clock
+  is <emphasis>not</emphasis> set to UTC time.</para>
+  <para>もしハードウェアクロックがUTC時刻にセット<emphasis>されていない</emphasis>場合は、環境変数<envar>UTC</envar>の値を<parameter>0</parameter>(ゼロ)に変更してください。</para>
+
+  <para>Create a new file <filename>/etc/sysconfig/clock</filename> by running
+  the following:</para>
+  <para>以下を実行して<filename>/etc/sysconfig/clock</filename>を新規作成します：</para>
+
+<screen><userinput>cat &gt; /etc/sysconfig/clock &lt;&lt; "EOF"
+<literal># Begin /etc/sysconfig/clock
+
+UTC=1
+
+# Set this to any options you might need to give to hwclock,  
+# such as machine hardware clock type for Alphas. 
+CLOCKPARAMS=
+
+# End /etc/sysconfig/clock</literal>
+EOF</userinput></screen>
+
+  <para>A good hint explaining how to deal with time on LFS is available
+  at <ulink url="&hints-root;time.txt"/>. It explains issues such as
+  time zones, UTC, and the <envar>TZ</envar> environment variable.</para>
+  <para>LFSにおける、時刻の取り扱い方法の良いヒントが<ulink url="&hints-root;time.txt"/>で得られます。
+  そこでは、例えばタイムゾーン、UTC、環境変数<envar>TZ</envar>の問題について説明があります。</para>
+</sect1>

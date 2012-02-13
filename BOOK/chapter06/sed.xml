@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9285 -->
+
+<sect1 id="ch-system-sed" role="wrap">
+  <?dbhtml filename="sed.html"?>
+
+  <sect1info condition="script"> 
+    <productname>sed</productname> 
+    <productnumber>&sed-version;</productnumber> 
+    <address>&sed-url;</address> 
+  </sect1info>
+
+  <title>Sed-&sed-version;</title>
+
+  <indexterm zone="ch-system-sed">
+    <primary sortas="a-Sed">Sed</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Sed package contains a stream editor.</para>
+
+    <para>Sedパッケージはストリーム・エディタを含みます。</para>
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&sed-ch6-sbu;</seg>
+        <seg>&sed-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Sed</title>-->
+    <title>Sedのインストール</title>
+
+    <para>Prepare Sed for compilation:</para>
+    <para>Sedのコンパイル準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/sed-&sed-version;</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the new configure option:</title>-->
+      <title>新しいconfigureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--htmldir</parameter></term>
+        <listitem>
+          <para>This sets the directory where the HTML documentation will be
+          installed to.</para>
+          <para>HTMLドキュメントをインストールするディレクトリをセットします。</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Generate the HTML documentation:</para>
+    <para>HTMLドキュメントの生成：</para>
+
+<screen><userinput remap="make">make html</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果をテストするには、次を実行します：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Install the HTML documentation:</para>
+    <para>HTMLドキュメントのインストール：</para>
+
+<screen><userinput remap="install">make -C doc install-html</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-sed" role="content">
+    <!--<title>Contents of Sed</title>-->
+    <title>Sedの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed program</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>sed</seg>
+        <seg>/usr/share/doc/sed-&sed-version;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="sed">
+        <term><command>sed</command></term>
+        <listitem>
+          <para>Filters and transforms text files in a single pass</para>
+          <para>単一パスでテキストファイルに対し、フィルタリングと変更を行います。</para>
+          <indexterm zone="ch-system-sed sed">
+            <primary sortas="b-sed">sed</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

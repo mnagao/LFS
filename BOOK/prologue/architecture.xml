@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9204 -->
+
+<sect1 id="pre-architecture">
+  <?dbhtml filename="architecture.html"?>
+
+  <!--<title>LFS Target Architectures</title>-->
+  <title>LFSのターゲットアーキテクチャ</title>
+
+<para>The primary target architecture of LFS is the 32-bit Intel CPU. If you
+have not built an LFS system before, you should probably start with that
+target. The 32-bit architecture is the most widely supported Linux system and
+is most compatible with both open source and proprietary software.</para>
+<para>LFSの主要なターゲットアーキテクチャは32-bitのIntel CPUです。
+もしあなたが過去にLFSシステムを構築したことがないのであれば、おそらくこのターゲットアーキテクチャでLFS構築を始めるべきです。
+32-bitアーキテクチャはLinuxシステムにおいて最も広くサポートされており、オープンソース・プロプライエタリソフトウェアの両方で最も互換性があります。</para>
+
+<para>On the other hand, the instructions in this book are known to work, with
+some modifications, with both Power PC and 64-bit AMD/Intel CPUs. To build a
+system that utilizes one of these CPUs, the main prerequisite, in addition to
+those on the next few pages, is an existing Linux system such as an earlier LFS
+installation, Ubuntu, Red Hat/Fedora, SuSE, or other distribution that targets
+the architecture that you have. Also note that a 32-bit distribution can be
+installed and used as a host system on a 64-bit AMD/Intel computer.</para>
+<para>他方では、本書の手順はいくつかの変更でPower PCと64-bitのAMD/Intel CPUでうまく動くことが知られています。
+それらのCPUを使用するシステムをビルドするには、次の数ページに記載している必要条件に加え、あなたがLFSを構築しようとするアーキテクチャをターゲットとするUbuntu、Red Hat/Fedora、SuSEまたは他のディストリビューションが必要となります。
+また、32-bitディストリビューションは64-bit AMD/Intelコンピュータ上のホストシステムとして使用することが出来ます。</para>
+
+<para>Some other facts about 64-bit systems need to be added here. When
+compared to a 32-bit system, the sizes of executable programs are slightly
+larger and the execution speeds are only slightly faster. For example, in a
+test build of LFS-6.5 on a Core2Duo CPU based system, the following statistics
+were measured:</para>
+<para>64-bitシステムについていくつかのその他の事実をここで付け加えねばなりません。
+32-bitシステムと比較した際、実行プログラムは少し大きくなり、実行スピードは少しだけ速くなります。
+例えば、Core2DuoベースのシステムにおけるLFS-6.5のテストビルドにおいて、次の結果が測定されました：</para>
+
+<screen><computeroutput>Architecture Build Time     Build Size 
+32-bit       198.5 minutes  648 MB 
+64-bit       190.6 minutes  709 MB</computeroutput></screen>
+
+<para>As you can see, the 64-bit build is only 4% faster and is 9% larger than
+the 32-bit build.  The gain from going to a 64-bit system is relatively
+minimal. Of course, if you have more than 4GB of RAM or want to manipulate
+data that exceeds 4GB, the advantages of a 64-bit system are substantial.</para>
+<para>見たとおり、64-bitビルドは32-bitと比較して4%速く、プログラムサイズが9%大きくなっています。
+64-bitシステムをビルドすることによる利益は比較的わずかです。
+もちろん、4GB以上のRAMを持っていたり、4GBを超えるデータを操作したいのであれば、64-bitシステムの利点は大きくなります。</para>
+
+<para>The default 64-bit build that results from LFS is considered a "pure"
+64-bit system. That is, it supports 64-bit executables only. Building a
+"multi-lib" system requires compiling many applications twice, once for a
+32-bit system and once for a 64-bit system. This is not directly supported in
+LFS because it would interfere with the educational objective of providing the
+instructions needed for a straightforward base Linux system.  You can refer to
+the <ulink url="http://trac.cross-lfs.org/">Cross Linux From Scratch</ulink>
+project for this advanced topic.</para>
+<para>LFSによるデフォルトの64-bitビルドの結果、作られるシステムは"Pure" 64-bitシステムになります。
+これは64-bitの実行プログラムだけがサポートされるということです。
+"Multi-lib"システムをビルドするためには、多くのアプリケーションを2回コンパイルする必要があります。
+1回目は32-itシステム用に、2回目は64-bitシステム用となります。
+LFSにおいて、この"Multi-lib"は直接サポートされていません。
+それは、ベースとなる単純なLinuxシステム構築に必要な手順を提供する教育的目的を妨げるからです。
+より詳しい情報については、<ulink url="http://trac.cross-lfs.org/">Cross Linux From Scratch</ulink>を参照することが出来ます。
+</para>
+
+<para>There is one last comment about 64-bit systems. There are some packages
+that cannot currently be built in a "pure" 64-bit system or require specialized
+build instructions. Generally, these packages have some embedded 32-bit
+specific assembly language instructions that fail when building on a 64-bit
+system.  This includes some Xorg drivers from <ulink
+url="http://www.linuxfromscratch.org/blfs/view/svn/">Beyond Linux From Scratch
+(BLFS)</ulink>. Many of these problems can be worked around, but may require
+some specialized procedures or patches.</para>
+<para>64-bitシステムについて最後に記すことがあります。
+"Pure" 64-bitシステムでは、現在ビルド出来ない、もしくは、特別なビルド手順が必要なパッケージがいくつかあります。
+一般的に、それらパッケージには32-bit固有のアセンブリ命令が含まれており、64-bitシステム上でのビルドに失敗してしまいます。
+これには、<ulink url="http://www.linuxfromscratch.org/blfs/view/svn/">Beyond Linux From Scratch
+(BLFS)</ulink>で扱っている、いくつかのXorgのドライバが含まれます。
+それら問題の多くは対処可能ですが、特別な手順やパッチが必要になるかもしれません。</para>
+
+</sect1>
+

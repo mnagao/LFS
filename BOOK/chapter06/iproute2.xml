@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9379 -->
+
+<sect1 id="ch-system-iproute2" role="wrap">
+  <?dbhtml filename="iproute2.html"?>
+
+  <sect1info condition="script">
+    <productname>iproute2</productname>
+    <productnumber>&iproute2-version;</productnumber>
+    <address>&iproute2-url;</address>
+  </sect1info>
+
+  <title>IPRoute2-&iproute2-version;</title>
+
+  <indexterm zone="ch-system-iproute2">
+    <primary sortas="a-IPRoute2">IPRoute2</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The IPRoute2 package contains programs for basic and advanced IPV4-based
+    networking.</para>
+    <para>IPRoute2パッケージは、基本的・高度両方のIPV4ベースのネットワーキングプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&iproute2-ch6-sbu;</seg>
+        <seg>&iproute2-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of IPRoute2</title>-->
+    <title>IPRoute2のインストール</title>
+
+    <para>The <command>arpd</command> binary included in this package is 
+    dependent on Berkeley DB.  Because <command>arpd</command> is not a very 
+    common requirement on a base Linux system, remove the dependency on Berkeley DB by applying the <command>sed</command> command below.  If the 
+    <command>arpd</command> binary is needed, instructions for compiling 
+    Berkeley DB can be found in the BLFS Book at 
+    <ulink url="&blfs-root;view/svn/server/databases.html#db"/>. 
+    </para> 
+    <para>このパッケージに含まれる<command>arpd</command>バイナリは、Berkeley DBに依存しています。
+    <command>arpd</command>はベースとなるLinuxシステム上で、必要性が高いとは言えないため、以下の<command>sed</command>コマンドを適用し、Berkeley DBへの依存を取り除きます。
+    もし<command>arpd</command>バイナリが必要であれば、Berkeley DBをコンパイルする手順が<ulink url="&blfs-root;view/svn/server/databases.html#db"/>のBLFSブックにあります。</para>
+
+<screen><userinput>sed -i '/^TARGETS/s@arpd@@g' misc/Makefile</userinput></screen>
+
+    <para>Fix a bug that causes the <command>ip route get</command> command to 
+    not produce any output:</para> 
+    <para>コマンド<command>ip route get</command>が何も結果を表示しないバグを修正します：</para>
+ 
+<screen><userinput remap="pre">sed -i '1289i\\tfilter.cloned = 2;' ip/iproute.c</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make DESTDIR=</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the make option:</title>-->
+      <title>makeオプションの意味：</title>
+      <varlistentry> 
+        <term><parameter>DESTDIR=</parameter></term> 
+        <listitem> 
+          <para>This ensures that the IPRoute2 binaries will install into 
+          the correct directory. By default, <parameter>DESTDIR</parameter> is 
+          set to <filename class="directory">/usr</filename>.</para>
+          <para>この指定によって、IPRoute2のバイナリを正しいディレクトリにインストールします。
+          デフォルトでは、<parameter>DESTDIR</parameter>は<filename class="directory">/usr</filename>にセットされています。</para>
+        </listitem> 
+      </varlistentry>
+
+    </variablelist>
+
+    <para>This package comes with a test suite, but due to assumptions it makes, 
+    it is not possible to reliably run these tests from within the chroot 
+    environment. If you wish to run these tests after booting into your new LFS 
+    system, ensure you select <filename>/proc/config.gz</filename> 
+    CONFIG_IKCONFIG_PROC (&quot;General setup&quot; -> &quot;Enable access to 
+    .config through /proc/config.gz&quot;) support into your kernel then run 
+    'make alltests' from the <filename class="directory">testsuite/</filename> 
+    subdirectory.</para>
+    <para>このパッケージにはテストツールが付属していますが、テストツールの前提条件のために、chroot環境の中でテストを確実に実行することが不可能です。
+    もし新しいLFSシステムをブートしたあとに、それらテストを実行したいのであれば、kernelで<filename>/proc/config.gz</filename> CONFIG_IKCONFIG_PROC (&quot;General setup&quot; -> &quot;Enable access to .config through /proc/config.gz&quot;)を必ず選択し、<filename class="directory">testsuite/</filename>サブディレクトリで'make alltests'を実行してください。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make DESTDIR= SBINDIR=/sbin MANDIR=/usr/share/man \
+     DOCDIR=/usr/share/doc/iproute2-&iproute2-version; install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-iproute2" role="content">
+    <!--<title>Contents of IPRoute2</title>-->
+    <title>IPRoute2の内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directories</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>ctstat (link to lnstat), genl, ifcfg, ifstat, ip, lnstat,
+        nstat, routef, routel, rtacct, rtmon, rtpr, rtstat (link to lnstat), ss,
+        and tc</seg>
+        <seg>/etc/iproute2, /lib/tc, /usr/share/doc/iproute2-&iproute2-version;, 
+        /usr/lib/tc</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="ctstat">
+        <term><command>ctstat</command></term>
+        <listitem>
+          <para>Connection status utility</para>
+          <para>コネクション・ステータス・ユーティリティです。</para>
+          <indexterm zone="ch-system-iproute2 ctstat">
+            <primary sortas="b-ctstat">ctstat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="genl">
+        <term><command>genl</command></term>
+        <listitem>
+          <para></para>
+          <indexterm zone="ch-system-iproute2 genl">
+            <primary sortas="b-genl">genl</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ifcfg">
+        <term><command>ifcfg</command></term>
+        <listitem>
+          <para>A shell script wrapper for the <command>ip</command> command.  
+          Note that it requires the <command>arping</command> and  
+          <command>rdisk</command> programs from the  
+          iputils package found at <ulink url="http://www.skbuff.net/iputils/"/>.</para>
+          <para><command>ip</command>コマンドのラッパーシェルスクリプトです。
+          <ulink url="http://www.skbuff.net/iputils/"/>にある、iputilsパッケージの<command>arping</command>と<command>rdisk</command>プログラムが必要になることに注意してください。</para>
+          <indexterm zone="ch-system-iproute2 ifcfg">
+            <primary sortas="b-ifcfg">ifcfg</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ifstat">
+        <term><command>ifstat</command></term>
+        <listitem>
+          <para>Shows the interface statistics, including the amount of
+          transmitted and received packets by interface</para>
+          <para>インターフェースの統計を表示します。
+          インターフェース毎の送受信パケット量を含みます。</para>
+          <indexterm zone="ch-system-iproute2 ifstat">
+            <primary sortas="b-ifstat">ifstat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ip">
+        <term><command>ip</command></term>
+        <listitem>
+          <para>The main executable. It has several different functions:</para>
+          <para>メインの実行ファイルです。いくつかの異なる機能を持っています：</para>
+
+          <para><command>ip link <replaceable>&lt;device&gt;</replaceable></command>
+          allows users to look at the state of devices and to make changes</para>
+          <para><command>ip link <replaceable>&lt;device&gt;</replaceable></command>を実行することで、デバイスの状態を見ることが出来ます。また、設定を変更をすることも出来ます。</para>
+
+          <para><command>ip addr</command> allows users to look at addresses and
+          their properties, add new addresses, and delete old ones</para>
+          <para><command>ip addr</command>を実行することで、アドレスと設定内容の確認、新しいアドレスの追加と古いアドレスの削除が行えます。</para>
+
+          <para><command>ip neighbor</command> allows users to look at neighbor
+          bindings and their properties, add new neighbor entries, and delete
+          old ones</para>
+          <para><command>ip neighbor</command>を実行することで、近隣の接続やプロパティを見たり、新しい近隣ホストの追加・削除を行うことが出来ます。</para>
+
+          <para><command>ip rule</command> allows users to look at the routing
+          policies and change them</para>
+          <para><command>ip rule</command>を実行することで、ルーティングポリシーの確認と変更が出来ます。</para>
+
+          <para><command>ip route</command> allows users to look at the routing
+          table and change routing table rules</para>
+          <para><command>ip route</command>を実行することで、ルーティングテーブルの確認とルールの変更が出来ます。</para>
+
+          <para><command>ip tunnel</command> allows users to look at the IP
+          tunnels and their properties, and change them</para>
+          <para><command>ip tunnel</command>を実行することで、IPトンネルとそのプロパティを見ることが出来ます。
+          また、それらを変更することも出来ます。</para>
+
+          <para><command>ip maddr</command> allows users to look at the multicast
+          addresses and their properties, and change them</para>
+          <para><command>ip maddr</command>を実行することで、マルチキャストアドレスとそのプロパティを見ることが出来ます。また、それらを変更することも出来ます。</para>
+
+          <para><command>ip mroute</command> allows users to set, change, or
+          delete the multicast routing</para>
+          <para><command>ip mroute</command>を実行することで、マルチキャストルーティングをセット・変更・削除出来るようになります。</para>
+
+          <para><command>ip monitor</command> allows users to continously monitor
+          the state of devices, addresses and routes</para>
+          <para><command>ip monitor</command>を実行することで、デバイス・アドレス・経路を連続してモニターすることが出来ます。
+          </para>
+          <indexterm zone="ch-system-iproute2 ip">
+            <primary sortas="b-ip">ip</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="lnstat">
+        <term><command>lnstat</command></term>
+        <listitem>
+          <para>Provides Linux network statistics.  It is a generalized and more
+          feature-complete replacement for the old <command>rtstat</command>
+          program</para>
+          <para>Linuxのネットワーク統計情報を提供します。
+          このコマンドは普及しており、古い<command>rtstat</command>よりも機能が充実しています。</para>
+          <indexterm zone="ch-system-iproute2 lnstat">
+            <primary sortas="b-lnstat">lnstat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="nstat">
+        <term><command>nstat</command></term>
+        <listitem>
+          <para>Shows network statistics</para>
+          <para>ネットワークの統計情報を表示します。</para>
+          <indexterm zone="ch-system-iproute2 nstat">
+            <primary sortas="b-nstat">nstat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="routef">
+        <term><command>routef</command></term>
+        <listitem>
+          <para>A component of <command>ip route</command>. This is for flushing
+          the routing tables</para>
+          <para><command>ip route</command>のコンポーネントです。
+          これはルーティングテーブルをflushするプログラムです。</para>
+          <indexterm zone="ch-system-iproute2 routef">
+            <primary sortas="b-routef">routef</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="routel">
+        <term><command>routel</command></term>
+        <listitem>
+          <para>A component of <command>ip route</command>. This is for listing
+          the routing tables</para>
+          <para><command>ip route</command>のコンポーネントです。
+          これはルーティングテーブルをリストするプログラムです。</para>
+          <para></para>
+          <indexterm zone="ch-system-iproute2 routel">
+            <primary sortas="b-routel">routel</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rtacct">
+        <term><command>rtacct</command></term>
+        <listitem>
+          <para>Displays the contents of
+          <filename>/proc/net/rt_acct</filename></para>
+          <para><filename>/proc/net/rt_acct</filename>の内容を表示します。</para>
+          <indexterm zone="ch-system-iproute2 rtacct">
+            <primary sortas="b-rtacct">rtacct</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rtmon">
+        <term><command>rtmon</command></term>
+        <listitem>
+          <para>Route monitoring utility</para>
+          <para>経路をモニタするユーティリティです。</para>
+          <indexterm zone="ch-system-iproute2 rtmon">
+            <primary sortas="b-rtmon">rtmon</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rtpr">
+        <term><command>rtpr</command></term>
+        <listitem>
+          <para>Converts the output of <command>ip -o</command> back into a
+          readable form</para>
+          <para><command>ip -o</command>の出力を可読な形式に変換します。</para>
+          <indexterm zone="ch-system-iproute2 rtpr">
+            <primary sortas="b-rtpr">rtpr</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rtstat">
+        <term><command>rtstat</command></term>
+        <listitem>
+          <para>Route status utility</para>
+          <para>経路ステータスユーティリティです。</para>
+          <indexterm zone="ch-system-iproute2 rtstat">
+            <primary sortas="b-rtstat">rtstat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ss">
+        <term><command>ss</command></term>
+        <listitem>
+          <para>Similar to the <command>netstat</command> command; shows active
+          connections</para>
+          <para><command>netstat</command>コマンドに似ているプログラムです。
+          アクティブなコネクションを表示します。</para>
+          <indexterm zone="ch-system-iproute2 ss">
+            <primary sortas="b-ss">ss</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="tc">
+        <term><command>tc</command></term>
+        <listitem>
+          <para>Traffic Controlling Executable; this is for Quality Of Service
+          (QOS) and Class Of Service (COS) implementations</para>
+          <para>トラフィックをコントロールします。
+          このプログラムは、QOS(Quality Of Service)とCOS(Class Of Service)を実装しています。</para>
+
+          <para><command>tc qdisc</command> allows users to setup the queueing
+          discipline</para>
+          <para><command>tc qdisc</command>を実行することで、キューのルールをセットアップできます。</para>
+
+          <para><command>tc class</command> allows users to setup classes based
+          on the queuing discipline scheduling</para>
+          <para><command>tc class</command>を実行することで、キューのルールのスケジューリングに基づいたクラスを設定できます。</para>
+
+          <para><command>tc estimator</command> allows users to estimate the
+          network flow into a network</para>
+          <para><command>tc estimator</command>を実行することで、ネットワークフローを見積もりことが出来ます。</para>
+
+          <para><command>tc filter</command> allows users to setup the QOS/COS
+          packet filtering</para>
+          <para><command>tc filter</command>を実行することで、QOS/COSパケットフィルターをセットアップできます。</para>
+
+          <para><command>tc policy</command> allows users to setup the QOS/COS
+          policies</para>
+          <para><command>tc policy</command>を実行することで、QOS/COSのポリシーをセットアップできます。</para>
+
+          <indexterm zone="ch-system-iproute2 ss">
+            <primary sortas="b-tc">tc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

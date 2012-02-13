@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9362 -->
+
+<sect1 id="ch-system-vim" role="wrap">
+  <?dbhtml filename="vim.html"?>
+
+  <title>Vim-&vim-version;</title>
+
+  <indexterm zone="ch-system-vim">
+    <primary sortas="a-Vim">Vim</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Vim package contains a powerful text editor.</para>
+    <para>Vimパッケージは、パワフルなテキストエディタを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&vim-ch6-sbu;</seg>
+        <seg>&vim-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <tip>
+      <!--<title>Alternatives to Vim</title>-->
+      <title>Vimの代替</title>
+
+      <para>If you prefer another editor&mdash;such as Emacs, Joe, or
+      Nano&mdash;please refer to <ulink
+      url="&blfs-root;view/svn/postlfs/editors.html"/> for suggested
+      installation instructions.</para>
+      <para>もし、Emacs、Joe、Nanoのようなほかのエディタが好みであれば、推奨のインストール手順が記載された、<ulink url="&blfs-root;view/svn/postlfs/editors.html"/>を参照してください。</para>
+    </tip>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Vim</title>-->
+    <title>Vimのインストール</title>
+
+    <para>First, change the default location of the
+    <filename>vimrc</filename> configuration file to <filename
+    class="directory">/etc</filename>:</para>
+    <para>設定ファイル<filename>vimrc</filename>のデフォルトの位置を<filename class="directory">/etc</filename>に変更します。</para>
+
+<screen><userinput remap="pre">echo '#define SYS_VIMRC_FILE "/etc/vimrc"' &gt;&gt; src/feature.h</userinput></screen>
+
+    <para>Now prepare Vim for compilation:</para>
+    <para>Vimをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --enable-multibyte</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--enable-multibyte</parameter></term>
+        <listitem>
+          <para>This switch enables support for editing files in multibyte
+          character encodings. This is needed if using a locale with a
+          multibyte character set. This switch is also helpful to be able
+          to edit text files initially created in Linux distributions like
+          Fedora that use UTF-8 as a default character set.</para>
+          <para>このスイッチにより、マルチバイト文字エンコーディングでファイル編集を可能にします。
+          このスイッチは、マルチバイト文字セットのロケールを使用する場合は必要となります。
+          このスイッチはまた、UTF-8がデフォルトであるFedoraのようなLinuxディストリビューションで作成されたテキストファイルを編集出来るようにするために便利です。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make test</userinput></screen>
+
+    <para>However, this test suite outputs a lot of binary data to the screen, 
+    which can cause issues with the settings of the current terminal. This can 
+    be resolved by redirecting the output to a log file.</para>
+
+    <para>しかしながら、このテストツールは大量のバイナリデータを画面に出力します。
+    これにより、使用しているターミナルの設定に問題が生じるかもしれません。
+    この問題は、出力をログファイルにリダイレクトすることで解決できます。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Many users are used to using <command>vi</command> instead of
+    <command>vim</command>. To allow execution of <command>vim</command>
+    when users habitually enter <command>vi</command>, create a
+    symlink for both the binary and the man page in the provided
+    languages:</para>
+    <para>多くのユーザは、<command>vim</command>ではなく、<command>vi</command>を使うことに慣れています。
+    ユーザが習慣的に<command>vi</command>と入力した際、<command>vim</command>が実行されるようにするため、バイナリと提供される言語のmanページに対して、シンボリックリンクを作成します：</para>
+
+<screen><userinput remap="install">ln -sv vim /usr/bin/vi
+for L in  /usr/share/man/{,*/}man1/vim.1; do
+    ln -sv vim.1 $(dirname $L)/vi.1
+done</userinput></screen>
+
+    <para>By default, Vim's documentation is installed in <filename
+    class="directory">/usr/share/vim</filename>. The following symlink
+    allows the documentation to be accessed via <filename
+    class="directory">/usr/share/doc/vim-&vim-version;</filename>, making
+    it consistent with the location of documentation for other packages:</para>
+    <para>デフォルトでは、Vimのドキュメントは、<filename class="directory">/usr/share/vim</filename>にインストールされます。
+    次のシンボリックリンクによって、ドキュメントを<filename class="directory">/usr/share/doc/vim-&vim-version;</filename>でアクセスすることが出来るようになります。
+    これにより、他パッケージのドキュメント配置と一貫性が保たれます。
+    </para>
+
+<screen><userinput remap="install">ln -sv ../&vim-docdir;/doc /usr/share/doc/vim-&vim-version;</userinput></screen>
+
+    <para>If an X Window System is going to be installed on the LFS
+    system, it may be necessary to recompile Vim after installing X. Vim
+    comes with a GUI version of the editor that requires X and some
+    additional libraries to be installed. For more information on this
+    process, refer to the Vim documentation and the Vim installation page
+    in the BLFS book at <ulink
+    url="&blfs-root;view/svn/postlfs/editors.html#postlfs-editors-vim"/>.</para>
+    <para>もしX Windows Systemをインストールするつもりであれば、Xをインストールした後にVimを再コンパイルする必要があるかもしれません。
+    VimにはGUIバージョンのものがあり、それを使用するためには、Xといくつかの追加のライブラリをインストールする必要があります。
+    この手順についての詳細は、VimドキュメントおよびBLFSブックのVimインストールの章(<ulink url="&blfs-root;view/svn/postlfs/editors.html#postlfs-editors-vim"/>)を参照してください。</para>
+  </sect2>
+
+  <sect2 id="conf-vim" role="configuration">
+    <!--<title>Configuring Vim</title>-->
+    <title>Vimの設定</title>
+
+    <indexterm zone="conf-vim">
+      <primary sortas="e-/etc/vimrc">/etc/vimrc</primary>
+    </indexterm>
+
+    <para>By default, <command>vim</command> runs in vi-incompatible mode.
+    This may be new to users who have used other editors in the past. The
+    <quote>nocompatible</quote> setting is included below to highlight the
+    fact that a new behavior is being used. It also reminds those who would
+    change to <quote>compatible</quote> mode that it should be the first
+    setting in the configuration file. This is necessary because it changes
+    other settings, and overrides must come after this setting. Create a default
+    <command>vim</command> configuration file by running the following:</para>
+    <para>デフォルトでは、<command>vim</command>はvi非互換モードで動作します。
+    これは、過去に他のエディタを使用してきたユーザにとっては、目新しいことでしょう。
+    新しい動作(モード)が使用されることを強調するため、<quote>nocompatible</quote>設定が、以下設定内容に含まれています。
+    このことはまた、<quote>compatible</quote>モードに変更しようとするユーザに対して、設定ファイルの最初に設定するべきことだと気づかせます。
+    他の設定の変更や設定の上書きは、この設定(<quote>nocompatible</quote>)の後で行う必要があるので、<quote>nocompatible</quote>を先頭に置くことが必要です。
+    次のコマンドを実行し、<command>vim</command>のデフォルトの設定を作成します：
+    </para>
+
+<screen><userinput>cat &gt; /etc/vimrc &lt;&lt; "EOF"
+<literal>" Begin /etc/vimrc
+
+set nocompatible
+set backspace=2
+syntax on
+if (&amp;term == "iterm") || (&amp;term == "putty")
+  set background=dark
+endif
+
+" End /etc/vimrc</literal>
+EOF</userinput></screen>
+
+    <para>The <parameter>set nocompatible</parameter> setting makes
+    <command>vim</command> behave in a more useful way (the default) than
+    the vi-compatible manner. Remove the <quote>no</quote> to keep the
+    old <command>vi</command> behavior. The <parameter>set
+    backspace=2</parameter> setting allows backspacing over line breaks,
+    autoindents, and the start of insert. The <parameter>syntax
+    on</parameter> parameter enables vim's syntax highlighting. Finally,
+    the <emphasis>if</emphasis> statement with the <parameter>set
+    background=dark</parameter> setting corrects <command>vim</command>'s
+    guess about the background color of some terminal emulators. This
+    gives the highlighting a better color scheme for use on the black
+    background of these programs.</para>
+    <para>パラメータ<parameter>set nocompatible</parameter>を設定することで、compatibleモードで使用するよりも、(デフォルトで)より便利になります。
+    昔からの<command>vi</command>の動作にするならば、<quote>no</quote>を取り除いてください。
+    設定<parameter>set backspace=2</parameter>は、改行直後・オートインデント・挿入の開始位置でバックスペースを可能とします。
+    設定<parameter>syntax on</parameter>は、Vimのシンタックス・ハイライトを有効にします。
+    最後に、<emphasis>if</emphasis>の中の<parameter>set background=dark</parameter>は、<command>vim</command>が行う、ターミナル・エミュレータのバックグラウンド色の推測を修正します。
+    これによって、バックグラウンドを黒で使用する際、より良いカラースキームでハイライトが行われます。
+    </para>
+
+    <para>Documentation for other available options can be obtained by
+    running the following command:</para>
+    <para>他の利用可能なオプションに関するドキュメントは、次のコマンドを実行することで得られます。</para>
+
+<screen role="nodump"><userinput>vim -c ':options'</userinput></screen>
+
+    <note>
+      <para>By default, Vim only installs spell files for the English language.
+      To install spell files for your preferred language, download the
+      <filename>*.spl</filename> and optionally, the <filename>*.sug</filename>
+      files for your language and character encoding from <ulink
+      url="ftp://ftp.vim.org/pub/vim/runtime/spell/"/> and save them to
+      <filename class='directory'>/usr/share/&vim-docdir;/spell/</filename>.</para>
+      <para>デフォルトでは、英語のspellファイルのみがインストールされます。
+      あなたが希望する言語のspellファイルをインストールするには、その言語と文字エンコーディングに対応する<filename>*.spl</filename>ファイルと、必要であれば<filename>*.sug</filename>ファイルを<ulink url="ftp://ftp.vim.org/pub/vim/runtime/spell/"/>からダウンロードし、<filename class='directory'>/usr/share/&vim-docdir;/spell/</filename>に保存してください。</para>
+
+      <para>To use these spell files, some configuration in
+      <filename>/etc/vimrc</filename> is needed, e.g.:</para>
+      <para>それらspellファイルを使用するには、<filename>/etc/vimrc</filename>にいくつかの設定を行う必要があります。
+      例：</para>
+
+<screen><literal>set spelllang=en,ru
+set spell</literal></screen>
+
+      <para>For more information, see the appropriate README file located
+      at the URL above.</para>
+      <para>追加の情報は、上記URLの対応するREADMEファイルを参照してください。</para>
+    </note>
+
+  </sect2>
+
+  <sect2 id="contents-vim" role="content">
+    <!--<title>Contents of Vim</title>-->
+    <title>Vimの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>Installed directory</segtitle>
+
+      <seglistitem>
+       <seg> ex (link to vim), rview (link to vim), rvim (link to vim), vi
+       (link to vim), view (link to vim), vim, vimdiff (link to vim), vimtutor,
+       and xxd</seg>
+        <seg>/usr/share/vim</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="ex">
+        <term><command>ex</command></term>
+        <listitem>
+          <para>Starts <command>vim</command> in ex mode</para>
+          <para>exモードで<command>vim</command>を起動します。</para>
+          <indexterm zone="ch-system-vim ex">
+            <primary sortas="b-ex">ex</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rview">
+        <term><command>rview</command></term>
+        <listitem>
+          <para>Is a restricted version of <command>view</command>; no shell
+          commands can be started and <command>view</command> cannot be
+          suspended</para>
+          <para>機能が制限された<command>view</command>です。
+          shellコマンドは実行出来ず、またサスペンドも出来ません。</para>
+          <indexterm zone="ch-system-vim rview">
+            <primary sortas="b-rview">rview</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rvim">
+        <term><command>rvim</command></term>
+        <listitem>
+          <para>Is a restricted version of <command>vim</command>; no shell
+          commands can be started and <command>vim</command> cannot be
+          suspended</para>
+          <para>機能が制限された<command>vim</command>です。
+          shellコマンドは実行出来ず、またサスペンドも出来ません。</para>
+          <indexterm zone="ch-system-vim rvim">
+            <primary sortas="b-rvim">rvim</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vi">
+        <term><command>vi</command></term>
+        <listitem>
+          <para>Link to <command>vim</command></para>
+          <para><command>vim</command>へのリンクです。</para>
+          <indexterm zone="ch-system-vim vi">
+            <primary sortas="b-vi">vi</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="view">
+        <term><command>view</command></term>
+        <listitem>
+          <para>Starts <command>vim</command> in read-only mode</para>
+          <para><command>vim</command>をリードオンリーモードで起動します。</para>
+          <indexterm zone="ch-system-vim view">
+            <primary sortas="b-view">view</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vim">
+        <term><command>vim</command></term>
+        <listitem>
+          <para>Is the editor</para>
+          <para>エディタです。</para>
+          <indexterm zone="ch-system-vim vim">
+            <primary sortas="b-vim">vim</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vimdiff">
+        <term><command>vimdiff</command></term>
+        <listitem>
+          <para>Edits two or three versions of a file with <command>vim</command>
+          and show differences</para>
+          <para><command>vim</command>で2つまたは3つのファイルを編集し、差異を表示します。</para>
+          <indexterm zone="ch-system-vim vimdiff">
+            <primary sortas="b-vimdiff">vimdiff</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vimtutor">
+        <term><command>vimtutor</command></term>
+        <listitem>
+          <para>Teaches the basic keys and commands of
+          <command>vim</command></para>
+          <para><command>vim</command>の基本的なキー操作とコマンドを説明します。</para>
+          <indexterm zone="ch-system-vim vimtutor">
+            <primary sortas="b-vimtutor">vimtutor</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="xxd">
+        <term><command>xxd</command></term>
+        <listitem>
+          <para>Creates a hex dump of the given file; it can
+          also do the reverse, so it can be used for binary patching</para>
+          <para>与えられたファイルのhex dumpを作成します。
+          また、バイナリパッチのために使用することが可能で、逆変換(dumpデータからbinaryデータ作成)が実行出来ます。</para>
+          <indexterm zone="ch-system-vim xxd">
+            <primary sortas="b-xxd">xxd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

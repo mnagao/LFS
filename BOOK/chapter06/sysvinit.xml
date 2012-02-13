@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9459 -->
+
+<sect1 id="ch-system-sysvinit" role="wrap">
+  <?dbhtml filename="sysvinit.html"?>
+
+  <sect1info condition="script"> 
+    <productname>sysvinit</productname> 
+    <productnumber>&sysvinit-version;</productnumber> 
+    <address>&sysvinit-url;</address> 
+  </sect1info>
+
+  <title>Sysvinit-&sysvinit-version;</title>
+
+  <indexterm zone="ch-system-sysvinit">
+    <primary sortas="a-Sysvinit">Sysvinit</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Sysvinit package contains programs for controlling the startup,
+    running, and shutdown of the system.</para>
+    <para>Sysvinitパッケージは、システムのスタートアップ、稼動、シャットダウンをコントロールするプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&sysvinit-ch6-sbu;</seg>
+        <seg>&sysvinit-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Sysvinit</title>-->
+    <title>Sysvinitのインストール</title>
+
+    <para>When run-levels are changed (for example, when halting the
+    system), <command>init</command> sends termination signals to those
+    processes that <command>init</command> itself started and that should
+    not be running in the new run-level.  While doing this,
+    <command>init</command> outputs messages like <quote>Sending processes
+    the TERM signal</quote> which seem to imply that it is sending these
+    signals to all currently running processes. To avoid this
+    misinterpretation, modify the source so that these messages read like
+    <quote>Sending processes configured via /etc/inittab the TERM signal</quote>
+    instead:</para>
+    <para>ランレベルが変更されたとき(例えば、システムを停止(halt)するとき)、<command>init</command>自身が起動したプロセスと、新しいランレベルにおいて稼動するべきではないプロセスに対して、<command>init</command>は終了のシグナル送ります。
+    上記の処理を行っている間、<command>init</command>は<quote>Sending processes the TERM signal</quote>のようなメッセージを出力し、動作中の全てのプロセスに対してTERMシグナル送っているようなことを示します。
+    この誤解を招く表現を避けるため、ソースを書き換え、メッセージを<quote>Sending processes configured via /etc/inittab the TERM signal</quote>に変更します。</para>
+
+<screen><userinput remap="pre">sed -i 's@Sending processes@&amp; configured via /etc/inittab@g' \
+    src/init.c</userinput></screen>
+
+    <para>A maintained version of the <command>wall</command> program was
+    installed earlier by Util-linux. Suppress the installation of Sysvinit's
+    version of this program and its man page:</para>
+    <para>メンテナンスが継続されている<command>wall</command>プログラムは、Util-linuxですでにインストールされています。
+    Sysinitバージョンのこのプログラムとmanページのインストールを差し止めます：</para>
+
+<screen><userinput remap="make">sed -i -e 's/utmpdump wall/utmpdump/' \
+       -e 's/mountpoint.1 wall.1/mountpoint.1/' src/Makefile</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make -C src</userinput></screen>
+
+    <para>This package does not come with a test suite.</para>
+    <para>このパッケージにテストツールは付属してしません。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make -C src install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="conf-sysvinit" role="configuration">
+    <!--<title>Configuring Sysvinit</title>-->
+    <title>Sysvinitの設定</title>
+
+    <indexterm zone="conf-sysvinit">
+      <primary sortas="a-Sysvinit">Sysvinit</primary>
+      <secondary>configuring</secondary>
+    </indexterm>
+
+    <indexterm zone="conf-sysvinit">
+      <primary sortas="e-/etc/inittab">/etc/inittab</primary>
+    </indexterm>
+
+    <para>Create a new file <filename>/etc/inittab</filename> by running the
+    following:</para>
+    <para>次のコマンドを実行し、<filename>/etc/inittab</filename>ファイルを作成します：</para>
+
+<screen><userinput>cat &gt; /etc/inittab &lt;&lt; "EOF"
+<literal># Begin /etc/inittab
+
+id:3:initdefault:
+
+si::sysinit:/etc/rc.d/init.d/rc sysinit
+
+l0:0:wait:/etc/rc.d/init.d/rc 0
+l1:S1:wait:/etc/rc.d/init.d/rc 1
+l2:2:wait:/etc/rc.d/init.d/rc 2
+l3:3:wait:/etc/rc.d/init.d/rc 3
+l4:4:wait:/etc/rc.d/init.d/rc 4
+l5:5:wait:/etc/rc.d/init.d/rc 5
+l6:6:wait:/etc/rc.d/init.d/rc 6
+
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+
+su:S016:once:/sbin/sulogin
+
+1:2345:respawn:/sbin/agetty tty1 9600
+2:2345:respawn:/sbin/agetty tty2 9600
+3:2345:respawn:/sbin/agetty tty3 9600
+4:2345:respawn:/sbin/agetty tty4 9600
+5:2345:respawn:/sbin/agetty tty5 9600
+6:2345:respawn:/sbin/agetty tty6 9600
+
+# End /etc/inittab</literal>
+EOF</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-sysvinit" role="content">
+    <!--<title>Contents of Sysvinit</title>-->
+    <title>Contents of Sysvinit</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>bootlogd, fstab-decode, halt, init, killall5, last,
+        lastb (link to last), mesg, mountpoint, pidof (link to killall5),
+        poweroff (link to halt),
+        reboot (link to halt), runlevel, shutdown, sulogin,
+        telinit (link to init) and utmpdump</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="bootlogd">
+        <term><command>bootlogd</command></term>
+        <listitem>
+          <para>Logs boot messages to a log file</para>
+          <para>ブートメッセージをログファイルに記録します。</para>
+          <indexterm zone="ch-system-sysvinit bootlogd">
+            <primary sortas="b-bootlogd">bootlogd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="fstab-decode"> 
+        <term><command>fstab-decode</command></term> 
+        <listitem> 
+          <para>Run a command with fstab-encoded arguments</para>
+          <para>fstab形式の引数でコマンドを実行します。</para> 
+          <indexterm zone="ch-system-sysvinit fstab-decode"> 
+            <primary sortas="b-fstab-decode">fstab-decode</primary>
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="halt">
+        <term><command>halt</command></term>
+        <listitem>
+          <para>Normally invokes <command>shutdown</command> with the
+          <parameter>-h</parameter> option, except when already in run-level 0,
+          then it tells the kernel to halt the system; it notes in the
+          file <filename>/var/log/wtmp</filename> that the system is being
+          brought down</para>
+          <para>ランレベル0の状態を除いて、通常<parameter>-h</parameter>オプション付きで<command>shutdown</command>を起動します。
+          そして、カーネルに対してシステムを停止するよう命じます。
+          また、このコマンドは、システムが停止されようとしていることを<filename>/var/log/wtmp</filename>に記録します。</para>
+          <indexterm zone="ch-system-sysvinit halt">
+            <primary sortas="b-halt">halt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="init">
+        <term><command>init</command></term>
+        <listitem>
+          <para>The first process to be started when the kernel has initialized
+          the hardware which takes over the boot process and starts all the
+          proceses it is instructed to</para>
+          <para>カーネルがハードウェアを初期化した時に起動される最初のプロセスで、ブートの処理を引き継ぎ、指示されたプロセス全てを起動します。。
+          </para>
+          <indexterm zone="ch-system-sysvinit init">
+            <primary sortas="b-init">init</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="killall5">
+        <term><command>killall5</command></term>
+        <listitem>
+          <para>Sends a signal to all processes, except the processes in its own
+          session so it will not kill the shell running the script that called
+          it</para>
+          <para>全てのプロセスに対してシグナルを送ります。
+          ただし、<command>killall5</command>を起動した自分自身のプロセスは除きます。
+          したがって、<command>killall5</command>を実行したシェルをkillしません。</para>
+          <indexterm zone="ch-system-sysvinit killall5">
+            <primary sortas="b-killall5">killall5</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="last">
+        <term><command>last</command></term>
+        <listitem>
+          <para>Shows which users last logged in (and out), searching back
+          through the <filename>/var/log/wtmp</filename> file; it also shows
+          system boots, shutdowns, and run-level changes</para>
+          <para><filename>/var/log/wtmp</filename>ファイルをサーチし、どのユーザが最後にログイン(ログアウト)したか表示します。
+          また、システムのブート、シャットダウン、ランレベルの変更についても表示します。</para>
+          <indexterm zone="ch-system-sysvinit last">
+            <primary sortas="b-last">last</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="lastb">
+        <term><command>lastb</command></term>
+        <listitem>
+          <para>Shows the failed login attempts, as logged in
+          <filename>/var/log/btmp</filename></para>
+          <para><filename>/var/log/btmp</filename>に記録されているログイン失敗の情報を表示します。</para>
+          <indexterm zone="ch-system-sysvinit lastb">
+            <primary sortas="b-lastb">lastb</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="mesg">
+        <term><command>mesg</command></term>
+        <listitem>
+          <para>Controls whether other users can send messages to the current
+          user's terminal</para>
+          <para>他のユーザが自分のターミナルにメッセージを送ることが出来るかどうかを制御します。</para>
+          <indexterm zone="ch-system-sysvinit mesg">
+            <primary sortas="b-mesg">mesg</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="mountpoint">
+        <term><command>mountpoint</command></term>
+        <listitem>
+          <para>Checks if the directory is a mountpoint</para>
+          <para>ディレクトリがマウントポイントであるかチェックします。</para>
+          <indexterm zone="ch-system-sysvinit mountpoint">
+            <primary sortas="b-mountpoint">mountpoint</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="pidof">
+        <term><command>pidof</command></term>
+        <listitem>
+          <para>Reports the PIDs of the given programs</para>
+          <para>指定したプログラムのPIDを表示します。</para>
+          <indexterm zone="ch-system-sysvinit pidof">
+            <primary sortas="b-pidof">pidof</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="poweroff">
+        <term><command>poweroff</command></term>
+        <listitem>
+          <para>Tells the kernel to halt the system and switch off the computer
+          (see <command>halt</command>)</para>
+          <para>カーネルに対して、システムを停止し、コンピュータのスイッチをオフにすることを指示します(<command>halt</command>を参照してください)。</para>
+          <indexterm zone="ch-system-sysvinit poweroff">
+            <primary sortas="b-poweroff">poweroff</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="reboot">
+        <term><command>reboot</command></term>
+        <listitem>
+          <para>Tells the kernel to reboot the system (see
+          <command>halt</command>)</para>
+          <para>カーネルに対してリブートを指示します(<command>halt</command>を参照)。</para>
+          <indexterm zone="ch-system-sysvinit reboot">
+            <primary sortas="b-reboot">reboot</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="runlevel">
+        <term><command>runlevel</command></term>
+        <listitem>
+          <para>Reports the previous and the current run-level, as noted in the
+          last run-level record in <filename>/var/run/utmp</filename></para>
+          <para><filename>/var/run/utmp</filename>に記録されている情報を元に、以前のランレベルと現在のランレベルを表示します。</para>
+          <indexterm zone="ch-system-sysvinit runlevel">
+            <primary sortas="b-runlevel">runlevel</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="shutdown">
+        <term><command>shutdown</command></term>
+        <listitem>
+          <para>Brings the system down in a secure way, signaling all processes
+          and notifying all logged-in users</para>
+          <para>全てのプロセスに対してシグナルを送信し、また全てのログイン中のユーザに通知を行い、セキュアな方法でシステムを停止します。</para>
+          <indexterm zone="ch-system-sysvinit shutdown">
+            <primary sortas="b-shutdown">shutdown</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sulogin">
+        <term><command>sulogin</command></term>
+        <listitem>
+          <para>Allows <systemitem class="username">root</systemitem> to log in;
+          it is normally invoked by <command>init</command> when the system goes
+          into single user mode</para>
+          <para><systemitem class="username">root</systemitem>ユーザでログインを許します。
+          システムがシングルユーザモードに移行する際、通常は<command>init</command>によって起動されます。</para>
+          <indexterm zone="ch-system-sysvinit sulogin">
+            <primary sortas="b-sulogin">sulogin</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="telinit">
+        <term><command>telinit</command></term>
+        <listitem>
+          <para>Tells <command>init</command> which run-level to change to</para>
+          <para><command>init</command>に対して、どのランレベルに変更するか指示します。</para>
+          <indexterm zone="ch-system-sysvinit telinit">
+            <primary sortas="b-telinit">telinit</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="utmpdump">
+        <term><command>utmpdump</command></term>
+        <listitem>
+          <para>Displays the content of the given login file in a more
+          user-friendly format</para>
+          <para>指定されたログインファイルの内容をよりユーザフレンドリーなフォーマットで表示します。</para>
+          <indexterm zone="ch-system-sysvinit utmpdump">
+            <primary sortas="b-utmpdump">utmpdump</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

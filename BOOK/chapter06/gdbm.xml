@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9187 -->
+
+<sect1 id="ch-system-gdbm" role="wrap">
+  <?dbhtml filename="gdbm.html"?>
+
+  <sect1info condition="script">
+    <productname>gdbm</productname>
+    <productnumber>&gdbm-version;</productnumber>
+    <address>&gdbm-url;</address>
+  </sect1info>
+
+  <title>GDBM-&gdbm-version;</title>
+
+  <indexterm zone="ch-system-gdbm">
+    <primary sortas="a-Gdbm">GDBM</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The GDBM package contains the GNU Database Manager.  This is a disk
+    file format database which stores key/data-pairs in single files.  The
+    actual data of any record being stored is indexed by a unique key, which can
+    be retrieved in less time than if it was stored in a text file.</para>
+    <para>GDBMパッケージはGNU Databese Managerを含んでいます。
+    キーとデータのペアを蓄えるシングルファイルのデータベースです。
+    どのレコードも実際のデータはユニークキーによってインデックス付けられ蓄積され、テキストファイルよりも短時間で検索することが出来ます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gdbm-ch6-sbu;</seg>
+        <seg>&gdbm-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of GDBM</title>-->
+    <title>GDBMのインストール</title>
+
+    <para>Prepare GDBM for compilation:</para>
+    <para>GDBMをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>This package does not come with a test suite.</para>
+    <para>このパッケージにはテストツールは付属していません。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>In addition, install the DBM and NDBM compatibility headers, as some
+    packages outside of LFS may look for these older dbm routines:</para>
+    <para>加えて、DBMとNDBMの互換ヘッダファイルをインストールします。
+    これは、LFS外のいくつかのパッケージがそれら古いdbmルーチンを参照するかもしれないからです。</para>
+
+<screen><userinput remap="install">make install-compat</userinput></screen>
+
+    <para>Fix a minor installation issue by manually adding GDBM to the 
+    <command>info</command> table of contents:</para> 
+    <para>GDBMを<command>info</command>コンテンツのテーブルにマニュアルで追加することで、インストールの軽微な問題を修正します：</para>
+ 
+<screen><userinput remap="install">install-info --dir-file=/usr/info/dir /usr/info/gdbm.info</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-gdbm" role="content">
+    <!--<title>Contents of GDBM</title>-->
+    <title>GDBMの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+
+      <seglistitem>
+        <seg>libgdbm.{so,a} and libgdbm_compat.{so,a}</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="libgdbm">
+        <term><filename class="libraryfile">libgdbm</filename></term>
+        <listitem>
+          <para>Contains functions to manipulate a hashed database</para>
+          <para>ハッシュデータベースを操作するファンクションを含んでいます。</para>
+          <indexterm zone="ch-system-gdbm libgdbm">
+            <primary sortas="c-libgdbm">libgdbm</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

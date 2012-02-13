@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="ch-scripts-introduction">
+  <?dbhtml filename="introduction.html"?>
+
+  <!--<title>Introduction</title>-->
+  <title>イントロダクション</title>
+
+  <para>This chapter details how to install and configure the LFS-Bootscripts
+  package. Most of these scripts will work without modification, but a few require
+  additional configuration files because they deal with hardware-dependent
+  information.</para>
+  <para>この章では、LFS-ブートスクリプトのインストールおよび設定の方法を詳しく説明します。
+  それらスクリプトのほとんどは変更なしで動作しますが、ハードウェア依存となる設定に対応するため、少しの設定ファイルの追加が必要になります。</para>
+
+  <para>System-V style init scripts are employed in this book because they are
+  widely used. For additional options, a hint detailing the BSD style init setup
+  is available at <ulink url="&hints-root;bsd-init.txt"/>.
+  Searching the LFS mailing lists for <quote>depinit</quote> will also offer
+  additional choices.</para>
+  <para>本書では、System-Vスタイルのinitスクリプトを採用しています。それは、このスタイルのinitスクリプトが広く使われているからです。
+  追加の選択肢として、BSDスタイルのinit設定のヒントが、<ulink url="&hints-root;bsd-init.txt"/>で確認することが出来ます。
+  LFSメーリングリストを<quote>depinit</quote>で検索すると、追加の選択肢を見つけることも出来ます。</para>
+
+  <para>If using an alternative style of init scripts, skip this chapter
+  and move on to <xref linkend="chapter-bootable"/>.</para>
+  <para>もし別のスタイルのinitスクリプトを使用するならば本章をスキップし、<xref linkend="chapter-bootable"/>に進んでください。</para>
+
+</sect1>

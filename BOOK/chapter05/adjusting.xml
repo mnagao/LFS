@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8958 -->
+
+<sect1 id="ch-tools-adjusting">
+  <?dbhtml filename="adjusting.html"?>
+
+  <title>Toolchainの調整</title>
+
+  <para>Now that the temporary C libraries have been installed, all
+  tools compiled in the rest of this chapter should be linked against
+  these libraries. In order to accomplish this, the cross-compiler's
+  specs file needs to be adjusted to point to the new dynamic linker
+  in <filename class="directory">/tools</filename>.</para>
+
+  <para>一時的なCライブラリがインストールされたので、本章の残り全てのツールはこの一時的なCライブラリにリンクされるようにするべきです。
+  そのようにするために、クロスコンパイラのspecsファイルは、<filename class="directory">/tools</filename>にある新しいダイナミックリンカを指すように修正する必要があります。
+  </para>
+
+  <para>This is done by dumping the compiler's <quote>specs</quote> file to a
+  location where it will look for it by default.
+  A simple <command>sed</command> substitution then alters the
+  dynamic linker that GCC will use. The principle here is to find all references 
+  to the dynamic linker file in <filename class="directory">/lib</filename> 
+  or possibly <filename class="directory">/lib64</filename> if the host system 
+  is 64-bit capable, and adjust them to point to the new location in 
+  <filename class="directory">/tools</filename>.</para>
+
+  <para>これは、デフォルトの配置先に、コンパイラの<quote>specs</quote>ファイルをダンプすることで行います。
+  そして、単純な<command>sed</command>コマンドで置換を行い、GCCが使用するダイナミックリンカを変更します。
+  ここでの方針は、<filename class="directory">/lib</filename>または64bitのシステムであれば<filename class="directory">/lib64</filename>にあるダイナミックリンカファイルへの全ての参照を見つけることです。
+  そして、それらの参照を新しいロケーションである<filename class="directory">/tools</filename>を指すように調整します。
+  </para>
+
+  <para>For the sake of accuracy, it is recommended to use a copy-and-paste
+  method when issuing the following command. Be sure to visually inspect the
+  specs file to verify that it has properly adjusted all references to the
+  dynamic linker location. Refer to <xref
+    linkend="ch-tools-toolchaintechnotes" role=","/> for the default name
+  of the dynamic linker, if necessary.</para>
+
+  <para>正確を期すために、次のコマンドを実行する際は、コピー&amp;ペーストで行うことをおすすめします。
+  specsファイルを目視でチェックし、ダイナミックリンカのロケーションへの全ての参照が正しく調整されていることを確認してください。
+  必要に応じて、ダイナミックリンカのデフォルトの名前を確認するために、<xref linkend="ch-tools-toolchaintechnotes" role=","/>を参照してください。
+  </para>
+
+<!-- Ampersands are needed to allow copy and paste -->
+<screen><userinput>SPECS=`dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/specs
+$LFS_TGT-gcc -dumpspecs | sed \
+  -e 's@/lib\(64\)\?/ld@/tools&amp;@g' \
+  -e "/^\*cpp:$/{n;s,$, -isystem /tools/include,}" &gt; $SPECS
+echo "New specs file is: $SPECS"
+unset SPECS</userinput></screen>
+
+  <caution>
+    <para>At this point, it is imperative to stop and ensure that the basic
+    functions (compiling and linking) of the new toolchain are working as
+    expected. To perform a sanity check, run the following commands:</para>
+
+    <para>この段階で一旦立ち止まり、新しいtoolchainの基本的な機能(コンパイルやリンク)を確認することが必要です。
+    サニティチェックは以下のコマンドで行います：
+    </para>
+
+<screen><userinput>echo 'main(){}' &gt; dummy.c
+$LFS_TGT-gcc -B/tools/lib dummy.c
+readelf -l a.out | grep ': /tools'</userinput></screen>
+
+    <para>If everything is working correctly, there should be no errors,
+    and the output of the last command will be of the form:</para>
+
+    <para>全てが正常に動作する場合は、エラーは発生せず、上記の最後のコマンド実行で以下の出力があります。
+    </para>
+
+<screen><computeroutput>[Requesting program interpreter: /tools/lib/ld-linux.so.2]</computeroutput></screen>
+
+    <para>Note that <filename class="directory">/tools/lib</filename>, or
+    <filename class="directory">/tools/lib64</filename> for 64-bit machines
+    appears as the prefix of the dynamic linker.</para>
+
+    <para><filename class="directory">/tools/lib</filename>、64-bitマシンであれば<filename class="directory">/tools/lib64</filename>がダイナミックリンカのプリフィックスとなっていることに留意してください。
+    </para>
+
+    <para>If the output is not shown as above or there was no output at all,
+    then something is wrong. Investigate and retrace the steps to find out
+    where the problem is and correct it. This issue must be resolved before
+    continuing on. Something may have gone wrong with the
+    specs file amendment above. In this case, redo the specs file amendment,
+    being careful to copy-and-paste the commands.</para>
+
+    <para>上のような画面出力ではない場合、または何も出力されない場合、何か問題があります。
+    その場合は、調査と手順を引き返すことで問題の箇所の発見し、修正を行ってください。
+    ここでの問題は残りの手順を続行する前に解決する必要があります。
+    specsファイルの修正で、何かの間違いがあったのかもしれません。このケースの場合、specsファイルの修正を再度行ってください。コピー&amp;ペーストを注意して行ってください。
+    </para>
+
+    <para>Once all is well, clean up the test files:</para>
+    <para>全てがうまくいったら、テストで使用したファイルを削除します：</para>
+
+<screen><userinput>rm -v dummy.c a.out</userinput></screen>
+
+  </caution>
+
+  <note>
+    <para>Building Binutils in the next section will serve as an additional check that
+    the toolchain has been built properly. If Binutils fails to build, it is an
+    indication that something has gone wrong with the previous Binutils, GCC, or Glibc
+    installations.</para>
+
+    <para>次章でビルドするBinutilsは、toolchainが正しく構築できたことを追加でチェックするために使用します。
+    もしBinutilsのビルドに失敗した場合、1回目にビルドしたBinutils、GCCまたはGlibcのインストールに何か問題がある兆候を示しています。
+    </para>
+  </note>
+
+</sect1>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="ch-scripts-hostname">
+  <?dbhtml filename="hostname.html"?>
+
+  <!--<title>Configuring the localnet Script</title>-->
+  <title>localnetスクリプトの設定</title>
+
+  <indexterm zone="ch-scripts-hostname">
+    <primary sortas="d-localnet">localnet</primary>
+    <secondary>configuring</secondary>
+  </indexterm>
+
+  <para>Part of the job of the <command>localnet</command> script is setting the
+  system's hostname. This needs to be configured in the
+  <filename>/etc/sysconfig/network</filename> file.</para>
+  <para><command>localnet</command>スクリプトの仕事の一部は、システムのホスト名を設定することです。
+  これは<filename>/etc/sysconfig/network</filename>ファイル内で設定する必要があります。</para>
+
+  <para>Create the <filename>/etc/sysconfig/network</filename> file and enter a
+  hostname by running:</para>
+  <para>以下を実行することで、<filename>/etc/sysconfig/network</filename>ファイルを作成し、ホスト名を記述します。</para>
+
+<screen><userinput>echo "HOSTNAME=<replaceable>&lt;lfs&gt;</replaceable>" &gt; /etc/sysconfig/network</userinput></screen>
+
+  <para><replaceable>&lt;lfs&gt;</replaceable> needs to be replaced with the name given
+  to the computer. Do not enter the Fully Qualified Domain Name (FQDN) here. That
+  information will be put in the <filename>/etc/hosts</filename> file in the next
+  section.</para>
+  <para><replaceable>&lt;lfs&gt;</replaceable>は、コンピュータの名前で置き換える必要があります。
+  ここではFQDN(Fully Qualified Domain Name)を入力しないでください。
+  FQDNは次のセクションで<filename>/etc/hosts</filename>に記述します。</para>
+
+</sect1>

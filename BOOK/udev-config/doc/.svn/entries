@@ -1,0 +1,52 @@
+8
+
+dir
+9410
+http://svn.linuxfromscratch.org/LFS/trunk/BOOK/udev-config/doc
+http://svn.linuxfromscratch.org/LFS
+
+
+
+2010-01-26T19:28:22.487090Z
+9165
+matthew
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4aa44e1e-78dd-0310-a6d2-fbcd4c07a689
+
+55-lfs.txt
+file
+
+
+
+
+2010-11-02T03:52:31.000000Z
+8d886b1a052f6fc0a87b7604063519ab
+2010-01-26T19:28:22.487090Z
+9165
+matthew
+
+README
+file
+
+
+
+
+2010-11-02T03:52:31.000000Z
+90e5c3bec26a2ede0ce54f234d99d998
+2006-09-23T23:37:59.004643Z
+7801
+bryan
+

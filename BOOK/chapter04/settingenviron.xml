@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8755 -->
+
+<sect1 id="ch-tools-settingenviron">
+  <?dbhtml filename="settingenvironment.html"?>
+
+  <title>環境設定</title>
+
+  <para>Set up a good working environment by creating two new startup files
+  for the <command>bash</command> shell. While logged in as user
+  <systemitem class="username">lfs</systemitem>, issue the following command
+  to create a new <filename>.bash_profile</filename>:</para>
+
+  <para><command>bash</command> の2つの新しいスタートアップファイルを作成し、作業環境のセットアップを行います。
+  ユーザ<systemitem class="username">lfs</systemitem> でログインした状態で、次のコマンドを実行し、新規に<filename>.bash_profile</filename>を作成してください：
+  </para>
+
+<screen><userinput>cat &gt; ~/.bash_profile &lt;&lt; "EOF"
+<literal>exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash</literal>
+EOF</userinput></screen>
+
+  <para>When logged on as user <systemitem class="username">lfs</systemitem>,
+  the initial shell is usually a <emphasis>login</emphasis> shell which reads
+  the <filename>/etc/profile</filename> of the host (probably containing some
+  settings and environment variables) and then <filename>.bash_profile</filename>.
+  The <command>exec env -i.../bin/bash</command> command in the
+  <filename>.bash_profile</filename> file replaces the running shell with a new
+  one with a completely empty environment, except for the <envar>HOME</envar>,
+  <envar>TERM</envar>, and <envar>PS1</envar> variables. This ensures that no
+  unwanted and potentially hazardous environment variables from the host system
+  leak into the build environment. The technique used here achieves the goal of
+  ensuring a clean environment.</para>
+
+  <para>ユーザ<systemitem class="username">lfs</systemitem>でログインすると、初期のシェルは通常<emphasis>ログイン</emphasis>シェルとなり、ホストの<filename>/etc/profile</filename> (いくつかの設定と環境変数が含まれています)と次に<filename>.bash_profile</filename>を読み込みます。
+  <filename>.bash_profile</filename>の<command>exec env -i.../bin/bash</command>は、完全に空の環境(環境変数<envar>HOME</envar>, <envar>TERM</envar>, <envar>PS1</envar>は設定されます)である新しいシェルを起動します。
+  これにより、不必要な環境変数や、潜在的に有害な環境変数が、ホストシステムから構築しようとするシステムに漏れ出すことを防ぎます。
+  ここで用いたテクニックにより、クリーンな環境を作るという目標を達成できます。
+  </para>
+
+  <para>The new instance of the shell is a <emphasis>non-login</emphasis>
+  shell, which does not read the <filename>/etc/profile</filename> or
+  <filename>.bash_profile</filename> files, but rather reads the
+  <filename>.bashrc</filename> file instead. Create the
+  <filename>.bashrc</filename> file now:</para>
+
+  <para>起動される新しいシェルのインスタンスは、<emphasis>non-login</emphasis>シェルとなり、<filename>/etc/profile</filename>または<filename>.bash_profile</filename>は読み込みません。
+  しかし、<filename>.bashrc</filename>は読み込まれます。
+  以下のとおり、<filename>.bashrc</filename>を作成してください：
+  </para>
+
+<screen><userinput>cat &gt; ~/.bashrc &lt;&lt; "EOF"
+<literal>set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/tools/bin:/bin:/usr/bin
+export LFS LC_ALL LFS_TGT PATH</literal>
+EOF</userinput></screen>
+
+  <para>The <command>set +h</command> command turns off
+  <command>bash</command>'s hash function. Hashing is ordinarily a useful
+  feature&mdash;<command>bash</command> uses a hash table to remember the
+  full path of executable files to avoid searching the <envar>PATH</envar>
+  time and again to find the same executable. However, the new tools should
+  be used as soon as they are installed. By switching off the hash function,
+  the shell will always search the <envar>PATH</envar> when a program is to
+  be run. As such, the shell will find the newly compiled tools in
+  <filename class="directory">$LFS/tools</filename> as soon as they are
+  available without remembering a previous version of the same program in a
+  different location.</para>
+
+  <para><command>set +h</command> は、<command>bash</command>のハッシュ機能をオフにします。
+  ハッシュ機能は通常は便利な機能です &mdash; 同じ実行ファイルを探すたびに、<envar>PATH</envar>をサーチするのを避けるため、<command>bash</command>は実行ファイルのフルパスをハッシュテーブルに保持しています。
+  しかしながら、新しいツールがインストールされたらすぐに使用されるべきです。
+  ハッシュ機能をオフにすることで、プログラムを実行するときは毎回<envar>PATH</envar>をサーチするようになります。
+  このことにより、異なる場所にある過去のバージョンをハッシュテーブルに格納せずに、シェルは<filename class="directory">$LFS/tools</filename>に配置された新しくコンパイルされたツールをすぐに見つけるでしょう。
+  </para>
+
+  <para>Setting the user file-creation mask (umask) to 022 ensures that newly
+  created files and directories are only writable by their owner, but are
+  readable and executable by anyone (assuming default modes are used by the
+  <function>open(2)</function> system call, new files will end up with permission
+  mode 644 and directories with mode 755).</para>
+
+  <para>User File-creation Mask (umask) を 022 に設定することで、新しく作成されるファイル・ディレクトリは、その所有者だけが書き込み可能となり、誰でも読み込み・実行は可能となります(デフォルトのモードは、<function>open(2)</function>システムコールに使用され、新しいファイルはパーミッションが644、ディレクトリは755となります)。
+  </para>
+
+  <para>The <envar>LFS</envar> variable should be set to the chosen mount
+  point.</para>
+
+  <para>環境変数<envar>LFS</envar>に、LFSパーティションのマウントポイントを指定してください。
+  </para>
+
+  <para>The <envar>LC_ALL</envar> variable controls the localization of certain
+  programs, making their messages follow the conventions of a specified country.
+  If the host system uses a version of Glibc older than 2.2.4, having
+  <envar>LC_ALL</envar> set to something other than <quote>POSIX</quote> or
+  <quote>C</quote> (during this chapter) may cause issues if you exit the chroot
+  environment and wish to return later. Setting <envar>LC_ALL</envar> to
+  <quote>POSIX</quote> or <quote>C</quote> (the two are equivalent) ensures that
+  everything will work as expected in the chroot environment.</para>
+
+  <para>環境変数<envar>LC_ALL</envar>はプログラムのローカライゼーションを制御し、指定した国の慣習に沿った出力メッセージを作り出します。
+  もし、ホストシステムのGlibcがバージョン2.2.4よりも古い場合、<envar>LC_ALL</envar>に<quote>POSIX</quote>または<quote>C</quote>以外をセットしていると、chroot環境からexitし、後でchroot環境に戻る際に問題が生じるかもしれません(本章の間)。
+  <envar>LC_ALL</envar>を<quote>POSIX</quote>または<quote>C</quote>(この2つは同じ意味です)にセットすることで、chroot環境で全て想定どおりに動作します。
+  </para>
+
+  <para>The <envar>LFS_TGT</envar> variable sets a non-default, but compatible machine 
+  description for use when building our cross compiler and linker and when cross 
+  compiling our temporary toolchain. More information is contained in 
+  <xref linkend="ch-tools-toolchaintechnotes" role=""/>.</para>
+  <para>環境変数<envar>LFS_TGT</envar>は、クロスコンパイラとリンカをビルドする時と一時的なツールチェインをクロスコンパイルする時に使用する互換マシンの種類をセットします。
+  <xref linkend="ch-tools-toolchaintechnotes" role=""/>に、より詳しい情報があります。</para>
+
+  <para>By putting <filename class="directory">/tools/bin</filename> ahead of the
+  standard <envar>PATH</envar>, all the programs installed in <xref
+  linkend="chapter-temporary-tools"/> are picked up by the shell immediately after
+  their installation. This, combined with turning off hashing, limits the risk
+  that old programs are used from the host when the same programs are available in
+  the chapter 5 environment.</para>
+
+  <para>環境変数<envar>PATH</envar>の先頭に<filename class="directory">/tools/bin</filename>を入れることで、<xref linkend="chapter-temporary-tools"/>でインストールするプログラム全てが、シェルによって即時に選ばれるようになります。
+  この設定と、シェルのハッシュ機能のオフを組み合わせると、同じプログラムが第5章の環境に存在するときに、ホストシステム上の古いプログラムが使用されるリスクを抑えられます。
+  </para>
+
+  <para>Finally, to have the environment fully prepared for building the
+  temporary tools, source the just-created user profile:</para>
+
+  <para>最後に、一時的に使用するツールをビルドする環境を準備するため、さきほど作成したユーザのプロファイルをsourceします：
+  </para>
+
+<screen><userinput>source ~/.bash_profile</userinput></screen>
+
+</sect1>

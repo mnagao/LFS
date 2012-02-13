@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8884 -->
+
+<sect1 id="ch-scripts-profile">
+  <?dbhtml filename="profile.html"?>
+
+  <!--<title>The Bash Shell Startup Files</title>-->
+  <title>Bash Shellの起動ファイル</title>
+
+  <indexterm zone="ch-scripts-profile">
+    <primary sortas="e-/etc/profile">/etc/profile</primary>
+  </indexterm>
+
+  <para>The shell program <command>/bin/bash</command> (hereafter referred to
+  as <quote>the shell</quote>) uses a collection of startup files to help
+  create an environment to run in. Each file has a specific use and may affect
+  login and interactive environments differently. The files in the <filename
+  class="directory">/etc</filename> directory provide global settings. If an
+  equivalent file exists in the home directory, it may override the global
+  settings.</para>
+  <para>shellプログラム<command>/bin/bash</command>(今後、<quote>shell</quote>と呼ぶ)は、実行する環境を作成するために、いくつかの起動ファイルを使用します。
+  それぞれのファイルは個々の用途があり、また、ログインと対話環境に異なった影響を与えます。
+  <filename class="directory">/etc</filename>ディレクトリののファイルは、グローバルな設定を提供します。
+  もし同じファイルがホームディレクトリに存在する場合、ホームディレクトリにあるファイルが、グローバルの設定を上書きします。
+  </para>
+
+  <para>An interactive login shell is started after a successful login, using
+  <command>/bin/login</command>, by reading the <filename>/etc/passwd</filename>
+  file. An interactive non-login shell is started at the command-line (e.g.,
+  <prompt>[prompt]$</prompt><command>/bin/bash</command>). A non-interactive
+  shell is usually present when a shell script is running. It is non-interactive
+  because it is processing a script and not waiting for user input between
+  commands.</para>
+  <para>ログイン成功の後、<command>/bin/login</command>を使用し、<filename>/etc/passwd</filename>が読まれ、対話式のログインshellが起動されます。
+  そして、コマンドラインで対話式の非ログインshellが起動されます(例：<prompt>[prompt]$</prompt><command>/bin/bash</command>)。
+  シェルスクリプトを実行する時、通常は非対話式shellが動きます。
+  非対話式なのは、スクリプトを処理しコマンドを実行する間は、ユーザの入力を待たないからです。
+
+  </para>
+
+  <para>For more information, see <command>info bash</command> under the
+  <emphasis>Bash Startup Files and Interactive Shells</emphasis> section.</para>
+  <para>より詳しい情報は、<command>info bash</command>の<emphasis>Bash Startup Files and Interactive Shells</emphasis>セクションを見てください。</para>
+
+  <para>The files <filename>/etc/profile</filename> and
+  <filename>~/.bash_profile</filename> are read when the shell is
+  invoked as an interactive login shell.</para>
+  <para><filename>/etc/profile</filename>ファイルと<filename>~/.bash_profile</filename>ファイルは、対話式のログインshellとしてshellが起動されたときに読まれます。
+</para>
+
+  <para>The base <filename>/etc/profile</filename> below sets some
+  environment variables necessary for native language support. Setting
+  them properly results in:</para>
+  <para>後で示す、基本となる<filename>/etc/profile</filename>では、Native Language Supportに必要ないくつかの環境変数をセットします。</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>The output of programs translated into the native language</para>
+      <para>プログラムの出力をNative Languageに翻訳します。</para>
+    </listitem>
+    <listitem>
+      <para>Correct classification of characters into letters, digits and other
+      classes. This is necessary for <command>bash</command> to properly accept
+      non-ASCII characters in command lines in non-English locales</para>
+      <para>キャラクターの分類(文字、数字、その他)を修正します。
+      これは、<command>bash</command>が、非英語ロケールにおけるコマンドライン中の非ASCII文字を正しく受け入れるために必要です。</para>
+    </listitem>
+    <listitem>
+      <para>The correct alphabetical sorting order for the country</para>
+      <para>国によって異なるアルファベット順のソート方法を修正します。</para>
+    </listitem>
+    <listitem>
+      <para>Appropriate default paper size</para>
+      <para>デフォルトの用紙サイズを設定します。</para>
+    </listitem>
+    <listitem>
+      <para>Correct formatting of monetary, time, and date values</para>
+      <para>通貨、時刻、日付のフォーマットを修正します。</para>
+    </listitem>
+  </itemizedlist>
+
+  <para>Replace <replaceable>&lt;ll&gt;</replaceable> below with the two-letter code
+  for the desired language (e.g., <quote>en</quote>) and
+  <replaceable>&lt;CC&gt;</replaceable> with the two-letter code for the appropriate
+  country (e.g., <quote>GB</quote>). <replaceable>&lt;charmap&gt;</replaceable> should
+  be replaced with the canonical charmap for your chosen locale. Optional
+  modifiers such as <quote>@euro</quote> may also be present.</para>
+  <para>以下で、<replaceable>&lt;ll&gt;</replaceable>は希望する言語を表す2文字のコードに置き換えて下さい(例：<quote>en</quote>)。
+  また、<replaceable>&lt;CC&gt;</replaceable>は適した国を表す2文字のコードに置き換えて下さい(例：<quote>GB</quote>)。
+  <replaceable>&lt;charmap&gt;</replaceable>は、あなたが選択したロケールの標準的なキャラクターマップに置き換えるべきです。
+  <quote>@euro</quote>のようなオプションの修飾子も存在します。</para>
+
+  <para>The list of all locales supported by Glibc can be obtained by running
+  the following command:</para>
+  <para>Glibcでサポートされる全ロケールのリストは、次のコマンドを実行することで得られます：</para>
+
+<screen role="nodump"><userinput>locale -a</userinput></screen>
+
+  <para>Charmaps can have a number of aliases, e.g., <quote>ISO-8859-1</quote>
+  is also referred to as <quote>iso8859-1</quote> and <quote>iso88591</quote>.
+  Some applications cannot handle the various synonyms correctly (e.g., require
+  that <quote>UTF-8</quote> is written as <quote>UTF-8</quote>, not
+  <quote>utf8</quote>), so it is safest in most
+  cases to choose the canonical name for a particular locale. To determine
+  the canonical name, run the following command, where <replaceable>&lt;locale
+  name&gt;</replaceable> is the output given by <command>locale -a</command> for
+  your preferred locale (<quote>en_GB.iso88591</quote> in our example).</para>
+  <para>キャラクターマップはたくさんの別名を持つことが出来ます。
+  例：<quote>ISO-8859-1</quote>は、<quote>iso8859-1</quote>と<quote>iso88591</quote>として参照されます。
+  いくつかのアプリケーションは、様々な別名を正しく取り扱えません(例：<quote>UTF-8</quote>は、<quote>utf8</quote>ではなく<quote>UTF-8</quote>と書く必要がある)。したがって、ほとんどのケースにおいて、特定のロケールの正式な名称を選ぶことが最も安全です。
+  正式な名称を特定するためには、次のコマンドを実行して下さい。<replaceable>&lt;locale name&gt;</replaceable>は、<command>locale -a</command>の結果から選んだロケールを入れます(<quote>en_GB.iso88591</quote>は例です)。</para>
+
+<screen role="nodump"><userinput>LC_ALL=<replaceable>&lt;locale name&gt;</replaceable> locale charmap</userinput></screen>
+
+  <para>For the <quote>en_GB.iso88591</quote> locale, the above command
+  will print:</para>
+  <para><quote>en_GB.iso88591</quote>ロケールに対する、上記コマンドの結果は：</para>
+
+<screen><computeroutput>ISO-8859-1</computeroutput></screen>
+
+  <para>This results in a final locale setting of <quote>en_GB.ISO-8859-1</quote>.
+  It is important that the locale found using the heuristic above is tested prior
+  to it being added to the Bash startup files:</para>
+  <para>この結果、<quote>en_GB.ISO-8859-1</quote>の最終的なロケール設定となります。
+  Bashの起動ファイルに追加するよりも前に、上記ヒューリスティックな方法を用いて見つけたロケールでテストを行うことが重要です。</para>
+
+<screen role="nodump"><userinput>LC_ALL=&lt;locale name&gt; locale language
+LC_ALL=&lt;locale name&gt; locale charmap
+LC_ALL=&lt;locale name&gt; locale int_curr_symbol
+LC_ALL=&lt;locale name&gt; locale int_prefix</userinput></screen>
+
+  <para>The above commands should print the language name, the character
+  encoding used by the locale, the local currency, and the prefix to dial
+  before the telephone number in order to get into the country. If any of the
+  commands above fail with a message similar to the one shown below, this means
+  that your locale was either not installed in Chapter 6 or is not supported by
+  the default installation of Glibc.</para>
+  <para>上記コマンドは、言語名、ロケールが使用するキャラクターエンコーディング、現地通貨、その国に電話するために、電話番号の最初に付加する番号を表示するはずです。
+  もし上記コマンドのいずれかが、以下に示したメッセージと似た内容のメッセージを出力して失敗した場合、ロケールが6章でインストールされていないか、Glibcのデフォルトのインストールでサポートされないかのどちらかを意味しています。</para>
+
+<screen><computeroutput>locale: Cannot set LC_* to default locale: No such file or directory</computeroutput></screen>
+
+  <para>If this happens, you should either install the desired locale using the
+  <command>localedef</command> command, or consider choosing a different locale.
+  Further instructions assume that there are no such error messages from
+  Glibc.</para>
+  <para>もし上記メッセージが表示された場合、必要なロケールを<command>localedef</command>コマンドでインストールするか、別のロケールを選択することを検討すべきです。
+  これ以降の手順では、Glibcからそのようなエラーが出力されない状態を想定しています。</para>
+
+  <!-- FIXME: the xlib example will became obsolete real soon -->
+  <para>Some packages beyond LFS may also lack support for your chosen locale. One
+  example is the X library (part of the X Window System), which outputs the
+  following error message if the locale does not exactly match one of the character
+  map names in its internal files:</para>
+  <para>LFSの範囲外のいくつかのパッケージはまた、あなたが選んだロケールをサポートしていないかもしれません。
+  一例はXライブラリ(X Window Systemの一部)で、ロケールが、Xライブラリが内部でファイルに保持しているキャラクターマップのひとつにマッチしない場合、次のエラーメッセージが出力されます：
+  </para>
+
+<screen><computeroutput>Warning: locale not supported by Xlib, locale set to C</computeroutput></screen>
+
+  <para>In several cases Xlib expects that the character map will be listed in
+  uppercase notation with canonical dashes. For instance, "ISO-8859-1" rather
+  than "iso88591". It is also  possible to find an appropriate specification by
+  removing the charmap part of the locale specification.  This can be checked
+  by running the <command>locale charmap</command> command in both locales.
+  For example, one would have to change "de_DE.ISO-8859-15@euro" to
+  "de_DE@euro" in order to get this locale recognized by Xlib.</para>
+  <para>いくつかのケースにおいて、XLibは、キャラクターマップがダッシュ記号付きの大文字表記でリストされていることを期待しています。
+  例えば、"iso88591"ではなく"ISO-8859-1"を期待しています。
+  ロケール指定のキャラクターマップ部分を削除することで、適切なロケール指定を見つけることも可能です。
+  これは<command>locale charmap</command>コマンドを両方のロケールで実行することで、チェックすることが出来ます。
+  例えば、ロケールがXlibから認識されるようにするため、"de_DE.ISO-8859-15@euro"を"de_DE@euro"に変更する必要があります。</para>
+
+  <para>Other packages can also function incorrectly (but may not necessarily
+  display any error messages) if the locale name does not meet their expectations.
+  In those cases, investigating how other Linux distributions support your locale
+  might provide some useful information.</para>
+  <para>そのほかのパッケージにおいても、ロケール名が期待したものではない場合、うまく機能しないかもしれません(ただし、必ずしもエラーメッセージが表示されるとは限りません)。
+  そのようなケースにおいて、他のLinuxディストリビューションがあなたが指定したロケールをどのようにサポートしているか調査することで、何らかの良い情報が得られるかもしれません。</para>
+
+  <para>Once the proper locale settings have been determined, create the
+  <filename>/etc/profile</filename> file:</para>
+  <para>適切なロケール設定が決まれば、<filename>/etc/profile</filename>ファイルを作成します：</para>
+
+<screen><userinput>cat &gt; /etc/profile &lt;&lt; "EOF"
+<literal># Begin /etc/profile
+
+export LANG=<replaceable>&lt;ll&gt;_&lt;CC&gt;.&lt;charmap&gt;&lt;@modifiers&gt;</replaceable>
+
+# End /etc/profile</literal>
+EOF</userinput></screen>
+
+  <para>The <quote>C</quote> (default) and <quote>en_US</quote> (the recommended
+  one for United States English users) locales are different. <quote>C</quote>
+  uses the US-ASCII 7-bit character set, and treats bytes with the high bit set
+  as invalid characters. That's why, e.g., the <command>ls</command> command
+  substitutes them with question marks in that locale. Also, an attempt to send
+  mail with such characters from Mutt or Pine results in non-RFC-conforming
+  messages being sent (the charset in the outgoing mail is indicated as <quote>unknown
+  8-bit</quote>). So you can use the <quote>C</quote> locale only if you are sure that
+  you will never need 8-bit characters.</para>
+  <para><quote>C</quote>ロケール(デフォルト)と<quote>en_US</quote>ロケール(米国の英語ユーザの推奨)は異なります。
+  <quote>C</quote>はUS-ASCII 7-bitキャラクターセットを使用し、最上位ビットが立ったバイトを無効なキャラクターとして取り扱います。
+  そんなわけで、例えば<command>ls</command>コマンドは、無効なキャラクターをクエスチョンマークに置き換えます。
+  また、そのような無効なキャラクターを含むメールをMuttやPineから送ろうとすると、RFCの基準に沿っていないメッセージが送られることになります(外部に送信するメールのキャラクターセットは、<quote>unknown 8-bit</quote>と表示されます)。
+  したがって、8-bitキャラクターが決して必要ないことが確実であるときだけ、<quote>C</quote>ロケールを使用できます。</para>
+
+  <para>UTF-8 based locales are not supported well by many programs.
+  Work is in progress to document and, if possible, fix such problems, see
+  <ulink url="&blfs-root;view/svn/introduction/locale-issues.html"/>.</para>
+  <para>UTF-8ベースのロケールは、多くのプログラムでは完全にサポートされていません。
+  UTF-8へ対応させる作業のドキュメント化は進行中で、<ulink url="&blfs-root;view/svn/introduction/locale-issues.html"/>を参照し、可能であれば問題を修正してください。
+  </para>
+
+</sect1>

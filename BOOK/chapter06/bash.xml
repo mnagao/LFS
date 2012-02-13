@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9463 -->
+
+<sect1 id="ch-system-bash" role="wrap">
+  <?dbhtml filename="bash.html"?>
+
+  <sect1info condition="script">
+    <productname>bash</productname>
+    <productnumber>&bash-version;</productnumber>
+    <address>&bash-url;</address>
+  </sect1info>
+
+  <title>Bash-&bash-version;</title>
+
+  <indexterm zone="ch-system-bash">
+    <primary sortas="a-Bash">Bash</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Bash package contains the Bourne-Again SHell.</para>
+    <para>Bashパッケージは、Bourne-Again SHellを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&bash-ch6-sbu;</seg>
+        <seg>&bash-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Bash</title>-->
+    <title>Bashのインストール</title>
+
+    <para>Prepare Bash for compilation:</para>
+    <para>Bashをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --bindir=/bin \
+    --htmldir=/usr/share/doc/bash-&bash-version; --without-bash-malloc \
+    --with-installed-readline</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
+
+      <varlistentry> 
+        <term><parameter>--htmldir</parameter></term>
+        <listitem>
+          <para>This option designates the directory into which HTML formatted
+          documentation will be installed.</para>
+          <para>このオプションによって、HTMLドキュメントをインストールするディレクトリを指定します。</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><parameter>--with-installed-readline</parameter></term>
+        <listitem>
+          <para>This option tells Bash to use the <filename
+          class="libraryfile">readline</filename> library that is already
+          installed on the system rather than using its own readline
+          version.</para>
+          <para>このオプションを指定することで、Bash付属のreadlineではなく、システムにインストールされている<filename class="libraryfile">readline</filename>ライブラリを使用します。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Skip down to <quote>Install the
+    package</quote> if not running the test suite.</para>
+    <para>もしテストツールを実行しない場合は、<quote>パッケージのインストール</quote>にスキップしてください。</para>
+
+    <para>To prepare the tests, ensure that the <systemitem class="username">nobody</systemitem> user can write to the sources tree:</para>
+    <para>テストに備え、ユーザ<systemitem class="username">nobody</systemitem>がソースツリーに書き込めるようにします。</para>
+
+<screen><userinput remap="test">chown -Rv nobody .</userinput></screen>
+
+    <para>Now, run the tests as the <systemitem
+    class="username">nobody</systemitem> user:</para>
+
+    <para>では、<systemitem class="username">nobody</systemitem>ユーザでテストを実行します：</para>
+
+<screen><userinput remap="test">su-tools nobody -s /bin/bash -c "make tests"</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Run the newly compiled <command>bash</command> program (replacing the one that is
+    currently being executed):</para>
+
+    <para>新しくコンパイルした<command>bash</command>プログラムを実行します(現在実行しているbashの代わりに)：</para>
+
+<screen role="nodump"><userinput>exec /bin/bash --login +h</userinput></screen>
+
+    <note>
+      <para>The parameters used make the <command>bash</command>
+      process an interactive login shell and continue to disable hashing so
+      that new programs are found as they become available.</para>
+      <para>使用したパラメータにより、<command>bash</command>をインタラクティブ・ログインシェルとして起動します。
+      また、新しいプログラムが利用可能になったことを検知できるようにするため、引き続きハッシュ機能をOFFにします。</para>
+    </note>
+
+  </sect2>
+
+  <sect2 id="contents-bash" role="content">
+    <!--<title>Contents of Bash</title>-->
+    <title>Bashの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>bash, bashbug, and sh (link to bash)</seg>
+        <seg>/usr/share/doc/bash-&bash-version;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="bash">
+        <term><command>bash</command></term>
+        <listitem>
+          <para>A widely-used command interpreter; it performs many types of
+          expansions and substitutions on a given command line before executing
+          it, thus making this interpreter a powerful tool</para>
+          <para>広く使われているコマンドインタプリタです。
+          コマンド実行時に、多くの種類の拡張機能と置換処理を行います。
+          それら機能が、bashをパワフルなツールに仕立てています。
+          </para>
+          <indexterm zone="ch-system-bash bash">
+            <primary sortas="b-bash">bash</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="bashbug">
+        <term><command>bashbug</command></term>
+        <listitem>
+          <para>A shell script to help the user compose and mail standard
+          formatted bug reports concerning <command>bash</command></para>
+          <para>ユーザが、<command>bash</command>に関係するバグレポートを標準のフォーマットで作成し、メール送信を行う手助けをしてくれるシェルスクリプトです。</para>
+          <indexterm zone="ch-system-bash bashbug">
+            <primary sortas="b-bashbug">bashbug</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sh">
+        <term><command>sh</command></term>
+        <listitem>
+          <para>A symlink to the <command>bash</command> program; when invoked
+          as <command>sh</command>, <command>bash</command> tries to mimic the
+          startup behavior of historical versions of <command>sh</command> as
+          closely as possible, while conforming to the POSIX standard as
+          well</para>
+          <para><command>bash</command>プログラムへのシンボリックリンクです。
+          <command>sh</command>として起動された場合、<command>bash</command>は、歴史的なバージョンの<command>sh</command>の起動時の振る舞いを可能な限り真似ようとします(同時にPOSIXに適合しようとします)。</para>
+          <indexterm zone="ch-system-bash sh">
+            <primary sortas="b-sh">sh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

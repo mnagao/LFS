@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9459 -->
+
+<sect1 id="pre-why">
+  <?dbhtml filename="package-choices.html"?>
+
+  <!--<title>Rationale for Packages in the Book</title>-->
+  <title>本書におけるパッケージの論理的根拠</title>
+
+    <para>As stated earlier, the goal of LFS is to build a complete and usable 
+    foundation-level system.  This includes all packages needed to replicate 
+    itself while providing a relatively minimal base from which to customize
+    a more complete system based on the choices of the user.  This does not
+    mean that LFS is the smallest system possible.  Several important packages
+    are included that are not strictly required.  The lists below document the
+    rationale for each package in the book.</para>
+    <para>前に述べたとおり、LFSの目標は完全かつ使いものになる基盤レベルのシステムを構築することです。
+    これは、自分自身を複製する必要がある全てのパッケージを含んでいます。
+    その一方で、LFSはユーザーの選択に基づいた、より完全なシステムをカスタマイズするための比較的最小のベースとなるシステムを提供します。
+    これは、LFSが可能な限り最小のシステムであることを意味していません。
+    厳密には必要ではないいくつかの重要なパッケージが含まれています。
+    以下のリストは本書のそれぞれのパッケージに対する論理的根拠を記録しています。
+    </para>
+
+    <itemizedlist>
+
+      <listitem>
+        <para>Autoconf</para>
+
+        <para>This package contains programs for producing shell scripts that
+        can automatically configure source code from a developer's
+        template. It is often needed to rebuild a package after updates
+        to the build procedures.</para>
+        <para>このパッケージは、開発者が作成したテンプレートから、ソースコードを自動的に設定出来るシェルスクリプトを生成するプログラムを含んでいます。
+        ビルドの手続きを更新した後は、しばしばパッケージをリビルドする必要があります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Automake</para>
+
+        <para>This package contains programs for generating Make files from
+        a template. It is often needed to rebuild a package after updates
+        to the build procedures.</para>
+        <para>このパッケージは、テンプレートからMakeファイルを生成するプログラムを含んでいます。
+        ビルドの手続きを更新した後は、しばしばパッケージをリビルドする必要があります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Bash</para>
+
+        <para>This package satisfies an LSB core requirement to provide
+        a Bourne Shell interface to the system.  It was chosen over
+        other shell packages because of its common usage and extensive
+        capabilities beyond basic shell functions.</para>
+        <para>このパッケージは、システムに対してBourne Shellインタフェースを提供するため、LSBのcore必要条件を満たします。</para>
+      </listitem>
+
+      <listitem>
+        <para>Binutils</para>
+
+        <para>This package contains a linker, an assembler, and other
+        tools for handling object files. The programs in this package are
+        needed to compile most of the packages in an LFS system and beyond.</para>
+        <para>このパッケージは、オブジェクトファイルを操作するためのリンカ、アセンブラ、その他ツールを含んでいます。
+        このパッケージのプログラムは、LFSシステムとLFS構築後において、ほとんどのパッケージをコンパイルするために必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Bison</para>
+
+        <para>This package contains the GNU version of yacc (Yet Another
+        Compiler Compiler) needed to build several other LFS programs.</para>
+        <para>このパッケージは、LFSで取り扱っているいくつかの他のプログラムをビルドするために必要な、GNUバージョンのyacc(Yet Another Compiler Compiler)を含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Bzip2</para>
+
+        <para>This package contains programs for compressing and decompressing 
+        files.  It is required to decompress many LFS packages.</para>
+        <para>このパッケージは、ファイルを圧縮・解凍するためのプログラムを含んでいます。
+        多くのLFSパッケージを解凍するために必要です。</para>
+      </listitem>
+
+      <listitem>
+        <para>Coreutils</para>
+
+        <para>This package contains a number of essential programs for viewing
+        and manipulating files and directories. These programs are needed for
+        command line file management, and are necessary for the installation
+        procedures of every package in LFS.</para>
+        <para>このパッケージは、ファイルとディレクトリを閲覧・操作するために必須となるたくさんのプログラムを含んでいます。
+        それらプログラムはコマンドラインによるファイル操作のために必要です。また、LFSの各パッケージをインストールするためにも必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>DejaGNU</para>
+
+        <para>This package contains a framework for testing other programs.
+        It is only installed in the temporary toolchain.</para>
+        <para>このパッケージは他のプログラムをテストするためのフレームワークを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Diffutils</para>
+
+        <para>This package contains programs that show the differences
+        between files or directories. These programs can be used to create
+        patches, and are also used in many packages' build procedures.</para>
+        <para>このパッケージは、ファイルまたはディレクトリ間の差異を表示するプログラムを含んでいます。
+        それらプログラムはパッチを作成するために使うことも出来ます。また、多くのパッケージをビルドする手順の中でも使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Expect</para>
+
+        <para>This package contains a program for carrying out scripted 
+        dialogues with other interactive programs.  It is commonly used
+        for testing other packages.  It is only installed in the temporary 
+        toolchain.</para>
+        <para>このパッケージは、他の対話式プログラムとのやり取りを記述したスクリプトを実行するプログラムを含んでいます。
+        他のパッケージをテストするために一般に使われています。
+        このパッケージはテンポラリtoolchainのときのみインストールします。</para>
+      </listitem>
+
+      <listitem>
+        <para>E2fsprogs</para>
+
+        <para>This package contains the utilities for handling the ext2, ext3
+        and ext4 file systems.  These are the most common and thoroughly
+        tested file systems that Linux supports.</para>
+        <para>このパッケージは、ext2/ext3/ext4ファイルシステムを取り扱うユーティリティを含んでいます。
+        それらは、Linuxがサポートするファイルシステムとしては、最も普及しており徹底的にテストされています。</para>
+      </listitem>
+
+      <listitem>
+        <para>File</para>
+
+        <para>This package contains a utility for determining the type of a
+        given file or files. A few packages need it to build.</para>
+        <para>このパッケージは、ファイルの種類を調べるユーティリティを含みます。
+        少数のパッケージにおいて、ビルドするために必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Findutils</para>
+
+        <para>This package contains programs to find files in a file system.
+        It is used in many packages' build scripts.</para>
+        <para>このパッケージは、ファイルシステム上のファイルを検索するプログラムを含みます。
+        そのプログラムは多くのパッケージのビルドスクリプトで使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Flex</para>
+
+        <para>This package contains a utility for generating programs that 
+        recognize patterns in text.  It is the GNU version of the lex 
+        (lexical analyzer) program.  It is required to build several 
+        LFS packages.</para>
+        <para>このパッケージは、テキストのパターンを認識するプログラムを生成するユーティリティを含んでいます。
+        これはlex(lexical analyzer)プログラムのGNUバージョンです。
+        いくつかのLFSのパッケージをビルドするために必要になります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Gawk</para>
+
+        <para>This package contains programs for manipulating text files.
+        It is the GNU version of awk (Aho-Weinberg-Kernighan). It is used in
+        many other packages' build scripts.</para>
+        <para>このパッケージは、テキストファイルを操作するプログラムを含んでいます。
+        これはawk(Aho-Weinberg-Kernighan)のGNUバージョンです。
+        このパッケージは多くの他のパッケージのビルドスクリプトで使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Gcc</para>
+
+        <para>This package is the Gnu Compiler Collection.  It contains the 
+        C and C++ compilers as well as several others not built by LFS.  
+        </para>
+        <para>このパッケージは、Gnu Compiler Collectionです。
+        CとC++コンパイラと、LFSではビルドしないいくつかその他のコンパイラを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>GDBM</para>
+
+        <para>This package contains the GNU Database Manager library.  It
+        is used by one other LFS package, Man-DB.</para>
+        <para>このパッケージは、GNU Database Managerライブラリを含んでいます。
+        LFSのパッケージであるMan-DBによって使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Gettext</para>
+
+        <para>This package contains utilities and libraries for 
+        internationalization and localization of numerous packages.</para>
+        <para>このパッケージは、多くのパッケージの国際化やローカライゼーションのためのユーティリティとライブラリを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Glibc</para>
+
+        <para>This package contains the main C library.  Linux programs would
+        not run without it.</para>
+        <para>このパッケージは、主要なCライブラリです。
+        Linuxのプログラムはこのライブラリなしには動きません。</para>
+      </listitem>
+
+      <listitem>
+        <para>GMP</para>
+
+        <para>This package contains math libraries that provide useful functions
+        for arbitrary precision arithmetic.  It is required to build Gcc. </para>
+        <para>このパッケージは、数学関係のライブラリを含んでおり、任意精度の計算のための便利なファンクションを提供します。また、Gccをビルドするためにこのライブラリが必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Grep</para>
+
+        <para>This package contains programs for searching through files. These
+        programs are used by most packages' build scripts.</para>
+        <para>このパッケージは、ファイルの最初から最後までを検索するプログラムを含んでいます。
+        それらプログラムはほとんどのパッケージのビルドスクリプトで使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Groff</para>
+
+        <para>This package contains programs for processing and formatting text.
+        One important function of these programs is to format man pages.</para>
+        <para>このパッケージは、テキストを処理・整形するためのプログラムを含んでいます。
+        これらプログラムで重要な機能のひとつとして、manページのフォーマットがあります。</para>
+      </listitem>
+
+      <listitem>
+        <para>GRUB</para>
+
+        <para>This package is the Grand Unified Boot Loader.  It is one 
+        of several boot loaders available, but is the most flexible.
+        </para>
+        <para>このパッケージはGrand Unified Boot Loaderです。
+        利用可能ないくつかのブートローダーの一つですが、最も柔軟性があります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Gzip</para>
+
+        <para>This package contains programs for compressing and
+        decompressing files. It is needed to decompress many packages in LFS
+        and beyond.</para>
+        <para>このパッケージはファイルの圧縮や解凍のためのプログラムを含んでいます。
+        このパッケージはLFSやLFS構築において、多くのパッケージを解凍するために必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Iana-etc</para>
+
+        <para>This package provides data for network services and protocols.
+        It is needed to enable proper networking capabilities.</para>
+        <para>このパッケージはネットワークサービスとプロトコルのデータを提供します。
+        正しいネットワーク機能を有効にするために必要です。</para>
+      </listitem>
+
+      <listitem>
+        <para>Inetutils</para>
+
+        <para>This package contains programs for basic network 
+        administration.</para>
+        <para>このパッケージは基本的なネットワーク管理のためのプログラムを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>IProute2</para>
+
+        <para>This package contains programs for basic and advanced IPv4 and
+        IPv6 networking.  It was chosen over the other common network
+        tools package (net-tools) for its IPv6 capabilities.  </para>
+        <para>このパッケージは基本的・先進的なIPv4とIPv6ネットワークのためのプログラムを含んでいます。
+        このパッケージは、IPv6の将来性のため、他の一般的なネットワークツール(net-tools)を超えて選ばれています。</para>
+      </listitem>
+
+      <listitem>
+        <para>Kbd</para>
+
+        <para>This package contains key-table files, keyboard utilities
+        for non-US keyboards, and a number of console fonts.</para>
+        <para>このパッケージは、非USキーボードのためのキーテーブルファイル、キーボードユーティリティ、たくさんのコンソール画面用フォントを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Less</para>
+
+        <para>This package contains a very nice text file viewer that
+        allows scrolling up or down when viewing a file. It is also used by
+        Man-DB for viewing manpages.</para>
+        <para>このパッケージは、ファイルを閲覧する際に、スクロールアップ・ダウンが可能なとても良いテキストファイルビューワーを含んでいます。
+        このパッケージはまた、manページを閲覧するためにMan-DBが使用します。</para>
+      </listitem>
+
+      <listitem>
+        <para>Libtool</para>
+
+        <para>This package contains the GNU generic library support 
+        script. It wraps the complexity of using shared libraries in a 
+        consistent, portable interface.  It is needed by the test
+        suites in other LFS packages.</para>
+        <para>このパッケージは、GNU generic library supportスクリプトを含んでいます。
+        また、このパッケージは一貫性、可搬性のあるインタフェースで共有ライブラリを使用することの複雑さを包み隠します。
+        他のLFSパッケージのテストツールで必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Linux Kernel</para>
+
+        <para>This package is the Operating System.  It is the Linux in
+        the GNU/Linux environment.</para>
+        <para>このパッケージは、オペレーティングシステムです。
+        これはGNU/Linux環境におけるLinuxです。</para>
+      </listitem>
+
+      <listitem>
+        <para>M4</para>
+
+        <para>This package contains a general text macro processor useful
+        as a build tool for other programs.</para>
+        <para>このパッケージは、他のプログラムのビルドツールとして便利な、マクロプロセッサーを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Make</para>
+
+        <para>This package contains a program for directing the building
+        of packages.  It is required by almost every package in LFS.</para>
+        <para>このパッケージは、パッケージのビルドを実行するためのプログラムを含んでいます。
+        LFSではほとんどどのパッケージがこのmakeを必要とします。</para>
+      </listitem>
+
+      <listitem>
+        <para>Man-DB</para>
+
+        <para>This package contains programs for finding and viewing man pages.
+        It was chosen instead of the <application>man</application> package
+        due to superior internationalization capabilities.  It supplies
+        the man program.</para>
+        <para>このパッケージは、manページを検索したり閲覧したりするプログラムを含んでいます。
+        優れた国際化機能を持つため、<application>man</application>パッケージの代わりによく選ばれます。</para>
+   
+      </listitem>
+
+      <listitem>
+        <para>Man-pages</para>
+
+        <para>This package contains the actual contents of the basic
+        Linux man pages.</para>
+        <para>このパッケージは、基本的なLinuxのmanページの内容を含んでいます。</para>
+      </listitem>
+
+      <listitem> 
+        <para>MPC</para> 
+
+        <para>This package contains functions for the arithmetic of complex 
+        numbers. It is required by Gcc.</para>
+        <para>このパッケージは複素数の演算のためのファンクションを含んでいます。
+        このパッケージはGccが必要とします。</para> 
+      </listitem> 
+
+     <listitem>
+        <para>MPFR</para>
+
+        <para>This package contains functions for multiple precision
+        arithmetic.  It is required by Gcc.</para>
+        <para>このパッケージは多倍長演算のためのファンクションを含んでいます。
+        このパッケージはGccが必要とします。</para>
+     </listitem>
+
+      <listitem>
+        <para>Module-Init-Tools</para>
+
+        <para>This package contains programs needed to administer Linux
+        kernel modules.</para>
+        <para>このパッケージは、Linuxカーネルモジュールを管理するために必要なプログラムを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>MPFR</para>
+
+        <para>This package contains functions for multiple precision 
+        arithmetic.  It is required by Gcc.
+        </para>
+        <para>このパッケージは、多倍精度演算のための機能を含んでいます。
+        これはGCCに必要なパッケージです。</para>
+      </listitem>
+
+      <listitem>
+        <para>Ncurses</para>
+
+        <para>This package contains libraries for terminal-independent 
+        handling of character screens.  It is often used to provide
+        cursor control for a menuing system. It is needed by a number of
+        packages in LFS.</para>
+        <para>このパッケージは、キャラクタ画面のターミナル依存のハンドリングを行うためのライブラリを含んでいます。
+        メニューシステムのためのカーソル制御を提供するためにしばしば使用されます。
+        このパッケージはLFSのたくさんのパッケージから必要とされます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Patch</para>
+
+        <para>This package contains a program for modifying or creating files by
+        applying a <emphasis>patch</emphasis> file typically created 
+        by the <application>diff</application> program.  It is needed by
+        the build procedure for several LFS packages.</para>
+        <para>このパッケージは、"patch"ファイルを適用することで、ファイルの修正や作成を行うプログラムを含んでいます。"patch"ファイルは通常<application>diff</application>プログラムによって作成されます。
+        いくつかのLFSのパッケージにおいて、ビルド手順の中で必要とされます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Perl</para>
+
+        <para>This package is an interpreter for the runtime language
+        PERL. It is needed for the installation and testsuites of several LFS
+        packages.</para>
+        <para>このパッケージは、ランタイム言語PERLのインタープリターです。
+        LFSのいくつかのパッケージのインストールとテストツールで必要とされます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Pkg-config</para>
+
+        <para>This package contains a tool for passing the include path 
+        and/or library paths to build tools during the configure and make 
+        processes.  It is needed by many LFS packages.</para>
+        <para>このパッケージは、configureとmakeプロセスの間でビルドツールに対して、インクルードパスと(または)ライブラリパスを渡すためのツールを含んでいます。
+        このパッケージはまた、多くのLFSのパッケージから必要とされています。</para>
+      </listitem>
+
+      <listitem>
+        <para>Procps</para>
+
+        <para>This package contains programs for monitoring processes. These
+        programs are useful for system administration, and are also used by
+        the LFS Bootscripts.</para>
+        <para>このパッケージは、プロセスをモニターするためのプログラムを含んでいます。
+        それらプログラムはシステム管理において役に立ち、LFSのブートスクリプトからも使用されます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Psmisc</para>
+
+        <para>This package contains programs for displaying information
+        about running processes. These programs are useful for system
+        administration.</para> 
+        <para>このパッケージは実行中のプロセスに関連する情報を表示するためのプログラムを含んでいます。
+        それらプログラムはシステム管理で役に立ちます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Readline</para>
+
+        <para>This package is a set of libraries that offers command-line 
+        editing and history capabilities.  It is used by Bash.</para>
+        <para>このパッケージは、コマンドライン編集とヒストリー機能を提供するライブラリです。
+        これはBashで使用されています。</para>
+      </listitem>
+
+      <listitem>
+        <para>Sed</para>
+
+        <para>This package allows editing of text without opening it in a 
+        text editor. It is also needed by most LFS packages' configure 
+        scripts.</para>
+        <para>このパッケージは、テキストエディタで開くことなしに、テキストを編集することが出来ます。
+        ほとんどのLFSのパッケージのconfigureスクリプトで必要となります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Shadow</para>
+
+        <para>This package contains programs for handling passwords 
+        in a secure way.</para>
+        <para>このパッケージは、安全な方法でパスワードを取り扱うためのプログラムを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Sysklogd</para>
+
+        <para>This package contains programs for logging system messages, 
+        such as those given by the kernel or daemon processes when unusual 
+        events occur.</para>
+        <para>このパッケージは、異常であるイベントが発生した際、カーネルまたはデーモンによって作り出されるシステムメッセージをロギングするためのプログラムを含んでいます。</para>
+      </listitem>
+
+      <listitem>
+        <para>Sysvinit</para>
+
+        <para>This package provides the <application>init</application>
+        program, which is the parent of all other processes on the Linux
+        system. </para>
+        <para>このパッケージは、Linuxシステム上の全てのプロセスの親となる、<application>init</application>を提供します。</para>
+      </listitem>
+
+      <listitem>
+        <para>Tar</para>
+
+        <para>This package provides archiving and extraction capabilities
+        of virtually all packages used in LFS.</para>
+        <para>このパッケージは、LFSで使用されるほとんど全てのパッケージのアーカイブと抽出機能を提供します。</para>
+      </listitem>
+
+      <listitem>
+        <para>Tcl</para>
+
+        <para>This package contains the Tool Command Language used
+        in many test suites in LFS packages.  It is only installed in 
+        the temporary toolchain.</para>
+        <para>このパッケージは、LFSのパッケージの多くのテストツールで使用されるTool Command Languageを含んでいます。
+        これはテンポラリtoolchainにおいてのみインストールします。</para>
+      </listitem>
+
+      <listitem>
+        <para>Texinfo</para>
+
+        <para>This package contains programs for reading, writing, and 
+        converting info pages.  It is used in the installation 
+        procedures of many LFS packages.</para>
+        <para>このパッケージは、infoページを読み・書き・コンバートするためのプログラムを含んでいます。
+        多くのLFSのパッケージのインストール手順において使われています。</para>
+      </listitem>
+
+      <listitem>
+        <para>Udev</para>
+
+        <para>This package contains programs for dynamic creation of 
+        device nodes.  It is an alternative to creating thousands of
+        static devices in the /dev directory.</para>
+        <para>このパッケージはデバイスノードを動的に作成するプログラムを含んでいます。
+        これは、/devディレクトリ中に何千もの静的デバイスを作成する代わりになります。</para>
+      </listitem>
+
+      <listitem>
+        <para>Util-linux</para>
+
+        <para>This package contains miscellaneous utility programs. 
+        Among them are utilities for handling file systems, consoles, 
+        partitions, and messages.</para>
+        <para>このパッケージは、多岐に渡るユーティリティプログラムを含んでいます。
+        それらプログラムは、ファイルシステム、コンソール、パーティション、メッセージを取り扱うためのユーティリティです。</para>
+      </listitem>
+
+      <listitem>
+        <para>Vim</para>
+
+        <para>This package contains an editor. It was chosen because of its
+        compatibility with the classic vi editor and its huge number of powerful
+        capabilities.  An editor is a very personal choice for
+        many users and any other editor could be substituted if desired.</para>
+        <para>このパッケージは、エディタを含んでいます。
+        このパッケージは、伝統的なviエディタとの互換性と、たくさんのパワフルな機能のために選ばれています。
+        多くのユーザーにとって、エディタはとても個人的な選択で、もし望むのであれば他のエディタで置き換えることが出来ます。</para>
+      </listitem>
+
+      <listitem> 
+        <para>XZ Utils</para> 
+ 
+        <para>This package contains programs for compressing and decompressing  
+        files.  It provides the highest compression generally available 
+        and the useful for decompressing packages XZ or LZMA format.</para>
+        <para>このパッケージはファイルを圧縮・解凍するためのプログラムを含んでいます。
+        そして、一般的に利用可能な最高の圧縮アルゴリズムを提供し、XZまたはLZMA形式の解凍に便利です。</para>
+      </listitem>
+
+      <listitem>
+        <para>Zlib</para>
+
+        <para>This package contains compression and decompression routines 
+        used by some programs.</para>
+        <para>このパッケージはいくつかのプログラムから使用される、圧縮・解凍ルーチンを含んでいます。</para>
+      </listitem>
+
+    </itemizedlist>
+
+</sect1>
+

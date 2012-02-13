@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  <!ENTITY lfs-rules   SYSTEM "55-lfs.rules.script"> 
+  %general-entities;
+]>
+<!-- revision 9165 -->
+
+<appendix id="rules" xreflabel="Appendix E">
+  <?dbhtml dir="scripts"?>
+  <?dbhtml filename="udev-rules.html"?>
+
+  <!--<title>Udev configuration rules</title>-->
+  <title>Udev configuration ルール</title>
+
+  <para>The rules from &udev-config;.tar.bz2 in this appendix are listed for
+  convenience.  Installation is normally done via instructions in <xref
+  linkend='ch-system-udev'/>.  </para>
+  <para>便宜上、この付録の&udev-config;.tar.bz2のルールをリストします。
+  インストールは、通常<xref linkend='ch-system-udev'/>の手順で行われます。</para>
+
+  <sect1 id="lfsrules" role="wrap">
+    <title>55-lfs.rules</title>
+    <screen>&lfs-rules;</screen> 
+  </sect1>
+
+</appendix>

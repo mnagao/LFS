@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9238 -->
+
+<sect1 id="space-creatingpartition">
+  <?dbhtml filename="creatingpartition.html"?>
+
+  <title>新規パーティションの作成</title>
+
+  <para>Like most other operating systems, LFS is usually installed on a
+  dedicated partition. The recommended approach to building an LFS system
+  is to use an available empty partition or, if you have enough unpartitioned
+  space, to create one. </para>
+
+  <para>他のオペレーティングシステムと同様に、通常LFSは専用のパーティションにインストールします。
+  推奨としては、未使用の空のパーティションを使用するか、または、十分なサイズの未割り当てパーティションを使用する方法があります。
+  </para>
+
+<!--
+
+  <para>It is possible to install an LFS system (in fact even multiple LFS
+  systems) on a partition already occupied by another
+  operating system and the different systems will co-exist peacefully. The
+  document <ulink url="&hints-root;lfs_next_to_existing_systems.txt"/>
+  contains notes on how to implement this. This document was last updated
+  in 2004. It has not been updated since and it has not been tested with
+  recent versions of this LFS book. The document is more than likely not
+  usable as-is and you will need to account for changes made to the LFS
+  procedures since it was written. This is only recommended for expert LFS
+  users.</para>
+
+-->
+
+  <para>A minimal system requires a partition of around 1.3 gigabytes (GB).
+  This is enough to store all the source tarballs and compile the packages.
+  However, if the LFS system is intended to be the primary Linux system,
+  additional software will probably be installed which will require additional
+  space (2-3 GB). The LFS system itself will not take up this much room.
+  A large portion of this requirement is to provide sufficient free temporary
+  storage. Compiling packages can require a lot of disk space which will be
+  reclaimed after the package is installed.</para>
+
+  <para>最小のシステム構成では、約1.3ギガバイトのパーティションが必要です。これは全てのソースtarballを格納し、コンパイルを行うのに十分な容量です。
+  しかしながら、もしLFSシステムをメインで使用するLinuxシステムにするならば、おそらく追加のソフトウェアがインストールされ、追加のディスクスペースが必要になります(2-3GB)。LFSシステム自体は、このような大きな領域を占めることはありません。
+  このディスクスペースの要求の大部分は、十分な量の一時的なディスク領域として使用されます。
+  パッケージをコンパイルすることは、たくさんのディスクスペースが必要となります。そのディスクスペースはパッケージがインストールされれば再利用されます。
+</para>
+
+  <para>Because there is not always enough Random Access Memory (RAM) available
+  for compilation processes, it is a good idea to use a small disk partition as
+  <systemitem class="filesystem">swap</systemitem> space. This is used by the
+  kernel to store seldom-used data and leave more memory available for active
+  processes. The <systemitem class="filesystem">swap</systemitem> partition for
+  an LFS system can be the same as the one used by the host system, in which
+  case it is not necessary to create another one.</para>
+
+  <para>コンパイルを行うために、いつも十分なランダム・アクセス・メモリー(RAM)があるとは限らないので、小さなパーティションを<systemitem class="filesystem">swap</systemitem>領域として使用することはいいアイデアです。
+  カーネルによって、めったに使用されないデータはswap領域に格納され、アクティブなプロセスのためにより多くのメモリーを使用可能にします。
+  LFSシステムのための<systemitem class="filesystem">swap</systemitem>パーティションは、ホストシステムの<systemitem class="filesystem">swap</systemitem>領域と同じでも構いません。その場合は、別のswap領域を作成する必要はありません。
+  </para>
+
+  <para>Start a disk partitioning program such as <command>cfdisk</command>
+  or <command>fdisk</command> with a command line option naming the hard
+  disk on which the new partition will be created&mdash;for example
+  <filename class="devicefile">/dev/hda</filename> for the primary Integrated
+  Drive Electronics (IDE) disk. Create a Linux native partition and a
+  <systemitem class="filesystem">swap</systemitem> partition, if needed. Please
+  refer to <filename>cfdisk(8)</filename> or <filename>fdisk(8)</filename> if
+  you do not yet know how to use the programs.</para>
+
+  <para>新しく作るパーティションが格納されるハードディスクをコマンドラインのオプションに指定し、<command>cfdisk</command>や<command>fdisk</command>のようなディスクパーティションプログラムを実行してください - 例えば、<filename class="devicefile">/dev/hda</filename>はプライマリIDEディスクを指しています。
+  </para>
+
+  <para>Remember the designation of the new partition (e.g., <filename
+  class="devicefile">hda5</filename>). This book will refer to this as
+  the LFS partition. Also remember the designation of the <systemitem
+  class="filesystem">swap</systemitem> partition. These names will be
+  needed later for the <filename>/etc/fstab</filename> file.</para>
+
+  <para>パーティション名を覚えておいてください(例えば、hda5)。本書では、そのパーティションをLFSパーティションとして参照します。また、<systemitem class="filesystem">swap</systemitem>のパーティション名も覚えておいてください。それら名前は、後で<filename>/etc/fstab</filename>ファイルで必要になります。</para>
+
+  <sect2> 
+  <!--<title>Other Partition Issues</title>-->
+  <title>その他のパーティション関連の問題</title>
+
+  <para>Requests for advice on system partitioning are often posted on the LFS mailing  
+  lists.  This is a highly subjective topic.  The default for most distributions 
+  is to use the entire drive with the exception of one small swap partition.  This 
+  is not optimal for LFS for several reasons.  It reduces flexibility, makes  
+  sharing of data across multiple distributions or LFS builds more difficult, makes 
+  backups more time consuming, and can waste disk space through inefficient  
+  allocation of file system structures.</para> 
+  <para>パーティションに関する問い合わせは、しばしばLFSメーリングリストに投稿されます。
+  これは完全に個々人のトピックです。
+  多くのディストリビューションにおけるデフォルトでは、1つの小さなスワップパーティションを除き、ドライブのすべてを割り当てようとします。
+  これはいくつかの理由により、LFSにおいては最適ではありません。
+  デフォルトのパーティションサイズにすることで、複数のディストリビューション間でデータを共有させる柔軟性を減らしますし、LFSの構築が難しくなります。
+  また、バックアップにより多くの時間がかかりますし、ファイルシステムの非効率な割当てによりディスクスペースの無駄が生じます。
+  </para>
+ 
+    <sect3> 
+    <!--<title>The Root Partition</title>--> 
+    <title>ルートパーティション</title> 
+
+    <para>A root LFS partition (not to be confused with the
+    <filename class="directory">/root</filename> directory) of
+    ten gigabytes is a good compromise for most systems.  It provides enough 
+    space to build LFS and most of BLFS, but is small enough so that multiple 
+    partitions can be easily created for experimentation.</para>
+    <para>LFSのルートパーティション(/rootディレクトリと混同しないでください)に、10ギガバイトを割り当てることは、ほとんどのシステムにおいて妥当です。
+    10ギガバイトは、LFSやBLFSのほとんどをビルドするために十分なスペースです。
+    しかし、実験的に複数のパーティションを簡単に作成することが出来るので、ルートパーティションが小さくても十分です。</para>
+
+    </sect3>
+    <sect3> 
+    <!--<title>The Swap Partition</title>--> 
+    <title>スワップパーティション</title> 
+ 
+    <para>Most distributions automatically create a swap partition.  Generally 
+    the recommended size of the swap partition is about twice the amount of 
+    physical RAM, however this is rarely needed.  If disk space is limited, 
+    hold the swap partition to two gigabytes and monitor the amount of disk 
+    swapping.</para>
+    <para>ほとんどのディストリビューションは自動的にスワップパーティションを作成します。
+    一般的に、スワップパーティションの推奨サイズは、物理RAMのだいたい2倍の量です。
+    しかしながら、めったにそれほど必要とはしません。
+    もしディスクスペースが制限されているなら、スワップパーティションを2ギガバイトに固定し、ディスクスワップの量をモニターしてください。</para> 
+    
+    <para>Swapping is never good.  Generally you can tell if a system is 
+    swapping by just listening to disk activity and observing how the system 
+    reacts to commands.  The first reaction to swapping should be to check for 
+    an unreasonable command such as trying to edit a five gigabyte file.  If 
+    swapping becomes a normal occurance, the best solution is to purchase more 
+    RAM for your system.</para>
+    <para>スワッピングは決して良いものではありません。
+    一般的に、ディスクの動作音を聴いたり、コマンドの応答具合を観察するだけで、システムがスワッピングしているかどうか確認することが出来ます。
+    スワッピングに対する最初の対応は、5ギガバイトのファイルをエディットしようとするような理不尽なコマンドを実行していないか、チェックすることです。
+    もしスワッピングが常時起こるようであれば、ベストな解決方法はメモリを買い足すことです。</para>
+    </sect3> 
+    
+    <sect3> 
+    <!--<title>Convenience Partitions</title>-->
+    <title>便利なパーティション</title> 
+    
+    <para>There are several other partitions that are not required, but should 
+    be considered when designing a disk layout.  The following list 
+    is not comprehensive, but is meant as a guide.</para> 
+    <para>必須ではありませんが、いくつかの他のパーティションがあります。
+    ディスクのレイアウトをデザインする際には、利用の要否を検討すべきです。
+    次のリストは完全なものではありませんが、ガイドとして意味があります。</para>
+
+    <itemizedlist> 
+       
+      <listitem><para>/boot &ndash; Highly recommended.  Use this partition to 
+      store kernels and other booting information.  To minimize potential boot 
+      problems with larger disks, make this the first physical partition on 
+      your first disk drive.  A partition size of 100 megabytes is quite 
+      adequate.</para>
+      <para>/boot &ndash; 強く推奨します。
+      このパーティションにはカーネルやその他ブートのための情報を置きます。
+      大きいサイズのディスクにおけるブートの問題の可能性を低くするため、1台目のディスクの最初の基本パーティションにしてください。
+      パーティションのサイズは100MBで十分です。</para></listitem> 
+       
+      <listitem><para>/home &ndash; Highly recommended.  Share your home 
+      directory and user customization across multiple distributions or LFS 
+      builds.  The size is generally fairly large and depends on available disk 
+      space.</para>
+      <para>/home &ndash; 強く推奨します。
+      複数のディストリビューションまたはLFSにおいて、ホームディレクトリとユーザ設定を共有します。
+      サイズは一般的に相当に大きく、利用可能なディスクスペースに依存します。</para></listitem> 
+       
+      <listitem><para>/usr &ndash; A separate /usr partition is generally used 
+      if providing a server for a thin client or diskless workstation.  It is 
+      normally not needed for LFS.  A size of five gigabytes will handle most 
+      installations.</para>
+      <para>/usr &ndash; シンクライアント用のサーバまたはディスクレスワークステーションを提供する場合、一般的に独立した/usrパーティションが使われます。
+      LFSにおいては通常必要ではありません。
+      ほとんどのケースでは5ギガバイトほどあればいいです。</para></listitem> 
+       
+      <listitem><para>/opt &ndash; This directory is most useful for 
+      BLFS where multiple installations of large packages like Gnome or KDE can 
+      be installed without embedding the files in the /usr hierarchy.  If 
+      used, five to ten gigabytes is generally adequate.</para> 
+      <para>/opt &ndash; GnomeやKDEのような巨大なパッケージを複数インストールするBLFSにとって、/usr以下にファイルをインストールしなくて済むので、このディレクトリはとても便利です。
+      もし/optを使用するなら、一般的に5-10ギガバイトあれば大丈夫です。</para></listitem> 
+       
+      <listitem><para>/tmp &ndash; A separate /tmp directory is rare, but 
+      useful if configuring a thin client.  This partition, if used, will 
+      usually not need to exceed a couple of gigabytes.</para>
+      <para>/tmp &ndash; 独立した/tmpディレクトリは稀です。
+      しかし、シンクライアントであれば便利になります。
+      もしこのパーテイションを作るのであれば、通常2-3ギガバイトを越す量は必要ありません。</para></listitem> 
+       
+      <listitem><para>/usr/src &ndash; This partition is very 
+      useful for providing a location to store BLFS source files and 
+      share them across LFS builds.  It can also be used as a location 
+      for building BLFS packages.  A reasonably large partition of 30-50 
+      gigabytes allows plenty of room.</para>
+      <para>/usr/src &ndash; このパーティションは、BLFSのソースファイルを保存する場所を提供し、LFSの構築時に共有することもでき、とても便利です。
+      またBLFSパッケージをビルドするための場所としても使うことができます。
+      30-50ギガバイトのまあまあ大きなパーティションで十分です。</para></listitem> 
+    
+    </itemizedlist> 
+    
+    <para>Any separate partition that you want automatically mounted upon boot 
+    needs to be specified in the <filename>/etc/fstab</filename>.  Details 
+    about how to specify partitions will be discussed in <xref 
+    linkend="ch-bootable-fstab"/>.  </para> 
+    <para>分離したパーティションをブート時に自動的にマウントさせたいなら、<filename>/etc/fstab</filename>で指定する必要があります。
+    パーティションの指定方法についての詳細は、<xref linkend="ch-bootable-fstab"/>にあります。</para>
+ 
+    </sect3> 
+  </sect2>
+</sect1>

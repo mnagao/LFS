@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9307 -->
+
+<sect1 id="ch-system-gettext" role="wrap">
+  <?dbhtml filename="gettext.html"?>
+
+  <sect1info condition="script">
+    <productname>gettext</productname>
+    <productnumber>&gettext-version;</productnumber>
+    <address>&gettext-url;</address>
+  </sect1info>
+
+  <title>Gettext-&gettext-version;</title>
+
+  <indexterm zone="ch-system-gettext">
+    <primary sortas="a-Gettext">Gettext</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Gettext package contains utilities for internationalization and
+    localization. These allow programs to be compiled with NLS (Native Language
+    Support), enabling them to output messages in the user's native
+    language.</para>
+    <para>Gettextパッケージは、国際化とローカライゼーションのためのユーティリティを含んでいます。
+    このパッケージによって、プログラムはNLS(Native Language Support)を有効にしてコンパイルすることが出来ます。
+    これにより、プログラムはユーザの母国語でメッセージを表示することが出来ます。
+    </para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gettext-ch6-sbu;</seg>
+        <seg>&gettext-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Gettext</title>-->
+    <title>Gettextのインストール</title>
+
+    <para>Prepare Gettext for compilation:</para>
+    <para>Gettextのコンパイルの準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr \
+            --docdir=/usr/share/doc/gettext-&gettext-version;</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results (this takes a long time, around 3 SBUs),
+    issue:</para>
+    <para>コンパイル結果を確認(約3SBUほどの長い時間がかかります)するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-gettext" role="content">
+    <!--<title>Contents of Gettext</title>-->
+    <title>Gettextの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+      <!--<segtitle>Installed directories</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>autopoint, config.charset, config.rpath, envsubst, gettext, gettext.sh,
+        gettextize, hostname, msgattrib, msgcat, msgcmp, msgcomm, msgconv, msgen,
+        msgexec, msgfilter, msgfmt, msggrep, msginit, msgmerge, msgunfmt, msguniq,
+        ngettext, recode-sr-latin, and xgettext</seg>
+        <seg>libasprintf.{a,so}, libgettextlib.so, libgettextpo.{a,so},
+        libgettextsrc.so, and preloadable_libintl.so</seg>
+        <seg>/usr/lib/gettext, /usr/share/doc/gettext-&gettext-version;,
+        /usr/share/gettext</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="autopoint">
+        <term><command>autopoint</command></term>
+        <listitem>
+          <para>Copies standard Gettext infrastructure files into a source
+          package</para>
+          <para>Standard Gettext infrastructureファイルをソースパッケージにコピーします。</para>
+          <indexterm zone="ch-system-gettext autopoint">
+            <primary sortas="b-autopoint">autopoint</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="config.charset">
+        <term><command>config.charset</command></term>
+        <listitem>
+          <para>Outputs a system-dependent table of character encoding
+          aliases</para>
+          <para>キャラクタエンコーディングのaliasのシステムに依存するテーブルを出力します。</para>
+          <indexterm zone="ch-system-gettext config.charset">
+            <primary sortas="b-config.charset">config.charset</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="config.rpath">
+        <term><command>config.rpath</command></term>
+        <listitem>
+          <para>Outputs a system-dependent set of variables, describing how
+          to set the runtime search path of shared libraries in an
+          executable</para>
+          <para>システム依存の変数を出力し、実行形式ファイルが利用する共有ライブラリのランタイムサーチパスをセットする方法を表示します。</para>
+          <indexterm zone="ch-system-gettext config.rpath">
+            <primary sortas="b-config.rpath">config.rpath</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="envsubst">
+        <term><command>envsubst</command></term>
+        <listitem>
+          <para>Substitutes environment variables in shell format strings</para>
+          <para>環境変数を置き換えます。</para>
+          <indexterm zone="ch-system-gettext envsubst">
+            <primary sortas="b-envsubst">envsubst</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gettext">
+        <term><command>gettext</command></term>
+        <listitem>
+          <para>Translates a natural language message into the user's language
+          by looking up the translation in a message catalog</para>
+          <para>メッセージカタログの中の翻訳文を検索し、メッセージをユーザの言語に翻訳します。</para>
+          <indexterm zone="ch-system-gettext gettext">
+            <primary sortas="b-gettext">gettext</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gettext.sh">
+        <term><command>gettext.sh</command></term>
+        <listitem>
+          <para>Primarily serves as a shell function library for gettext</para>
+          <para>主にgettextのシェルファンクションライブラリとしての役目をします。</para>
+          <indexterm zone="ch-system-gettext gettext.sh">
+            <primary sortas="b-gettext.sh">gettext.sh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gettextize">
+        <term><command>gettextize</command></term>
+        <listitem>
+          <para>Copies all standard Gettext files into the given top-level
+          directory of a package to begin internationalizing it</para>
+          <para>国際化処理を始めるため、全ての標準的なGettextファイルをパッケージのトップレベルディレクトリにコピーします。</para>
+          <indexterm zone="ch-system-gettext gettextize">
+            <primary sortas="b-gettextize">gettextize</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="hostname-gettext">
+        <term><command>hostname</command></term>
+        <listitem>
+          <para>Displays a network hostname in various forms</para>
+          <para>様々な形式で、ネットワークホスト名を表示します。m</para>
+          <indexterm zone="ch-system-gettext hostname-gettext">
+            <primary sortas="b-hostname-gettext">hostname</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgattrib">
+        <term><command>msgattrib</command></term>
+        <listitem>
+          <para>Filters the messages of a translation catalog according to their
+          attributes and manipulates the attributes</para>
+          <para>メッセージの属性に従い、翻訳カタログのメッセージをフィルタリングします。
+          また、属性の操作を行います。</para>
+          <indexterm zone="ch-system-gettext msgattrib">
+            <primary sortas="b-msgattrib">msgattrib</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgcat">
+        <term><command>msgcat</command></term>
+        <listitem>
+          <para>Concatenates and merges the given
+          <filename class="extension">.po</filename> files</para>
+          <para><filename class="extension">.po</filename>ファイルの連結とマージを行います。</para>
+          <indexterm zone="ch-system-gettext msgcat">
+            <primary sortas="b-msgcat">msgcat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgcmp">
+        <term><command>msgcmp</command></term>
+        <listitem>
+          <para>Compares two <filename class="extension">.po</filename>
+          files to check that both contain the same set of msgid strings</para>
+          <para>2つの<filename class="extension">.po</filename>ファイルをコンペアし、双方が同じmsgid文字列を持つことをチェックします。</para>
+          <indexterm zone="ch-system-gettext msgcmp">
+            <primary sortas="b-msgcmp">msgcmp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgcomm">
+        <term><command>msgcomm</command></term>
+        <listitem>
+          <para>Finds the messages that are common to to the given
+          <filename class="extension">.po</filename> files</para>
+          <para>与えられた<filename class="extension">.po</filename>ファイルに共通なメッセージを見つけだします。</para>
+          <indexterm zone="ch-system-gettext msgcomm">
+            <primary sortas="b-msgcomm">msgcomm</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgconv">
+        <term><command>msgconv</command></term>
+        <listitem>
+          <para>Converts a translation catalog to a different character
+          encoding</para>
+          <para>翻訳カタログを異なるキャラクタエンコーディングに変換します。</para>
+          <indexterm zone="ch-system-gettext msgconv">
+            <primary sortas="b-msgconv">msgconv</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgen">
+        <term><command>msgen</command></term>
+        <listitem>
+          <para>Creates an English translation catalog</para>
+          <para>英語の翻訳カタログを作成します。</para>
+          <indexterm zone="ch-system-gettext msgen">
+            <primary sortas="b-msgen">msgen</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgexec">
+        <term><command>msgexec</command></term>
+        <listitem>
+          <para>Applies a command to all translations of a translation
+          catalog</para>
+          <para>翻訳カタログの全ての翻訳に対して、コマンドを適用します。</para>
+          <indexterm zone="ch-system-gettext msgexec">
+            <primary sortas="b-msgexec">msgexec</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgfilter">
+        <term><command>msgfilter</command></term>
+        <listitem>
+          <para>Applies a filter to all translations of a translation
+          catalog</para>
+          <para>翻訳カタログの全ての翻訳に対して、フィルターを適用します。</para>
+          <indexterm zone="ch-system-gettext msgfilter">
+            <primary sortas="b-msgfilter">msgfilter</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgfmt">
+        <term><command>msgfmt</command></term>
+        <listitem>
+          <para>Generates a binary message catalog from a translation
+          catalog</para>
+          <para>翻訳カタログからバイナリのメッセージカタログを生成します。</para>
+          <indexterm zone="ch-system-gettext msgfmt">
+            <primary sortas="b-msgfmt">msgfmt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msggrep">
+        <term><command>msggrep</command></term>
+        <listitem>
+          <para>Extracts all messages of a translation catalog that match a
+          given pattern or belong to some given source files</para>
+          <para>与えられたパターンにマッチする翻訳カタログまたは与えられたソースファイルに属する翻訳カタログの全てのメッセージを抽出します。</para>
+          <indexterm zone="ch-system-gettext msggrep">
+            <primary sortas="b-msggrep">msggrep</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msginit">
+        <term><command>msginit</command></term>
+        <listitem>
+          <para>Creates a new <filename class="extension">.po</filename> file,
+          initializing the meta information with values from the user's
+          environment</para>
+          <para>新しい<filename class="extension">.po</filename>ファイルを作成します。
+          ユーザの環境変数を用いて、メタ情報を初期化します。</para>
+          <indexterm zone="ch-system-gettext msginit">
+            <primary sortas="b-msginit">msginit</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgmerge">
+        <term><command>msgmerge</command></term>
+        <listitem>
+          <para>Combines two raw translations into a single file</para>
+          <para>2つの翻訳データを1つのファイルに結合します。</para>
+          <indexterm zone="ch-system-gettext msgmerge">
+            <primary sortas="b-msgmerge">msgmerge</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msgunfmt">
+        <term><command>msgunfmt</command></term>
+        <listitem>
+          <para>Decompiles a binary message catalog into raw translation
+          text</para>
+          <para>バイナリのメッセージカタログを生の翻訳テキストに逆コンパイルします。</para>
+          <indexterm zone="ch-system-gettext msgunfmt">
+            <primary sortas="b-msgunfmt">msgunfmt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="msguniq">
+        <term><command>msguniq</command></term>
+        <listitem>
+          <para>Unifies duplicate translations in a translation catalog</para>
+          <para>翻訳カタログ中の重複した翻訳データを統合します。</para>
+          <indexterm zone="ch-system-gettext msguniq">
+            <primary sortas="b-msguniq">msguniq</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ngettext">
+        <term><command>ngettext</command></term>
+        <listitem>
+          <para>Displays native language translations of a textual message whose
+          grammatical form depends on a number</para>
+          <para>文法上、形式が数によって異なっている原文メッセージの自国語翻訳を表示します。</para>
+          <indexterm zone="ch-system-gettext ngettext">
+            <primary sortas="b-ngettext">ngettext</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="recode-sr-latin">
+        <term><command>recode-sr-latin</command></term>
+        <listitem>
+          <para>Recodes Serbian text from Cyrillic to Latin script</para>
+          <para>キリル文字からラテン文字のスクリプトへセルビア語のテキストを再コードします。</para>
+          <indexterm zone="ch-system-gettext recode-sr-latin">
+            <primary sortas="b-recode-sr-latin">recode-sr-latin</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="xgettext">
+        <term><command>xgettext</command></term>
+        <listitem>
+          <para>Extracts the translatable message lines from the given source
+          files to make the first translation template</para>
+          <para>翻訳テンプレートを作成するため、与えられたソースファイルから翻訳可能なメッセージを抽出します。</para>
+          <indexterm zone="ch-system-gettext xgettext">
+            <primary sortas="b-xgettext">xgettext</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libasprintf">
+        <term><filename class="libraryfile">libasprintf</filename></term>
+        <listitem>
+          <para>defines the <emphasis>autosprintf</emphasis> class, which makes
+          C formatted output routines usable in C++ programs, for use with the
+          <emphasis>&lt;string&gt;</emphasis> strings and the
+          <emphasis>&lt;iostream&gt;</emphasis> streams</para>
+          <para><emphasis>autosprintf</emphasis>クラスを定義します。
+          このクラスは、Cのフォーマットされた出力ルーチンを<emphasis>&lt;string&gt;</emphasis>文字列と<emphasis>&lt;iostream&gt;</emphasis>ストリームと一緒にC++プログラムで使用可能にします。
+          </para>
+          <indexterm zone="ch-system-gettext libasprintf">
+            <primary sortas="c-libasprintf">libasprintf</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libgettextlib">
+        <term><filename class="libraryfile">libgettextlib</filename></term>
+        <listitem>
+          <para>a private library containing common routines used by the
+          various Gettext programs; these are not intended for general use</para>
+          <para>様々なGettextプログラムから使用される、privateな共通のルーチンが含まれています。
+          これらルーチンは、一般的な使用を意図していません。</para>
+          <indexterm zone="ch-system-gettext libgettextlib">
+            <primary sortas="c-libgettextlib">libgettextlib</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libgettextpo">
+        <term><filename class="libraryfile">libgettextpo</filename></term>
+        <listitem>
+          <para>Used to write specialized programs that process
+          <filename class="extension">.po</filename> files; this library is
+          used when the standard applications shipped with Gettext (such as
+          <command>msgcomm</command>, <command>msgcmp</command>,
+          <command>msgattrib</command>, and <command>msgen</command>) will
+          not suffice</para>
+          <para><filename class="extension">.po</filename>ファイルの処理に特化したプログラムを書く際に用います。
+          このライブラリは、Gettextパッケージに含まれる標準アプリケーション(<command>msgcomm</command>, <command>msgcmp</command>, <command>msgattrib</command>, <command>msgen</command>のような)に満足しない時に、使用されるものです。</para>
+          <indexterm zone="ch-system-gettext libgettextpo">
+            <primary sortas="c-libgettextpo">libgettextpo</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libgettextsrc">
+        <term><filename class="libraryfile">libgettextsrc</filename></term>
+        <listitem>
+          <para>A private library containing common routines used by the
+          various Gettext programs; these are not intended for general use</para>
+          <para>様々なGettextのプログラムによって使用される、共通ルーチンを含むプライベートなライブラリです。
+          これらルーチンは、一般的な使用は意図していません。</para>
+          <indexterm zone="ch-system-gettext libgettextsrc">
+            <primary sortas="c-libgettextsrc">libgettextsrc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="preloadable_libintl.so"> 
+        <term><filename class="libraryfile">preloadable_libintl</filename></term> 
+        <listitem> 
+          <para>A library, intended to be used by LD_PRELOAD that assists 
+          <filename class="libraryfile">libintl</filename> in logging 
+          untranslated messages.</para>
+          <para>LD_PRELOADによって使用されるライブラリで、未翻訳のメッセージをロギングする<filename class="libraryfile">libintl</filename>を支援します。</para> 
+          <indexterm zone="ch-system-gettext preloadable_libintl.so"> 
+            <primary sortas="c-preloadable_libintl.so">preloadable_libintl</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

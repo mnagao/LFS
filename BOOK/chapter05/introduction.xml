@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8704 -->
+
+<sect1 id="ch-tools-introduction">
+  <?dbhtml filename="introduction.html"?>
+
+  <title>はじめに</title>
+
+  <para>This chapter shows how to build a minimal Linux system.
+  This system will contain just enough tools to start constructing the final
+  LFS system in <xref linkend="chapter-building-system"/> and allow a working
+  environment with more user convenience than a minimum environment would.</para>
+
+  <para>本章では、LFSシステム構築のための最小限のLinuxシステムをビルドする方法を示します。
+  この最小限のシステムは、<xref linkend="chapter-building-system"/>で最終的なLFSシステムの構築を始めるための十分なツールを含みます。
+  また、最小限の環境に比べて、ユーザにより便利な作業環境を用意します。
+  </para>
+
+  <para>There are two steps in building this minimal system. The first step
+  is to build a new and host-independent toolchain (compiler, assembler,
+  linker, libraries, and a few useful utilities).  The second step uses this
+  toolchain to build the other essential tools.</para>
+
+  <para>最小限のシステムの構築には2つのステップがあります。
+  1つ目のステップは、ホストシステムから独立している新しいtoolchain(コンパイラ、アセンブラ、リンカ、ライブラリ、いくつかの便利なユーティリティ)をビルドします。
+  2つ目のステップは、そのtoolchainを使用して、その他主要なツールをビルドします。
+  </para>
+
+  <para>The files compiled in this chapter will be installed under the
+  <filename class="directory">$LFS/tools</filename> directory to keep them
+  separate from the files installed in the next chapter and the host
+  production directories. Since the packages compiled here are temporary,
+  we do not want them to pollute the soon-to-be LFS system.</para>
+
+  <para>本章でコンパイルされるファイルは、次章でインストールされるファイルや、ホストシステムのディレクトリと分離するため、<filename class="directory">$LFS/tools</filename>以下にインストールされます。
+  本章でコンパイルするパッケージは一時的なものなので、まもなくLFSが導入されるシステムを汚染しないようにします。
+  </para>
+
+</sect1>

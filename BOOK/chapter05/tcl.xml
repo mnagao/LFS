@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9074 -->
+
+<sect1 id="ch-tools-tcl" role="wrap">
+  <?dbhtml filename="tcl.html"?>
+
+  <sect1info condition="script">
+    <productname>tcl</productname>
+    <productnumber>&tcl-version;</productnumber>
+    <address>&tcl-url;</address>
+  </sect1info>
+
+  <title>Tcl-&tcl-version;</title>
+
+  <indexterm zone="ch-tools-tcl">
+    <primary sortas="a-Tcl">Tcl</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Tcl package contains the Tool Command Language.</para>
+    <para>TclパッケージはTool Command Languageです。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&tcl-ch5-sbu;</seg>
+        <seg>&tcl-ch5-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Tcl</title>-->
+    <title>Tclのインストール</title>
+
+    <para>This package and the next two (Expect and DejaGNU) are installed
+    to support running the test suites for GCC and Binutils. Installing
+    three packages for testing purposes may seem excessive, but it is very
+    reassuring, if not essential, to know that the most important tools are
+    working properly. Even if the test suites are not run in this chapter
+    (they are not mandatory), these packages are required to run the test
+    suites in <xref linkend="chapter-building-system"/>.</para>
+
+    <para>このパッケージと次の2つ(ExpectとDejaGNU)は、GCCとBinutilsのテストツール実行をサポートするためにインストールします。
+    テスト目的に3つのパッケージをインストールすることは過剰に思えるかもしれません。しかし、必須ではないにしろ、最も重要なツールが正しく動くことを確認することは、とても安心を与えるものです。
+    たとえ本章でテストツールを実行しないとしても(本章でテストは必須ではありません)、<xref linkend="chapter-building-system"/>でそれらパッケージが必要になります。
+    </para>
+
+    <para>Prepare Tcl for compilation:</para>
+    <para>Tclをコンパイルする準備を行います：</para>
+
+<screen><userinput remap="configure">cd unix
+./configure --prefix=/tools</userinput></screen>
+
+    <para>Build the package:</para>
+    <para>パッケージのビルド：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Compilation is now complete. As discussed earlier, running the test
+    suite is not mandatory for the temporary tools here in this chapter. To run
+    the Tcl test suite anyway, issue the following command:</para>
+    <para>これでコンパイルが完了です。
+    前にも述べましたが、テンポラリツールのためにテストツールを実行することは必須ではありません。
+    どうしてもTclのテストツールを実行するのであれば、次のコマンドを実行してください：</para>
+
+<screen><userinput remap="test">TZ=UTC make test</userinput></screen>
+
+    <para>The Tcl test suite may experience failures under certain host
+    conditions that are not fully understood. Therefore, test suite failures
+    here are not surprising, and are not considered critical. The
+    <parameter>TZ=UTC</parameter> parameter sets the time zone to Coordinated
+    Universal Time (UTC), also known as Greenwich Mean Time (GMT), but only
+    for the duration of the test suite run. This ensures that the clock tests
+    are exercised correctly. Details on the <envar>TZ</envar> environment
+    variable are provided in <xref linkend="chapter-bootscripts"/>.</para>
+
+    <para>完全に解明されていませんが、Tclのテストツールは、特定のホストシステムの状態において失敗するかもしれません。
+    ですので、テストツールがここで失敗することは驚くべきことではなく、重大なことでもありません。
+    パラメータ<parameter>TZ=UTC</parameter>は、タイムゾーンをGMT(Greenwich Mean Time)としても知られるUTC(Coordinated Universal Time)に設定します。ただしテストツールを実行する間だけ設定します。
+    これにより、時刻関連のテストが正しく実行されることを保証します。
+    <envar>TZ</envar>環境変数の詳細は<xref linkend="chapter-bootscripts"/>にあります。
+    </para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Make the installed library writable so debugging symbols can
+    be removed later:</para>
+    <para>デバッグシンボルを後で削除できるようにするため、インストールされるライブラリを書き換え可能にします：</para>
+
+<screen><userinput remap="install">chmod -v u+w /tools/lib/libtcl8.5.so</userinput></screen>
+
+    <para>Install Tcl's headers. The next package, Expect, requires them
+    to build.</para>
+    <para>Tclのヘッダファイルをインストールします。次のパッケージであるExpectのビルドで、それらのヘッダファイルが必要となります。</para>
+
+<screen><userinput remap="install">make install-private-headers</userinput></screen>
+
+    <para>Now make a necessary symbolic link:</para>
+    <para>必要となるシンボリックリンクを作成します：</para>
+
+<screen><userinput remap="install">ln -sv tclsh8.5 /tools/bin/tclsh</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-tcl" role="content">
+    <title>Tclの内容</title>
+
+    <segmentedlist>
+      <segtitle>インストールされるプログラム</segtitle>
+      <segtitle>インストールされるライブラリ</segtitle>
+
+      <seglistitem>
+        <seg>tclsh (link to tclsh8.5) and tclsh8.5</seg>
+        <seg>libtcl8.5.so, libtclstub8.5.a</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <bridgehead renderas="sect3">説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="tclsh8.5">
+        <term><command>tclsh8.5</command></term>
+        <listitem>
+          <para>The Tcl command shell</para>
+          <para>Tcl Command Shell</para>
+          <indexterm zone="ch-tools-tcl tclsh8.5">
+            <primary sortas="b-tclsh8.5">tclsh8.5</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="tclsh">
+        <term><command>tclsh</command></term>
+        <listitem>
+          <para>A link to tclsh8.5</para>
+          <para>tclsh8.5へのリンク</para>
+          <indexterm zone="ch-tools-tcl tclsh">
+            <primary sortas="b-tclsh">tclsh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libtcl8.5.so">
+        <term><filename class="libraryfile">libtcl8.5.so</filename></term>
+        <listitem>
+          <para>Tclライブラリ</para>
+          <indexterm zone="ch-tools-tcl libtcl8.5.so">
+            <primary sortas="c-libtcl8.5.so">libtcl8.5.so</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libtclstub8.5.a"> 
+        <term><filename class="libraryfile">libtclstub8.5.a</filename></term> 
+        <listitem> 
+          <para>The Tcl Stub library</para>
+          <para>Tclスタブライブラリ</para> 
+          <indexterm zone="ch-tools-tcl libtclstub8.5.a"> 
+            <primary sortas="c-libtclstub8.5.a">libtclstub8.5.a</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

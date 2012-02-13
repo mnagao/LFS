@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9465 -->
+
+<sect1 id="ch-system-shadow" role="wrap">
+  <?dbhtml filename="shadow.html"?>
+
+  <sect1info condition="script"> 
+    <productname>shadow</productname> 
+    <productnumber>&shadow-version;</productnumber> 
+    <address>&shadow-url;</address> 
+  </sect1info>
+
+  <title>Shadow-&shadow-version;</title>
+
+  <indexterm zone="ch-system-shadow">
+    <primary sortas="a-Shadow">Shadow</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Shadow package contains programs for handling passwords in a secure
+    way.</para>
+    <para>Shadowパッケージは、セキュアな方法でパスワードを取り扱うプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&shadow-ch6-sbu;</seg>
+        <seg>&shadow-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Shadow</title>-->
+    <title>Shadowのインストール</title>
+
+    <note>
+      <para>If you would like to enforce the use of strong passwords, refer to
+      <ulink url="&blfs-root;view/svn/postlfs/cracklib.html"/> for installing
+      CrackLib prior to building Shadow. Then add
+      <parameter>--with-libcrack</parameter> to the <command>configure</command>
+      command below.</para>
+      <para>もし、強固なパスワードの使用を強制したいなら、<ulink url="&blfs-root;view/svn/postlfs/cracklib.html"/>を参照し、Shadowよりも前にCrackLibをインストールしてください。
+      その後、以下のとおり<command>configure</command>コマンドに<parameter>--with-libcrack</parameter>を追加してください。</para>
+    </note>
+
+    <para>Disable the installation of the <command>groups</command> program
+    and its man pages, as Coreutils provides a better version:</para>
+    <para>Coreutilsはより良いバージョンの<command>groups</command>プログラムとmanページを提供してくれるため、ここでは<command>groups</command>のインストールを行わないようにします。</para>
+
+<screen><userinput remap="pre">sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;</userinput></screen>
+
+    <para>Fix an issue with the installation of Russian man pages:</para>
+    <para>ロシア語のmanページのインストールに関する問題を修正します：</para>
+ 
+<screen><userinput remap="pre">sed -i 's/man_MANS = $(man_nopam) /man_MANS = /' man/ru/Makefile.in</userinput></screen>
+
+    <para id="shadow-login_defs">Instead of using the default
+    <emphasis>crypt</emphasis> method, use the more secure
+    <emphasis>SHA-512</emphasis> method of password encryption, which also
+    allows passwords longer than 8 characters. It is also necessary to change
+    the obsolete <filename class="directory">/var/spool/mail</filename> location
+    for user mailboxes that Shadow uses by default to the <filename
+    class="directory">/var/mail</filename> location used currently:</para>
+    <para id="shadow-login_defs1">デフォルトの<emphasis>crypt</emphasis>メソッドを使用する代わりに、よりセキュアな<emphasis>SHA-512</emphasis>メソッドをパスワードの暗号化に使用します。
+    <emphasis>SHA-512</emphasis>はまた、8文字以上のパスワードを使用可能です。
+    また、ユーザのメールボックスとして、時代遅れの<filename class="directory">/var/spool/mail</filename>をShadowがデフォルトで使用する<filename class="directory">/var/mail</filename>に変更する必要があります：</para>
+
+<screen><userinput remap="configure">sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
+       -e 's@/var/spool/mail@/var/mail@' etc/login.defs</userinput></screen>
+
+    <note>
+      <para>If you chose to build Shadow with Cracklib support, run the following:</para>
+      <para>もしCracklibサポートをONにしてShadowをビルドする場合は、次を実行してください：</para>
+
+<screen role="nodump"><userinput>sed -i 's@DICTPATH.*@DICTPATH\t/lib/cracklib/pw_dict@' \
+    etc/login.defs</userinput></screen>
+    </note>
+
+    <para>Prepare Shadow for compilation:</para>
+    <para>Shadowをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --sysconfdir=/etc</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>This package does not come with a test suite.</para>
+    <para>このパッケージにテストツールは付属しません。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Move a misplaced program to its proper location:</para>
+    <para>間違った配置のプログラムを正しい位置に移動します：</para>
+
+<screen><userinput remap="install">mv -v /usr/bin/passwd /bin</userinput></screen>
+
+    <!-- <para>Move Shadow's libraries to more appropriate locations:</para>
+    <para>Shadowのライブラリをより適した位置に移動します：</para>
+
+<screen><userinput remap="install">mv -v /lib/libshadow.*a /usr/lib
+rm -v /lib/libshadow.so
+ln -sfv ../../lib/libshadow.so.0 /usr/lib/libshadow.so</userinput></screen> -->
+
+  </sect2>
+
+  <sect2 id="conf-shadow" role="configuration">
+    <!--<title>Configuring Shadow</title>-->
+    <title>Shadowの設定</title>
+
+    <indexterm zone="conf-shadow">
+      <primary sortas="a-Shadow">Shadow</primary>
+      <secondary>configuring</secondary>
+    </indexterm>
+
+    <para>This package contains utilities to add, modify, and delete users and
+    groups; set and change their passwords; and perform other administrative
+    tasks. For a full explanation of what <emphasis>password shadowing</emphasis>
+    means, see the <filename>doc/HOWTO</filename> file within the unpacked
+    source tree. If using Shadow support, keep in mind that programs which need
+    to verify passwords (display managers, FTP programs, pop3 daemons, etc.)
+    must be Shadow-compliant. That is, they need to be able to work with
+    shadowed passwords.</para>
+    <para>このパッケージは、ユーザとグループの追加、変更、削除や、パスワードの設定と変更、その他の管理上の作業を行うためのユーティリティを含んでいます。
+    <emphasis>password shadowing</emphasis>についての詳細な説明は、ソースツリーの<filename>doc/HOWTO</filename>を見てください。
+    もし、Shadowを使用するなら、パスワードを確認する必要があるプログラム(ディスプレイマネージャ、FTPプログラム、POP3デーモン等)は、Shadowに準拠したものである必要があることに留意してください。</para>
+
+    <para>To enable shadowed passwords, run the following command:</para>
+    <para>Shadowパスワードを有効にするには、次のコマンドを実行してください：</para>
+
+<screen><userinput>pwconv</userinput></screen>
+
+    <para>To enable shadowed group passwords, run:</para>
+    <para>Shadowグループパスワードを有効にするため、次のコマンドを実行します：</para>
+
+<screen><userinput>grpconv</userinput></screen>
+
+    <para>Shadow's stock configuration for the <command>useradd</command>
+    utility has a few caveats that need some explanation. First, the default
+    action for the <command>useradd</command> utility is to create the user and
+    a group of the same name as the user. By default the user ID (UID) and
+    group ID (GID) numbers will begin with 1000. This means if you don't pass
+    parameters to <command>useradd</command>, each user will be a member of a
+    unique group on the system. If this behaviour is undesireable, you'll need
+    to pass the <parameter>-g</parameter> parameter to 
+    <command>useradd</command>. The default parameters are stored in the 
+    <filename>/etc/default/useradd</filename> file. You may need to modify two 
+    parameters in this file to suit your particular needs.</para> 
+    <para>Shadowが持っている<command>useradd</command>ユーティリティのための設定は、説明を必要とする少しの警告があります。
+    一つ目は、<command>useradd</command>ユーティリティのデフォルトの動作として、ユーザと同じ名前のグループでユーザを作成してしまいます。
+    デフォルトでは、ユーザID(UID)とグループID(GID)の番号は、1000から始まります。
+    もし<command>useradd</command>に特にパラメータを指定しなければ、それぞれのユーザはシステム上でユニークなグループに属することになります。
+    もしこの振る舞いが望まないものであれば、<command>useradd</command>に<parameter>-g</parameter>パラメータを渡す必要があります。
+    デフォルトのパラメータは、<filename>/etc/default/useradd</filename>ファイルに保持されます。
+    必要に合わせて、このファイル内の2つのパラメータを修正する必要があるかもしれません。
+    </para>
+
+    <variablelist> 
+      <!--<title><filename>/etc/default/useradd</filename> Parameter Explanations</title> -->
+      <title><filename>/etc/default/useradd</filename>のパラメータの説明</title> 
+
+      <varlistentry> 
+        <term><parameter>GROUP=1000</parameter></term> 
+        <listitem> 
+          <para>This parameter sets the beginning of the group numbers used in 
+          the /etc/group file. You can modify it to anything you desire. Note 
+          that <command>useradd</command> will never reuse a UID or GID. If the 
+          number identified in this parameter is used, it will use the next 
+          available number after this. Note also that if you don't have a group 
+          1000 on your system the first time you use <command>useradd</command> 
+          without the <parameter>-g</parameter> parameter, you'll get a message 
+          displayed on the terminal that says: 
+          <computeroutput>useradd: unknown GID 1000</computeroutput>. You may 
+          disregard this message and group number 1000 will be used.</para>
+          <para>このパラメータは/etc/groupファイルで使用されるグループNoの開始値をセットします。
+          このパラメータは好きなような変更することができます。
+          ただし、<command>useradd</command>はUIDとGIDの値を決して再利用しないことに注意してください。
+          もしこのパラメータで決定されたNoが使用されると、その後は次に利用可能なNoが使われます。
+          もしシステム上にグループ1000が存在しない場合、<parameter>-g</parameter>パラメータを指定せずに<command>useradd</command>を初めて使用すると、画面に<computeroutput>useradd: unknown GID 1000</computeroutput>が表示されることにも注意してください。
+          あなたはこのメッセージを無視するかもしれませんが、グループNo 1000が使用されます。</para>
+        </listitem> 
+      </varlistentry> 
+      <varlistentry> 
+        <term><parameter>CREATE_MAIL_SPOOL=yes</parameter></term> 
+        <listitem> 
+          <para>This parameter causes <command>useradd</command> to create a 
+          mailbox file for the newly created user. <command>useradd</command> 
+          will make the group ownership of this file to the 
+          <systemitem class="groupname">mail</systemitem> group with 0660 
+          permissions. If you would prefer that these mailbox files are not 
+          created by <command>useradd</command>, issue the following 
+          command:</para>
+          <para>このパラメータによって、<command>useradd</command>に、新たに作成するユーザのためのmailboxファイルを作成させます。
+          <command>useradd</command>は、mailboxファイルのグループをパーミッション0660で<systemitem class="groupname">mail</systemitem>グループにセットします。
+          もしmailboxファイルを<command>useradd</command>に作らせないほうが良い場合は、次のコマンドを実行してください：</para>
+ 
+<screen><userinput>sed -i 's/yes/no/' /etc/default/useradd</userinput></screen> 
+        </listitem> 
+      </varlistentry> 
+ 
+    </variablelist>
+  </sect2>
+
+  <sect2 role="configuration">
+    <!--<title>Setting the root password</title>-->
+    <title>rootのパスワードの設定</title>
+
+    <para>Choose a password for user <emphasis>root</emphasis> and set it
+    by running:</para>
+    <para>次のコマンドにより、<emphasis>root</emphasis>ユーザのパスワードをセットしてください：</para>
+
+<screen role="nodump"><userinput>passwd root</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-shadow" role="content">
+    <!--<title>Contents of Shadow</title>-->
+    <title>Shadowの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>chage, chfn, chgpasswd, chpasswd, chsh, expiry, faillog, gpasswd,
+        groupadd, groupdel, groupmems, groupmod, grpck, grpconv, grpunconv,
+        lastlog, login, logoutd, newgrp, newusers, nologin, passwd, pwck,
+        pwconv, pwunconv, sg (link to newgrp), su, useradd, userdel, usermod,
+        vigr (link to vipw), and vipw</seg>
+        <seg>/etc/default</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="chage">
+        <term><command>chage</command></term>
+        <listitem>
+          <para>Used to change the maximum number of days between obligatory
+          password changes</para>
+          <para>強制的なパスワード変更を行う最大の日数を変更するために使用されます。</para>
+          <indexterm zone="ch-system-shadow chage">
+            <primary sortas="b-chage">chage</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="chfn">
+        <term><command>chfn</command></term>
+        <listitem>
+          <para>Used to change a user's full name and other information</para>
+          <para>ユーザのフルネームとその他情報を変更するために使用されます。</para>
+          <indexterm zone="ch-system-shadow chfn">
+            <primary sortas="b-chfn">chfn</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="chgpasswd">
+        <term><command>chgpasswd</command></term>
+        <listitem>
+          <para>Used to update group passwords in batch mode</para>
+          <para>バッチモードでグループのパスワードを変更するために使用されます。</para>
+          <indexterm zone="ch-system-shadow chgpasswd">
+            <primary sortas="b-chgpasswd">chgpasswd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="chpasswd">
+        <term><command>chpasswd</command></term>
+        <listitem>
+          <para>Used to update user passwords in batch mode</para>
+          <para>バッチモードでユーザのパスワードを更新するために使用されます。</para>
+          <indexterm zone="ch-system-shadow chpasswd">
+            <primary sortas="b-chpasswd">chpasswd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="chsh">
+        <term><command>chsh</command></term>
+        <listitem>
+          <para>Used to change a user's default login shell</para>
+          <para>ユーザのデフォルトのログインシェルを変更するために使用されます。</para>
+          <indexterm zone="ch-system-shadow chsh">
+            <primary sortas="b-chsh">chsh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="expiry">
+        <term><command>expiry</command></term>
+        <listitem>
+          <para>Checks and enforces the current password expiration policy</para>
+          <para>現在のパスワード期限に関するポリシーのチェックと設定を行います。</para>
+          <indexterm zone="ch-system-shadow expiry">
+            <primary sortas="b-expiry">expiry</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="faillog">
+        <term><command>faillog</command></term>
+        <listitem>
+          <para>Is used to examine the log of login failures, to set a maximum
+          number of failures before an account is blocked, or to reset the
+          failure count</para>
+          <para>ログイン失敗のログを検査、アカウントが停止されるまでのログイン失敗回数のセット、ログイン失敗回数のリセットを行います。</para>
+          <indexterm zone="ch-system-shadow faillog">
+            <primary sortas="b-faillog">faillog</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gpasswd">
+        <term><command>gpasswd</command></term>
+        <listitem>
+          <para>Is used to add and delete members and administrators to
+          groups</para>
+          <para>グループにメンバーや管理者を追加・削除するために使用されます。
+          </para>
+          <indexterm zone="ch-system-shadow gpasswd">
+            <primary sortas="b-gpasswd">gpasswd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="groupadd">
+        <term><command>groupadd</command></term>
+        <listitem>
+          <para>Creates a group with the given name</para>
+          <para>指定された名前でグループを作成します。</para>
+          <indexterm zone="ch-system-shadow groupadd">
+            <primary sortas="b-groupadd">groupadd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="groupdel">
+        <term><command>groupdel</command></term>
+        <listitem>
+          <para>Deletes the group with the given name</para>
+          <para>指定されたグループを削除します。</para>
+          <indexterm zone="ch-system-shadow groupdel">
+            <primary sortas="b-groupdel">groupdel</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="groupmems">
+        <term><command>groupmems</command></term>
+        <listitem>
+          <para>Allows a user to administer his/her own group membership list
+          without the requirement of super user privileges.</para>
+          <para>スーパーユーザの権限なしに、自分自身のグループのメンバーリストを管理することを可能にします。</para>
+          <indexterm zone="ch-system-shadow groupmems">
+            <primary sortas="b-groupmems">groupmems</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="groupmod">
+        <term><command>groupmod</command></term>
+        <listitem>
+          <para>Is used to modify the given group's name or GID</para>
+          <para>グループの名称またはGIDを変更するために使用されます。</para>
+          <indexterm zone="ch-system-shadow groupmod">
+            <primary sortas="b-groupmod">groupmod</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="grpck">
+        <term><command>grpck</command></term>
+        <listitem>
+          <para>Verifies the integrity of the group files
+          <filename>/etc/group</filename> and
+          <filename>/etc/gshadow</filename></para>
+          <para>グループファイル<filename>/etc/group</filename>と<filename>/etc/gshadow</filename>の整合性を確認します。</para>
+          <indexterm zone="ch-system-shadow grpck">
+            <primary sortas="b-grpck">grpck</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="grpconv">
+        <term><command>grpconv</command></term>
+        <listitem>
+          <para>Creates or updates the shadow group file from the normal
+          group file</para>
+          <para>通常のグループファイルから、Shadowグループファイルを作成または更新します。</para>
+          <indexterm zone="ch-system-shadow grpconv">
+            <primary sortas="b-grpconv">grpconv</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="grpunconv">
+        <term><command>grpunconv</command></term>
+        <listitem>
+          <para>Updates <filename>/etc/group</filename> from
+          <filename>/etc/gshadow</filename> and then deletes the latter</para>
+          <para><filename>/etc/gshadow</filename>を元に<filename>/etc/group</filename>を更新します。
+          その後、後者を削除します。</para>
+          <indexterm zone="ch-system-shadow grpunconv">
+            <primary sortas="b-grpunconv">grpunconv</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="lastlog">
+        <term><command>lastlog</command></term>
+        <listitem>
+          <para>Reports the most recent login of all users or of a
+          given user</para>
+          <para>全てのユーザもしくは指定したユーザの最近のログイン履歴をレポートします。</para>
+          <indexterm zone="ch-system-shadow lastlog">
+            <primary sortas="b-lastlog">lastlog</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="login">
+        <term><command>login</command></term>
+        <listitem>
+          <para>Is used by the system to let users sign on</para>
+          <para>ユーザをログインさせるためにシステムが使用するプログラムです。</para>
+          <indexterm zone="ch-system-shadow login">
+            <primary sortas="b-login">login</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="logoutd">
+        <term><command>logoutd</command></term>
+        <listitem>
+          <para>Is a daemon used to enforce restrictions on log-on time
+          and ports</para>
+          <para>ログオン時間と使用するポートを制限するために使用されるデーモンです。</para>
+          <indexterm zone="ch-system-shadow logoutd">
+            <primary sortas="b-logoutd">logoutd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="newgrp">
+        <term><command>newgrp</command></term>
+        <listitem>
+          <para>Is used to change the current GID during a login session</para>
+          <para>ログインセッションの間、現在のGIDを変更します。</para>
+          <indexterm zone="ch-system-shadow newgrp">
+            <primary sortas="b-newgrp">newgrp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="newusers">
+        <term><command>newusers</command></term>
+        <listitem>
+          <para>Is used to create or update an entire series of user
+          accounts</para>
+          <para>一連のユーザアカウントの作成または更新を行います。</para>
+          <indexterm zone="ch-system-shadow newusers">
+            <primary sortas="b-newusers">newusers</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="nologin">
+        <term><command>nologin</command></term>
+        <listitem>
+          <para>Displays a message that an account is not available. Designed
+          to be used as the default shell for accounts that have been
+          disabled</para>
+          <para>アカウントが利用不可能であるメッセージを表示します。
+          利用不可能なアカウントのためのデフォルトシェルとして使用されるようにデザインされています。</para>
+          <indexterm zone="ch-system-shadow nologin">
+            <primary sortas="b-nologin">nologin</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="passwd">
+        <term><command>passwd</command></term>
+        <listitem>
+          <para>Is used to change the password for a user or group account</para>
+          <para>ユーザまたはグループアカウントのパスワードを変更します。</para>
+          <indexterm zone="ch-system-shadow passwd">
+            <primary sortas="b-passwd">passwd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="pwck">
+        <term><command>pwck</command></term>
+        <listitem>
+          <para>Verifies the integrity of the password files
+          <filename>/etc/passwd</filename> and
+          <filename>/etc/shadow</filename></para>
+          <para>パスワードファイル<filename>/etc/passwd</filename>と<filename>/etc/shadow</filename>の整合性を検証します。</para>
+          <indexterm zone="ch-system-shadow pwck">
+            <primary sortas="b-pwck">pwck</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="pwconv">
+        <term><command>pwconv</command></term>
+        <listitem>
+          <para>Creates or updates the shadow password file from the normal
+          password file</para>
+          <para>通常のパスワードファイルから、Shadowパスワードファイルを作成または更新します。</para>
+          <indexterm zone="ch-system-shadow pwconv">
+            <primary sortas="b-pwconv">pwconv</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="pwunconv">
+        <term><command>pwunconv</command></term>
+        <listitem>
+          <para>Updates <filename>/etc/passwd</filename> from
+          <filename>/etc/shadow</filename> and then deletes the latter</para>
+          <para><filename>/etc/shadow</filename>の内容を元に<filename>/etc/passwd</filename>を更新します。
+          そして、<filename>/etc/passwd</filename>を削除します。</para>
+          <indexterm zone="ch-system-shadow pwunconv">
+            <primary sortas="b-pwunconv">pwunconv</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="sg">
+        <term><command>sg</command></term>
+        <listitem>
+          <para>Executes a given command while the user's GID
+          is set to that of the given group</para>
+          <para>ユーザのGIDを指定されたグループにセットし、コマンドを実行します。</para>
+          <indexterm zone="ch-system-shadow sg">
+            <primary sortas="b-sg">sg</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="su">
+        <term><command>su</command></term>
+        <listitem>
+          <para>Runs a shell with substitute user and group IDs</para>
+          <para>ユーザとグループIDを変更してシェルを起動します。</para>
+          <indexterm zone="ch-system-shadow su">
+            <primary sortas="b-su">su</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="useradd">
+        <term><command>useradd</command></term>
+        <listitem>
+          <para>Creates a new user with the given name, or updates the default
+          new-user information</para>
+          <para>指定された名前で新規ユーザを作成します。
+          または、新規ユーザのデフォルトの情報を更新します。</para>
+          <indexterm zone="ch-system-shadow useradd">
+            <primary sortas="b-useradd">useradd</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="userdel">
+        <term><command>userdel</command></term>
+        <listitem>
+          <para>Deletes the given user account</para>
+          <para>指定されたユーザアカウントを削除します。</para>
+          <indexterm zone="ch-system-shadow userdel">
+            <primary sortas="b-userdel">userdel</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="usermod">
+        <term><command>usermod</command></term>
+        <listitem>
+          <para>Is used to modify the given user's login name, User
+          Identification (UID), shell, initial group, home directory, etc.</para>
+          <para>指定されたユーザのログイン名、UID(User Identification)、シェル、初期グループ、ホームディレクトリ等を変更します。</para>
+          <indexterm zone="ch-system-shadow usermod">
+            <primary sortas="b-usermod">usermod</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vigr">
+        <term><command>vigr</command></term>
+        <listitem>
+          <para>Edits the <filename>/etc/group</filename> or
+          <filename>/etc/gshadow</filename> files</para>
+          <para><filename>/etc/group</filename>または<filename>/etc/gshadow</filename>を編集します。</para>
+          <indexterm zone="ch-system-shadow vigr">
+            <primary sortas="b-vigr">vigr</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="vipw">
+        <term><command>vipw</command></term>
+        <listitem>
+          <para>Edits the <filename>/etc/passwd</filename> or
+          <filename>/etc/shadow</filename> files</para>
+          <para><filename>/etc/passwd</filename>または<filename>/etc/shadow</filename>を編集します。</para>
+          <indexterm zone="ch-system-shadow vipw">
+            <primary sortas="b-vipw">vipw</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 7970 -->
+
+<sect1 id="ch-system-revisedchroot">
+  <?dbhtml filename="revisedchroot.html"?>
+
+  <!--<title>Cleaning Up</title>-->
+  <title>後片付け</title>
+
+  <para>From now on, when reentering the chroot environment after
+  exiting, use the following modified chroot command:</para>
+  <para>今後、chroot環境からexitしたあと再度chroot環境へ移行する際は、次のchrootコマンドを使用してください：</para>
+
+<screen><userinput>chroot "$LFS" /usr/bin/env -i \
+    HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin \
+    /bin/bash --login</userinput></screen>
+
+  <para>The reason for this is that the programs in <filename
+  class="directory">/tools</filename> are no longer needed.  Since they are no
+  longer needed you can delete the <filename class="directory">/tools</filename>
+  directory if so desired.</para>
+  <para>この理由は、<filename class="directory">/tools</filename>のプログラムはもう必要ないからです。
+  ですので、<filename class="directory">/tools</filename>を削除することが可能です。</para>
+
+  <note>
+    <para>Removing <filename class="directory">/tools</filename> will also
+    remove the temporary copies of Tcl, Expect, and DejaGNU which were used
+    for running the toolchain tests. If you need these programs later on,
+    they will need to be recompiled and re-installed. The BLFS book has
+    instructions for this (see <ulink url="&blfs-root;"/>).</para>
+  <para><filename class="directory">/tools</filename>を削除するということはまた、Toolchainのテストに使用したTcl、Expect、DejeGNUという一時的に使用したツールを削除するということになります。
+  後でそれらプログラムが必要になるのであれば、リコンパイルと再インストールが必要になります。
+  BLFSブックに、そのための手順が載っています(<ulink url="&blfs-root;"/>を参照)。</para>
+  </note>
+
+  <para>If the virtual kernel file systems have been unmounted, either manually
+  or through a reboot, ensure that the virtual kernel file systems are mounted
+  when reentering the chroot. This process was explained in <xref
+  linkend="ch-system-bindmount"/> and <xref
+  linkend="ch-system-kernfsmount"/>.</para>
+  <para>もし仮想カーネルファイルシステムが、手動またはリブートによってアンマウントされていたら、chroot環境に再び移行する時、仮想カーネルファイルシステムがマウントされていることを確かめてください。
+  この手順は、<xref linkend="ch-system-bindmount"/>と<xref linkend="ch-system-kernfsmount"/>で説明されています。</para>
+
+</sect1>

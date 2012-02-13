@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9406 -->
+
+<sect1 id="ch-system-gcc" role="wrap">
+  <?dbhtml filename="gcc.html"?>
+
+  <sect1info condition="script">
+    <productname>gcc</productname>
+    <productnumber>&gcc-version;</productnumber>
+    <address>&gcc-url;</address>
+  </sect1info>
+
+  <title>GCC-&gcc-version;</title>
+
+  <indexterm zone="ch-system-gcc">
+    <primary sortas="a-GCC">GCC</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The GCC package contains the GNU compiler collection, which includes
+    the C and C++ compilers.</para>
+
+    <para>GCCパッケージにはGNUコンパイラコレクションが含まれます。
+    これにはCとC++コンパイラが含まれています。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gcc-ch6-sbu;</seg>
+        <seg>&gcc-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of GCC</title>-->
+    <title>GCCのインストール</title>
+
+    <para>Apply a <command>sed</command> substitution that will suppress the
+    installation of <filename class="libraryfile">libiberty.a</filename>. The
+    version of <filename class="libraryfile">libiberty.a</filename> provided by
+    Binutils will be used instead:</para>
+
+    <para><filename class="libraryfile">libiberty.a</filename> のインストールを行わないようにするため、<command>sed</command> コマンドによる置き換えを行います。
+    代わりに、Binutilsが提供する<filename class="libraryfile">libiberty.a</filename>が使用されます。
+    </para>
+
+<screen><userinput remap="pre">sed -i 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in</userinput></screen>
+
+    <para>As in <xref linkend="ch-tools-gcc-pass2"/>, apply the following
+    <command>sed</command> to force the build to use the
+    <option>-fomit-frame-pointer</option> compiler flag in order to ensure
+    consistent compiler builds:</para>
+    <para>一貫性のあるコンパイラのビルドを保証するため、次の<command>sed</command>コマンドを実行することで、<xref linkend="ch-tools-gcc-pass2"/>と同じように、<option>-fomit-frame-pointer</option>フラグを使用してビルドを行うようにします：</para>
+
+<screen><userinput remap="pre">case `uname -m` in
+  i?86) sed -i 's/^T_CFLAGS =$/&amp; -fomit-frame-pointer/' \
+        gcc/Makefile.in ;;
+esac</userinput></screen>
+
+    <para>The <command>fixincludes</command> script is known to occasionally
+    erroneously attempt to &quot;fix&quot; the system headers installed so far.
+    As the headers up to this point are known to not require fixing,
+    issue the following command to prevent the <command>fixincludes</command>
+    script from running:</para>
+    <para><command>fixincludes</command>スクリプトが、今までインストールされたシステムヘッダを時々誤って&quot;修正&quot;しようとすることが知られています。
+    この時点でヘッダーファイルは修正が必要ないことが分かっているので、<command>fixincludes</command>スクリプトが実行されないように、次のコマンドを実行します：</para>
+
+<screen><userinput remap="pre">sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in</userinput></screen>
+
+    <para>The GCC documentation recommends building GCC outside of the source
+    directory in a dedicated build directory:</para>
+
+    <para>GCCのドキュメントは、ソースディレクト外の専用のビルドディレクトリで、ビルドを行うことを推奨しています。</para>
+
+<screen><userinput remap="pre">mkdir -v ../gcc-build
+cd ../gcc-build</userinput></screen>
+
+    <para>Prepare GCC for compilation:</para>
+    <para>GCCのコンパイルの準備：</para>
+
+<screen><userinput remap="configure">../gcc-&gcc-version;/configure --prefix=/usr \
+    --libexecdir=/usr/lib --enable-shared \
+    --enable-threads=posix --enable-__cxa_atexit \
+    --enable-clocale=gnu --enable-languages=c,c++ \
+    --disable-multilib --disable-bootstrap --with-system-zlib</userinput></screen>
+
+    <para>Note that for other languages, there are some prerequisites that
+    are not available. See the BLFS Book for instructions on how to
+    build all the GCC supported languages.</para>
+    <para>他のプログラム言語については、いくつかの前提条件があることに留意してください。
+    GCCがサポートするすべての言語をビルドする方法については、BLFSブックを参照してください。</para>
+
+    <variablelist> 
+      <!--<title>The meaning of the new configure option:</title>-->
+      <title>新しいconfigureオプションの意味：</title> 
+ 
+      <varlistentry> 
+        <term><parameter>--with-system-zlib</parameter></term> 
+        <listitem> 
+          <para>This switch tells GCC to link to the system installed copy of 
+          the Zlib library, rather than its own internal copy.</para>
+          <para>GCCに含まれるZlibライブラリを使用せず、システムにインストールされたZlibライブラリとリンクします。</para>
+        </listitem> 
+      </varlistentry> 
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <important>
+      <para>In this section, the test suite for GCC is considered
+      critical. Do not skip it under any circumstance.</para>
+      <para>このセクションでは、GCCのテストツールは重要です。
+      どのような事情があっても、テストツールの実行をスキップしないでください。
+      </para>
+    </important>
+
+    <para>One set of tests in the GCC test suite is known to exhaust the stack, 
+    so increase the stack size prior to running the tests:</para> 
+    <para>GCCのテストツールのうち1つは、スタックを使い尽くすことが知られています。テストを実行するために、スタックサイズを増やします。</para>
+
+<screen><userinput remap="test">ulimit -s 16384</userinput></screen>
+
+    <para>Test the results, but do not stop at errors:</para>
+    <para>テストの結果を検証してください。ただし、エラーが発生してもテストツールを停止しないでください。</para>
+
+<screen><userinput remap="test">make -k check</userinput></screen>
+
+    <para>To receive a summary of the test suite results, run:</para>
+    <para>テストツールの結果のサマリを確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">../gcc-&gcc-version;/contrib/test_summary</userinput></screen>
+
+    <para>For only the summaries, pipe the output through
+    <userinput>grep -A7 Summ</userinput>.</para>
+
+    <para>サマリのみを得るために、<userinput>grep -A7 Summ</userinput>に出力をパイプで渡します。</para>
+
+    <para>Results can be compared with those located at <ulink
+    url="&test-results;"/> and <ulink url="http://gcc.gnu.org/ml/gcc-testresults/"/>.</para>
+
+    <para>テストの結果は、<ulink url="&test-results;"/>と<ulink url="http://gcc.gnu.org/ml/gcc-testresults/"/>の結果と比較することが出来ます。</para>
+
+    <para>A few unexpected failures cannot always be avoided. The GCC developers
+    are usually aware of these issues, but have not resolved them yet. In
+    particular, the <filename class="libraryfile">libmudflap</filename> tests
+    are known be particularly problematic as a result of a bug in GCC
+    (<ulink url="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=20003"/>).
+    Unless the test results are vastly different from those at the above URL,
+    it is safe to continue.</para>
+
+    <para>いくつかの予期しないエラーは避けられません。
+    GCCの開発者たちは大抵、これら問題について気づいていますが、まだ解決されていません。
+    特に、<filename class="libraryfile">libmudflap</filename>のテストは、GCCのバグ((<ulink url="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=20003"/>)のために特に問題があることが分かっています。
+    テストの結果が、上記URLの内容と大きく違うことがないのであれば、構築手順を続けても安全です。
+    </para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Some packages expect the C preprocessor to be installed in the
+    <filename class="directory">/lib</filename> directory.
+    To support those packages, create this symlink:</para>
+
+    <para>いくつかのパッケージは、Cプリプロセッサが<filename class="directory">/lib</filename>ディレクトリにインストールされていることを期待した作りになっています。
+    それらパッケージをサポートするため、このsymlinkを作成します：
+    </para>
+
+<screen><userinput remap="install">ln -sv ../usr/bin/cpp /lib</userinput></screen>
+
+    <para>Many packages use the name <command>cc</command> to call the C
+    compiler. To satisfy those packages, create a symlink:</para>
+
+    <para>多くのパッケージはCコンパイラを呼び出す際、コマンド名として<command>cc</command>を使用します。
+    そのようなパッケージに対応するため、次の通りsymlinkを作成します：</para>
+
+<screen><userinput remap="install">ln -sv gcc /usr/bin/cc</userinput></screen>
+
+    <para>Now that our final toolchain is in place, it is important to again ensure
+    that compiling and linking will work as expected. We do this by performing
+    the same sanity checks as we did earlier in the chapter:</para>
+
+    <para>これで最終的なtoolchainが全て整いました。
+    コンパイルとリンクが期待通りに動くことを再度確認することは重要です。
+    以前に行った方法と同じやり方でサニティチェックを行うことで、再確認を実施します。
+    </para>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='a'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='b'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='c'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='d'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='e'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='f'])"/>
+
+<screen><computeroutput>/usr/lib/gcc/i686-pc-linux-gnu/&gcc-version;/../../../crt1.o succeeded
+/usr/lib/gcc/i686-pc-linux-gnu/&gcc-version;/../../../crti.o succeeded
+/usr/lib/gcc/i686-pc-linux-gnu/&gcc-version;/../../../crtn.o succeeded</computeroutput></screen>
+
+  <para>Depending on your machine architecture, the above may differ slightly, 
+  the difference usually being the name of the directory 
+  after <filename class="directory">/usr/lib/gcc</filename>. If your machine is 
+  a 64-bit system, you may also see a directory named <filename class="directory">lib64</filename> 
+  towards the end of the string. The important thing to 
+  look for here is that <command>gcc</command> has found all three
+  <filename>crt*.o</filename> files under the
+  <filename class="directory">/usr/lib</filename> directory.</para>
+  <para>あなたが使用しているPCのアーキテクチャによっては、上記出力は少し異なるかもしれません。
+  差異は普通、<filename class="directory">/usr/lib/gcc</filename>に続くディレクトリの名前くらいです。
+  もし64-bitマシンを使用しているのであれば、出力文字列の終わりに向かって、ディレクトリ名に<filename class="directory">lib64</filename>が現れるでしょう。
+  ここでチェックすべき重要なことは、3つの<filename>crt*.o</filename>ファイル全てが<filename class="directory">/usr/lib</filename>ディレクトリの下にあることです。</para>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='g'])"/>
+
+<screen><userinput>grep -B4 '^ /usr/include' dummy.log</userinput></screen>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='h'])"/>
+
+<screen><computeroutput>#include &lt;...&gt; search starts here:
+ /usr/local/include
+ /usr/lib/gcc/i686-pc-linux-gnu/&gcc-version;/include
+ /usr/lib/gcc/i686-pc-linux-gnu/&gcc-version;/include-fixed
+ /usr/include</computeroutput></screen>
+
+   <para>Again, note that the directory named after your target triplet may be 
+   different than the above, depending on your architecture.</para>
+   <para>繰り返しになりますが、PCのアーキテクチャによっては、ターゲットの三つ揃いの後のディレクトリ名は上記と異なるかもしれないことに留意してください。</para>
+
+    <note><para>As of version 4.3.0, GCC now unconditionally installs the
+    <filename>limits.h</filename> file into the private
+    <filename class="directory">include-fixed</filename> directory, and that
+    directory is required to be in place.</para>
+    <para>GCCバージョン4.3.0では、無条件に<filename>limits.h</filename>ファイルを<filename class="directory">include-fixed</filename>にインストールします。このディレクトリは正しい場所に配置する必要があります。</para></note>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='i'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='j'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='k'])"/>
+
+<screen><computeroutput>SEARCH_DIR("/usr/i686-pc-linux-gnu/lib")
+SEARCH_DIR("/usr/local/lib") 
+SEARCH_DIR("/lib") 
+SEARCH_DIR("/usr/lib");</computeroutput></screen> 
+
+   <para>A 64-bit system may see a few more directories. For example, here 
+   is the output from an x86_64 machine:</para> 
+   <para>64-bitシステムではもう少しディレクトリが多く表示されます。
+   例えば、x86_64マシンの出力は以下のとおりです：</para>
+
+<screen><computeroutput>SEARCH_DIR("/usr/x86_64-unknown-linux-gnu/lib64") 
+SEARCH_DIR("/usr/local/lib64") 
+SEARCH_DIR("/lib64") 
+SEARCH_DIR("/usr/lib64") 
+SEARCH_DIR("/usr/x86_64-unknown-linux-gnu/lib")
+SEARCH_DIR("/usr/local/lib")
+SEARCH_DIR("/lib")
+SEARCH_DIR("/usr/lib");</computeroutput></screen>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='l'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='m'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='n'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='o'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='p'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='q'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='r'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='s'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='t'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='u'])"/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="readjusting.xml"
+    xpointer="xpointer(//*[@os='v'])"/>
+
+  </sect2>
+
+  <sect2 id="contents-gcc" role="content">
+    <!--<title>Contents of GCC</title>-->
+    <title>GCCの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+      <!--<segtitle>Installed directories</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>c++, cc (link to gcc), cpp, g++, gcc, gccbug, and gcov</seg>
+        <seg>libgcc.a, libgcc_eh.a, libgcc_s.so, libgcov.a, libgomp.{a,so},
+        libmudflap.{a,so}, libmudflapth.{a,so}, libssp.{a,so},
+        libssp_nonshared.a, libstdc++.{a,so} and libsupc++.a</seg>
+        <seg>/usr/include/c++, /usr/lib/gcc, /usr/share/gcc-&gcc-version;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="c">
+        <term><command>c++</command></term>
+        <listitem>
+          <para>The C++ compiler</para>
+          <para>C++コンパイラ</para>
+          <indexterm zone="ch-system-gcc c">
+            <primary sortas="b-c++">c++</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="cc">
+        <term><command>cc</command></term>
+        <listitem>
+          <para>The C compiler</para>
+          <para>Cコンパイラ</para>
+          <indexterm zone="ch-system-gcc cc">
+            <primary sortas="b-cc">cc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="cpp">
+        <term><command>cpp</command></term>
+        <listitem>
+          <para>The C preprocessor; it is used by the compiler to expand the
+          #include, #define, and similar statements in the source files</para>
+          <para>Cプリプロセッサ。
+          コンパイラによって使用され、ソースファイル中の#include、#define等のステートメントの展開を行います。</para>
+          <indexterm zone="ch-system-gcc cpp">
+            <primary sortas="b-cpp">cpp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="g">
+        <term><command>g++</command></term>
+        <listitem>
+          <para>The C++ compiler</para>
+          <para>C++コンパイラ</para>
+          <indexterm zone="ch-system-gcc g">
+            <primary sortas="b-g++">g++</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gcc">
+        <term><command>gcc</command></term>
+        <listitem>
+          <para>The C compiler</para>
+          <para>Cコンパイラ</para>
+          <indexterm zone="ch-system-gcc gcc">
+            <primary sortas="b-gcc">gcc</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+      
+      <varlistentry id="gccbug">
+        <term><command>gccbug</command></term>
+        <listitem>
+          <para>A shell script used to help create useful bug reports</para>
+          <para>役に立つバグレポートを作成する手助けとなるシェルスクリプトです。</para>
+          <indexterm zone="ch-system-gcc gccbug">
+            <primary sortas="b-gccbug">gccbug</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gcov">
+        <term><command>gcov</command></term>
+        <listitem>
+          <para>A coverage testing tool; it is used to analyze programs to
+          determine where optimizations will have the most effect</para>
+          <para>カバレッジテストツールです。
+          最適化が最も効果的な部分を特定するため、プログラムをアナライズするツールです。</para>
+          <indexterm zone="ch-system-gcc gcov">
+            <primary sortas="b-gcov">gcov</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libgcc">
+        <term><filename class="libraryfile">libgcc</filename></term>
+        <listitem>
+          <para>Contains run-time support for <command>gcc</command></para>
+          <para><command>gcc</command>のランタイムサポートを含みます。</para>
+          <indexterm zone="ch-system-gcc libgcc">
+            <primary sortas="c-libgcc*">libgcc*</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libgcov"> 
+        <term><filename class="libraryfile">libgcov</filename></term> 
+        <listitem> 
+          <para>This library is linked in to a program when GCC is instructed 
+          to enable profiling</para>
+          <para>GCCでプロファイリングを有効にした際、このライブラリがプログラムにリンクされます。</para> 
+          <indexterm zone="ch-system-gcc libgcov"> 
+            <primary sortas="c-libgcov">libgcov</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+     <varlistentry id="libgomp"> 
+        <term><filename class="libraryfile">libgomp</filename></term> 
+        <listitem> 
+          <para>GNU implementation of the OpenMP API for multi-platform 
+          shared-memory parallel programming in C/C++ and Fortran</para>
+          <para>C/C++・Fortran用マルチプラットフォーム共有メモリ並列プログラミングのためのOpenMP APIをGNUが実装したものです。</para> 
+          <indexterm zone="ch-system-gcc libgomp"> 
+            <primary sortas="c-libgomp">libgomp</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="libmudflap">
+        <term><filename class="libraryfile">libmudflap</filename></term>
+        <listitem>
+          <para>Contains routines that support GCC's bounds checking
+          functionality</para>
+          <para>GCCの境界チェック機能をサポートするルーチンを含みます。</para>
+          <indexterm zone="ch-system-gcc libmudflap">
+            <primary sortas="c-libmudflap*">libmudflap*</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libssp">
+        <term><filename class="libraryfile">libssp</filename></term>
+        <listitem>
+          <para>Contains routines supporting GCC's stack-smashing protection
+          functionality</para>
+          <para>GCCのStack-Smashin Protection機能をサポートするルーチンを含みます。</para>
+          <indexterm zone="ch-system-gcc libssp">
+            <primary sortas="c-libssp*">libssp*</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libstdc">
+        <term><filename class="libraryfile">libstdc++</filename></term>
+        <listitem>
+          <para>The standard C++ library</para>
+          <para>Standard C++ライブラリ</para>
+          <indexterm zone="ch-system-gcc libstdc">
+            <primary sortas="c-libstdc++">libstdc++</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="libsupc">
+        <term><filename class="libraryfile">libsupc++</filename></term>
+        <listitem>
+          <para>Provides supporting routines for the C++ programming
+          language</para>
+          <para>C++言語のサポートルーチンを提供します。</para>
+          <indexterm zone="ch-system-gcc libsupc">
+            <primary sortas="c-libsupc++">libsupc++</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

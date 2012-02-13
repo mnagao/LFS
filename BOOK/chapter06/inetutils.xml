@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9412 -->
+
+<sect1 id="ch-system-inetutils" role="wrap">
+  <?dbhtml filename="inetutils.html"?>
+
+  <sect1info condition="script">
+    <productname>inetutils</productname>
+    <productnumber>&inetutils-version;</productnumber>
+    <address>&inetutils-url;</address>
+  </sect1info>
+
+  <title>Inetutils-&inetutils-version;</title>
+
+  <indexterm zone="ch-system-inetutils">
+    <primary sortas="a-Inetutils">Inetutils</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Inetutils package contains programs for basic networking.</para>
+    <para>Inetutilsパッケージは、基本的なネットワークプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&inetutils-ch6-sbu;</seg>
+        <seg>&inetutils-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Inetutils</title>-->
+    <title>Inetutilsのインストール</title>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --libexecdir=/usr/sbin \
+    --localstatedir=/var --disable-ifconfig \
+    --disable-logger --disable-syslogd --disable-whois \
+    --disable-servers</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--disable-ifconfig</parameter></term>
+        <listitem>
+          <para>This option prevents Inetutils from installing the
+          <command>ifconfig</command> program, which can be used to configure network
+          interfaces. LFS uses <command>ip</command> from IPRoute2 to perform
+          this task.</para>
+          <para>このオプションによって、ネットワークインタフェースの設定に用いられる、<command>ifconfig</command>コマンドのインストールを行わないようにします。
+          LFSでネットワークインタフェースの設定を行うためには、IPRoute2の<command>ip</command>コマンドを使用します。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-logger</parameter></term>
+        <listitem>
+          <para>This option prevents Inetutils from installing the
+          <command>logger</command> program, which is used by scripts to
+          pass messages to the System Log Daemon. Do not install it because
+          Util-linux installed a version earlier.</para>
+          <para>このオプションを指定することで、システムログデーモンにメッセージを渡すために使用されるスクリプトである<command>logger</command>プログラムをインストールしないようにします。
+          Util-linuxが古いバージョンをインストールしてしまうので、ここでは<command>logger</command>プログラムをインストールしないでください。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-syslogd</parameter></term>
+        <listitem>
+          <para>This option prevents Inetutils from installing the System Log
+          Daemon, which is installed with the Sysklogd package.</para>
+          <para>このオプションにより、システムログデーモンをインストールしないようにします。
+          システムログデーモンは、Sysklogdパッケージでインストールされます。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-whois</parameter></term>
+        <listitem>
+          <para>This option disables the building of the Inetutils
+          <command>whois</command> client, which is out of date. Instructions for
+          a better <command>whois</command> client are in the BLFS book.</para>
+          <para>時代遅れであるInetutilsの<command>whois</command>クライアントのビルドを行わないようにします。
+          より良い<command>whois</command>クライアントの構築手順は、BLFSブックにあります。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-servers</parameter></term>
+        <listitem>
+          <para>This disables the installation of the various network servers
+          included as part of the Inetutils package. These servers are deemed not
+          appropriate in a basic LFS system. Some are insecure by nature and are
+          only considered safe on trusted networks. More information can be found
+          at <ulink url="&blfs-root;view/svn/basicnet/inetutils.html"/>. Note that
+          better replacements are available for many of these servers.</para>
+          <para>このオプションにより、Inetutilsパッケージに含まれる様々なネットワークサーバのインストールを行わないようにします。
+          それらサーバは、基本的なLFSシステムに適さないとみなされています。
+          それらサーバのうちいくつかは、元からセキュアではなく、信頼のおけるネットワーク上のみで安全と考えられています。
+          追加の情報は、<ulink url="&blfs-root;view/svn/basicnet/inetutils.html"/>にあります。
+          それらサーバの多くに対して、よりよい代用品(ソフトウェア)があります。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install
+make -C doc html
+make -C doc install-html docdir=/usr/share/doc/inetutils-&inetutils-version;</userinput></screen>
+
+    <para>Move some programs to their FHS-compliant place:</para>
+    <para>いくつかのプログラムをFHS準拠の場所へ移動します：</para>
+
+<screen><userinput remap="install">mv -v /usr/bin/{hostname,ping,ping6} /bin
+mv -v /usr/bin/traceroute /sbin</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-inetutils" role="content">
+    <!--<title>Contents of Inetutils</title>-->
+    <title>Inetutilsの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>ftp, hostname, ping, ping6, rcp, rexec, rlogin, rsh, talk, telnet,
+        tftp, and traceroute</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="ftp">
+        <term><command>ftp</command></term>
+        <listitem>
+        <para>Is the file transfer protocol program</para>
+        <para>File Transfer Protocolのプログラムです。</para>
+        <indexterm zone="ch-system-inetutils ftp">
+          <primary sortas="b-ftp">ftp</primary>
+        </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="hostname"> 
+        <term><command>hostname</command></term> 
+        <listitem> 
+          <para>Reports or sets the name of the host</para>
+          <para>ホスト名の表示または設定を行います。</para> 
+          <indexterm zone="ch-system-inetutils hostname"> 
+            <primary sortas="b-hostname">hostname</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="ping">
+        <term><command>ping</command></term>
+        <listitem>
+          <para>Sends echo-request packets and reports how long the replies
+          take</para>
+          <para>エコーリクエストパケットを送信し、そのリプライにどのくらい時間がかかったか表示します。</para>
+          <indexterm zone="ch-system-inetutils ping">
+            <primary sortas="b-ping">ping</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="ping6">
+        <term><command>ping6</command></term>
+        <listitem>
+          <para>A version of <command>ping</command> for IPv6 networks</para>
+          <para>IPv6ネットワーク用の<command>ping</command>です。</para>
+          <indexterm zone="ch-system-inetutils ping6">
+            <primary sortas="b-ping6">ping6</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rcp">
+        <term><command>rcp</command></term>
+        <listitem>
+          <para>Performs remote file copy</para>
+          <para>リモートファイルコピーを行います。</para>
+          <indexterm zone="ch-system-inetutils rcp">
+            <primary sortas="b-rcp">rcp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rexec"> 
+        <term><command>rexec</command></term> 
+        <listitem> 
+          <para>executes commands on a remote host</para>
+          <para>リモートホストでコマンドを実行します。</para> 
+          <indexterm zone="ch-system-inetutils rexec"> 
+            <primary sortas="b-rexec">rexec</primary>
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="rlogin">
+        <term><command>rlogin</command></term>
+        <listitem>
+          <para>Performs remote login</para>
+          <para>リモートログインを行います。</para>
+          <indexterm zone="ch-system-inetutils rlogin">
+            <primary sortas="b-rlogin">rlogin</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="rsh">
+        <term><command>rsh</command></term>
+        <listitem>
+          <para>Runs a remote shell</para>
+          <para>リモートシェルを実行します。</para>
+          <indexterm zone="ch-system-inetutils rsh">
+            <primary sortas="b-rsh">rsh</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="talk">
+        <term><command>talk</command></term>
+        <listitem>
+          <para>Is used to chat with another user</para>
+          <para>他ユーザとチャットをします。</para>
+          <indexterm zone="ch-system-inetutils talk">
+            <primary sortas="b-talk">talk</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="telnet">
+        <term><command>telnet</command></term>
+        <listitem>
+          <para>An interface to the TELNET protocol</para>
+          <para>TELNETプロトコルとのインタフェースです。</para>
+          <indexterm zone="ch-system-inetutils telnet">
+            <primary sortas="b-telnet">telnet</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="tftp">
+        <term><command>tftp</command></term>
+        <listitem>
+          <para>A trivial file transfer program</para>
+          <para>単純なファイル転送プログラムです。</para>
+          <indexterm zone="ch-system-inetutils tftp">
+            <primary sortas="b-tftp">tftp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="traceroute"> 
+        <term><command>traceroute</command></term> 
+        <listitem> 
+          <para>Traces the route your packets take from the host you are 
+          working on to another host on a network, showing all the intermediate 
+          hops (gateways) along the way</para>
+          <para>あなたが操作しているホストからネットワーク上の他のホストまで、全ての途中のホップ(ゲートウェイ)を表示しながらパケットの経路をトレースします。
+          </para> 
+          <indexterm zone="ch-system-inetutils traceroute"> 
+            <primary sortas="b-traceroute">traceroute</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

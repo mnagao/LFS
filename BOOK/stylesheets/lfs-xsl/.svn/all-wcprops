@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl
+END
+chunk-slave.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/chunk-slave.xsl
+END
+lfs-print.css
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/lfs-print.css
+END
+profile.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/profile.xsl
+END
+chunk-master.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/chunk-master.xsl
+END
+chunkfast.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/chunkfast.xsl
+END
+lfs-l10n.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/lfs-l10n.xml
+END
+lfs.css
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/lfs.css
+END
+common.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/common.xsl
+END
+nochunks.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/nochunks.xsl
+END
+pdf.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/pdf.xsl
+END

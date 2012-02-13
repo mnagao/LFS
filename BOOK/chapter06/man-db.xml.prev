@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 8694 -->
+
+<sect1 id="ch-system-man-db" role="wrap">
+  <?dbhtml filename="man-db.html"?>
+
+  <sect1info condition="script"> 
+    <productname>man-db</productname> 
+    <productnumber>&man-db-version;</productnumber> 
+    <address>&man-db-url;</address> 
+  </sect1info>
+
+  <title>Man-DB-&man-db-version;</title>
+
+  <indexterm zone="ch-system-man-db">
+    <primary sortas="a-Man-DB">Man-DB</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Man-DB package contains programs for finding and viewing man
+    pages.</para>
+    <para>Man-DBパッケージは、manページを検索・表示するためのプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&man-db-ch6-sbu;</seg>
+        <seg>&man-db-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Man-DB</title>-->
+    <title>Man-DBのインストール</title>
+
+    <!-- <para>Two adjustments need to be made to the sources of Man-DB.</para>
+    <para>Man-DBのソースに対して、2つの変更を行う必要があります。</para>
+
+    <para>The first change is a <command>sed</command> substitution to delete
+    the <quote>/usr/man</quote> and <quote>/usr/local/man</quote> lines in
+    the <filename>man_db.conf</filename> file to prevent redundant results
+    when using programs such as <command>whatis</command>:</para>
+    <para>1つめの変更は、<filename>man_db.conf</filename>ファイルの<quote>/usr/man</quote>と<quote>/usr/local/man</quote>の行を削除するために、<command>sed</command>による置換を行うことです。
+    これは、<command>whatis</command>のようなプログラムを使用する際、重複した結果が出力されるのを防ぐためです。</para>-->
+
+    <para>LFS creates <filename>/usr/man</filename> and
+    <filename>/usr/local/man</filename> as symlinks.   Remove them from the
+    <filename>man_db.conf</filename> file to prevent redundant
+    results when using programs such as <command>whatis</command>:</para>
+    <para>LFSでは<filename>/usr/man</filename>と<filename>/usr/local/man</filename>をシンボリックリンクとして作成します。
+    <command>whatis</command>のようなプログラムを使用する際に、重複した結果が出力されるのを防ぐため、<filename>man_db.conf</filename>からそれらディレクトリを取り除きます。</para>
+
+<screen><userinput remap="pre">sed -i -e '\%\t/usr/man%d' -e '\%\t/usr/local/man%d' src/man_db.conf.in</userinput></screen>
+
+    <para>Prepare Man-DB for compilation:</para>
+    <para>Man-DBをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --libexecdir=/usr/lib \
+    --sysconfdir=/etc --disable-setuid \
+    --enable-mb-groff --with-browser=/usr/bin/lynx \ 
+    --with-col=/usr/bin/col --with-vgrind=/usr/bin/vgrind \ 
+    --with-grap=/usr/bin/grap</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--disable-setuid</parameter></term>
+        <listitem>
+          <para>This disables making the <command>man</command> program setuid
+          to user <systemitem class="username">man</systemitem>.</para>
+          <para><command>man</command>プログラムに対して、ユーザ<systemitem class="username">man</systemitem>にsetuidを付けないようにします。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-mb-groff</parameter></term> 
+        <listitem> 
+          <para>This switch tells <application>man-db</application> to expect 
+          the Debian multibyte patched version of 
+          <application>groff</application>.</para>
+          <para>このスイッチによって、<application>man-db</application>をDebianのマルチバイトパッチが適用されたgroffに対応させます。</para>
+        </listitem> 
+      </varlistentry> 
+
+      <varlistentry> 
+        <term><parameter>--with-...</parameter></term> 
+        <listitem> 
+          <para>These four parameters are used to set some default programs. 
+          The <command>col</command> program is a part of the Util-linux-ng 
+          package, <command>lynx</command> is a text-based web browser (see
+          BLFS for installation instructions), <command>vgrind</command>
+          converts program sources to Groff input, and <command>grap</command>
+          is useful for typesetting graphs in Groff documents. The
+          <command>vgrind</command> and <command>grap</command> programs are
+          not normally needed for viewing manual pages. They are not part of
+          LFS or BLFS, but you should be able to install them yourself after
+          finishing LFS if you wish to do so.</para>
+          <para>これら4つのパラメータは、いくつかのデフォルトのプログラムを設定するために使われます。
+          <command>col</command>プログラムはUtil-linux-ngパッケージの一部です。
+          <command>lynx</command>はテキストベースのWebブラウザです(インストール手順はBLFSを参照してください)。
+          <command>vgrind</command>はプログラムソースをGroffの入力データに変換します。
+          <command>grap</command>はGroffドキュメント中のグラフに便利です。
+          <command>vgrind</command>と<command>grap</command>プログラムはmanページを見るためには、通常必要ではありません。
+          これらプログラムはLFSやBLFSの一部ではありませんが、もしインストールしたいのであれば、LFSの導入完了後にインストールすべきです。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>This package does not come with a test suite.</para>
+    <para>このパッケージにテストツールは付属していません。</para>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Some packages provide UTF-8 manual pages, which previous versions of
+    <application>Man-DB</application> were unable to display.  This limitation
+    has been fixed in recent versions, and <application>Man-DB</application>
+    can now convert manual pages from legacy encodings to UTF-8
+    (and vice-versa) on the fly.  This used to be a rather annoying
+    problem across different distributions, as packages written for one
+    distribution would require changes to work on another. The following
+    script will allow you to convert manual pages to and from legacy and UTF-8
+    encodings.</para>
+    <para>いくつかのパッケージはUTF-8のマニュアルページを提供しており、以前のバージョンの<application>Man-DB</application>はそれらを表示することが出来ません。
+    この制限は最近のバージョンで解決され、現在では<application>Man-DB</application>は、レガシーなエンコーディングをUTF-8(逆もまた同様)にオンザフライで変換することが出来ます。
+    以前は、ある一つのディストリビューション用のパッケージを他のディストリビューションで動作させるために変更が必要となるので、これは様々なディストリビューションにとってとても困った問題でした。</para>
+
+<screen><userinput remap="install">cat &gt;&gt; convert-mans &lt;&lt; "EOF"
+<literal>#!/bin/sh -e
+FROM="$1"
+TO="$2"
+shift ; shift
+while [ $# -gt 0 ]
+do
+        FILE="$1"
+        shift
+        iconv -f "$FROM" -t "$TO" "$FILE" >.tmp.iconv
+        mv .tmp.iconv "$FILE"
+done</literal>
+EOF
+install -m755 convert-mans  /usr/bin</userinput></screen>
+
+    <para>Additional information regarding the compression of
+    man and info pages can be found in the BLFS book at
+    <ulink url="&blfs-root;view/cvs/postlfs/compressdoc.html"/>.</para>
+    <para>manとinfoページの圧縮に関する捕捉情報は、<ulink url="&blfs-root;view/cvs/postlfs/compressdoc.html"/>のBLFSブックに記載されています。</para>
+
+  </sect2>
+
+  <sect2>
+    <!--<title>Non-English Manual Pages in LFS</title>-->
+    <title>LFSにおける英語以外のマニュアルページについて</title>
+
+    <para>Linux distributions have different policies concerning the character
+    encoding in which manual pages are stored in the filesystem. E.g., RedHat
+    stores all manual pages in UTF-8, while Debian previously used
+    language-specific (mostly 8-bit) encodings. As mentioned above, this leads
+    to incompatibility of packages with manual pages designed for different
+    distributions.</para>
+    <para>マニュアルページのキャラクターエンコーディングに関して、Linuxディストリビューションそれぞれで、異なるポリシーを持っています。
+    例えば、RedHatはUTF-8でマニュアルページを保持しています。
+    しかし一方、Debianは以前は言語固有のエンコーディングでした(大抵は8-bit)。
+    上記の通り、このことによって、異なるディストリビューションでマニュアルページを含むパッケージの非互換性を引き起こします。</para>
+
+    <para>LFS previously used the same convention as Debian. This was chosen
+    because <application>Man-DB</application> did not understand manual pages
+    stored in UTF-8 at the time of its introduction into LFS.  For our purposes
+    at that time, <application>Man-DB</application> was preferable to
+    <application>Man</application> as it worked without any additional
+    configuration in any locale.  This is still true today as 
+    <application>Man-DB</application> with Debian patched 
+    <application>Groff</application> will now dynamically convert UTF-8 encoded 
+    manual pages to the user's locale.  Additionally, this combination provides 
+    support for Chinese and Japanese locales, and limited support for Korean, 
+    whereas <application>Man</application> does not. The current offering of 
+    <application>Man</application> as used in RedHat requires major 
+    modifications to both the <application>Man</application> and 
+    <application>Groff</application> packages, and still falls short on 
+    Chinese, Japanese, and Korean encodings.</para>
+    <para>LFSは以前はDebianと同じ方式を用いていました。
+    これは、<application>Man-DB</application>がLFSに導入された時点で、manページがUTF-8で保存されていることが分からないため、その方式が選ばれました。
+    当時の決定としては、<application>Man</application>よりも<application>Man-DB</application>のほうがより良かったのです。それは、どのロケールにおいても、追加設定なしで動作するからでした。
+    Debianパッチの<application>Groff</application>と組み合わせた<application>Man-DB</application>は、UTF-8でエンコードされたmanページを現在でも動的にユーザのロケールに変換してくれるので、今日においても当時の決定は正しかったです。
+    加えて、その組合せは中国語・日本語ロケールをサポートし、韓国語も制限はありますがサポートしますが、<application>Man</application>はそれら言語をサポートしません。
+    RedHatで使用されていた現在の<application>Man</application>は、<application>Man</application>と<application>Groff</application>の両パッケージに対して、広範囲に渡る変更が必要になります。
+    そして、中国語・日本語・韓国語のエンコーディングに対してサポートが不十分です。</para>
+
+    <para>Finally, most distributions, including Debian, are rapidly migrating 
+    to all UTF-8 encoded manual pages. Upstream packagers will very likely drop 
+    legacy encodings in favor of UTF-8, though adoption has been slow due to 
+    the hacks required to make the current <application>Man</application> and 
+    <application>Groff</application> packages work correctly together.</para>
+    <para>ようやく、Debianを含むほとんどのディストリビューションは、UTF-8エンコードされたmanページに急速に移行しています。
+    upstreamのパッケージャーはレガシーなエンコーディングは捨て、UTF-8に賛同するでしょう。
+    ですが、<application>Man</application>と<application>Groff</application>パッケージの両方が正しく動作するためには、ハックが必要なため、乗り換えはゆっくりと進んでいます。
+    </para>
+
+    <para>The relationship between language codes and the expected encoding
+    of legacy manual pages is listed below.</para>
+    <para>言語コードとレガシーなマニュアルページの期待されるエンコーディングは、以下にリストしています。</para>
+
+    <!-- Origin: man-db-2.5.2/src/encodings.c -->
+
+    <table>
+      <!--<title>Expected character encoding of legacy 8-bit manual pages</title>-->
+      <title>レガシーな8-bitマニュアルページの期待されるキャラクターエンコーディング</title>
+      <?dbfo table-width="2.5in" ?>
+
+<!-- ここから -->
+
+      <tgroup cols="2">
+
+        <colspec colnum="1" colwidth="1.5in"/>
+        <colspec colnum="2" colwidth="1in"/>
+
+        <thead>
+          <row>
+            <!--<entry>Language (code)</entry>-->
+            <entry>言語 (コード)</entry>
+            <!--<entry>Encoding</entry>-->
+            <entry>エンコーディング</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>Danish (da)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>German (de)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>English (en)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Spanish (es)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Finnish (fi)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>French (fr)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Irish (ga)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Galician (gl)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Indonesian (id)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Icelandic (is)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Italian (it)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Dutch (nl)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+	  <!-- FIXME: BUG: "no" is deprecated, should use "nb" or "nn" and
+          symlinks -->
+          <row>
+            <entry>Norwegian (no)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <!-- END BUG -->
+          <row>
+            <entry>Portuguese (pt)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <row>
+            <entry>Swedish (sv)</entry>
+            <entry>ISO-8859-1</entry>
+          </row>
+          <!-- Languages below require patched groff -->
+          <row>
+            <entry>Bulgarian (bg)</entry> 
+            <entry>CP1251</entry> 
+          </row> 
+          <row>
+            <entry>Czech (cs)</entry>
+            <entry>ISO-8859-2</entry>
+          </row>
+          <row>
+            <entry>Croatian (hr)</entry>
+            <entry>ISO-8859-2</entry>
+          </row>
+          <row>
+            <entry>Hungarian (hu)</entry>
+            <entry>ISO-8859-2</entry>
+          </row>
+          <row>
+            <entry>Japanese (ja)</entry>
+            <entry>EUC-JP</entry>
+          </row>
+          <row>
+            <entry>Korean (ko)</entry>
+            <entry>EUC-KR</entry>
+          </row>
+          <row>
+            <entry>Polish (pl)</entry>
+            <entry>ISO-8859-2</entry>
+          </row>
+          <row>
+            <entry>Russian (ru)</entry>
+            <entry>KOI8-R</entry>
+          </row>
+          <row>
+            <entry>Serbian (sr)</entry> 
+            <entry>ISO-8859-5</entry> 
+          </row> 
+          <row>
+            <entry>Slovak (sk)</entry>
+            <entry>ISO-8859-2</entry>
+          </row>
+          <row>
+            <entry>Turkish (tr)</entry>
+            <entry>ISO-8859-9</entry>
+          </row>
+          <row> 
+            <entry>Simplified Chinese (zh_CN)</entry> 
+            <entry>GBK</entry> 
+          </row> 
+          <row> 
+            <entry>Simplified Chinese,Singapore} (zh_SG)</entry> 
+            <entry>GBK</entry> 
+          </row> 
+          <row> 
+            <entry>Traditional Chinese (zh_TW)</entry> 
+            <entry>BIG5</entry> 
+          </row> 
+          <row> 
+            <entry>Traditional Chinese, Hong Kong (zh_HK)</entry> 
+            <entry>BIG5HKSCS</entry> 
+          </row>
+        </tbody>
+
+      </tgroup>
+
+    </table>
+
+    <note>
+      <para>Manual pages in languages not in the list are not supported.
+      Norwegian does not work because of the transition from no_NO to
+      nb_NO locale, and will be fixed in the next release of
+      <application>Man-DB</application>.  Korean is currently non functional
+      because of incomplete fixes in the Groff patch.</para>
+      <para>上記リストにない言語のマニュアルページは、サポートされません。
+      ノルウェー語(Norwegian)はno_NOからnb_NOロケールへの過渡期のため、うまく動作しませんが、<application>Man-DB</application>の次のリリースでは修正される予定です。
+      韓国語(Korean)は不完全なGroffパッチのため機能しません。</para>
+    </note>
+
+    <para>If upstream distributes the manual pages in a legacy encoding,
+    the manual pages can simply be copied to
+    <filename class="directory">/usr/share/man/<replaceable>&lt;language
+    code&gt;</replaceable></filename>. For example, <ulink
+    url="http://www.infodrom.org/projects/manpages-de/download/manpages-de-0.5.tar.gz">
+    German manual pages</ulink> can be installed with the following
+    commands:</para>
+    <para>もし、レガシーなエンコーディングで上流バージョンのmanページが配布される場合、manページは単に<filename class="directory">/usr/share/man/<replaceable>&lt;language code&gt;</replaceable></filename>へコピーが出来ます。
+    例えば、<ulink url="http://www.infodrom.org/projects/manpages-de/download/manpages-de-0.5.tar.gz">German manual pages</ulink>は、次のコマンドでインストールすることが出来ます：</para>
+
+<screen role="nodump"><userinput>mkdir -p /usr/share/man/de
+cp -rv man? /usr/share/man/de</userinput></screen>
+
+    <para>If upstream distributes manual pages in UTF-8 (i.e., <quote>for
+    RedHat</quote>) instead of the encoding listed in the table above, they
+    can either be converted from UTF-8 to the encoding listed in the table
+    above, or they can be installed directly into
+    <filename class="directory">/usr/share/man/<replaceable>&lt;language
+    code&gt;</replaceable>.UTF-8</filename>.</para>
+    <para>もし、上の表にリストされたエンコーディングの代わりに、UTF-8のmanページが上流バージョンで配布される場合、UTF-8から上の表にリストされたエンコーディングに変換することが出来ます。または、直接<filename class="directory">/usr/share/man/<replaceable>&lt;language code&gt;</replaceable>.UTF-8</filename>にインストールすることができます。</para>
+
+    <para>For example, to install <ulink 
+    url="http://ditec.um.es/~piernas/manpages-es/man-pages-es-1.55.tar.bz2"> 
+    Spanish manual pages</ulink> in the legacy encoding, use the following 
+    commands:</para>
+    <para>例えば、<ulink url="http://ditec.um.es/~piernas/manpages-es/man-pages-es-1.55.tar.bz2">Spanish manual pages</ulink>をレガシーなエンコーディングでインストールするためには、次のコマンドを使用してください：</para>
+
+<screen role="nodump"><userinput>mv man7/iso_8859-7.7{,X}
+convert-mans UTF-8 ISO-8859-1 man?/*.?
+mv man7/iso_8859-7.7{X,}
+make install</userinput></screen>
+
+    <note>
+      <para>The <filename>man7/iso_8859-7.7</filename> file needs to be
+      exclueded from the conversion process because it is already in
+      ISO-8859-1 format.  This is a packaging bug in man-pages-es-1.55.
+      Future versions should not require this workaround.</para>
+      <para><filename>man7/iso_8859-7.7</filename>ファイルはすでにISO-8859-1フォーマットなので、変換プロセスの対象から除く必要があります。
+      これはman-pages-es-1.55のバグです。
+      将来のバージョンでは、この回避手順は不要になるはずです。</para>
+    </note>
+
+    <para>Finally, as an example installation of UTF-8 manual pages, the <ulink  
+    url="http://manpagesfr.free.fr/download/man-pages-fr-2.40.0.tar.bz2"> 
+    French manual pages</ulink> can be installed with the following 
+    commands:</para> 
+    <para>最後に、UTF-8のmanページのインストール例として、<ulink url="http://manpagesfr.free.fr/download/man-pages-fr-2.40.0.tar.bz2">French manual pages</ulink>は、次のコマンドでインストールすることが出来ます：</para>
+
+<screen role="nodump"><userinput>mkdir -p /usr/share/man/fr.UTF-8 
+cp -rv man? /usr/share/man/fr.UTF-8</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-man-db" role="content">
+    <!--<title>Contents of Man-DB</title>-->
+    <title>Man-DBの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>apropos, catman, convert-mans, lexgrog, man, mandb,
+        manpath, whatis, and zsoelim</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <!-- <varlistentry id="accessdb">
+        <term><command>accessdb</command></term>
+        <listitem>
+          <para>Dumps the <command>whatis</command> database contents in
+          human-readable form</para>
+          <para><command>whatis</command>データベースの内容を人間が読める形でダンプします。</para>
+          <indexterm zone="ch-system-man-db accessdb">
+            <primary sortas="b-accessdb">accessdb</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry> -->
+
+      <varlistentry id="apropos">
+        <term><command>apropos</command></term>
+        <listitem>
+          <para>Searches the <command>whatis</command> database and displays
+          the short descriptions of system commands that contain a given
+          string</para>
+          <para><command>whatis</command>データベースを検索し、与えられた検索文字列がコマンドの説明に含まれるコマンドを表示します。</para>
+          <indexterm zone="ch-system-man-db apropos">
+            <primary sortas="b-apropos">apropos</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="catman">
+        <term><command>catman</command></term>
+        <listitem>
+          <para>Creates or updates the pre-formatted manual pages</para>
+          <para>フォーマット済みのマニュアルページを作成・更新します。</para>
+          <indexterm zone="ch-system-man-db catman">
+            <primary sortas="b-catman">catman</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="convert-mans">
+        <term><command>convert-mans</command></term>
+        <listitem>
+          <para>Reformats manual pages into the chosen encoding.</para>
+          <para>manページを選んだエンコーディングに再フォーマットします。</para>
+          <indexterm zone="ch-system-man-db convert-mans">
+            <primary sortas="b-convert-mans">convert-mans</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="lexgrog">
+        <term><command>lexgrog</command></term>
+        <listitem>
+          <para>Displays one-line summary information about a given manual
+          page</para>
+          <para>指定したマニュアルページの1行のサマリー情報を表示します。</para>
+          <indexterm zone="ch-system-man-db lexgrog">
+            <primary sortas="b-lexgrog">lexgrog</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="man">
+        <term><command>man</command></term>
+        <listitem>
+          <para>Formats and displays the requested manual page</para>
+          <para>指定したマニュアルページを整形し表示します。</para>
+          <indexterm zone="ch-system-man-db man">
+            <primary sortas="b-man">man</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="mandb">
+        <term><command>mandb</command></term>
+        <listitem>
+          <para>Creates or updates the <command>whatis</command> database</para>
+          <para><command>whatis</command>データベースを作成・更新します。</para>
+          <indexterm zone="ch-system-man-db mandb">
+            <primary sortas="b-mandb">mandb</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="manpath">
+        <term><command>manpath</command></term>
+        <listitem>
+          <para>Displays the contents of $MANPATH or (if $MANPATH is not set)
+          a suitable search path based on the settings in man.conf and the
+          user's environment</para>
+          <para>$MANPATHの内容、または、($MANPATHがセットされていなければ)man.confとユーザの環境設定に基づいてサーチパスを表示します。</para>
+          <indexterm zone="ch-system-man-db manpath">
+            <primary sortas="b-manpath">manpath</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="whatis">
+        <term><command>whatis</command></term>
+        <listitem>
+          <para>Searches the <command>whatis</command> database and displays
+          the short descriptions of system commands that contain the given
+          keyword as a separate word</para>
+          <para>与えられたスペース区切りの単語をキーワードとして、<command>whatis</command>データベースを検索し、該当したコマンドの概要を表示します。</para>
+          <indexterm zone="ch-system-man-db whatis">
+            <primary sortas="b-whatis">whatis</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zsoelim">
+        <term><command>zsoelim</command></term>
+        <listitem>
+          <para>Reads files and replaces lines of the form <emphasis>.so
+          file</emphasis> by the contents of the mentioned
+          <emphasis>file</emphasis></para>
+          <para>ファイルを読み込み、<emphasis>.so file</emphasis>の形式の行を<emphasis>file</emphasis>の内容に置き換えます。</para>
+          <indexterm zone="ch-system-man-db zsoelim">
+            <primary sortas="b-zsoelim">zsoelim</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

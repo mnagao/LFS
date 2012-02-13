@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9409 -->
+
+<sect1 id="ch-system-zlib" role="wrap">
+  <?dbhtml filename="zlib.html"?>
+
+  <sect1info condition="script"> 
+    <productname>zlib</productname> 
+    <productnumber>&zlib-version;</productnumber> 
+    <address>&zlib-url;</address> 
+  </sect1info>
+
+  <title>Zlib-&zlib-version;</title>
+
+  <indexterm zone="ch-system-zlib">
+    <primary sortas="a-Zlib">Zlib</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Zlib package contains compression and decompression routines used by
+    some programs.</para>
+    <para>Zlibパッケージは、他のプログラムから使用される圧縮・解凍のルーチンを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&zlib-ch6-sbu;</seg>
+        <seg>&zlib-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+   <!--<title>Installation of Zlib</title>-->
+   <title>Zlibのインストール</title>
+
+    <para>First, fix a typo in the package header file:</para> 
+    <para>まず、ヘッダファイルのタイプミスを修正します：</para>
+
+<screen><userinput remap="pre">sed -i 's/ifdef _LARGEFILE64_SOURCE/ifndef _LARGEFILE64_SOURCE/' zlib.h</userinput></screen>
+ 
+    <para>Prepare Zlib for compilation:</para> 
+    <para>Zlibをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">CFLAGS='-mstackrealign -fPIC -O3' ./configure --prefix=/usr</userinput></screen>
+
+    <variablelist> 
+      <!--<title>The meaning of the new configure environment variable:</title>--> 
+      <title>configureの新しい環境変数の意味：</title> 
+ 
+      <varlistentry> 
+        <term><envar>CFLAGS='-mstackrealign -fPIC -O3'</envar></term> 
+        <listitem> 
+          <para>Setting CFLAGS overrides the default optimization in the 
+          package to prevent some run time errors.  Note that the -mstackrealign
+          may cause build failures in non-Intel architecture systems.</para>
+          <para>環境変数CFLAGSをセットし、デフォルトの最適化を上書きすることで、いくつかの実行時エラーを防ぎます。
+          ただし、非Intelアーキテクチャにおいては、-mstackrealignはビルドの失敗を引き起こすことに注意してください。</para> 
+        </listitem> 
+      </varlistentry> 
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>The shared library needs to be moved to
+    <filename class="directory">/lib</filename>, and as a result the
+    <filename class="extension">.so</filename> file in
+    <filename class="directory">/usr/lib</filename> will need to be recreated:</para>
+    <para>共有ライブラリを<filename class="directory">/lib</filename>に移動する必要があります。
+    結果として、<filename class="directory">/usr/lib</filename>の<filename class="extension">.so</filename>ファイルは再生成されます：</para>
+
+<screen><userinput remap="install">mv -v /usr/lib/libz.so.* /lib
+ln -sfv ../../lib/libz.so.&zlib-version; /usr/lib/libz.so</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-zlib" role="content">
+    <!--<title>Contents of Zlib</title>-->
+    <title>Contents of Zlib</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+
+      <seglistitem>
+        <seg>libz.{a,so}</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="libz">
+        <term><filename class="libraryfile">libz</filename></term>
+        <listitem>
+          <para>Contains compression and decompression functions used by
+          some programs</para>
+          <para>他のプログラムから使用される圧縮・解凍ファンクションを含んでいます。</para>
+          <indexterm zone="ch-system-zlib libz">
+            <primary sortas="c-libz">libz</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

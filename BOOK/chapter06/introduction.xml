@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9379 -->
+
+<sect1 id="ch-system-introduction">
+  <?dbhtml filename="introduction.html"?>
+
+  <title>イントロダクション</title>
+
+  <para>In this chapter, we enter the building site and start constructing the
+  LFS system in earnest. That is, we chroot into the temporary mini Linux system,
+  make a few final preparations, and then begin installing the packages.</para>
+
+  <para>本章では、LFSシステムの構築を始めます。
+  一時的なミニLinuxシステムへのchrootと最終的ないくつかの準備作業を行い、その後パッケージのインストールを行います。
+  </para>
+
+  <para>The installation of this software is straightforward. Although in many
+  cases the installation instructions could be made shorter and more generic,
+  we have opted to provide the full instructions for every package to minimize
+  the possibilities for mistakes.  The key to learning what makes a Linux system
+  work is to know what each package is used for and why you (or the system)
+  may needs it.</para>
+
+  <para>ソフトウェアのインストールは単純です。
+  多くの場合、インストール手順はより短く、より一般的にすることが出来ますが、ミスの可能性を最小にするため、各パッケージの完全なインストール手順を提供することにしました。
+  Linuxシステムの動作を理解するポイントは、それぞれのパッケージが何のために使われているのかを知ることと、なぜあなた(またはシステム)がそのパッケージを必要としているかを知ることです。
+  </para>
+
+  <para>We do not recommend using optimizations.  They can make
+  a program run slightly faster, but they may also cause compilation
+  difficulties and problems when running the program.  If a package refuses to
+  compile when using optimization, try to compile it without optimization and
+  see if that fixes the problem. Even if the package does compile when using
+  optimization, there is the risk it may have been compiled incorrectly because
+  of the complex interactions between the code and build tools.  Also note that
+  the <option>-march</option> and <option>-mtune</option> options using values
+  not specified in the book have not been tested. This may cause problems with
+  the toolchain packages (Binutils, GCC and Glibc).  The small potential gains
+  achieved in using compiler optimizations are often outweighed by the risks.
+  First-time builders of LFS are encouraged to build without custom 
+  optimizations. The subsequent system will still run very fast and be stable
+  at the same time.</para>
+
+  <para>コンパイラの最適化を使用することはお勧めしません。
+  コンパイラの最適化によりプログラムが少し早く動作します。しかし、コンパイルの問題とプログラムの実行時に問題が生じるかもしれません。
+  もし最適化を使用した際にパッケージのコンパイルに失敗する場合は、最適化なしでコンパイルを行い、問題がなくなることを確認してください。
+  たとえ最適化を使用してパッケージがコンパイルできたとしても、コードとビルドツールの間の複雑な相互関係よりコンパイル結果に異常が生じるリスクがあります。
+  また、本書中で指定されていない値を与えて<option>-march</option>と<option>-mtune</option>オプションを使用した場合は、その検証は行われていないことに注意してください。
+  そうすることで、toolchainパッケージ(Binutils、GCC、Glibc)に悪影響を与えるかもしれないことに注意してください。
+  そのリスクは、コンパイラの最適化による小さな利益よりも重要です。
+  初めてのLFS構築においては、最適化なしのビルドをお勧めします。
+  最適化なしのLFSシステムであっても、動作スピードに問題はなくシステムの安定も得られます。
+  </para>
+
+  <para>The order that packages are installed in this chapter needs to be
+  strictly followed to ensure that no program accidentally acquires a path
+  referring to <filename class="directory">/tools</filename> hard-wired into
+  it.  For the same reason, do not compile separate packages in parallel.
+  Compiling in parallel may save time (especially on dual-CPU machines), but it
+  could result in a program containing a hard-wired path to <filename
+  class="directory">/tools</filename>, which will cause the program to stop
+  working when that directory is removed.</para>
+  <para>プログラムに埋め込まれた<filename class="directory">/tools</filename>のパスを誤って取得してしまうプログラムが存在しないことを保証するため、本章でインストールされるパッケージの順序を厳密に守る必要があります。
+  同じ理由で、別々のパッケージを並列にコンパイルしないでください。
+  並列でコンパイルを行うと時間の節約になります(特にデュアルCPUマシンで)が、<filename class="directory">/tools</filename>へのパスをハードコーディングしているプログラムは、<filename class="directory">/tools</filename>が削除されたときに停止してしまいます。
+  </para>
+
+  <para>Before the installation instructions, each installation page provides
+  information about the package, including a concise description of what it
+  contains, approximately how long it will take to build, and how much disk
+  space is required during this building process. Following the installation
+  instructions, there is a list of programs and libraries (along with brief
+  descriptions of these) that the package installs.</para>
+  <para>インストール手順のページには、内容物の簡単な説明を含むパッケージの情報、ビルドにかかるおおよその時間、ビルドを行うために必要なディスクスペースが記載されています。
+  インストール手順に続いて、インストールされるプログラムとライブラリの(簡単な説明に加え)
+リストが記載されています。
+  </para>
+
+  <note><para>The SBU values and required disk space includes 
+  test suite data for all applicable packages in Chapter 6.</para>
+  <para>第6章の全てのパッケージにおいて、SBU値と必要なディスクスペースはテストツール実行分を含んでいます。</para></note>
+</sect1>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9478 -->
+
+<sect1 id="ch-tools-generalinstructions">
+  <?dbhtml filename="generalinstructions.html"?>
+
+  <!--<title>General Compilation Instructions</title>-->
+  <title>一般的なコンパイルの手順</title>
+
+  <para>When building packages there are several assumptions made within 
+  the instructions:</para>
+  <para>パッケージをビルドする際、手順の中にいくつかの条件が存在します：</para>
+
+  <itemizedlist>
+
+  <listitem>
+    <para>Several of the packages are patched before compilation, but only when
+    the patch is needed to circumvent a problem. A patch is often needed in
+    both this and the next chapter, but sometimes in only one or the other.
+    Therefore, do not be concerned if instructions for a downloaded patch seem
+    to be missing.  Warning messages about <emphasis>offset</emphasis> or
+    <emphasis>fuzz</emphasis> may also be encountered when applying a patch. Do
+    not worry about these warnings, as the patch was still successfully
+    applied.</para>
+    <para>いくつかのパッケージでは、コンパイルの前にパッチを適用しますが、パッチは問題を回避するためだけのものです。
+    パッチは本章と次章でしばしば必要となりますが、どちらか一方の章のみに必要な場合もあります。
+    もしダウンロードしたパッチの手順が見当たらなくても、心配しないでください。
+    パッチ適用時に<emphasis>offset</emphasis>や<emphasis>fuzz</emphasis>のような警告メッセージが出ることもあります。
+    これら警告メッセージが出ても、パッチは正常に適用されているので心配しないでください。
+    </para>
+  </listitem>
+
+  <listitem>
+    <para>During the compilation of most packages, there will be several
+    warnings that scroll by on the screen. These are normal and can safely be
+    ignored.  These warnings are as they appear&mdash;warnings about
+    deprecated, but not invalid, use of the C or C++ syntax. C standards change
+    fairly often, and some packages still use the older standard. This is not a
+    problem, but does prompt the warning.</para>
+    <para>ほとんどのパッケージにおいて、コンパイル中にスクリーン上にいくつかの警告メッセージが表示されます。
+    それらは問題はなく、無視することが出来ます。
+    それら警告メッセージは、C/C++の文法として非推奨ではあるが有効なものとして表示されます。
+    それは、Cの標準はかなり頻繁に変更され、いくつかのパッケージはいまだ古い標準を使用しているからです。
+    したがって、このことは問題としてではなく、警告として表示されます。</para>
+
+    <important>
+      <para>After installing each package, delete its source and build
+      directories, unless specifically instructed otherwise. Deleting the
+      sources prevents mis-configuration when the same package is reinstalled
+      later.</para>
+      <para>パッケージをインストールした後は、特に指定がない限り、ソースとビルドディレクトリを削除してください。
+      ソースディレクトリを削除することで、後で同じパッケージを再インストールするときの間違いを防ぎます。</para>
+    </important>
+  </listitem>
+
+  <listitem>
+    <para>Check one last time that the <envar>LFS</envar> environment variable
+    is set up properly:</para>
+    <para>最後にもう一度、環境変数<envar>LFS</envar>が正しくセットされていることを確認してください：</para>
+
+<screen role="nodump"><userinput>echo $LFS</userinput></screen>
+
+    <para>Make sure the output shows the path to the LFS partition's mount
+    point, which is <filename class="directory">/mnt/lfs</filename>, using our
+    example.</para>
+    <para>LFSパーティションのマウントポイントが表示されることを確かめてください。
+    本書の例に沿ったのであれば、<filename class="directory">/mnt/lfs</filename>が表示されます。</para>
+  </listitem>
+
+  <listitem>
+
+    <para>Finally, two last important items must be emphasized:</para>
+    <para>最後に二つ、強調すべき重要な事項を説明します：</para>
+
+    <important> 
+      <para>The build instructions assume that the <command>bash</command>  
+      shell is in use.</para>
+      <para>ビルドの手順は、<command>bash</command>シェルが使用されていることを想定しています。</para> 
+    </important>
+
+    <important>
+      <para>Before issuing the build instructions for a package, the package
+      should be unpacked as user <systemitem class="username">lfs</systemitem>,
+      and a <command>cd</command> into the created directory should be
+      performed.</para>
+      <para>パッケージをビルドする手順を実行する前に、パッケージはユーザー<systemitem class="username">lfs</systemitem>で展開し、作成されたディレクトリに<command>cd</command>コマンドで移動してください。</para>
+
+    </important>
+  </listitem>
+
+  </itemizedlist>
+
+  <para>To re-emphasize the build process:</para> 
+  <para>ビルドの手順を再度示します：</para>
+
+<screen role="nodump"> 
+1. Place all the sources and patches in a directory that will be accessible  
+   from the chroot envronment such as /mnt/lfs/sources/.  Do <emphasis>not</emphasis>  
+   put sources in /mnt/lfs/tools/. 
+2. Change to the sources directory. 
+3. For each package: 
+   a. Using the tar program, extract the package to be built. 
+   b. Change to the directory created when the package was extracted. 
+   c. Follow the book's instructions for building the package. 
+   d. Change back to the sources directory. 
+   e. Delete the extracted source directory and any &lt;package&gt;-build  
+      directories that were created in the build process.</screen>
+<screen role="nodump">
+1. /mnt/lfs/sources/ のようなchroot環境からアクセス可能なディレクトリに、全てのソースとパッチを置いてください。
+  /mnt/lfs/tools/には、<emphasis>置かないでください</emphasis>。
+2. ソースを置いたディレクトリに移動してください。
+3. それぞれのパッケージに対して：
+   a. tarプログラムを使って、ビルドするパッケージを展開してください。
+   b. パッケージを展開した際に作られたディレクトリに移動してください。
+   c. パッケージをビルドするためのブックの手順を実行してください。
+   d. ソースを置いたディレクトリに戻ってください。
+   e. 展開したソースディレクトリと、ビルドの際に作成した&lt;package&gt;-buildディレクトリを削除してください。
+</screen>
+</sect1>

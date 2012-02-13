@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9476 -->
+
+<sect1 id="ch-tools-creatingtoolsdir">
+  <?dbhtml filename="creatingtoolsdir.html"?>
+
+  <title>$LFS/tools ディレクトリの作成</title>
+
+  <para>All programs compiled in <xref linkend="chapter-temporary-tools"/>
+  will be installed under <filename class="directory">$LFS/tools</filename>
+  to keep them separate from the programs compiled in <xref
+  linkend="chapter-building-system"/>. The programs compiled here are
+  temporary tools and will not be a part of the final LFS system. By keeping
+  these programs in a separate directory, they can easily be discarded later
+  after their use. This also prevents these programs from ending up in the
+  host production directories (easy to do by accident in <xref
+  linkend="chapter-temporary-tools"/>).</para>
+
+  <para><xref linkend="chapter-building-system"/>でコンパイルするプログラムと分離するため、<xref linkend="chapter-temporary-tools"/>でコンパイルする全てのプログラムは、<filename class="directory">$LFS/tools</filename>にインストールします。
+  この章でコンパイルするプログラムは一時的なツールで、最終的なLFSシステムを構成するためのものではありません。
+  これら一時的なツールを異なるディレクトリに分離することによって、ツールの使用が終わった後、簡単に削除することが出来ます。
+  また、それら一時的なツールがホストシステムのディレクトリを破壊することを防ぐ効果もあります(<xref linkend="chapter-temporary-tools"/>で事故により簡単に破壊が起こり得ます)。
+  </para>
+
+  <para>Create the required directory by running the following as
+  <systemitem class="username">root</systemitem>:</para>
+
+  <para><systemitem class="username">root</systemitem>で以下コマンドを実行し、ディレクトリを作成してください。
+  </para>
+
+<screen><userinput>mkdir -v $LFS/tools</userinput></screen>
+
+  <para>The next step is to create a <filename class="symlink">/tools</filename>
+  symlink on the host system. This will point to the newly-created directory on
+  the LFS partition. Run this command as <systemitem
+  class="username">root</systemitem> as well:</para>
+
+  <para>次のステップでは、<filename class="symlink">/tools</filename> へのシンボリックリンクをホストシステム上に作成します。LFSパーティションにさきほど新しく作成したディレクトリを/toolsが指すようにします。
+  <systemitem class="username">root</systemitem>で、以下コマンドを実行してください。
+  </para>
+
+<screen><userinput>ln -sv $LFS/tools /</userinput></screen>
+
+  <note>
+    <para>The above command is correct. The <command>ln</command> command
+    has a few syntactic variations, so be sure to check
+    <command>info coreutils ln</command> and <filename>ln(1)</filename>
+    before reporting what you may think is an error.</para>
+
+    <para>上記コマンドは正しいです。<command>ln</command>コマンドはいくつかの文法上のバリエーションがあります。
+    ですので、エラーを報告する前に、<command>info coreutils ln</command> と <filename>ln(1)</filename> で確認をお願いします。
+    </para>
+  </note>
+
+  <para>The created symlink enables the toolchain to be compiled so that it
+  always refers to <filename class="directory">/tools</filename>, meaning
+  that the compiler, assembler, and linker will work both in Chapter 5
+  (when we are still using some tools from the host) and in the next (when
+  we are <quote>chrooted</quote> to the LFS partition).</para>
+
+  <para>作成したシンボリックリンクによってtoolchainがコンパイルで使用されるようになります。これにより、toolchainはいつも/toolsを参照するようになります。これは、コンパイラ・アセンブラ・リンカが第5章(まだホストシステム上のツールのいくつかを使用しています)と次章(LFSパーティションに<quote>chrooted</quote>します)で動作することを意味しています。
+  </para>
+</sect1>

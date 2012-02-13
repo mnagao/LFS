@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9063 -->
+
+<sect1 id="ch-tools-stripping">
+  <?dbhtml filename="stripping.html"?>
+
+  <title>Stripping</title>
+
+  <para>The steps in this section are optional, but if the LFS partition is
+  rather small, it is beneficial to learn that unnecessary items can be removed.
+  The executables and libraries built so far contain about 70 MB of unneeded
+  debugging symbols. Remove those symbols with:</para>
+
+  <para>このセクションの手順の実施は任意です。しかし、LFSパーティションが小さい場合は、不必要なデータを削除したほうがいいかもしれません。
+  今までビルドを行ってきたプログラムとライブラリは、約70MBの不必要なデバッグシンボルを含んでいます。
+  </para>
+
+<screen><userinput>strip --strip-debug /tools/lib/*
+strip --strip-unneeded /tools/{,s}bin/*</userinput></screen>
+
+  <para>These commands will skip a number of files, reporting that it does not
+  recognize their file format. Most of these are scripts instead of binaries.</para>
+  <para>これらコマンドは、ファイルフォーマットが認識出来ないと報告して、たくさんのファイルをスキップします。
+  それら大半は、バイナリファイルではなくスクリプトだからです。</para>
+
+  <para>Take care <emphasis>not</emphasis> to use
+  <parameter>--strip-unneeded</parameter> on the libraries. The static
+  ones would be destroyed and the toolchain packages would need to be
+  built all over again.</para>
+
+  <para>ライブラリに対して <parameter>--strip-unneeded</parameter> を使用しないように注意してください。
+  もしそれを指定すると、静的ライブラリが破壊され、toolchainを全て再ビルドする必要があります。
+  </para>
+
+  <para>To save nearly 25 MB more, remove the documentation:</para>
+  <para>さらに25MBほどディスクを空けるためには、ドキュメントを削除します：</para>
+
+<screen><userinput>rm -rf /tools/{,share}/{info,man}</userinput></screen>
+
+  <para>At this point, you should have at least 850 MB of free space in
+  <envar>$LFS</envar> that can be used to build and install Glibc in the
+  next phase. If you can build and install Glibc, you can build and install
+  the rest too.</para>
+
+  <para>この時点で、$LFSに少なくとも850MBの空きディスク容量が必要です。その空き容量は、次章でGlibcのビルドとインストールで使用されます。
+  Glibcのビルドとインストールが出来る容量があれば、残りのパッケージをビルド・インストールすることが出来ます。
+  </para>
+</sect1>

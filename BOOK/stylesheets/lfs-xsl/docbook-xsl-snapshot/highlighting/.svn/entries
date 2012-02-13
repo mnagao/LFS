@@ -1,0 +1,41 @@
+8
+
+dir
+9099
+http://svn.linuxfromscratch.org/LFS/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/highlighting
+http://svn.linuxfromscratch.org/LFS
+
+
+
+2007-07-05T21:18:33.287533Z
+8196
+manuel
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4aa44e1e-78dd-0310-a6d2-fbcd4c07a689
+
+common.xsl
+file
+
+
+
+
+2009-11-13T10:26:45.000000Z
+87c83fdb3a298ebfdf8412da73af11bc
+2007-07-05T21:18:33.287533Z
+8196
+manuel
+has-props
+

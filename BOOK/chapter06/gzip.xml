@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9156 -->
+
+<sect1 id="ch-system-gzip" role="wrap">
+  <?dbhtml filename="gzip.html"?>
+
+  <sect1info condition="script"> 
+    <productname>gzip</productname> 
+    <productnumber>&gzip-version;</productnumber> 
+    <address>&gzip-url;</address> 
+  </sect1info>
+
+  <title>Gzip-&gzip-version;</title>
+
+  <indexterm zone="ch-system-gzip">
+    <primary sortas="a-Gzip">Gzip</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Gzip package contains programs for compressing and decompressing
+    files.</para>
+    <para>Gzipパッケージは、ファイルを圧縮・解凍するプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gzip-ch6-sbu;</seg>
+        <seg>&gzip-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Gzip</title>-->
+    <title>Gzipのインストール</title>
+
+    <para>Prepare Gzip for compilation:</para>
+    <para>Gzipをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --bindir=/bin</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Move some programs that do not need to be on the root filesystem:</para>
+    <para>rootファイルシステム上に置く必要がないいくつかのプログラムを移動します。</para>
+
+<screen><userinput remap="install">mv -v /bin/{gzexe,uncompress,zcmp,zdiff,zegrep} /usr/bin
+mv -v /bin/{zfgrep,zforce,zgrep,zless,zmore,znew} /usr/bin</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-gzip" role="content">
+    <!--<title>Contents of Gzip</title>-->
+    <title>Gzipの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>gunzip, gzexe, gzip, uncompress, zcat, zcmp, zdiff, zegrep, zfgrep,
+        zforce, zgrep, zless, zmore, and znew</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="gunzip">
+        <term><command>gunzip</command></term>
+        <listitem>
+          <para>Decompresses gzipped files</para>
+          <para>gzipファイルを解凍します。</para>
+          <indexterm zone="ch-system-gzip gunzip">
+            <primary sortas="b-gunzip">gunzip</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gzexe">
+        <term><command>gzexe</command></term>
+        <listitem>
+          <para>Creates self-decompressing executable files</para>
+          <para>自己解凍形式の実効ファイルを作成します。</para>
+          <indexterm zone="ch-system-gzip gzexe">
+            <primary sortas="b-gzexe">gzexe</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="gzip">
+        <term><command>gzip</command></term>
+        <listitem>
+          <para>Compresses the given files using Lempel-Ziv (LZ77) coding</para>
+          <para>LZ77(Lempel-Ziv)符号化を使用して、与えられたファイルを圧縮します。</para>
+          <indexterm zone="ch-system-gzip gzip">
+            <primary sortas="b-gzip">gzip</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="uncompress">
+        <term><command>uncompress</command></term>
+        <listitem>
+          <para>Decompresses compressed files</para>
+          <para>圧縮されたファイルを解凍します。</para>
+          <indexterm zone="ch-system-gzip uncompress">
+            <primary sortas="b-uncompress">uncompress</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zcat">
+        <term><command>zcat</command></term>
+        <listitem>
+          <para>Decompresses the given gzipped files to standard output</para>
+          <para>与えられたgzipされたファイルを解凍し、標準出力に出力します。</para>
+          <indexterm zone="ch-system-gzip zcat">
+            <primary sortas="b-zcat">zcat</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zcmp">
+        <term><command>zcmp</command></term>
+        <listitem>
+          <para>Runs <command>cmp</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>cmp</command>を実行します。</para>
+          <indexterm zone="ch-system-gzip zcmp">
+            <primary sortas="b-zcmp">zcmp</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zdiff">
+        <term><command>zdiff</command></term>
+        <listitem>
+          <para>Runs <command>diff</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>diff</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zdiff">
+            <primary sortas="b-zdiff">zdiff</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zegrep">
+        <term><command>zegrep</command></term>
+        <listitem>
+          <para>Runs <command>egrep</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>egrep</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zegrep">
+            <primary sortas="b-zegrep">zegrep</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zfgrep">
+        <term><command>zfgrep</command></term>
+        <listitem>
+          <para>Runs <command>fgrep</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>fgrep</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zfgrep">
+            <primary sortas="b-zfgrep">zfgrep</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zforce">
+        <term><command>zforce</command></term>
+        <listitem>
+          <para>Forces a <filename class="extension">.gz</filename> extension on
+          all given files that are gzipped files, so that <command>gzip</command>
+          will not compress them again; this can be useful when file names were
+          truncated during a file transfer</para>
+          <para><command>gzip</command>がすでに圧縮されているファイルを再圧縮しないために、gzipされたファイルの拡張子を<filename class="extension">.gz</filename>に変更します。
+          ファイルの転送等でファイル名の後ろが切り捨てられた場合に、このプログラムは便利です。</para>
+          <indexterm zone="ch-system-gzip zforce">
+            <primary sortas="b-zforce">zforce</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zgrep">
+        <term><command>zgrep</command></term>
+        <listitem>
+          <para>Runs <command>grep</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>grep</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zgrep">
+            <primary sortas="b-zgrep">zgrep</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zless">
+        <term><command>zless</command></term>
+        <listitem>
+          <para>Runs <command>less</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>less</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zless">
+            <primary sortas="b-zless">zless</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="zmore">
+        <term><command>zmore</command></term>
+        <listitem>
+          <para>Runs <command>more</command> on gzipped files</para>
+          <para>gzipされたファイルに対して<command>more</command>コマンドを実行します。</para>
+          <indexterm zone="ch-system-gzip zmore">
+            <primary sortas="b-zmore">zmore</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="znew">
+        <term><command>znew</command></term>
+        <listitem>
+          <para>Re-compresses files from <command>compress</command> format to
+          <command>gzip</command> format&mdash;<filename
+          class="extension">.Z</filename> to <filename
+          class="extension">.gz</filename></para>
+          <para><command>compress</command>形式から<command>gzip</command>形式へ再圧縮を行います。
+          拡張子は、<filename class="extension">.Z</filename>から<filename class="extension">.gz</filename>に変わります。</para>
+          <indexterm zone="ch-system-gzip znew">
+            <primary sortas="b-znew">znew</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

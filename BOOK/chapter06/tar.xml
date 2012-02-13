@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9411 -->
+
+<sect1 id="ch-system-tar" role="wrap">
+  <?dbhtml filename="tar.html"?>
+
+  <sect1info condition="script"> 
+    <productname>tar</productname> 
+    <productnumber>&tar-version;</productnumber> 
+    <address>&tar-url;</address> 
+  </sect1info>
+
+  <title>Tar-&tar-version;</title>
+
+  <indexterm zone="ch-system-tar">
+    <primary sortas="a-Tar">Tar</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Tar package contains an archiving program.</para>
+    <para>Tarパッケージはアーカイブを行うプログラムを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&tar-ch6-sbu;</seg>
+        <seg>&tar-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Tar</title>-->
+    <title>Tarのインストール</title>
+
+    <para>Prepare Tar for compilation:</para>
+    <para>Tarをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --bindir=/bin --libexecdir=/usr/sbin</userinput></screen> 
+
+    <variablelist> 
+      <!--<title>The meaning of the configure options:</title> -->
+      <title>configureオプションの意味：</title>
+ 
+      <varlistentry> 
+        <term><envar>FORCE_UNSAFE_CONFIGURE=1</envar></term> 
+        <listitem> 
+          <para>This forces the test for <function>mknod</function> to be run 
+          as root.  It is generally considered dangerous to run this test as 
+          the root user, but as it is being run on an only partially built 
+          system, overriding it is OK.</para>
+          <para><function>mknod</function>のテストをrootユーザーで実施します。通常、rootユーザーでテストを行うことは危険だと考えられていますが、テストを実行するのはまだ部分的に構築しただけのシステムなので、問題はありません。</para> 
+        </listitem> 
+      </varlistentry> 
+    </variablelist>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results (about 1 SBU), issue:</para>
+    <para>コンパイル結果を確認(約 1 SBU)するには、次を実行してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install
+make -C doc install-html docdir=/usr/share/doc/tar-&tar-version;</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-tar" role="content">
+    <!--<title>Contents of Tar</title>-->
+    <title>Tarの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed programs</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+
+      <seglistitem>
+        <seg>rmt and tar</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="rmt">
+        <term><command>rmt</command></term>
+        <listitem>
+          <para>Remotely manipulates a magnetic
+          tape drive through an interprocess communication connection</para>
+          <para>プロセス間通信のコネクションを通じて、磁気テープを遠隔操作します。</para>
+          <indexterm zone="ch-system-tar rmt">
+            <primary sortas="b-rmt">rmt</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="tar">
+        <term><command>tar</command></term>
+        <listitem>
+          <para>Creates, extracts files from, and lists the contents of archives,
+          also known as tarballs</para>
+          <para>tarballとも呼ばれるアーカイブの作成・アーカイブからの抽出・アーカイブに含まれるファイルの表示を行います。</para>
+          <indexterm zone="ch-system-tar tar">
+            <primary sortas="b-tar">tar</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets
+END
+lfs-nochunks.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-nochunks.xsl
+END
+lfs-pdf.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-pdf.xsl
+END
+wget-list.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/wget-list.xsl
+END
+lfs-chunked.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-chunked.xsl
+END
+patcheslist.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/patcheslist.xsl
+END
+dump-commands.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/dump-commands.xsl
+END

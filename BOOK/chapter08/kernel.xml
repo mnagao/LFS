@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9372 -->
+
+<sect1 id="ch-bootable-kernel" role="wrap">
+  <?dbhtml filename="kernel.html"?>
+
+  <sect1info condition="script"> 
+    <productname>linux</productname> 
+    <productnumber>&linux-version;</productnumber> 
+    <address>&linux-url;</address> 
+  </sect1info>
+
+  <title>Linux-&linux-version;</title>
+
+  <indexterm zone="ch-bootable-kernel">
+    <primary sortas="a-Linux">Linux</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The Linux package contains the Linux kernel.</para>
+    <para>LinuxパッケージはLinuxカーネルを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&linux-ch8-sbu;</seg>
+        <seg>&linux-ch8-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of the kernel</title>-->
+    <title>カーネルのインストール</title>
+
+    <para>Building the kernel involves a few steps&mdash;configuration,
+    compilation, and installation. Read the <filename>README</filename> file
+    in the kernel source tree for alternative methods to the way this book
+    configures the kernel.</para>
+    <para>カーネルをビルドすることは、いくつかのステップを必要とします &mdash; 設定(Configuration)、コンパイル、インストールです。
+    このLFSブックのカーネルの設定方法とは別のやり方もありますので、カーネルソースツリーの<filename>README</filename>を見てください。</para>
+
+    <para>Prepare for compilation by running the following command:</para>
+    <para>次のコマンドを実行し、コンパイルの準備を行います：</para>
+
+<screen><userinput remap="pre">make mrproper</userinput></screen>
+
+    <para>This ensures that the kernel tree is absolutely clean. The
+    kernel team recommends that this command be issued prior to each
+    kernel compilation. Do not rely on the source tree being clean after
+    un-tarring.</para>
+    <para>このコマンドによって、カーネルツリーが完全にクリーンになります。
+    カーネルの開発チームはカーネルのコンパイルに先立ち、このコマンドを実行することを推奨しています。
+    カーネルソースを展開(untar)した後のソースツリーがクリーンであるとは思わないでください。</para>
+
+    <!-- Support for compiling a keymap into the kernel is deliberately removed -->
+
+    <para>Configure the kernel via a menu-driven interface. For general
+    information on kernel configuration see <ulink
+    url="&hints-root;kernel-configuration.txt"/>.  BLFS has some   information
+    regarding particular kernel configuration requirements of packages outside
+    of LFS at <ulink
+    url="&blfs-root;view/svn/longindex.html#kernel-config-index"/>:</para>
+    <para>メニュー形式のインタフェースを使用して、カーネルの設定を行います。
+    カーネル設定についての一般的な情報は、<ulink url="&hints-root;kernel-configuration.txt"/>を参照してください。
+    BLFSブックに、LFS以外のパッケージを導入する際に必要な、特別なカーネル設定についての情報があります。
+    これについては、<ulink url="&blfs-root;view/svn/longindex.html#kernel-config-index"/>を参照してください：</para>
+
+<screen role="nodump"><userinput>make LANG=<replaceable>&lt;host_LANG_value&gt;</replaceable> LC_ALL= menuconfig</userinput></screen>
+
+    <variablelist>
+      <!--<title>The meaning of the make parameters:</title>-->
+      <title>makeパラメータの意味：</title>
+
+      <varlistentry>
+        <term><parameter>LANG=&lt;host_LANG_value&gt; LC_ALL=</parameter></term>
+        <listitem>
+          <para>This establishes the locale setting to the one used on the host.
+          This is needed for a proper menuconfig ncurses interface line
+          drawing on UTF-8 linux text console.</para>
+          <para>これにより、ホストシステムで使用しているロケール設定をカーネル設定時のロケールに指定します。
+          これはUTF-8のLinuxテキストコンソールにおいて、正しくmenuconfigのncursesインタフェースを動作させるために必要です。</para>
+
+          <para>Be sure to replace <replaceable>&lt;host_LANG_value&gt;</replaceable>
+          by the value of the <envar>$LANG</envar> variable from your host.
+          If not set, you could use instead the host's value of <envar>$LC_ALL</envar>
+          or <envar>$LC_CTYPE</envar>.</para>
+          <para>必ず<replaceable>&lt;host_LANG_value&gt;</replaceable>をホストシステムの<envar>$LANG</envar>に置き換えてください。
+          もしセットしなければ、ホストシステムの<envar>$LC_ALL</envar>または<envar>$LC_CTYPE</envar>が使用されます。</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Alternatively, <command>make oldconfig</command> may be more
+    appropriate in some situations. See the <filename>README</filename>
+    file for more information.</para>
+    <para>もう一つの方法として、状況によっては<command>make oldconfig</command>のほうがより適しているかもしれません。
+    詳しい情報はREADMEファイルを読んでください。</para>
+
+    <para>If desired, skip kernel configuration by copying the kernel
+    config file, <filename>.config</filename>, from the host system
+    (assuming it is available) to the unpacked <filename
+    class="directory">linux-&linux-version;</filename> directory. However,
+    we do not recommend this option. It is often better to explore all the
+    configuration menus and create the kernel configuration from
+    scratch.</para>
+    <para>もし望むのであれば、カーネルの設定ファイル<filename>.config</filename>をホストシステムから(利用可能と思います)、展開した<filename class="directory">linux-&linux-version;</filename>ディレクトリにコピーすることで、カーネルの設定をスキップすることが出来ます。
+    しかしながら、このやり方はお勧めしません。
+    全ての設定メニューを探索して、カーネル設定ファイルを一から作るほうが、多くの場合良いです。</para>
+
+    <para>Compile the kernel image and modules:</para>
+    <para>カーネルイメージとモジュールのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>If using kernel modules, module configuration in <filename
+    class="directory">/etc/modprobe.d</filename> may be required.
+    Information pertaining to modules and kernel configuration is
+    located in <xref linkend="ch-scripts-udev"/> and in the kernel
+    documentation in the <filename
+    class="directory">linux-&linux-version;/Documentation</filename>  directory.
+    Also, <filename>modprobe.conf(5)</filename> may be of interest.</para>
+    <para>もしカーネルモジュールを使用する場合は、<filename class="directory">/etc/modprobe.d</filename>ディレクトリ以下にモジュール設定が必要となります。
+    モジュールとカーネルの設定に関連する情報は、<xref linkend="ch-scripts-udev"/>と<filename class="directory">linux-&linux-version;/Documentation</filename>ディレクトリにあるカーネルドキュメントにあります。
+    また、<filename>modprobe.conf(5)</filename>も興味を引くかもしれません。</para>
+
+    <para>Install the modules, if the kernel configuration uses them:</para>
+    <para>もしカーネルの設定がモジュールを使用するようになっているのであれば、モジュールをインストールします：</para>
+
+<screen><userinput remap="install">make modules_install</userinput></screen>
+
+    <para>After kernel compilation is complete, additional steps are
+    required to complete the installation. Some files need to be copied to
+    the <filename class="directory">/boot</filename> directory.</para>
+    <para>カーネルのコンパイルが完了したら、インストールを完了させるために必要な追加のステップがあります。
+    いくつかのファイルを<filename class="directory">/boot</filename>ディレクトリにコピーする必要があります。</para>
+
+    <para>The path to the kernel image may vary depending on the platform being
+    used. The filename below can be changed to suit your taste, but the stem of
+    the filename should be <emphasis>vmlinux</emphasis> to be compatible with
+    the automatic setup of the boot process described in the next section.  The
+    following command assumes an x86 architecture:</para>
+    <para>カーネルイメージのパスは、使用するプラットフォームによって異なります。
+    以下のファイルネームはあなたの好きなように変更することが出来ますが、次章に記述されているブートプロセスの自動セットアップに適合させるためには、ファイルネームを<emphasis>vmlinux</emphasis>にすべきです。
+    次のコマンドはx86アーキテクチャを想定しています：</para>
+
+<screen><userinput remap="install">cp -v arch/x86/boot/bzImage /boot/vmlinux-&linux-version;-lfs-&version;</userinput></screen>
+
+    <para><filename>System.map</filename> is a symbol file for the kernel.
+    It maps the function entry points of every function in the kernel API,
+    as well as the addresses of the kernel data structures for the running
+    kernel. It is used as a resource when investigating kernel problems.
+    Issue the following command to install the map file:</para>
+    <para><filename>System.map</filename>はカーネルのためのシンボルファイルです。
+    <filename>System.map</filename>は、実行中のカーネルのためのカーネルデータ構造のアドレスと同様に、カーネルAPIの各functionのエントリーポイントをマッピングします。
+    このファイルはカーネルの問題を詳細に調べる時のリソースとして使われます。
+    mapファイルをインストールするために、次のコマンドを実行します：</para>
+
+<screen><userinput remap="install">cp -v System.map /boot/System.map-&linux-version;</userinput></screen>
+
+    <para>The kernel configuration file <filename>.config</filename>
+    produced by the <command>make menuconfig</command> step
+    above contains all the configuration selections for the kernel
+    that was just compiled. It is a good idea to keep this file for future
+    reference:</para>
+    <para>カーネル設定ファイル<filename>.config</filename>は、上のステップで行った<command>make menuconfig</command>で生成されます。
+    この<filename>.config</filename>には、まさにコンパイルされようとするカーネルに対する、全ての設定が含まれています。
+    このファイルを後で参照するために保存しておくのはいい考えです：</para>
+
+<screen><userinput remap="install">cp -v .config /boot/config-&linux-version;</userinput></screen>
+
+    <para>Install the documentation for the Linux kernel:</para>
+    <para>Linuxカーネルのドキュメントのインストール：</para>
+
+<screen><userinput remap="install">install -d /usr/share/doc/linux-&linux-version;
+cp -r Documentation/* /usr/share/doc/linux-&linux-version;</userinput></screen>
+
+    <para>It is important to note that the files in the kernel source
+    directory are not owned by <emphasis>root</emphasis>. Whenever a
+    package is unpacked as user <emphasis>root</emphasis> (like we did
+    inside chroot), the files have the user and group IDs of whatever
+    they were on the packager's computer. This is usually not a problem
+    for any other package to be installed because the source tree is
+    removed after the installation. However, the Linux source tree is
+    often retained for a long time.  Because of this, there is a chance
+    that whatever user ID the packager used will be assigned to somebody
+    on the machine. That person would then have write access to the kernel
+    source.</para>
+    <para>カーネルソースディレクトリが、<emphasis>root</emphasis>の所有ではないことに留意することは重要です。
+    <emphasis>root</emphasis>ユーザでパッケージを展開するとき(chroot環境でやったように)はいつでも、パッケージャーのコンピュータ上の所有者・グループになります。
+    このことは、他のパッケージでは通常は問題になりません。
+    なぜなら、ソースツリーはインストール後に削除されるからです。
+    しかしながら、Linuxのカーネルソースツリーは多くの場合、長い間維持されます。
+    そのため、パッケージャーに使用されたユーザIDは、マシン上の誰かに割り当たるでしょう。
+    その割り当たった人はカーネルソースに書き込めるようになってしまいます。 
+    </para>
+
+    <para>If the kernel source tree is going to be retained, run
+    <command>chown -R 0:0</command> on the <filename
+    class="directory">linux-&linux-version;</filename> directory to ensure
+    all files are owned by user <emphasis>root</emphasis>.</para>
+    <para>もしカーネルソースツリーを保持しようとするならば、<filename class="directory">linux-&linux-version;</filename>ディレクトリで<command>chown -R 0:0</command>を実行し、全てのファイルが<emphasis>root</emphasis>ユーザに所有されることを確実にします。</para>
+
+    <warning>
+      <para>Some kernel documentation recommends creating a symlink from
+      <filename class="symlink">/usr/src/linux</filename> pointing to the kernel
+      source directory.  This is specific to kernels prior to the 2.6 series and
+      <emphasis>must not</emphasis> be created on an LFS system as it can cause
+      problems for packages you may wish to build once your base LFS system is
+      complete.</para>
+      <para>いくつかのカーネルドキュメントは<filename class="symlink">/usr/src/linux</filename>からカーネルソースディレクトリに対して、シンボリックリンクを作成することを推奨しています。
+      これはカーネル2.6以前で特有のもので、LFSシステムにおいてはこのシンボリックリンクを<emphasis>決して作成しないでください</emphasis>。
+      なぜなら、一度あなたのLFSシステムが完成したあとに、ビルドしようとするパッケージに問題を引き起こしてしまうからです。</para>
+    </warning>
+
+    <warning>
+      <para>The headers in the system's
+      <filename class="directory">include</filename> directory should
+      <emphasis>always</emphasis> be the ones against which Glibc was compiled,
+      that is, the sanitised headers from this Linux kernel tarball.
+      Therefore, they should <emphasis>never</emphasis> be replaced by either
+      the raw kernel headers or any other kernel sanitized headers.</para>
+      <para><filename class="directory">include</filename>ディレクトリにあるヘッダファイルは、<emphasis>必ず</emphasis>Glibcがコンパイルされた時のヘッダであるべきです。
+      それは、このLinuxカーネルのtarballに含まれるヘッダをサニタイズしたものです。
+      したがってそれらヘッダファイルは、<emphasis>決して</emphasis>、サニタイズされていないカーネルヘッダまたはその他カーネルのサニタイズされたヘッダファイルで置き換えてはいけません。</para>
+    </warning>
+
+  </sect2>
+
+  <sect2 id="conf-modprobe" role="configuration"> 
+    <!--<title>Configuring Linux Module Load Order</title>--> 
+    <title>Linuxモジュールのロード順序の設定</title> 
+ 
+    <indexterm zone="conf-modprobe">
+      <primary sortas="e-/etc/modprobe.d/usb.conf">/etc/modprobe.d/usb.conf</primary> 
+    </indexterm> 
+ 
+    <para>The <filename>/etc/modprobe.d/usb.conf</filename> file needs to be
+    created so that if the USB drivers (ehci_hcd, ohci_hcd and uhci_hcd) have
+    been built as modules, they will be loaded in the correct order; ehci_hcd
+    needs to be loaded prior to ohci_hcd and uhci_hcd in order to avoid a
+    warning being output at boot time.</para> 
+    <para>もしUSBドライバ(ehci_hcd, ohci_hcd, uhci_hcd)をモジュールとしてビルドした場合、それらモジュールが正しい順序でロードされるようにするため、<filename>/etc/modprobe.d/usb.conf</filename>ファイルを作成する必要があります。
+    ブート時のワーニングを避けるため、ehci_hcdはohci_hcdとuhci_hcdよりも前にロードされる必要があります。</para>
+ 
+    <para>Create a new file <filename>/etc/modprobe.d/usb.conf</filename> by running 
+    the following:</para>
+    <para>次を実行して、新しいファイル<filename>/etc/modprobe.d/usb.conf</filename>を作成します：</para> 
+ 
+<screen><userinput>install -v -m755 -d /etc/modprobe.d
+cat &gt; /etc/modprobe.d/usb.conf &lt;&lt; "EOF"
+<literal># Begin /etc/modprobe.d/usb.conf
+ 
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true 
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true 
+
+# End /etc/modprobe.d/usb.conf</literal> 
+EOF</userinput></screen> 
+ 
+  </sect2>
+
+  <sect2 id="contents-kernel" role="content">
+    <!--<title>Contents of Linux</title>-->
+    <title>Linuxの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed files</segtitle>-->
+      <segtitle>インストールされるファイル</segtitle>
+      <!--<segtitle>Installed directories</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>config-&linux-version;,
+        vmlinux-&linux-version;-lfs-&version;-&linux-version;, and
+        System.map-&linux-version;</seg>
+        <seg>/lib/modules, /usr/share/doc/linux-&linux-version;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="config">
+        <term><filename>config-&linux-version;</filename></term>
+        <listitem>
+          <para>Contains all the configuration selections for the kernel</para>
+          <para>カーネルの全ての設定を含んでいます。</para>
+          <indexterm zone="ch-bootable-kernel config">
+            <primary sortas="e-/boot/config">/boot/config-&linux-version;</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="lfskernel">
+        <term><filename>vmlinux-&linux-version;-lfs-&version;</filename></term>
+        <listitem>
+          <para>The engine of the Linux system. When turning on the computer,
+          the kernel is the first part of the operating system that gets loaded.
+          It detects and initializes all components of the computer's hardware,
+          then makes these components available as a tree of files to the
+          software and turns a single CPU into a multitasking machine capable
+          of running scores of programs seemingly at the same time</para>
+          <para>Linuxシステムのエンジンです。
+          コンピュータのスイッチを入れた時、カーネルはロードされるオペレーティングシステムの最初の部分です。
+          カーネルはコンピュータのハードウェアの全てのコンポーネントを認識し初期化を行います。
+          そして、それらコンポーネントをソフトウェアに対して、ファイルのツリーとして利用可能にします。
+          また、シングルCPUを多数のプログラムを見た目上同時に実行可能な、マルチタスクマシンに変えます。</para>
+          <indexterm zone="ch-bootable-kernel lfskernel">
+            <primary sortas="b-lfskernel">lfskernel-&linux-version;</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="System.map">
+        <term><filename>System.map-&linux-version;</filename></term>
+        <listitem>
+          <para>A list of addresses and symbols; it maps the entry points and
+          addresses of all the functions and data structures in the
+          kernel</para>
+          <para>アドレスとシンボルのリストです。
+          カーネル内の全てのファンクションとデータ構造のエントリーポイント・アドレスをマッピングします。</para>
+          <indexterm zone="ch-bootable-kernel System.map">
+            <primary sortas="e-/boot/System.map">/boot/System.map-&linux-version;</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

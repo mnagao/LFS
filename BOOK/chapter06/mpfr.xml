@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9331 -->
+
+<sect1 id="ch-system-mpfr" role="wrap">
+  <?dbhtml filename="mpfr.html"?>
+
+  <sect1info condition="script">
+    <productname>mpfr</productname>
+    <productnumber>&mpfr-version;</productnumber>
+    <address>&mpfr-url;</address>
+  </sect1info>
+
+  <title>MPFR-&mpfr-version;</title>
+
+  <indexterm zone="ch-system-mpfr">
+    <primary sortas="a-MPFR">MPFR</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para>The MPFR package contains functions for multiple precision
+    math.</para>
+    <para>MPFRパッケージは、多倍精度演算のための機能を含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&mpfr-ch6-sbu;</seg>
+        <seg>&mpfr-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of MPFR</title>-->
+    <title>MPFRのインストール</title>
+
+    <para>Prepare MPFR for compilation:</para>
+    <para>MPFRをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr --enable-thread-safe \
+  --docdir=/usr/share/doc/mpfr-&mpfr-version;</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <important>
+      <para>The test suite for MPFR in this section is considered critical.
+      Do not skip it under any circumstances.</para>
+      <para>このセクションにおけるMPFRのテストツールは重要です。
+      どのような状況であれ、決してテストをスキップしないでください。</para>
+    </important>
+
+    <para>Test the results and ensure that all tests passed:</para>
+    <para>全てのテストがパスしたことを確認してください：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Install the documentation:</para> 
+    <para>ドキュメントのインストール：</para>
+
+<screen><userinput remap="install">make html 
+make install-html</userinput></screen>
+
+  </sect2>
+
+
+  <sect2 id="contents-mpfr" role="content">
+    <!--<title>Contents of MPFR</title>-->
+    <title>MPFRの内容</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed Libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>libmpfr.{a,so}</seg>
+        <seg>/usr/share/doc/mpfr-&mpfr-version;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="libmpfr">
+        <term><filename class="libraryfile">libmpfr</filename></term>
+        <listitem>
+          <para>Contains multiple-precision math functions.</para>
+          <para>多倍精度の演算関数を含んでいます。</para>
+          <indexterm zone="ch-system-mpfr libmpfr">
+            <primary sortas="c-libmpfr">libmpfr</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

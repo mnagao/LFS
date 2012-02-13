@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/profiling
+END
+profile.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/profiling/profile.xsl
+END
+profile-mode.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/profiling/profile-mode.xsl
+END
+strip-attributes.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/profiling/strip-attributes.xsl
+END
+xsl2profile.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/LFS/!svn/ver/9044/tags/6.5/BOOK/stylesheets/lfs-xsl/docbook-xsl-snapshot/profiling/xsl2profile.xsl
+END

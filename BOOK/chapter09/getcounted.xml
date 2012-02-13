@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+
+<sect1 id="ch-finish-getcounted">
+  <?dbhtml filename="getcounted.html"?>
+
+  <!--<title>Get Counted</title>-->
+  <title>LFSユーザとしてのカウント</title>
+
+  <para>Now that you have finished the book, do you want to be counted as an
+  LFS user? Head over to <ulink url="&lfs-root;cgi-bin/lfscounter.cgi"/> and
+  register as an LFS user by entering your name and the first LFS version you
+  have used.</para>
+  <para>これでLFSブックの作業が完了ですが、LFSユーザとしてカウントされてみませんか？
+  <ulink url="&lfs-root;cgi-bin/lfscounter.cgi"/>を開いて、氏名とあなたが最初に使用したLFSバージョンを入力し、LFSユーザとして登録してください。</para>
+
+  <para>Let's reboot into LFS now.</para>
+  <para>では、LFSをリブートしてみましょう。</para>
+
+</sect1>

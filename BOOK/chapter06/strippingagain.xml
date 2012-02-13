@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 7970 -->
+
+<sect1 id="ch-system-strippingagain">
+  <?dbhtml filename="strippingagain.html"?>
+
+  <!--<title>Stripping Again</title>-->
+  <title>再びstrip</title>
+
+  <para>If the intended user is not a programmer and does not plan to do
+  any debugging on the system software, the system size can be decreased
+  by about 90 MB by removing the debugging symbols from binaries and
+  libraries. This causes no inconvenience other than not being able to
+  debug the software fully anymore.</para>
+  <para>もし、対象とするユーザがプログラマーではなく、システムソフトウェアのデバッグをする予定がないのであれば、バイナリとライブラリのデバッグシンボルを取り除くことで、システムのサイズを約90MB減らすことが出来ます。
+  これによって、ソフトウェアのデバッグが出来なくなること以外に、不便になることはありません。</para>
+
+  <para>Most people who use the command mentioned below do not
+  experience any difficulties. However, it is easy to make a typo and
+  render the new system unusable, so before running the
+  <command>strip</command> command, it is a good idea to make a
+  backup of the LFS system in its current state.</para>
+  <para>以下で説明するコマンドを使用するほとんどの人々は、難しさを全然感じないでしょう。
+  しかしながら、タイプミスで新しいシステムを使用不能状態にすることは簡単です。
+  ですので、<command>strip</command>コマンドを実行する前に、現在の状態でLFSシステムのバックアップを行うことはいい考えです。</para>
+
+  <para>Before performing the stripping, take special care to ensure that
+  none of the binaries that are about to be stripped are running. If
+  unsure whether the user entered chroot with the command given in
+  <xref linkend="ch-system-chroot" role=","/> first exit from
+  chroot:</para>
+  <para>stripを実行する前に、stripを行おうとしているバイナリが実行中でないことをよく確認してください。
+  もし、<xref linkend="ch-system-chroot" role=","/>のコマンドで、chrootの環境に移行しているかどうか確信が持てない場合は、まずchroot環境からexitしてください：</para>
+
+<screen role="nodump"><userinput>logout</userinput></screen>
+
+  <para>Then reenter it with:</para>
+  <para>そして、以下コマンドで再度chroot環境へ移行します：</para>
+
+<screen role="nodump"><userinput>chroot $LFS /tools/bin/env -i \
+    HOME=/root TERM=$TERM PS1='\u:\w\$ ' \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin \
+    /tools/bin/bash --login</userinput></screen>
+
+  <para>Now the binaries and libraries can be safely stripped:</para>
+  <para>これで、バイナリとライブラリを安全にstripすることが出来ます：</para>
+
+<screen><userinput>/tools/bin/find /{,usr/}{bin,lib,sbin} -type f \
+  -exec /tools/bin/strip --strip-debug '{}' ';'</userinput></screen>
+
+  <para>A large number of files will be reported as having their file
+  format not recognized. These warnings can be safely ignored. These
+  warnings indicate that those files are scripts instead of
+  binaries.</para>
+  <para>大量のファイルが、ファイルフォーマットが認識できないと表示されるでしょう。
+  それらワーニングは無視しても問題ありません。
+  それらワーニングは、それらファイルがバイナリではなくスクリプトであることを示しています。</para>
+
+  <para>If disk space is very tight, the
+  <parameter>--strip-all</parameter> option can be used on the binaries
+  in <filename class="directory">/{,usr/}{bin,sbin}</filename> to gain
+  several more megabytes. Do not use this option on libraries&mdash;they will
+  be destroyed.</para>
+  <para>もしディスクスペースがとても厳しいのであれば、<filename class="directory">/{,usr/}{bin,sbin}</filename>のバイナリに対して<parameter>--strip-all</parameter>オプションを使用することが出来ます。
+  これによって、さらに数メガバイトの空き容量をかせげます。
+  このオプションをライブラリに対して、決して使用しないでください。もし使用すると、それらライブラリが破壊されます。
+  </para>
+
+</sect1>

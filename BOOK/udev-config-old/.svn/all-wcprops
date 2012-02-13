@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/LFS/!svn/ver/9044/tags/6.5/BOOK/udev-config
+END
+61-cdrom.rules
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/LFS/!svn/ver/9044/tags/6.5/BOOK/udev-config/61-cdrom.rules
+END
+55-lfs.rules
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/LFS/!svn/ver/9044/tags/6.5/BOOK/udev-config/55-lfs.rules
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/LFS/!svn/ver/9044/tags/6.5/BOOK/udev-config/ChangeLog
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/LFS/!svn/ver/9044/tags/6.5/BOOK/udev-config/Makefile
+END

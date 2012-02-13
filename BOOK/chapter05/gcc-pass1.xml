@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9407 -->
+
+<sect1 id="ch-tools-gcc-pass1" role="wrap">
+  <?dbhtml filename="gcc-pass1.html"?>
+
+  <sect1info condition="script">
+    <productname>gcc</productname>
+    <productnumber>&gcc-version;</productnumber>
+    <address>&gcc-url;</address>
+  </sect1info>
+
+  <title>GCC-&gcc-version; - Pass 1</title>
+
+  <indexterm zone="ch-tools-gcc-pass1">
+    <primary sortas="a-GCC">GCC</primary>
+    <secondary>tools, pass 1</secondary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="../chapter06/gcc.xml"
+    xpointer="xpointer(/sect1/sect2[1]/para[2])"/>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&gcc-ch5p1-sbu;</seg>
+        <seg>&gcc-ch5p1-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Cross GCC</title>-->
+    <title>Cross GCCのインストール</title>
+
+    <para>GCC now requires the GMP, MPFR and MPC packages. As these packages may
+    not be included in your host distribution, they will be built with
+    GCC.  Unpack each package into the GCC source directory and rename the
+    resulting directories so the GCC build procedures will automatically
+    use them:</para>
+    <para>現在GCCでは、GMPとMPFRとMPCパッケージが必要です。
+    これらパッケージはあなたのホストシステムとなるディストリビューションに含まれていないと思いますので、GCCと一緒にビルドします。それぞれのパッケージをGCCのソースディレクトリー内で展開し、展開されたディレクトリをリネームしてください。そうすることで、自動的にそれらパッケージを使ってビルドが行われます。：</para>
+
+<screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
+mv -v mpfr-&mpfr-version; mpfr
+tar -jxf ../gmp-&gmp-version;.tar.bz2
+mv -v gmp-&gmp-version; gmp
+tar -zxf ../mpc-&mpc-version;.tar.gz
+mv -v mpc-&mpc-version; mpc</userinput></screen>
+
+    <para>The GCC documentation recommends building GCC outside of the
+    source directory in a dedicated build directory:</para>
+
+    <para>GCCのドキュメントでは、ソースディレクトリ外の専用のディレクトリにおいて、ビルドを行うことを推奨しています。
+    </para>
+
+<screen><userinput remap="pre">mkdir -v ../gcc-build
+cd ../gcc-build</userinput></screen>
+
+    <para>Prepare GCC for compilation:</para>
+    <para>以下のとおり、GCCをコンパイルする準備を行います：</para>
+
+<screen><userinput remap="configure">../gcc-&gcc-version;/configure \
+    --target=$LFS_TGT --prefix=/tools \
+    --disable-nls --disable-shared --disable-multilib \
+    --disable-decimal-float --disable-threads \
+    --disable-libmudflap --disable-libssp \
+    --disable-libgomp --enable-languages=c \
+    --with-gmp-include=$(pwd)/gmp --with-gmp-lib=$(pwd)/gmp/.libs \
+    --without-ppl --without-cloog</userinput></screen>
+
+    <variablelist>
+      <title>configureオプションの意味：</title>
+
+      <varlistentry>
+        <term><parameter>--disable-shared</parameter></term>
+        <listitem>
+          <para>This switch forces GCC to link its internal libraries
+          statically. We do this to avoid possible issues with the host
+          system.</para>
+          <para>このオプションにより、gccは静的にリンクされます。
+          これは、ホストシステム側の問題による影響を避けるために行います。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-decimal-float, --disable-threads, --disable-libmudflap, --disable-libssp, --disable-libgomp</parameter></term>
+        <listitem>
+          <para>These switches disable support for the decimal floating point extension,
+          threading, libmudflap, libssp and libgomp respectively. These features will fail
+          to compile when building a cross-compiler and are not necessary for the task of 
+          cross-compiling the temporary libc.</para>
+          <para>これらスイッチによって、浮動小数点拡張、スレッド、libmudflap、libssp、libgompそれぞれのサポートをオフにします。
+          これら機能をオンにすることで、クロスコンパイラをビルドする際にコンパイルに失敗します。また、一時的なlibcをクロスコンパイルするためには不要です。</para>
+        </listitem> 
+      </varlistentry> 
+
+      <varlistentry> 
+        <term><parameter>--disable-multilib</parameter></term> 
+        <listitem> 
+          <para>On x86_64, LFS does not yet support a multilib configuration. 
+          This switch is harmless for x86.</para>
+          <para>x86_64の環境において、LFSではまだmultilib設定をサポートしていません。
+          このスイッチにより、x86環境では害をなくします。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--enable-languages=c</parameter></term>
+        <listitem>
+          <para>This option ensures that only the C compiler is built.
+          This is the only language needed now.</para>          
+          <para>Cコンパイラのみをビルドします。これは、現時点で必要なたった一つの言語です。</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry> 
+        <term><parameter>--with-gmp-include=...</parameter></term> 
+        <listitem> 
+          <para>This option tells GCC where the GMP headers are located.</para>
+          <para>GCCに対して、GMPのヘッダーファイルの位置を指定します。</para>
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry> 
+        <term><parameter>--with-gmp-lib=...</parameter></term> 
+        <listitem> 
+          <para>This option tells GCC where the GMP library is located.</para>
+          <para>GCCに対して、GMPライブラリの位置を指定します。</para>
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry> 
+        <term><parameter>--without-ppl, --without-cloog</parameter></term> 
+        <listitem> 
+          <para>These switches prevent GCC from building against the PPL and 
+          CLooG libraries which may be present on the host system, but will not 
+          be available in the chroot environment.</para>
+          <para>ホストシステムに存在するがchroot環境には存在しないPPLとCLooGライブラリとのリンクをこのオプションによって防ぎます。</para> 
+        </listitem> 
+      </varlistentry>
+
+    </variablelist>
+
+    <para>Compile GCC by running:</para>
+    <para>次を実行してGCCをコンパイルします：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>Compilation is now complete. At this point, the test suite would
+    normally be run, but, as mentioned before, the test suite framework is
+    not in place yet. The benefits of running the tests at this point
+    are minimal since the programs from this first pass will soon be
+    replaced.</para>
+    <para>これでコンパイルが完了です。
+    この時点でテストツールを正常に実行できますが、前に述べたとおり、テストツールのフレームワークがまだ整っていません。GCCのプログラムはすぐに置き換えられてしまうので、この時点における、テスト実施のメリットはほとんどありません。
+    </para>
+    <para>Install the package:</para>
+    <para>パッケージをインストールします：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Using <parameter>--disable-shared</parameter> means that the
+    <filename>libgcc_eh.a</filename> file isn't created and installed. The
+    Glibc package depends on this library as it uses
+    <parameter>-lgcc_eh</parameter> within its build system. This dependency
+    can be satisfied by creating a symlink to <filename>libgcc.a</filename>,
+    since that file will end up containing the objects normally contained in
+    <filename>libgcc_eh.a</filename>:</para>
+    <para><parameter>--disable-shared</parameter>を指定することは、<filename>libgcc_eh.a</filename>ファイルは作成されず、インストールもされないことを意味します。
+    Glibcパッケージは、ビルドシステム内で<parameter>-lgcc_eh</parameter>を使用するので、このライブラリに依存しています。
+    この<filename>libgcc.a</filename>ファイルは、結局のところ、<filename>libgcc_eh.a</filename>に通常含まれるオブジェクトを含んでいるので、<filename>libgcc.a</filename>へのシンボリックリンクを作成することで、この依存を解決できます。：</para>
+
+<screen><userinput remap="install">ln -vs libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | \
+    sed 's/libgcc/&amp;_eh/'`</userinput></screen>
+
+  </sect2>
+
+  <sect2 role="content">
+    <title/>
+
+    <para>Details on this package are located in
+    <xref linkend="contents-gcc" role="."/></para>
+    <para>このパッケージの詳細は、<xref linkend="contents-gcc" role="."/>にあります。
+    </para>
+
+  </sect2>
+
+</sect1>
