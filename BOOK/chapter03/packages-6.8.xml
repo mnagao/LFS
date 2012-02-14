@@ -4,11 +4,12 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9095 -->
+<!-- revision 9459 -->
 
 <sect1 id="materials-packages">
   <?dbhtml filename="packages.html"?>
 
+  <!--<title>All Packages</title>-->
   <title>全パッケージ</title>
 
   <para>Download or otherwise obtain the following packages:</para>
@@ -129,13 +130,12 @@
           released. An alternative download location that may have the correct
           version available can also be found at: <ulink
           url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/>.</para>
-        </note>
-        <note>
           <para>File (&file-version;) は、上記リストのロケーションにもはや存在しないかもしれません。
           新しいバージョンがリリースされた際、たまに古いバージョンが削除されることがあります。
           使用すべきバージョンが公開されている別のダウンロードロケーションは、<ulink
           url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/> で見つけることが出来ます。
           </para>
+
         </note>
       </listitem>
     </varlistentry>
@@ -176,13 +176,13 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry> 
-      <term>GDBM (&gdbm-version;) - <token>&gdbm-size;</token>:</term> 
-      <listitem> 
-        <para>Home page: <ulink url="&gdbm-home;"/></para> 
-        <para>Download: <ulink url="&gdbm-url;"/></para> 
+    <varlistentry>
+      <term>GDBM (&gdbm-version;) - <token>&gdbm-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&gdbm-home;"/></para>
+        <para>Download: <ulink url="&gdbm-url;"/></para>
         <para>MD5 sum: <literal>&gdbm-md5;</literal></para>
-      </listitem> 
+      </listitem>
     </varlistentry>
 
     <varlistentry>
@@ -323,9 +323,9 @@
           discoveries of security vulnerabilities.  The latest available
           &linux-major-version;.&linux-minor-version;.x kernel version should be
           used, unless the errata page says otherwise.</para>
-
           <para>Linuxカーネルは、セキュリティの脆弱性発見により、比較的頻繁に更新されます。
-          Errataページにて修正がないのであれば、&linux-major-version;.&linux-minor-version;.xの最新版を使用すべきです。
+          Errataページにて修正がないのであれば、&linux-major-version;.&linux-minor-version;.xの最新版を使用すべきです
+。
           </para>
 
           <para>For users with limited speed or expensive bandwidth who wish to
@@ -333,8 +333,8 @@
           patches can be downloaded separately.  This may save some time or
           cost for a subsequent patch level upgrade within a minor release.
           </para>
-
-          <para>ネットワーク速度が限られているユーザ、または高価なネットワークを利用しているユーザが、Linuxカーネルをアップデートしたい場合は、ベースとなるカーネルソースとパッチは別々にダウンロードすることが出来ます。
+         <para>ネットワーク速度が限られているユーザ、または高価なネットワークを利用しているユーザが、Linuxカーネルを
+アップデートしたい場合は、ベースとなるカーネルソースとパッチは別々にダウンロードすることが出来ます。
           これによって、マイナーリリースのパッチレベルのアップデートにかかる時間とコストを節約できます。</para>
 
         </note>
@@ -395,7 +395,16 @@
       </listitem>
     </varlistentry>
 
-   <varlistentry>
+    <varlistentry>
+      <term>MPC (&mpc-version;) - <token>&mpc-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&mpc-home;"/></para>
+        <para>Download: <ulink url="&mpc-url;"/></para>
+        <para>MD5 sum: <literal>&mpc-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>MPFR (&mpfr-version;) - <token>&mpfr-size;</token>:</term>
       <listitem>
         <para>Home page: <ulink url="&mpfr-home;"/></para>
@@ -447,13 +456,13 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry> 
-      <term>Pkg-config (&pkg-config-version;) - <token>&pkg-config-size;</token>:</term> 
-      <listitem> 
-        <para>Home page: <ulink url="&pkg-config-home;"/></para> 
-        <para>Download: <ulink url="&pkg-config-url;"/></para> 
+    <varlistentry>
+      <term>Pkg-config (&pkg-config-version;) - <token>&pkg-config-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&pkg-config-home;"/></para>
+        <para>Download: <ulink url="&pkg-config-url;"/></para>
         <para>MD5 sum: <literal>&pkg-config-md5;</literal></para>
-      </listitem> 
+      </listitem>
     </varlistentry>
 
     <varlistentry>
@@ -506,12 +515,6 @@
           location move older versions to <ulink
           url="ftp://ftp.pld.org.pl/software/shadow/old/"/> when new ones are
           released.</para>
-        </note>
-        <note>
-          <para>Shadow (&shadow-version;) は、上記リストのロケーションにもはや存在しないかもしれません。
-          新しいバージョンがリリースされた際、古いバージョンは<ulink
-          url="ftp://ftp.pld.org.pl/software/shadow/old/"/> に移動されます。
-          </para>
         </note>
         -->
       </listitem>
@@ -572,21 +575,28 @@
     </varlistentry>
 
     <varlistentry>
+      <term>Udev Test Tarball  (&udev-version;) - <token>&udev-testfiles-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&udev-testfiles-url;"/></para>
+        <para>MD5 sum: <literal>&udev-testfiles-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Udev Configuration Tarball - <token>&udev-config-size;</token>:</term>
       <listitem>
-        <para>Home page: <ulink url="&udev-config-home;"/></para>
         <para>Download: <ulink url="&udev-config-url;"/></para>
         <para>MD5 sum: <literal>&udev-config-md5;</literal></para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term>Util-linux-ng (&util-linux-ng-version;) - <token>&util-linux-ng-size;</token>:</term>
+      <term>Util-linux (&util-linux-version;) - <token>&util-linux-size;</token>:</term>
       <listitem>
-        <para>Home page: <ulink url="&util-linux-ng-home;"/></para>
-        <para>Download: <ulink url="&util-linux-ng-url;"/></para>
-        <para>MD5 sum: <literal>&util-linux-ng-md5;</literal></para>
-      </listitem>
+        <para>Home page: <ulink url="&util-linux-home;"/></para>
+        <para>Download: <ulink url="&util-linux-url;"/></para>
+        <para>MD5 sum: <literal>&util-linux-md5;</literal></para>
+      </listitem> 
     </varlistentry>
 
     <varlistentry>
@@ -598,13 +608,13 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
-      <term>Vim (&vim-lang-version;) language files (optional) - <token>&vim-lang-size;</token>:</term>
-      <listitem>
-        <para>Home page: <ulink url="&vim-lang-home;"/></para>
-        <para>Download: <ulink url="&vim-lang-url;"/></para>
-        <para>MD5 sum: <literal>&vim-lang-md5;</literal></para>
-      </listitem>
+    <varlistentry> 
+      <term>Xz Utils (&xz-version;) - <token>&xz-size;</token>:</term> 
+      <listitem> 
+        <para>Home page: <ulink url="&xz-home;"/></para> 
+        <para>Download: <ulink url="&xz-url;"/></para> 
+        <para>MD5 sum: <literal>&xz-md5;</literal></para> 
+      </listitem> 
     </varlistentry>
 
     <varlistentry>
@@ -619,5 +629,5 @@
   </variablelist>
 
   <para>Total size of these packages: about <returnvalue/></para>
-  <para>パッケージの合計サイズ： 約 257MB</para>
+
 </sect1>

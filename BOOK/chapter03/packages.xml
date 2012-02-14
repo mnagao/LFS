@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+
+<!-- revision 9626 -->
 
 <sect1 id="materials-packages">
   <?dbhtml filename="packages.html"?>
@@ -72,6 +73,15 @@
     </varlistentry>
 
     <varlistentry>
+      <term>Check (&check-version;) - <token>&check-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&check-home;"/></para>
+        <para>Download: <ulink url="&check-url;"/></para>
+        <para>MD5 sum: <literal>&check-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Coreutils (&coreutils-version;) - <token>&coreutils-size;</token>:</term>
       <listitem>
         <para>Home page: <ulink url="&coreutils-home;"/></para>
@@ -130,12 +140,6 @@
           released. An alternative download location that may have the correct
           version available can also be found at: <ulink
           url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/>.</para>
-          <para>File (&file-version;) は、上記リストのロケーションにもはや存在しないかもしれません。
-          新しいバージョンがリリースされた際、たまに古いバージョンが削除されることがあります。
-          使用すべきバージョンが公開されている別のダウンロードロケーションは、<ulink
-          url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/> で見つけることが出来ます。
-          </para>
-
         </note>
       </listitem>
     </varlistentry>
@@ -303,6 +307,15 @@
     </varlistentry>
 
     <varlistentry>
+      <term>Libpipeline (&libpipeline-version;) - <token>&libpipeline-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&libpipeline-home;"/></para>
+        <para>Download: <ulink url="&libpipeline-url;"/></para>
+        <para>MD5 sum: <literal>&libpipeline-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Libtool (&libtool-version;) - <token>&libtool-size;</token>:</term>
       <listitem>
         <para>Home page: <ulink url="&libtool-home;"/></para>
@@ -323,19 +336,12 @@
           discoveries of security vulnerabilities.  The latest available
           &linux-major-version;.&linux-minor-version;.x kernel version should be
           used, unless the errata page says otherwise.</para>
-          <para>Linuxカーネルは、セキュリティの脆弱性発見により、比較的頻繁に更新されます。
-          Errataページにて修正がないのであれば、&linux-major-version;.&linux-minor-version;.xの最新版を使用すべきです
-。
-          </para>
 
           <para>For users with limited speed or expensive bandwidth who wish to
           update the Linux kernel, a baseline version of the package and
           patches can be downloaded separately.  This may save some time or
           cost for a subsequent patch level upgrade within a minor release.
           </para>
-         <para>ネットワーク速度が限られているユーザ、または高価なネットワークを利用しているユーザが、Linuxカーネルを
-アップデートしたい場合は、ベースとなるカーネルソースとパッチは別々にダウンロードすることが出来ます。
-          これによって、マイナーリリースのパッチレベルのアップデートにかかる時間とコストを節約できます。</para>
 
         </note>
       </listitem>
@@ -453,15 +459,6 @@
         <para>Home page: <ulink url="&perl-home;"/></para>
         <para>Download: <ulink url="&perl-url;"/></para>
         <para>MD5 sum: <literal>&perl-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Pkg-config (&pkg-config-version;) - <token>&pkg-config-size;</token>:</term>
-      <listitem>
-        <para>Home page: <ulink url="&pkg-config-home;"/></para>
-        <para>Download: <ulink url="&pkg-config-url;"/></para>
-        <para>MD5 sum: <literal>&pkg-config-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -596,7 +593,7 @@
         <para>Home page: <ulink url="&util-linux-home;"/></para>
         <para>Download: <ulink url="&util-linux-url;"/></para>
         <para>MD5 sum: <literal>&util-linux-md5;</literal></para>
-      </listitem> 
+      </listitem>
     </varlistentry>
 
     <varlistentry>
@@ -608,13 +605,13 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry> 
-      <term>Xz Utils (&xz-version;) - <token>&xz-size;</token>:</term> 
-      <listitem> 
-        <para>Home page: <ulink url="&xz-home;"/></para> 
-        <para>Download: <ulink url="&xz-url;"/></para> 
-        <para>MD5 sum: <literal>&xz-md5;</literal></para> 
-      </listitem> 
+    <varlistentry>
+      <term>Xz Utils (&xz-version;) - <token>&xz-size;</token>:</term>
+      <listitem>
+        <para>Home page: <ulink url="&xz-home;"/></para>
+        <para>Download: <ulink url="&xz-url;"/></para>
+        <para>MD5 sum: <literal>&xz-md5;</literal></para>
+      </listitem>
     </varlistentry>
 
     <varlistentry>
