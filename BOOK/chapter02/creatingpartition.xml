@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9238 -->
+<!-- revision 9643 -->
 
 <sect1 id="space-creatingpartition">
   <?dbhtml filename="creatingpartition.html"?>
@@ -35,17 +35,18 @@
 
 -->
 
-  <para>A minimal system requires a partition of around 1.3 gigabytes (GB).
+  <para>A minimal system requires a partition of around 2.8 gigabytes (GB).
   This is enough to store all the source tarballs and compile the packages.
   However, if the LFS system is intended to be the primary Linux system,
   additional software will probably be installed which will require additional
-  space (2-3 GB). The LFS system itself will not take up this much room.
-  A large portion of this requirement is to provide sufficient free temporary
-  storage. Compiling packages can require a lot of disk space which will be
-  reclaimed after the package is installed.</para>
+  space. A 10GB partition is a reasonable size to provide for growth.  The LFS
+  system itself will not take up this much room.  A large portion of this
+  requirement is to provide sufficient free temporary storage. Compiling
+  packages can require a lot of disk space which will be reclaimed after the
+  package is installed.</para>
 
-  <para>最小のシステム構成では、約1.3ギガバイトのパーティションが必要です。これは全てのソースtarballを格納し、コンパイルを行うのに十分な容量です。
-  しかしながら、もしLFSシステムをメインで使用するLinuxシステムにするならば、おそらく追加のソフトウェアがインストールされ、追加のディスクスペースが必要になります(2-3GB)。LFSシステム自体は、このような大きな領域を占めることはありません。
+  <para>最小のシステム構成では、約2.8ギガバイトのパーティションが必要です。これは全てのソースtarballを格納し、コンパイルを行うのに十分な容量です。
+  しかしながら、もしLFSシステムをメインで使用するLinuxシステムにするならば、おそらく追加のソフトウェアがインストールされ、追加のディスクスペースが必要になります。10GBのパーティションであれば、追加に対応するための妥当なサイズと言えます。LFSシステム自体は、このような大きな領域を占めることはありません。
   このディスクスペースの要求の大部分は、十分な量の一時的なディスク領域として使用されます。
   パッケージをコンパイルすることは、たくさんのディスクスペースが必要となります。そのディスクスペースはパッケージがインストールされれば再利用されます。
 </para>
