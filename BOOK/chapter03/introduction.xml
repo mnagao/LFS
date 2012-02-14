@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9408 -->
+<!-- revision 9624 -->
 
 <sect1 id="materials-introduction">
   <?dbhtml filename="introduction.html"?>
@@ -32,7 +32,7 @@
   url="http://www.google.com/"/>) provides a useful search engine for
   most packages. If this search is unsuccessful, try one of the
   alternative means of downloading discussed at <ulink
-  url="&lfs-root;lfs/packages.html#packages"/>.</para>
+  url="&lfs-root;lfs/packages.html#packages"/>. </para>
 
   <para>もしかするとダウンロードのロケーションは、アクセスが出来なくなっているかもしれません。
   本書がリリースされた後にダウンロードのロケーションが変わった場合は、Google (<ulink url="http://www.google.com/"/>)がパッケージのロケーションを探すためのサーチエンジンとして役立つでしょう。
@@ -81,5 +81,17 @@
   <ulink url="../wget-list">wget-list</ulink> as an input to 
   <command>wget</command>. For example:</para>
   <para>全てのパッケージとパッチをダウンロードする簡単な方法は、<ulink url="../wget-list">wget-list</ulink>を<command>wget</command>コマンドの入力として使うことです。例：</para>
-  <screen role="nodump"><userinput>wget -i wget-list -P $LFS/sources</userinput></screen>
+<screen role="nodump"><userinput>wget -i wget-list -P $LFS/sources</userinput></screen>
+
+  <para>Additionally, starting with LFS-7.0, there is a separate file,  
+  <ulink url="../md5sums">md5sums</ulink>, can be used to verify that all 
+  the correct packages are available before proceeding.  Place that file in  
+  <filename class="directory">$LFS/sources</filename> and run:</para> 
+  <para>加えてLFS-7.0では、ソースとは別に<ulink url="../md5sums">md5sums</ulink>ファイルがあります。作業を続ける前に、このファイルを使って全てのパッケージが壊れていないか確認することができます。
+  このmd5sumsファイル<filename class="directory">$LFS/sources</filename>に置いて、次を実行してください：</para>
+ 
+<screen role="nodump"><userinput>pushd  $LFS/sources 
+md5sum -c md5sums 
+popd</userinput></screen>
+
 </sect1>
