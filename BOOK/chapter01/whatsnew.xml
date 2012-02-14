@@ -1,23 +1,31 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
 
+<!-- revision 9630 -->
+
 <sect1 id="ch-intro-whatsnew">
   <?dbhtml filename="whatsnew.html"?>
 
-  <title>What's new since the last release</title>
+  <!--<title>What's new since the last release</title>-->
+  <title>前回リリースからの変更点</title>
 
   <para>Below is a list of package updates made since the previous
   release of the book.</para>
+  <para>以下は、前回のリリースから更新が行われたパッケージの一覧です。</para>
 
   <note><para>A somewhat major change was made in this version of the book by adding
   a new top level directory, /run.  This directory has a tmpfs mounted and is
   used by programs like udev to store run time information.  The directories
   /var/run and /var/lock are also linked to this directory.   The bootscripts
-  have been updated to accomodate this change.</para></note>
+  have been updated to accomodate this change.</para>
+  <para>LFSのこのバージョンで、比較的大きな変更として、/run がトップレベルのディレクトリに追加されました。
+  このディレクトリにtmpfsがマウントされ、udevのようなプログラムがランタイム情報を保存するために使用されます。
+  /var/run と /var/lock がこのディレクトリにリンクされます。これら変更点のため、ブートスクリプトが改訂されました。</para>
+  </note>
 
   <!--
     Every package in the book is listed in the "Upgraded to:" section.
