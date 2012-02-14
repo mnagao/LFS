@@ -140,6 +140,11 @@
           released. An alternative download location that may have the correct
           version available can also be found at: <ulink
           url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/>.</para>
+          <para>File (&file-version;) は、上記リストのロケーションにもはや存在しないかもしれません。
+          新しいバージョンがリリースされた際、たまに古いバージョンが削除されることがあります。
+          使用すべきバージョンが公開されている別のダウンロードロケーションは、<ulink
+          url="http://www.linuxfromscratch.org/lfs/download.html#ftp"/> で見つけることが出来ます。
+          </para>
         </note>
       </listitem>
     </varlistentry>
@@ -336,13 +341,17 @@
           discoveries of security vulnerabilities.  The latest available
           &linux-major-version;.&linux-minor-version;.x kernel version should be
           used, unless the errata page says otherwise.</para>
+          <para>Linuxカーネルは、セキュリティの脆弱性発見により、比較的頻繁に更新されます。
+          Errataページにて修正がないのであれば、&linux-major-version;.&linux-minor-version;.xの最新版を使用すべきです。
+          </para>
 
           <para>For users with limited speed or expensive bandwidth who wish to
           update the Linux kernel, a baseline version of the package and
           patches can be downloaded separately.  This may save some time or
           cost for a subsequent patch level upgrade within a minor release.
           </para>
-
+         <para>ネットワーク速度が限られているユーザ、または高価なネットワークを利用しているユーザが、Linuxカーネルをアップデートしたい場合は、ベースとなるカーネルソースとパッチは別々にダウンロードすることが出来ます。
+          これによって、マイナーリリースのパッチレベルのアップデートにかかる時間とコストを節約できます。</para>
         </note>
       </listitem>
     </varlistentry>
