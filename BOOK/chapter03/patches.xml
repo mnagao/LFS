@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9463 -->
+
+<!-- revision 9630 -->
 
 <sect1 id="materials-patches">
   <?dbhtml filename="patches.html"?>
@@ -24,6 +25,14 @@
   </para>
 
   <variablelist role="materials">
+
+    <varlistentry>
+      <term>Bash Upstream Fixes Patch - <token>&bash-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&bash-fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&bash-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
 
     <varlistentry>
       <term>Bzip2 Documentation Patch - <token>&bzip2-docs-patch-size;</token>:</term>
@@ -50,18 +59,18 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Dejagnu Consolidated Patch - <token>&dejagnu-consolidated-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&dejagnu-consolidated-patch;"/></para>
-        <para>MD5 sum: <literal>&dejagnu-consolidated-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term>Flex GCC-4.4.x Patch - <token>&flex-gcc-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&flex-gcc-patch;"/></para>
         <para>MD5 sum: <literal>&flex-gcc-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GCC Cross Compile Patch - <token>&gcc-crosscompile-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&gcc-crosscompile-patch;"/></para>
+        <para>MD5 sum: <literal>&gcc-crosscompile-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -74,10 +83,34 @@
     </varlistentry>
 
     <varlistentry>
+      <term>Glibc Bug Fixes Patch - <token>&glibc-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&glibc-fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&glibc-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Glibc GCC Build Fix Patch - <token>&glibc-gcc_fix-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&glibc-gcc_fix-patch;"/></para>
         <para>MD5 sum: <literal>&glibc-gcc_fix-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Glibc GCC CPUID Patch - <token>&glibc-cpuid-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&glibc-cpuid-patch;"/></para>
+        <para>MD5 sum: <literal>&glibc-cpuid-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GCC Locale Patch - <token>&gcc-locale-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&gcc-locale-patch;"/></para>
+        <para>MD5 sum: <literal>&gcc-locale-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -103,6 +136,14 @@
       <listitem>
         <para>Download: <ulink url="&patches-root;&kbd-backspace-patch;"/></para>
         <para>MD5 sum: <literal>&kbd-backspace-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Module Init Tools - <token>&module-init-tools-man-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&module-init-tools-man-patch;"/></para>
+        <para>MD5 sum: <literal>&module-init-tools-man-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -139,6 +180,14 @@
       </listitem>
     </varlistentry>
 
+    <varlistentry>
+      <term>Readline Upstream Fixes Patch - <token>&readline-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&readline-fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&readline-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
     <!-- <varlistentry>
       <term>Shadow Useradd Patch - <token>&shadow-useradd-patch-size;</token>:</term>
       <listitem>
@@ -166,11 +215,9 @@
   default. Feel free to peruse the patches database located at
   <ulink url="&lfs-root;patches/downloads/"/> and acquire any additional
   patches to suit your system needs.</para>
- <para>上に挙げた必要なパッチに加え、LFSコミュニティによって作成されたオプション的なたくさんのパッチが存在します
+  <para>上に挙げた必要なパッチに加え、LFSコミュニティによって作成されたオプション的なたくさんのパッチが存在します
 。
   それらパッチは、軽微な不具合の修正もしくはデフォルトで無効となっている機能を有効にします。
-  <ulink url="&lfs-root;patches/downloads/"/> に存在するパッチのデータベースを調べ、構築するLFSシステムの要件に>合わせて追加のパ
-ッチを入手してください。
+  <ulink url="&lfs-root;patches/downloads/"/> に存在するパッチのデータベースを調べ、構築するLFSシステムの要件に合わせて追加のパッチを入手してください。
   </para>
-
 </sect1>

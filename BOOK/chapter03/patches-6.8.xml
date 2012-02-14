@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9367 -->
+<!-- revision 9463 -->
 
 <sect1 id="materials-patches">
   <?dbhtml filename="patches.html"?>
@@ -26,26 +26,10 @@
   <variablelist role="materials">
 
     <varlistentry>
-      <term>Bash Upstream Fixes Patch - <token>&bash-fixes-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&bash-fixes-patch;"/></para>
-        <para>MD5 sum: <literal>&bash-fixes-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term>Bzip2 Documentation Patch - <token>&bzip2-docs-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&bzip2-docs-patch;"/></para>
         <para>MD5 sum: <literal>&bzip2-docs-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Bzip2 Version Fixes Patch - <token>&bzip2-version-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&bzip2-version-patch;"/></para>
-        <para>MD5 sum: <literal>&bzip2-version-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -74,14 +58,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Expect Tk Configure Patch - <token>&expect-tk-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&expect-tk-patch;"/></para>
-        <para>MD5 sum: <literal>&expect-tk-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term>Flex GCC-4.4.x Patch - <token>&flex-gcc-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&flex-gcc-patch;"/></para>
@@ -102,14 +78,6 @@
       <listitem>
         <para>Download: <ulink url="&patches-root;&glibc-gcc_fix-patch;"/></para>
         <para>MD5 sum: <literal>&glibc-gcc_fix-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Glibc Makefile Fix Patch - <token>&glibc-makefile_fix-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-makefile_fix-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-makefile_fix-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -137,22 +105,6 @@
         <para>MD5 sum: <literal>&kbd-backspace-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
-<!--
-    <varlistentry>
-      <term>Linux Memory Model Locking Patch - <token>&linux-mm_locking-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&linux-mm_locking-patch;"/></para>
-        <para>MD5 sum: <literal>&linux-mm_locking-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
--->
-    <varlistentry>
-      <term>Man-DB Upstream Fix Assertion Patch - <token>&man-db-upstream_fixes-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&man-db-upstream_fixes-patch;"/></para>
-        <para>MD5 sum: <literal>&man-db-upstream_fixes-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
 
     <varlistentry>
       <term>Patch Testsuite Fix Patch - <token>&patch-test-patch-size;</token>:</term>
@@ -162,14 +114,6 @@
       </listitem>
     </varlistentry>
 
-    <!-- <varlistentry>
-      <term>Perl Libc Patch - <token>&perl-libc-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&perl-libc-patch;"/></para>
-        <para>MD5 sum: <literal>&perl-libc-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry> -->
-
     <varlistentry>
       <term>Perl Libc Patch - <token>&perl-libc-patch-size;</token>:</term>
       <listitem>
@@ -178,20 +122,20 @@
       </listitem>
     </varlistentry>
 
+
+    <varlistentry>
+      <term>Procps HZ Errors Patch - <token>&procps-hz_fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&procps-hz_fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&procps-hz_fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
 
     <varlistentry>
       <term>Procps Watch Patch - <token>&procps-watch-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&procps-watch-patch;"/></para>
         <para>MD5 sum: <literal>&procps-watch-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Tar Overflow Patch - <token>&tar-overflow-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&tar-overflow-patch;"/></para>
-        <para>MD5 sum: <literal>&tar-overflow-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -214,6 +158,7 @@
   </variablelist>
 
   <para>Total size of these patches: about <returnvalue/></para>
+  <para>これらパッチの合計サイズ： 約 <returnvalue/></para>
 
   <para>In addition to the above required patches, there exist a number of
   optional patches created by the LFS community. These optional patches
@@ -221,9 +166,11 @@
   default. Feel free to peruse the patches database located at
   <ulink url="&lfs-root;patches/downloads/"/> and acquire any additional
   patches to suit your system needs.</para>
- <para>上に挙げた必要なパッチに加え、LFSコミュニティによって作成されたオプション的なたくさんのパッチが存在します。
+ <para>上に挙げた必要なパッチに加え、LFSコミュニティによって作成されたオプション的なたくさんのパッチが存在します
+。
   それらパッチは、軽微な不具合の修正もしくはデフォルトで無効となっている機能を有効にします。
-  <ulink url="&lfs-root;patches/downloads/"/> に存在するパッチのデータベースを調べ、構築するLFSシステムの要件に合わせて追加のパ
+  <ulink url="&lfs-root;patches/downloads/"/> に存在するパッチのデータベースを調べ、構築するLFSシステムの要件に>合わせて追加のパ
 ッチを入手してください。
   </para>
+
 </sect1>
