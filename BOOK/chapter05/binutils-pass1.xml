@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9379 -->
+<!-- revision 9592 -->
 
 <sect1 id="ch-tools-binutils-pass1" role="wrap">
   <?dbhtml filename="binutils-pass1.html"?>
@@ -89,7 +89,8 @@ cd ../binutils-build</userinput></screen>
     <para>Now prepare Binutils for compilation:</para>
     <para>さて、Binutilsをコンパイルする準備を行いましょう：</para>
 
-<screen><userinput remap="configure">../binutils-&binutils-version;/configure \
+<!--<screen><userinput remap="configure">../binutils-&binutils-version;/configure \-->
+<screen><userinput remap="configure">../binutils-&binutils-dir;/configure \
     --target=$LFS_TGT --prefix=/tools \
     --disable-nls --disable-werror</userinput></screen>
 
