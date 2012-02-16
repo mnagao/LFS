@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
+
+<!-- revision 9626 -->
 
 <sect1 id="ch-tools-check" role="wrap">
   <?dbhtml filename="check.html"?>
@@ -24,6 +26,7 @@
     <title/>
 
     <para>Check is a unit testing framework for C.</para>
+    <para>CheckはC言語用のユニットテストフレームワークです。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
@@ -38,26 +41,32 @@
   </sect2>
 
   <sect2 role="installation">
-    <title>Installation of Check</title>
+    <!--<title>Installation of Check</title>-->
+    <title>Checkのインストール</title>
 
     <para>Prepare Check for compilation:</para>
+    <para>Checkをコンパイルする準備：</para>
 
 <screen><userinput remap="configure">./configure --prefix=/tools</userinput></screen>
 
     <para>Build the package:</para>
+    <para>パッケージのビルド：</para>
 
 <screen><userinput remap="make">make</userinput></screen>
 
     <para>Compilation is now complete. As discussed earlier, running the test
     suite is not mandatory for the temporary tools here in this chapter. To run
     the Check test suite anyway, issue the following command:</para>
+    <para>これでコンパイルが完了です。 前にも述べましたが、テンポラリツールのためにテストツールを実行することは必須ではありません。 どうしてもCheckのテストツールを実行するのであれば、次のコマンドを実行してください：</para>
 
 <screen><userinput remap="test">make check</userinput></screen>
 
     <para>Note that the Check test suite may take a relatively long 
     (up to 4 SBU) time.</para>
+    <para>Checkのテストツールの実行には、比較的長い時間(最大 4 SBU)がかかります。</para>
 
     <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
 
 <screen><userinput remap="install">make install</userinput></screen>
 
@@ -67,7 +76,8 @@
     <title>Contents of Check</title>
 
     <segmentedlist>
-      <segtitle>Installed library</segtitle>
+      <!--<segtitle>Installed library</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
 
       <seglistitem>
         <seg>libcheck.{a,so}</seg>
@@ -75,7 +85,8 @@
     </segmentedlist>
 
     <variablelist>
-      <bridgehead renderas="sect3">Short Descriptions</bridgehead>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">説明</bridgehead>
       <?dbfo list-presentation="list"?>
       <?dbhtml list-presentation="table"?>
 
@@ -84,6 +95,7 @@
         <listitem>
           <para>Contains functions that allow Check to be called from a test
           program</para>
+          <para>テスト対象のプログラムからCheckが呼び出されることを可能にするファンクションを含んでいます。</para>
           <indexterm zone="ch-tools-check libcheck">
             <primary sortas="c-libcheck">libcheck</primary>
           </indexterm>
