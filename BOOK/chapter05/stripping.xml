@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9063 -->
+<!-- revision 9636 -->
 
 <sect1 id="ch-tools-stripping">
   <?dbhtml filename="stripping.html"?>
@@ -37,10 +37,10 @@ strip --strip-unneeded /tools/{,s}bin/*</userinput></screen>
   もしそれを指定すると、静的ライブラリが破壊され、toolchainを全て再ビルドする必要があります。
   </para>
 
-  <para>To save nearly 25 MB more, remove the documentation:</para>
-  <para>さらに25MBほどディスクを空けるためには、ドキュメントを削除します：</para>
+  <para>To save more, remove the documentation:</para>
+  <para>さらにディスクを節約するには、ドキュメントを削除します：</para>
 
-<screen><userinput>rm -rf /tools/{,share}/{info,man}</userinput></screen>
+<screen><userinput>rm -rf /tools/{,share}/{info,man,doc}</userinput></screen>
 
   <para>At this point, you should have at least 850 MB of free space in
   <envar>$LFS</envar> that can be used to build and install Glibc in the
