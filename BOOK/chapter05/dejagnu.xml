@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9304 -->
+<!-- revision 9489 -->
 
 <sect1 id="ch-tools-dejagnu" role="wrap">
   <?dbhtml filename="dejagnu.html"?>
@@ -45,12 +45,6 @@
   <sect2 role="installation">
     <!--<title>Installation of DejaGNU</title>-->
     <title>DejeGNUのインストール</title>
-
-    <para>The most recent version of this package was released in 2004.  Apply 
-    some fixes that have accumulated since then:</para>
-    <para>このパッケージの最新版のリリースは2004年ですので、それ以降に蓄積されたいくつかのパッチを適用します：</para> 
-
-<screen><userinput remap="pre">patch -Np1 -i ../&dejagnu-consolidated-patch;</userinput></screen>
 
     <para>Prepare DejaGNU for compilation:</para>
     <para>DejeGNUをコンパイルするための準備は次のとおりです：</para>
