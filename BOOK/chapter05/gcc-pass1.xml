@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9630 -->
+<!-- revision 9645 -->
 
 <sect1 id="ch-tools-gcc-pass1" role="wrap">
   <?dbhtml filename="gcc-pass1.html"?>
@@ -87,8 +87,8 @@ cd ../gcc-build</userinput></screen>
     --disable-libgomp --disable-libquadmath \
     --disable-target-libiberty --disable-target-zlib \
     --enable-languages=c --without-ppl --without-cloog \
-    --with-mpfr-include=$LFS/sources/gcc-&gcc-version;/mpfr/src \
-    --with-mpfr-lib=$LFS/sources/gcc-build/mpfr/src/.libs</userinput></screen>
+    --with-mpfr-include=$(pwd)/../gcc-&gcc-version;/mpfr/src \
+    --with-mpfr-lib=$(pwd)/mpfr/src/.libs</userinput></screen>
 
     <variablelist>
       <title>configureオプションの意味：</title>
