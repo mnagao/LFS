@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9427 -->
+<!-- revision 9568 -->
 
 <sect1 id="ch-tools-glibc" role="wrap">
   <?dbhtml filename="glibc.html"?>
@@ -48,6 +48,12 @@
     <para>GlibcがGCC-&gcc-version;を使ってビルド出来ないバグを修正します：</para>
 
 <screen><userinput remap="pre">patch -Np1 -i ../&glibc-gcc_fix-patch;</userinput></screen>
+
+    <para>Also address a header check that fails due to an incomplete build  
+    environment at this point:</para>
+    <para>この時点では不完全なビルド環境であるため、処理に失敗するヘッダーチェックを修正します。</para> 
+
+    <screen><userinput remap="pre">patch -Np1 -i ../&glibc-cpuid-patch;</userinput></screen>
 
     <para>The Glibc documentation recommends building Glibc outside of the source
     directory in a dedicated build directory:</para>
