@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9373 -->
+<!-- revision 9645 -->
 
 <sect1 id="ch-tools-gcc-pass2" role="wrap">
   <?dbhtml filename="gcc-pass2.html"?>
@@ -196,8 +196,9 @@ cd ../gcc-build</userinput></screen>
     --enable-__cxa_atexit --enable-languages=c,c++ \
     --disable-libstdcxx-pch --disable-multilib \
     --disable-bootstrap --disable-libgomp \
-    --with-gmp-include=$(pwd)/gmp --with-gmp-lib=$(pwd)/gmp/.libs \
-    --without-ppl --without-cloog</userinput></screen>
+    --without-ppl --without-cloog \
+    --with-mpfr-include=$(pwd)/../gcc-&gcc-version;/mpfr/src \
+    --with-mpfr-lib=$(pwd)/mpfr/src/.libs</userinput></screen>
 
     <variablelist>
       <title>configureオプションの意味：</title>
