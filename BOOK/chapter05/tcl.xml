@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9074 -->
+<!-- revision 9626 -->
 
 <sect1 id="ch-tools-tcl" role="wrap">
   <?dbhtml filename="tcl.html"?>
@@ -43,16 +43,16 @@
     <!--<title>Installation of Tcl</title>-->
     <title>Tclのインストール</title>
 
-    <para>This package and the next two (Expect and DejaGNU) are installed
-    to support running the test suites for GCC and Binutils. Installing
-    three packages for testing purposes may seem excessive, but it is very
-    reassuring, if not essential, to know that the most important tools are
-    working properly. Even if the test suites are not run in this chapter
-    (they are not mandatory), these packages are required to run the test
-    suites in <xref linkend="chapter-building-system"/>.</para>
+    <para>This package and the next three (Expect, DejaGNU, and Check) are
+    installed to support running the test suites for GCC and Binutils and other
+    packages.  Installing four packages for testing purposes may seem
+    excessive, but it is very reassuring, if not essential, to know that the
+    most important tools are working properly. Even if the test suites are not
+    run in this chapter (they are not mandatory), these packages are required
+    to run the test suites in <xref linkend="chapter-building-system"/>.</para>
 
-    <para>このパッケージと次の2つ(ExpectとDejaGNU)は、GCCとBinutilsのテストツール実行をサポートするためにインストールします。
-    テスト目的に3つのパッケージをインストールすることは過剰に思えるかもしれません。しかし、必須ではないにしろ、最も重要なツールが正しく動くことを確認することは、とても安心を与えるものです。
+    <para>このパッケージと次の3つ(Expect, DejaGNU, Check)は、GCC/Binutils/その他パッケージのテストツール実行をサポートするためにインストールします。
+    テスト目的に4つのパッケージをインストールすることは過剰に思えるかもしれません。しかし、必須ではないにしろ、最も重要なツールが正しく動くことを確認することは、とても安心を与えるものです。
     たとえ本章でテストツールを実行しないとしても(本章でテストは必須ではありません)、<xref linkend="chapter-building-system"/>でそれらパッケージが必要になります。
     </para>
 
