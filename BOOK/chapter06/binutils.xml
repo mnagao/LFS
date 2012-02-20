@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9521 -->
+<!-- revision 9592 -->
 
 <sect1 id="ch-system-binutils" role="wrap">
   <?dbhtml filename="binutils.html"?>
@@ -92,7 +92,8 @@ cd ../binutils-build</userinput></screen>
 
     <para>Binutilsをコンパイルするための準備：</para>
 
-<screen><userinput remap="configure">../binutils-&binutils-version;/configure --prefix=/usr \
+<!--<screen><userinput remap="configure">../binutils-&binutils-version;/configure - -prefix=/usr \ -->
+<screen><userinput remap="configure">../binutils-&binutils-dir;/configure --prefix=/usr \
     --enable-shared</userinput></screen>
 
     <para>Compile the package:</para>
@@ -141,7 +142,7 @@ cd ../binutils-build</userinput></screen>
     <para>Test the results:</para>
     <para>テストの実施：</para>
 
-<screen><userinput remap="test">make -j check || true</userinput></screen>
+<screen><userinput remap="test">make -k check</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
