@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9449 -->
+<!-- revision 9505 -->
 
 <sect1 id="ch-system-coreutils" role="wrap">
   <?dbhtml filename="coreutils.html"?>
