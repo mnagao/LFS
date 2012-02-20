@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9463 -->
+<!-- revision 9486 -->
 
 <sect1 id="ch-system-bash" role="wrap">
   <?dbhtml filename="bash.html"?>
@@ -42,6 +42,12 @@
   <sect2 role="installation">
     <!--<title>Installation of Bash</title>-->
     <title>Bashのインストール</title>
+
+    <para>First, apply the following patch to fix various bugs that have been 
+    addressed upstream:</para>
+    <para>まず最初に、アップストリームで対応された様々なバグを修正するため、次のとおりパッチを適用します：</para> 
+
+<screen><userinput remap="pre">patch -Np1 -i ../&bash-fixes-patch;</userinput></screen>
 
     <para>Prepare Bash for compilation:</para>
     <para>Bashをコンパイルする準備：</para>
