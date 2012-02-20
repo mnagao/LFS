@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9510 -->
+<!-- revision 9575 -->
 
 <sect1 id="ch-system-creatingdirs">
   <?dbhtml filename="creatingdirs.html"?>
@@ -19,7 +19,7 @@
   次のコマンドを実行して、標準的なディレクトリツリーを作ります：
   </para>
 
-<screen><userinput>mkdir -pv /{bin,boot,etc/opt,home,lib,mnt,opt,run}
+<screen><userinput>mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib,mnt,opt,run}
 mkdir -pv /{media/{floppy,cdrom},sbin,srv,var}
 install -dv -m 0750 /root
 install -dv -m 1777 /tmp /var/tmp
