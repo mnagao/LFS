@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9493 -->
 
 <sect1 id="ch-system-binutils" role="wrap">
   <?dbhtml filename="binutils.html"?>
@@ -135,7 +135,7 @@ cd ../binutils-build</userinput></screen>
     <para>Test the results:</para>
     <para>テストの実施：</para>
 
-<screen><userinput remap="test">make check</userinput></screen>
+<screen><userinput remap="test">make -j check || true</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
