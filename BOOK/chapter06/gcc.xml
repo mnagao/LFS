@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9406 -->
+<!-- revision 9626 -->
 
 <sect1 id="ch-system-gcc" role="wrap">
   <?dbhtml filename="gcc.html"?>
@@ -77,6 +77,12 @@ esac</userinput></screen>
     この時点でヘッダーファイルは修正が必要ないことが分かっているので、<command>fixincludes</command>スクリプトが実行されないように、次のコマンドを実行します：</para>
 
 <screen><userinput remap="pre">sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in</userinput></screen>
+
+    <para>Finally, apply a patch that corrects the test code for locale changes 
+    that were made in glibc-2.14 and later.</para>
+    <para>最後に、glibc-2.14以降に実施されたロケールの変更のためのテストコードを修正するパッチを適用します。</para>
+ 
+<screen><userinput remap="pre">patch -Np1 -i ../gcc-4.6.1-locale-1.patch</userinput></screen>
 
     <para>The GCC documentation recommends building GCC outside of the source
     directory in a dedicated build directory:</para>
