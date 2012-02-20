@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9496 -->
+<!-- revision 9586 -->
 
 <sect1 id="ch-system-glibc" role="wrap">
   <?dbhtml filename="glibc.html"?>
@@ -131,6 +131,11 @@ unset DL</userinput></screen>
     </para>
 
 <screen><userinput remap="pre">sed -i 's|@BASH@|/bin/bash|' elf/ldd.bash.in</userinput></screen>
+
+    <para>Fix a couple of bugs in Glibc that can cause crashes and core dumps:</para>
+    <para>Glibcがクラッシュしコアダンプを吐くいくつかのバグを修正します：</para> 
+ 
+<screen><userinput remap="pre">patch -Np1 -i ../&glibc-fixes-patch;</userinput></screen>
 
     <para>Fix a bug that prevents Glibc from building with GCC-&gcc-version;:</para>
     <para>GCC-&gcc-version;でビルドができないバグを修正します：</para>
