@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+<!-- revision 9616 -->
 
 <sect1 id="ch-system-e2fsprogs" role="wrap">
   <?dbhtml filename="e2fsprogs.html"?>
@@ -61,13 +61,23 @@ cd build</userinput></screen>
     <para>Prepare E2fsprogs for compilation:</para>
     <para>E2fsprogsのコンパイル準備：</para>
 
-<screen><userinput remap="configure">../configure --prefix=/usr --with-root-prefix="" \
+<screen><userinput remap="configure">PKG_CONFIG=/tools/bin/true LDFLAGS=-lblkid \
+    ../configure --prefix=/usr --with-root-prefix="" \
     --enable-elf-shlibs --disable-libblkid --disable-libuuid \
     --disable-uuidd --disable-fsck</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
       <title>configureオプションの意味：</title>
+
+      <varlistentry> 
+        <term><parameter>PKG_CONFIG...</parameter></term> 
+        <listitem> 
+          <para>This enables E2fsprogs to be built without requiring Pkg-config
+          to be built and installed first.</para>
+          <para>先にPkg-configをビルド・インストールしなくても、E2fsprogsをビルド出来るようにします。</para>
+        </listitem> 
+      </varlistentry>
 
       <varlistentry>
         <term><parameter>--with-root-prefix=""</parameter></term>
