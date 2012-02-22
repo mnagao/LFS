@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9586 -->
+<!-- revision 9626 -->
 
 <sect1 id="ch-system-glibc" role="wrap">
   <?dbhtml filename="glibc.html"?>
@@ -171,7 +171,7 @@ esac</userinput></screen>
 
 <screen><userinput remap="configure">../glibc-&glibc-version;/configure --prefix=/usr \
     --disable-profile --enable-add-ons \
-    --enable-kernel=2.6.22.5 --libexecdir=/usr/lib/glibc</userinput></screen>
+    --enable-kernel=2.6.25 --libexecdir=/usr/lib/glibc</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the new configure options:</title>-->
@@ -269,6 +269,11 @@ grep Error glibc-check-log</userinput></screen>
         環境変数TIMEOUTFACTORをセットすることで、それらエラーが取り除かれることが報告されています。
         (例： <command>TIMEOUTFACTOR=16 make -k check</command>)
         </para>
+      </listitem>
+      <listitem> 
+        <para>Other tests known to fail on some architectures are posix/bug-regex32,  
+        misc/tst-writev, elf/check-textrel, nptl/tst-getpid2, and stdio-common/bug22.</para>
+        <para>いくつかのアーキテクチャにおいて、テストに失敗する他のテストは、posix/bug-regex32,               misc/tst-writev, elf/check-textrel, nptl/tst-getpid2, stdio-common/bug22 です。</para>
       </listitem>
     </itemizedlist>
 
