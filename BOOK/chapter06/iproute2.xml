@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9379 -->
+<!-- revision 9639 -->
 
 <sect1 id="ch-system-iproute2" role="wrap">
   <?dbhtml filename="iproute2.html"?>
@@ -55,13 +55,7 @@
     <command>arpd</command>はベースとなるLinuxシステム上で、必要性が高いとは言えないため、以下の<command>sed</command>コマンドを適用し、Berkeley DBへの依存を取り除きます。
     もし<command>arpd</command>バイナリが必要であれば、Berkeley DBをコンパイルする手順が<ulink url="&blfs-root;view/svn/server/databases.html#db"/>のBLFSブックにあります。</para>
 
-<screen><userinput>sed -i '/^TARGETS/s@arpd@@g' misc/Makefile</userinput></screen>
-
-    <para>Fix a bug that causes the <command>ip route get</command> command to 
-    not produce any output:</para> 
-    <para>コマンド<command>ip route get</command>が何も結果を表示しないバグを修正します：</para>
- 
-<screen><userinput remap="pre">sed -i '1289i\\tfilter.cloned = 2;' ip/iproute.c</userinput></screen>
+<screen><userinput remap="pre">sed -i '/^TARGETS/s@arpd@@g' misc/Makefile</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
