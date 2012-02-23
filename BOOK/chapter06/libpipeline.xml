@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
+<!-- revision 9626 -->
 
 <sect1 id="ch-system-libpipeline" role="wrap">
   <?dbhtml filename="libpipeline.html"?>
@@ -25,6 +26,7 @@
 
     <para>The Libpipeline package contains a library for manipulating pipelines
     of subprocesses in a flexible and convenient way.</para>
+    <para>Libpipelineパッケージは、サブプロセスのパイプラインを操作するための、柔軟性がある使いやすいライブラリを含んでいます。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
@@ -39,45 +41,54 @@
   </sect2>
 
   <sect2 role="installation">
-    <title>Installation of Libpipeline</title>
+    <!--<title>Installation of Libpipeline</title>-->
+    <title>Libpipelineのインストール</title>
 
     <para>Prepare Libpipeline for compilation:</para>
+    <para>Libpipelineをコンパイルする準備：</para>
 
 <screen><userinput remap="configure">./configure CHECK_CFLAGS=-I/tools/include \
     CHECK_LIBS="-L/tools/lib -lcheck" --prefix=/usr</userinput></screen>
 
     <variablelist>
-      <title>The meaning of the configure options:</title>
+      <!--<title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
 
       <varlistentry>
         <term><parameter>CHECK_CFLAGS=, CHECK_LIBS=</parameter></term>
         <listitem>
           <para>These environment variables specify the location of the test
           library built in <xref linkend="ch-tools-check"/>.</para>
+          <para>これら環境変数に、<xref linkend="ch-tools-check"/>でビルドしたテストライブラリの位置をセットします。</para>
         </listitem>
       </varlistentry>
 
     </variablelist>
 
     <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
 
 <screen><userinput remap="make">make</userinput></screen>
 
     <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するためには、次を実行します：</para>
 
 <screen><userinput remap="test">make check</userinput></screen>
 
     <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
 
 <screen><userinput remap="install">make install</userinput></screen>
 
   </sect2>
 
   <sect2 id="contents-libpipeline" role="content">
-    <title>Contents of Libpipeline</title>
+    <!--<title>Contents of Libpipeline</title>-->
+    <title>Libpipelineの内容</title>
 
     <segmentedlist>
-      <segtitle>Installed libraries</segtitle>
+      <!--<segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるライブラリ</segtitle>
 
       <seglistitem>
         <seg>libpipeline.so</seg>
@@ -85,7 +96,9 @@
     </segmentedlist>
 
     <variablelist>
-      <bridgehead renderas="sect3">Short Descriptions</bridgehead>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+
       <?dbfo list-presentation="list"?>
       <?dbhtml list-presentation="table"?>
 
@@ -94,6 +107,7 @@
         <listitem>
           <para>This library is used to safely construct pipelines between
           subprocesses</para>
+          <para>サブプロセス間のパイプラインを安全に構築するためのライブラリです。</para>
           <indexterm zone="ch-system-libpipeline">
             <primary sortas="c-libpipeline">libpipeline</primary>
           </indexterm>
