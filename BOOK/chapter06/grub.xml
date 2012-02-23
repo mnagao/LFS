@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9471 -->
+<!-- revision 9563 -->
 
 <sect1 id="ch-system-grub" role="wrap">
   <?dbhtml filename="grub.html"?>
@@ -47,10 +47,11 @@
     <para>GRUBをコンパイルする準備：</para>
 
 <screen><userinput remap="configure">./configure --prefix=/usr           \
-             --sysconfdir=/etc       \
-             --disable-grub-emu-usb  \
-             --disable-grub-fstest   \
-             --disable-efiemu</userinput></screen>
+             --sysconfdir=/etc      \
+             --disable-grub-emu-usb \
+             --disable-efiemu       \
+             --disable-werror</userinput></screen>
+
 
     <para>The --disable switches minimize what is built by disabling features
     and testing programs not really needed for LFS.</para>
