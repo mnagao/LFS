@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9237 -->
+<!-- revision 9639 -->
 
 <sect1 id="ch-system-grep" role="wrap">
   <?dbhtml filename="grep.html"?>
@@ -43,11 +43,15 @@
     <!--<title>Installation of Grep</title>-->
     <title>Grepのインストール</title>
 
+    <para>First, fix a small problem with a test script:</para>
+    <para>最初に、テストスクリプトの小さい問題を修正します：</para> 
+
+<screen><userinput remap="pre">sed -i 's/cp/#&amp;/' tests/unibyte-bracket-expr</userinput></screen>
+
     <para>Prepare Grep for compilation:</para>
     <para>Grepをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr \
-    --bindir=/bin</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr --bindir=/bin</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
