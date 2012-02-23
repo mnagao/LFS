@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9638 -->
 
 <sect1 id="ch-system-linux-headers" role="wrap">
   <?dbhtml filename="linux-headers.html"?>
@@ -26,8 +26,9 @@
   <sect2 role="package">
     <title/>
 
-    <para>The Linux API Headers expose the kernel's API for use by Glibc.</para>
-    <para>Linux APIヘッダは、Glibcが使用するカーネルAPIを公開します。</para>
+    <para>The Linux API Headers (in linux-&linux-version;.tar.gz) expose the kernel's
+    API for use by Glibc.</para>
+    <para>(linux-&linux-version;.tar.gzの中の) Linux APIヘッダは、Glibcが使用するカーネルAPIを公開します。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
