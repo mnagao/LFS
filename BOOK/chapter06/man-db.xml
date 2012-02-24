@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9565 -->
+<!-- revision 9616 -->
 
 <sect1 id="ch-system-man-db" role="wrap">
   <?dbhtml filename="man-db.html"?>
@@ -47,7 +47,8 @@
     <para>Prepare Man-DB for compilation:</para>
     <para>Man-DBをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --libexecdir=/usr/lib \
+<screen><userinput remap="configure">libpipeline_CFLAGS='' libpipeline_LIBS='-lpipeline' \
+    ./configure --prefix=/usr --libexecdir=/usr/lib \
     --docdir=/usr/share/doc/man-db-&man-db-version; --sysconfdir=/etc \
     --disable-setuid --with-browser=/usr/bin/lynx \
     --with-vgrind=/usr/bin/vgrind --with-grap=/usr/bin/grap</userinput></screen>
