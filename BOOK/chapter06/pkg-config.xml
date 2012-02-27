@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9451 -->
+<!-- revision 9547 -->
 
 <sect1 id="ch-system-pkg-config" role="wrap">
   <?dbhtml filename="pkg-config.html"?>
@@ -56,10 +56,16 @@
     instructions</ulink>に沿ってインストールしてください。</para>
 </note>
 
+    <para>Fix a problem with one of Pkg-config's tests:</para>
+    <para>Pkg-configのテストの一つで生じる問題を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '21s/EXPECT_RETURN=1/EXPECT_RETURN=0/' check/check-cmd-options</userinput></screen>
+
     <para>Prepare Pkg-config for compilation:</para>
     <para>Pkg-configをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+<screen><userinput remap="configure">GLIB_LIBS="-L/usr/lib -lglib-2.0" \
+  GLIB_CFLAGS="-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include" ./configure --prefix=/usr</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
