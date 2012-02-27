@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9597 -->
 
 <sect1 id="ch-scripts-bootscripts" role="wrap">
   <?dbhtml filename="bootscripts.html"?>
@@ -55,7 +55,6 @@
   <sect2 id="contents-bootscripts" role="content">
     <!--<title>Contents of LFS-Bootscripts</title>-->
     <title>LFS-ブートスクリプトの内容</title>
-
     <segmentedlist>
       <!--<segtitle>Installed scripts</segtitle>-->
       <segtitle>インストールされるスクリプト</segtitle>
@@ -67,7 +66,8 @@
         ifup, localnet, modules, mountfs, mountkernfs, network, rc, reboot,
         sendsignals, setclock, static, swap, sysctl, sysklogd, template,
         udev, and udev_retry</seg>
-        <seg>/etc/rc.d, /etc/sysconfig</seg>
+        <seg>/etc/rc.d, /etc/init.d (symbolic link), /etc/sysconfig,
+        /lib/services, /lib/lsb (symbolic link)</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -158,8 +158,8 @@
       <varlistentry id="ifdown-bootscripts">
         <term><command>ifdown</command></term>
         <listitem>
-          <para>Assists the network script with stopping network devices</para>
-          <para>ネットワークデバイスを停止するスクリプトを支援します。</para>
+          <para>Stops a network device</para>
+          <para>ネットワークデバイスを停止します。</para>
           <indexterm zone="ch-scripts-bootscripts ifdown-bootscripts">
             <primary sortas="d-ifdown">ifdown</primary>
           </indexterm>
@@ -169,8 +169,8 @@
       <varlistentry id="ifup-bootscripts">
         <term><command>ifup</command></term>
         <listitem>
-          <para>Assists the network script with starting network devices</para>
-          <para>ネットワークデバイスを開始するスクリプトを支援します。</para>
+          <para>Initializes a network device</para>
+          <para>ネットワークデバイスを初期化します。</para>
           <indexterm zone="ch-scripts-bootscripts ifup-bootscripts">
             <primary sortas="d-ifup">ifup</primary>
           </indexterm>
@@ -363,9 +363,9 @@
         <term><command>udev_retry</command></term>
         <listitem>
           <para>Retries failed udev uevents, and copies generated rules
-          files from <filename class="directory">/dev/.udev</filename> to
+          files from to
           <filename class="directory">/etc/udev/rules.d</filename> if required</para>
-          <para>失敗したudevのueventをリトライします。そして必要に応じて、生成されたルールファイルを<filename class="directory">/dev/.udev</filename>から<filename class="directory">/etc/udev/rules.d</filename>にコピーします。</para>
+          <para>失敗したudevのueventをリトライします。そして必要に応じて、生成されたルールファイルを<filename class="directory">/etc/udev/rules.d</filename>にコピーします。</para>
           <indexterm zone="ch-scripts-bootscripts udev-retry-bootscripts">
             <primary sortas="d-udev-retry">udev_retry</primary>
           </indexterm>
