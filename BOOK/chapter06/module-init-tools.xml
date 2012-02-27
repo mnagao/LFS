@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9379 -->
+<!-- revision 9629 -->
 
 <sect1 id="ch-system-module-init-tools" role="wrap">
   <?dbhtml filename="module-init-tools.html"?>
@@ -44,11 +44,11 @@
     <!--<title>Installation of Module-Init-Tools</title>-->
     <title>Module-Init-Toolsのインストール</title>
 
-    <para>To avoid a problem with regenerating the man pages when not needed,
-    first rewrite a file that just points to another man page:</para>
-    <para>必要ない場合でもmanページが再生成される問題を避けるため、別のmanページを指し示すようにファイルを書き換えます：</para>
+    <para>Apply a patch that contains the generated man pages that were missing
+    from the released source tarball:</para>
+    <para>パッケージからなくなってしまったmanページを含むパッチを適用します：</para>
 
-<screen><userinput remap="pre">echo '.so man5/modprobe.conf.5' > modprobe.d.5</userinput></screen>
+<screen><userinput remap="pre">patch -Np1 -i ../&module-init-tools-man-patch;</userinput></screen>
 
     <para>The testsuite of this package is geared towards the needs of its
     Maintainer. The command <command>make check</command> builds a specially
@@ -60,15 +60,16 @@
     <command>make check</command>コマンドは、通常のオペレーションでは役に立たない特別なバージョンのmodprobeをビルドします。
     テスト(約 0.2 SBU)を実行するには、次のコマンドを実行してください(通常の使用のための再コンパイルの前に、<command>make clean</command>コマンドでソースツリーをクリーンアップすることに留意してください)。</para>
 
-<screen><userinput remap="test">./configure
+<screen><userinput remap="test">DOCBOOKTOMAN=/bin/true ./configure
 make check
+sed -i -e 's@../../configure@DOCBOOKTOMAN=/bin/true &amp;@' tests/runtests
 ./tests/runtests
 make clean</userinput></screen>
 
     <para>Prepare Module-Init-Tools for compilation:</para>
     <para>Module-Init-Toolsをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/ --enable-zlib-dynamic --mandir=/usr/share/man</userinput></screen>
+<screen><userinput remap="configure">DOCBOOKTOMAN=/bin/true ./configure --prefix=/ --enable-zlib-dynamic --mandir=/usr/share/man</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
