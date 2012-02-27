@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+<!-- revision 9594 -->
 
 <sect1 id="ch-system-util-linux" role="wrap">
   <?dbhtml filename="util-linux.html"?>
@@ -130,7 +130,7 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
         fsck.cramfs, fsck.minix, fsfreeze, fstrim, getopt, hexdump, hwclock, i386,
         ionice, ipcmk, ipcrm, ipcs, isosize, ldattach, line, linux32, linux64,
         logger, look, losetup, lsblk, lscpu, mcookie, mkfs, mkfs.bfs, mkfs.cramfs,
-        mkfs.minix, mkswap, more, mount, namei, partx, pg, pivot_root,
+        mkfs.minix, mkswap, more, mount, mountpoint, namei, partx, pg, pivot_root,
         readprofile, rename, renice, rev, rtcwake, script, scriptreplay,
         setarch, setsid, setterm, sfdisk, swaplabel, swapoff (link to swapon),
         swapon, switch_root, tailf, taskset, tunelp, ul, umount, unshare,
@@ -771,6 +771,17 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
             <primary sortas="b-mount">mount</primary>
           </indexterm>
         </listitem>
+      </varlistentry>
+
+      <varlistentry id="mountpoint"> 
+        <term><command>mountpoint</command></term> 
+        <listitem> 
+          <para>Checks if the directory is a mountpoint</para>
+          <para>ディレクトリがマウントポイントかどうかチェックします。</para> 
+          <indexterm zone="ch-system-util-linux mountpoint"> 
+            <primary sortas="b-mountpoint">mountpoint</primary> 
+          </indexterm> 
+        </listitem> 
       </varlistentry>
 
       <varlistentry id="namei">
