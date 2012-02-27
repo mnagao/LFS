@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9464 -->
+<!-- revision 9487 -->
 
 <sect1 id="ch-system-readline" role="wrap">
   <?dbhtml filename="readline.html"?>
@@ -56,6 +56,11 @@
 
 <screen><userinput remap="pre">sed -i '/MV.*old/d' Makefile.in
 sed -i '/{OLDSUFF}/c:' support/shlib-install</userinput></screen>
+
+    <para>Apply a patch to fix a known bug that has been fixed upstream:</para>
+    <para>アップストリームで修正されたバグを修正するため、パッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&readline-fixes-patch;</userinput></screen>
 
     <para>Prepare Readline for compilation:</para>
     <para>Readlineをコンパイルする準備：</para>
