@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9362 -->
+<!-- revision 9622 -->
 
 <sect1 id="ch-system-vim" role="wrap">
   <?dbhtml filename="vim.html"?>
@@ -92,11 +92,13 @@
 
     <para>However, this test suite outputs a lot of binary data to the screen, 
     which can cause issues with the settings of the current terminal. This can 
-    be resolved by redirecting the output to a log file.</para>
+    be resolved by redirecting the output to a log file.  A successful test
+    will result in the words "ALL DONE" at completion.</para>
 
     <para>しかしながら、このテストツールは大量のバイナリデータを画面に出力します。
     これにより、使用しているターミナルの設定に問題が生じるかもしれません。
-    この問題は、出力をログファイルにリダイレクトすることで解決できます。</para>
+    この問題は、出力をログファイルにリダイレクトすることで解決できます。
+    テストが成功で完了した際、"ALL DONE"が表示されます。</para>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
