@@ -5,6 +5,8 @@
   %general-entities;
 ]>
 
+<!-- revision 9574 -->
+
 <sect1 id="ch-scripts-hosts">
   <?dbhtml filename="hosts.html"?>
 
@@ -72,11 +74,11 @@ EOF</userinput></screen>
 
   <para>The <replaceable>&lt;192.168.1.1&gt;</replaceable> and
   <replaceable>&lt;HOSTNAME.example.org&gt;</replaceable>
-  values need to be changed for specific users or requirements (if
+  values need to be changed for specific uses or requirements (if
   assigned an IP address by a network/system administrator and the
   machine will be connected to an existing network). The optional alias
   name(s) can be omitted.</para>
-  <para><replaceable>&lt;192.168.1.1&gt;</replaceable>と<replaceable>&lt;HOSTNAME.example.org&gt;</replaceable>は、特定のユーザや要求によっては、変更する必要があります(IPアドレスがネットワーク/システム管理者によって割り当てられ、マシンが既存のネットワークに接続するのであれば)。
+  <para><replaceable>&lt;192.168.1.1&gt;</replaceable>と<replaceable>&lt;HOSTNAME.example.org&gt;</replaceable>は、特定の使用方法や要求によっては、変更する必要があります(IPアドレスがネットワーク/システム管理者によって割り当てられ、マシンが既存のネットワークに接続するのであれば)。
   オプションである別名は省略することが出来ます。</para>
 
   <para>If a network card is not going to be configured, create the
