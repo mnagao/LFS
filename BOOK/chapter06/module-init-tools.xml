@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9629 -->
+<!-- revision 9635 -->
 
 <sect1 id="ch-system-module-init-tools" role="wrap">
   <?dbhtml filename="module-init-tools.html"?>
@@ -69,7 +69,8 @@ make clean</userinput></screen>
     <para>Prepare Module-Init-Tools for compilation:</para>
     <para>Module-Init-Toolsをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">DOCBOOKTOMAN=/bin/true ./configure --prefix=/ --enable-zlib-dynamic --mandir=/usr/share/man</userinput></screen>
+<screen><userinput remap="configure">DOCBOOKTOMAN=/bin/true ./configure --prefix=/ \
+    --enable-zlib-dynamic --mandir=/usr/share/man</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
