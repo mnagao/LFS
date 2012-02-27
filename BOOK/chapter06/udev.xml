@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9442 -->
+<!-- revision 9616 -->
 
 <sect1 id="ch-system-udev" role="wrap">
   <?dbhtml filename="udev.html"?>
@@ -44,6 +44,12 @@
     <!--<title>Installation of Udev</title>-->
     <title>Udevのインストール</title>
 
+    <para>Optionally remove an unneeded warning message that shows up in this 
+    version of udev at boot time.</para>
+    <para>ブート時に出力される不要な警告メッセージを取り除きます：</para> 
+
+<screen><userinput remap="pre">sed -i -e '/deprecated/d' udev/udevadm-trigger.c</userinput></screen>
+
     <para>The udev-config tarball contains LFS-specific files used to configure
     Udev. Unpack it into the Udev source directory:</para>
     <para>udev-configのtarballに、Udevを設定するために使用されるLFS固有のファイルが含まれています。
@@ -63,7 +69,7 @@
     them being required very early in the boot process, or by Udev itself:</para>
     <para>Udevは、ブートプロセスの初期またはUdev自身が必要とするデバイスやディレクトリを取り扱えないため、ここでそれらを作成します：</para>
 
-<screen><userinput remap="install">install -dv /lib/{firmware,udev/devices/{pts,shm}}
+<screen><userinput remap="install">install -dv /lib/{firmware,udev/devices/pts}
 mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
 
     <para>Prepare the package for compilation:</para> 
@@ -73,7 +79,8 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
 <screen><userinput remap="configure">./configure --prefix=/usr \
     --sysconfdir=/etc --sbindir=/sbin \
     --with-rootlibdir=/lib --libexecdir=/lib/udev \
-    --disable-extras --disable-introspection</userinput></screen>
+    --disable-hwdb --disable-introspection \
+    --disable-keymap --disable-gudev</userinput></screen>
 
     <variablelist> 
       <!--<title>The meaning of the new configure options</title>--> 
@@ -108,9 +115,9 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
       </varlistentry> 
 
       <varlistentry> 
-        <term><parameter>--disable-extras</parameter></term> 
+        <term><parameter>--disable-*</parameter></term> 
         <listitem> 
-          <para>This option prevents Udev from installing helper programs and 
+          <para>These options prevent Udev from installing helper programs and 
           other extras which require more external libraries.  These libraries 
           are not part of the base LFS system.  See the Udev 
           <filename>README</filename> file for more information.</para>
@@ -118,17 +125,6 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
         </listitem> 
       </varlistentry>
 
-      <varlistentry> 
-        <term><parameter>--disable-introspection</parameter></term> 
-        <listitem> 
-          <para>This option prevents Udev's instrospection feature, which 
-          requires packages not installed as part of the base LFS system.  See 
-          the Udev <filename>README</filename> file for more information.</para>
-          <para>このオプションはUdevの内部機能を止めます。
-          この内部機能が必要とするパッケージは、ベースとなるLFSではインストールしません。
-          より追加の情報はUdevの<filename>README</filename>ファイルを参照してください。</para>
-        </listitem> 
-      </varlistentry> 
     </variablelist>
 
     <para>Compile the package:</para>
