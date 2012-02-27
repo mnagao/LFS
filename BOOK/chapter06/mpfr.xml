@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9331 -->
+<!-- revision 9630 -->
 
 <sect1 id="ch-system-mpfr" role="wrap">
   <?dbhtml filename="mpfr.html"?>
