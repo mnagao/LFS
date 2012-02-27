@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 7970 -->
+<!-- revision 9649 -->
 
 <sect1 id="ch-system-strippingagain">
   <?dbhtml filename="strippingagain.html"?>
@@ -60,15 +60,5 @@
   <para>大量のファイルが、ファイルフォーマットが認識できないと表示されるでしょう。
   それらワーニングは無視しても問題ありません。
   それらワーニングは、それらファイルがバイナリではなくスクリプトであることを示しています。</para>
-
-  <para>If disk space is very tight, the
-  <parameter>--strip-all</parameter> option can be used on the binaries
-  in <filename class="directory">/{,usr/}{bin,sbin}</filename> to gain
-  several more megabytes. Do not use this option on libraries&mdash;they will
-  be destroyed.</para>
-  <para>もしディスクスペースがとても厳しいのであれば、<filename class="directory">/{,usr/}{bin,sbin}</filename>のバイナリに対して<parameter>--strip-all</parameter>オプションを使用することが出来ます。
-  これによって、さらに数メガバイトの空き容量をかせげます。
-  このオプションをライブラリに対して、決して使用しないでください。もし使用すると、それらライブラリが破壊されます。
-  </para>
 
 </sect1>
