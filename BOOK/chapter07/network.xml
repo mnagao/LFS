@@ -4,13 +4,13 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 8768 -->
+<!-- revision 9574 -->
 
 <sect1 id="ch-scripts-network">
   <?dbhtml filename="network.html"?>
 
-  <!--<title>Configuring the network Script</title>-->
-  <title>ネットワークスクリプトの設定</title>
+  <!-- <title>General Network Configuration</title> -->
+  <title>一般的なネットワーク設定</title>
 
   <indexterm zone="ch-scripts-network">
     <primary sortas="d-network">network</primary>
@@ -31,6 +31,13 @@
   <sect2>
     <!--<title>Creating stable names for network interfaces</title>-->
     <title>ネットワークインタフェースに固定的な名前を付ける</title>
+
+    <para>If there is only one network interface in the system to be 
+    configured, this section is optional, although it will never be wrong to do 
+    it.  In many cases (e.g. a laptop with a wireless and a wired interface), 
+    accomplishing the configuration in this section is necessary.</para>
+    <para>もし設定するネットワークインタフェースがたった一つの場合、このセクションは任意となります(実行しても問題はありませんが)。
+    多くのケースにおいて(例：無線と有線の両方を持つノートPC)、このセクションの設定を完了することが必要です。</para>
 
     <para>With Udev and modular network drivers, the network interface numbering
     is not persistent across reboots by default, because the drivers are loaded
@@ -148,27 +155,28 @@ done</userinput></screen>
     <title>ネットワークインタフェースの設定ファイルの作成</title>
 
     <para>Which interfaces are brought up and down by the network script
-    depends on the files and directories in the <filename
-    class="directory">/etc/sysconfig/network-devices</filename> hierarchy.
-    This directory should contain a sub-directory for each interface to be
-    configured, such as <filename>ifconfig.xyz</filename>, where
-    <quote>xyz</quote> is a network interface name. Inside this directory
-    would be files defining the attributes to this interface, such as its IP
-    address(es), subnet masks, and so forth.</para>
-    <para>ネットワークスクリプトによってどのインタフェースが起動・停止されるかは、<filename class="directory">/etc/sysconfig/network-devices</filename>階層のファイル・ディレクトリによって決まります。
-    このディレクトリには、インタフェース毎に<filename>ifconfig.xyz</filename>の形式のサブディレクトリを用意する必要があります。
-    <quote>xyz</quote>はネットワークインタフェースの名前です。
-    このサブディレクトリの中には、IPアドレス、サブネットマスク等のインタフェースの設定を書いたファイルを置きます。
-    </para>
+    depends on the files in <filename
+    class="directory">/etc/sysconfig/</filename>.  This directory should
+    contain a file for each interface to be configured, such as
+    <filename>ifconfig.xyz</filename>, where <quote>xyz</quote> is is
+    meaningful to the administrator such as the device name (e.g. eth0).
+    Inside this file are attributes to this interface, such as its IP
+    address(es), subnet masks, and so forth.  It is necessary that
+    the stem of the filename be <emphasis>ifconfig</emphasis>.</para>
+    <para>ネットワークスクリプトによってどのインタフェースが起動・停止されるかは、<filename class="directory">/etc/sysconfig/</filename>にあるファイルによって決まります。
+    このディレクトリに、設定するそれぞれのインタフェースごとに、<filename>ifconfig.xyz</filename>の形式のファイルを置く必要があります。
+    <quote>xyz</quote>は、デバイス名(例：eth0)のような管理者にとって意味のある文字列です。
+    このファイルの中には、IPアドレスやサブネットマスクなどのインタフェースの属性値を記述します。
+    ファイル名の始まりは、<emphasis>ifconfig</emphasis>です。</para>
 
-    <para>The following command creates a sample <filename>ipv4</filename>
-    file for the <emphasis>eth0</emphasis> device:</para>
-    <para>以下のコマンドは、<emphasis>eth0</emphasis>デバイスの<filename>ipv4</filename>用のサンプル設定を作成します：</para>
+    <para>The following command creates a sample file for the
+    <emphasis>eth0</emphasis> device with a static IP address:</para>
+    <para>次のコマンドは、固定IPアドレスの<emphasis>eth0</emphasis>に対するサンプル設定ファイルを作成します：</para>
 
-<screen><userinput>cd /etc/sysconfig/network-devices
-mkdir -v ifconfig.eth0
-cat &gt; ifconfig.eth0/ipv4 &lt;&lt; "EOF"
+<screen><userinput>cd /etc/sysconfig/
+cat &gt; ifconfig.eth0 &lt;&lt; "EOF"
 <literal>ONBOOT=yes
+IFACE=eth0
 SERVICE=ipv4-static
 IP=192.168.1.1
 GATEWAY=192.168.1.2
@@ -177,24 +185,28 @@ BROADCAST=192.168.1.255</literal>
 EOF</userinput></screen>
 
     <para>The values of these variables must be changed in every file to match
-    the proper setup. If the <envar>ONBOOT</envar> variable is set to
-    <quote>yes</quote> the network script will bring up the Network Interface
-    Card (NIC) during booting of the system. If set to anything but
-    <quote>yes</quote> the NIC will be ignored by the network script and not
-    be brought up.</para>
-    <para>これら変数の値は、正しい設定に合わせるため、それぞれのファイルで変更する必要があります。
-    もし<envar>ONBOOT</envar>が<quote>yes</quote>に設定されている場合、ネットワークスクリプトはブート時にNIC(Network Interface Card)を起動します。
-    もし<quote>yes</quote>以外に設定されている場合は、NICはネットワークスクリプトから無視され、起動されません。</para>
+    the proper setup.</para>
+    <para>これら変数の値は、正しい設定に合わせるため、それぞれのファイルを変更する必要があります。</para>
+
+    <para>If the <envar>ONBOOT</envar> variable is set to <quote>yes</quote> the
+    network script will bring up the Network Interface Card (NIC) during
+    booting of the system. If set to anything but <quote>yes</quote> the NIC
+    will be ignored by the network script and not be automatically brought up.
+    The interface can be manually started or stopped with the
+    <command>ifup</command> and <command>ifdown</command> commands.</para>
+    <para>もし<envar>ONBOOT</envar>が<quote>yes</quote>に設定されている場合、ネットワークスクリプトはブート時にNIC(Network Interface Card)を起動します。
+    もし<quote>yes</quote>以外に設定されている場合は、NICはネットワークスクリプトから無視され、自動的に起動されません。
+    インタフェースは、<command>ifup</command>・<command>ifdown</command>コマンドを使用して、手動で起動・停止することが出来ます。</para>
 
     <para>The <envar>SERVICE</envar> variable defines the method used for
     obtaining the IP address. The LFS-Bootscripts package has a modular IP
     assignment format, and creating additional files in the <filename
-    class="directory">/etc/sysconfig/network-devices/services</filename>
-    directory allows other IP assignment methods. This is commonly used for
-    Dynamic Host Configuration Protocol (DHCP), which is addressed in the
-    BLFS book.</para>
+    class="directory">/lib/boot/</filename> directory allows other IP
+    assignment methods. This is commonly used for Dynamic Host Configuration
+    Protocol (DHCP), which is addressed in the BLFS book.</para>
+
     <para><envar>SERVICE</envar>はIPアドレスを取得するための方法を定義します。
-    LFS-Bootscriptsパッケージはモジュール化されたIP割り当ての形式を持っており、<filename class="directory">/etc/sysconfig/network-devices/services</filename>ディレクトリに追加のファイルを作成することで、他のIP割り当て方法を追加することが出来ます。
+    LFS-Bootscriptsパッケージはモジュール化されたIP割り当ての形式を持っており、<filename class="directory">/lib/boot/</filename>ディレクトリに追加のファイルを作成することで、他のIP割り当て方法を追加することが出来ます。
     これは一般にDHCP(Dynamic Host Configuration Protocol)で使用され、BLFSブックの中で取り扱っています。</para>
 
     <para>The <envar>GATEWAY</envar> variable should contain the default
@@ -248,6 +260,12 @@ nameserver <replaceable>&lt;IP address of your secondary nameserver&gt;</replace
 # End /etc/resolv.conf</literal>
 EOF</userinput></screen>
 
+    <para>The <varname>domain</varname> statement can be omitted 
+    or replaced with a <varname>search</varname> statement.  See the man page for 
+    resolv.conf for more details.</para>
+    <para><varname>domain</varname>の行は省略したり、<varname>search</varname>行に置き換えることが出来ます。
+    より詳細の情報は、resolv.confのmanページを参照してください。</para>
+
     <para>Replace <replaceable>&lt;IP address of the nameserver&gt;</replaceable>
     with the IP address of the DNS most appropriate for the setup. There will
     often be more than one entry (requirements demand secondary servers for
@@ -258,6 +276,12 @@ EOF</userinput></screen>
     大抵は1つ以上のDNSを登録します(万が一のため、2つ目のサーバを必要とする)。
     もし1つのDNSサーバだけでいい場合、ファイルから2番目の<emphasis>nameserver</emphasis>を削除してください。
     IPアドレスはローカルネットワークのルータかもしれません。</para>
+
+    <note>
+      <para>The Google Public IPv4 DNS addresses are 8.8.8.8 and 8.8.4.4.</para>
+      <para>GoogleのパブリックIPv4 DNSサーバアドレスは、8.8.8.8と8.8.4.4です。</para>
+    </note>
+
   </sect2>
 
 </sect1>
