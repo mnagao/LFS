@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9574 -->
+<!-- revision 9597 -->
 
 <sect1 id="ch-scripts-network">
   <?dbhtml filename="network.html"?>
@@ -158,7 +158,7 @@ done</userinput></screen>
     depends on the files in <filename
     class="directory">/etc/sysconfig/</filename>.  This directory should
     contain a file for each interface to be configured, such as
-    <filename>ifconfig.xyz</filename>, where <quote>xyz</quote> is is
+    <filename>ifconfig.xyz</filename>, where <quote>xyz</quote> is
     meaningful to the administrator such as the device name (e.g. eth0).
     Inside this file are attributes to this interface, such as its IP
     address(es), subnet masks, and so forth.  It is necessary that
@@ -201,12 +201,12 @@ EOF</userinput></screen>
     <para>The <envar>SERVICE</envar> variable defines the method used for
     obtaining the IP address. The LFS-Bootscripts package has a modular IP
     assignment format, and creating additional files in the <filename
-    class="directory">/lib/boot/</filename> directory allows other IP
+    class="directory">/lib/services/</filename> directory allows other IP
     assignment methods. This is commonly used for Dynamic Host Configuration
     Protocol (DHCP), which is addressed in the BLFS book.</para>
 
     <para><envar>SERVICE</envar>はIPアドレスを取得するための方法を定義します。
-    LFS-Bootscriptsパッケージはモジュール化されたIP割り当ての形式を持っており、<filename class="directory">/lib/boot/</filename>ディレクトリに追加のファイルを作成することで、他のIP割り当て方法を追加することが出来ます。
+    LFS-Bootscriptsパッケージはモジュール化されたIP割り当ての形式を持っており、<filename class="directory">/lib/services/</filename>ディレクトリに追加のファイルを作成することで、他のIP割り当て方法を追加することが出来ます。
     これは一般にDHCP(Dynamic Host Configuration Protocol)で使用され、BLFSブックの中で取り扱っています。</para>
 
     <para>The <envar>GATEWAY</envar> variable should contain the default
