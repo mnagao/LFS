@@ -5,30 +5,98 @@
   %general-entities;
 ]>
 
+<!-- revision 9574 -->
+
 <sect1 id="ch-scripts-introduction">
   <?dbhtml filename="introduction.html"?>
 
   <!--<title>Introduction</title>-->
   <title>イントロダクション</title>
 
-  <para>This chapter details how to install and configure the LFS-Bootscripts
-  package. Most of these scripts will work without modification, but a few require
-  additional configuration files because they deal with hardware-dependent
-  information.</para>
-  <para>この章では、LFS-ブートスクリプトのインストールおよび設定の方法を詳しく説明します。
-  それらスクリプトのほとんどは変更なしで動作しますが、ハードウェア依存となる設定に対応するため、少しの設定ファイルの追加が必要になります。</para>
+  <para>This chapter discusses configuration files and boot scripts.
+  First, the general configuration files needed to set up networking are
+  presented.</para>
+  <para>この章では、設定ファイルとブートスクリプトについて取り上げます。
+  まず最初に、ネットワークをセットアップするために必要な、一般的な設定ファイルがあります。</para>
+
+  <itemizedlist> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-network" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-hosts" role="."/></para> 
+     </listitem> 
+  </itemizedlist> 
+   
+  <para>Second, issues that affect the proper setup of devices diescussed.</para>
+  <para>2つ目に、デバイスの正しいセットアップに影響を与える問題について議論します。</para>
+
+  <itemizedlist> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-udev" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-symlinks" role="."/></para> 
+     </listitem> 
+  </itemizedlist> 
+
+  <para>The next sections detail how to install and configure the LFS system 
+  scripts needed during the boot process. Most of these scripts will work 
+  without modification, but a few require additional configuration files 
+  because they deal with hardware-dependent information.</para>
+  <para>次のセクションでは、ブートプロセスで必要なLFSシステムのスクリプトをインストールする方法と設定する方法を詳しく述べます。
+  それらスクリプトのほとんどは、変更せずにそのまま動きますが、いくつかのスクリプトはハードウェアに依存する情報を取り扱うため、追加の設定ファイルが必要になります。</para>
 
   <para>System-V style init scripts are employed in this book because they are
-  widely used. For additional options, a hint detailing the BSD style init setup
-  is available at <ulink url="&hints-root;bsd-init.txt"/>.
-  Searching the LFS mailing lists for <quote>depinit</quote> will also offer
-  additional choices.</para>
-  <para>本書では、System-Vスタイルのinitスクリプトを採用しています。それは、このスタイルのinitスクリプトが広く使われているからです。
-  追加の選択肢として、BSDスタイルのinit設定のヒントが、<ulink url="&hints-root;bsd-init.txt"/>で確認することが出来ます。
-  LFSメーリングリストを<quote>depinit</quote>で検索すると、追加の選択肢を見つけることも出来ます。</para>
+  widely used and relatively simple. For additional options, a hint detailing
+  the BSD style init setup is available at <ulink
+  url="&hints-root;bsd-init.txt"/>.  Searching the LFS mailing lists for
+  <quote>depinit</quote>, <quote>upstart</quote>, or <quote>systemd</quote>
+  will also offer additional information.</para>
+  <para>本書では、System-Vスタイルのinitスクリプトを採用しています。それは、このスタイルのinitスクリプトが広く使われており、比較的シンプルだからです。
+  他の選択肢として、BSDスタイルのinit設定のヒントが、<ulink url="&hints-root;bsd-init.txt"/>にあります。
+  LFSメーリングリストを<quote>depinit</quote>、<quote>upstart</quote>、<quote>systemd</quote>で検索すると、追加の情報を見つけることも出来ます。</para>
 
-  <para>If using an alternative style of init scripts, skip this chapter
-  and move on to <xref linkend="chapter-bootable"/>.</para>
-  <para>もし別のスタイルのinitスクリプトを使用するならば本章をスキップし、<xref linkend="chapter-bootable"/>に進んでください。</para>
+  <para>If using an alternative style of init scripts, skip these sections.</para>
+  <para>もし他のinitスクリプトを使用する場合は、このセクションをスキップしてください。</para>
+
+  <para>A listing of the boot scripts are found in <xref linkend="scripts"
+  role="."/>.</para>
+  <para>ブートスクリプトのリストは<xref linkend="scripts" role="."/>にあります。</para>
+
+  <itemizedlist> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-bootscripts" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-usage" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-hostname" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-setclock" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-console" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-sysklogd" role="."/></para> 
+     </listitem> 
+  </itemizedlist> 
+   
+   
+  <para>Finally, there is a brief introduction to the scripts and configuration 
+  files used when the user logs into the system.</para>
+  <para>終わりに、ユーザーがシステムにログインした際に使われるスクリプトと設定ファイルについて、以下に簡単な紹介があります。</para> 
+ 
+  <itemizedlist> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-profile" role="."/></para> 
+     </listitem> 
+     <listitem> 
+       <para><xref linkend="ch-scripts-inputrc" role="."/></para> 
+     </listitem> 
+  </itemizedlist>
 
 </sect1>
