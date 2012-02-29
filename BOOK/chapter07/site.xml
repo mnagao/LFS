@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
@@ -6,10 +6,13 @@
   %general-entities;
 ]>
 
+<!-- revision 9623 -->
+
 <sect1 id="ch-scripts-site">
   <?dbhtml filename="site.html"?>
 
-  <title>The rc.site File</title>
+  <!-- <title>The rc.site File</title> -->
+  <title>rc.site ファイル</title>
 
   <indexterm zone="ch-scripts-site">
     <primary sortas="a-rc.site">rc.site</primary>
@@ -23,11 +26,18 @@
   associated variables are present in both these separate files and
   <filename>rc.site</filename>, the values in the script specific files have
   precedence. </para>
+  <para>作成は任意である、<filename>/etc/sysconfig/rc.site</filename>は、ブートスクリプトそれぞれに対して自動で行われる設定を記述します。
+  <filename class='directory'>/etc/sysconfig/</filename>ディレクトリにある、<filename>hostname</filename>, <filename>console</filename>, <filename>clock</filename>ファイルで指定する値をこの<filename>/etc/sysconfig/rc.site</filename>ファイルでセットすることが出来ます。
+  もし、上記個別のファイルと<filename>rc.site</filename>ファイルの両方に、同じ設定項目が存在した場合、ブートスクリプトで指定したファイル内の値が優先されます。</para>
 
   <para><filename>rc.site</filename> also contains parameters that can 
   customize other aspects of the boot process.  Setting the IPROMPT variable
   will enable selective running of bootscripts.  Other options are described
   in the file comments.  The default version of the file is as follows:</para>
+  <para><filename>rc.site</filename>は、ブートプロセスのふるまいをカスタマイズできるパラメータも含んでいます。
+  IPROMPTを設定することで、ブートスクリプトの実行を選択可能に出来ます。
+  他のオプションはコメントに記述されています。
+  デフォルト状態の内容は次のとおりです：</para>
 
   <!-- Use role to fix a pdf generation problem -->
   <screen role="auto">&site;</screen>
