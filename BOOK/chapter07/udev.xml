@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9167 -->
+<!-- revision 9614 -->
 
 <sect1 id="ch-scripts-udev">
   <?dbhtml filename="udev.html"?>
@@ -121,29 +121,30 @@
     </sect3>
 
     <sect3>
-      <!--<title>Udev Bootscript</title>-->
+      <!--<title>Udev Bootscripts</title>-->
       <title>Udev ブートスクリプト</title>
 
-      <para>The <command>S10udev</command> initscript takes care of creating
-      device nodes when Linux is booted. The script unsets the uevent handler
-      from the default of <command>/sbin/hotplug</command>.  This is done
-      because the kernel no longer needs to call out to an external binary.
-      Instead <command>udevd</command> will listen on a netlink socket for
-      uevents that the kernel raises. Next, the bootscript copies any static
-      device nodes that exist in <filename
+      <para>The <command>/etc/rc.d/init.d/udev</command> initscript takes care
+      of creating device nodes when Linux is booted. The script unsets the
+      uevent handler from the default of <command>/sbin/hotplug</command>.
+      This is done because the kernel no longer needs to call out to an
+      external binary.  Instead <command>udevd</command> will listen on a
+      netlink socket for uevents that the kernel raises. Next, the bootscript
+      copies any static device nodes that exist in <filename
       class="directory">/lib/udev/devices</filename> to <filename
-      class="directory">/dev</filename>. This is necessary because some devices,
-      directories, and symlinks are needed before the dynamic device handling
-      processes are available during the early stages of booting a system, or
-      are required by <command>udevd</command> itself. Creating static device
-      nodes in <filename class="directory">/lib/udev/devices</filename> also
-      provides an easy workaround for devices that are not supported by the
-      dynamic device handling infrastructure. The bootscript then starts the
-      Udev daemon, <command>udevd</command>, which will act on any uevents it
-      receives. Finally, the bootscript forces the kernel to replay uevents for
-      any devices that have already been registered and then waits for
+      class="directory">/dev</filename>. This is necessary because some
+      devices, directories, and symlinks are needed before the dynamic device
+      handling processes are available during the early stages of booting a
+      system, or are required by <command>udevd</command> itself.  Creating
+      static device nodes in <filename
+      class="directory">/lib/udev/devices</filename> also provides an easy
+      workaround for devices that are not supported by the dynamic device
+      handling infrastructure. The bootscript then starts the Udev daemon,
+      <command>udevd</command>, which will act on any uevents it receives.
+      Finally, the bootscript forces the kernel to replay uevents for any
+      devices that have already been registered and then waits for
       <command>udevd</command> to handle them.</para>
-      <para><command>S10udev</command>起動スクリプトは、ブート時にデバイスノード作成の管理を行います。
+      <para><command>/etc/rc.d/init.d/udev</command>起動スクリプトは、ブート時にデバイスノード作成の管理を行います。
       そのスクリプトは、<command>/sbin/hotplug</command>からueventハンドラを取り外します。
       カーネルはもう外部バイナリを呼び出す必要がなくなったために、この動作が行われます。
       代わりに、 <command>udevd</command>は、カーネルが発生させるueventをnetlinkソケット上で見張ります。
@@ -155,19 +156,36 @@
       最後に、ブートスクリプトはカーネルに対して、すでに登録されているデバイスにueventを再び発生させ、<command>udevd</command>がそれらueventを処理するのを待ちます。
 </para>
 
+      <para>The <command>/etc/rc.d/init.d/udev_retry</command> initscript takes 
+      care of re-triggering events for subsystems whose rules may rely on 
+      filesystems that are not mounted until the <command>mountfs</command> 
+      script is run (in particular, /usr and /var may cause this).  This script 
+      runs after the <command>mountfs</command> script, so those rules (if 
+      re-triggered) should succeed the second time around.  It is configured 
+      from the <filename>/etc/sysconfig/udev_retry</filename> file; any words 
+      in this file other than comments are considered subsystem names to 
+      trigger at retry time.  (To find the subsystem of a device, use 
+      <command>udevadm info --attribute-walk</command>.)</para>
+      <para><command>mountfs</command>スクリプトが実行されるまでマウントされないファイルシステム(特に、/usr と /varがこれに該当)に依存するサブシステムのために、<command>/etc/rc.d/init.d/udev_retry</command>スクリプトは、再トリガーイベントを処理します。
+      それらルールは(再トリガーされれば)2回目あたりで成功するはずなので、<command>udev_retry</command>スクリプトは<command>mountfs</command>スクリプトの後に実行します。
+      これら設定は<filename>/etc/sysconfig/udev_retry</filename>ファイルで行います。
+      このファイルの中身で、コメント以外の単語はサブシステムの名前として認識され、リトライ時に起動されます。
+      (デバイスのサブシステムを確認するには、<command>udevadm info --attribute-walk</command>コマンドを使用します)
+      </para>
+
     </sect3>
 
     <sect3>
       <!--<title>Device Node Creation</title>-->
       <title>デバイスノードの作成</title>
 
-      <para>To obtain the right major and minor number for a device, Udev relies
-      on the information provided by <systemitem
+      <para>To obtain the right major and minor number for a device, Udev
+      relies on the information provided by <systemitem
       class="filesystem">sysfs</systemitem> in <filename
       class="directory">/sys</filename>.  For example,
       <filename>/sys/class/tty/vcs/dev</filename> contains the string
-      <quote>7:0</quote>. This string is used by <command>udevd</command>
-      to create a device node with major number <emphasis>7</emphasis> and minor
+      <quote>7:0</quote>. This string is used by <command>udevd</command> to
+      create a device node with major number <emphasis>7</emphasis> and minor
       <emphasis>0</emphasis>. The names and permissions of the nodes created
       under the <filename class="directory">/dev</filename> directory are
       determined by rules specified in the files within the <filename
@@ -268,7 +286,7 @@
       class="filesystem">sysfs</systemitem>. In other cases, one should
       arrange module loading by other means. With Linux-&linux-version;, Udev is
       known to load properly-written drivers for INPUT, IDE, PCI, USB, SCSI,
-      SERIO and FireWire devices.</para>
+      SERIO, and FireWire devices.</para>
       <para>モジュールがbus固有の別名を持ち、busドライバが必要な別名を<systemitem class="filesystem">sysfs</systemitem>に正しく公開した時のみ、Udevはモジュールをロードします。
       その他の場合、他の方法でモジュールのロードを行う必要があります。
       Linux-&linux-version;では、UdevはINPUT、IDE、PCI、USB、SCSI、SERIO、FireWireの各デバイスの正しく書かれたドライバをロードすることが知られています。
@@ -327,11 +345,11 @@
     /sbin/modprobe snd-pcm-oss ; true</literal></screen>
 
       <para>If the module in question is not a wrapper and is useful by itself,
-      configure the <command>S05modules</command> bootscript to load this
+      configure the <command>modules</command> bootscript to load this
       module on system boot. To do this, add the module name to the
       <filename>/etc/sysconfig/modules</filename> file on a separate line.
       This works for wrapper modules too, but is suboptimal in that case.</para>
-      <para>質問のモジュールがwrapperではなくそのモジュール自身が有用なものであれば、ブート時にこのモジュールをロードするために、ブートスクリプト<command>S05modules</command>を設定してください。
+      <para>質問のモジュールがwrapperではなくそのモジュール自身が有用なものであれば、ブート時にこのモジュールをロードするために、ブートスクリプト<command>modules</command>を設定してください。
       これを行うには、モジュール名を<filename>/etc/sysconfig/modules</filename>ファイルに行を分けて追加してください。
       これはwrapperモジュールに対してもうまく動作しますが、ベストな方法ではありません。</para>
     </sect3>
@@ -406,10 +424,11 @@
       documentation or the documentation provided by the third party driver
       vendor). The static device node will be copied to
       <filename class="directory">/dev</filename> by the
-      <command>S10udev</command> bootscript.</para>
+      <command>udev</command> bootscript.</para>
       <para>もしカーネルドライバが、自身が持つデータを<systemitem class="filesystem">sysfs</systemitem>にエクスポートしないのであれば、Udevはデバイスノードを作成するために必要な情報を持たないことになります。
       これはカーネルツリーの外側から、サードパーティドライバの範囲で、最もよくあることです。
-      この問題に対処するには、適切なmajor/minor番号で<filename>/lib/udev/devices</filename>に静的なデバイスノードを作成してください(カーネルドキュメントの<filename>devices.txt</filename>またはサードパーティのベンダーが提供するドキュメントを参照してください)。</para>
+      この問題に対処するには、適切なmajor/minor番号で<filename>/lib/udev/devices</filename>に静的なデバイスノードを作成してください(カーネルドキュメントの<filename>devices.txt</filename>またはサードパーティのベンダーが提供するドキュメントを参照してください)。
+      静的なデバイスノードは、<command>udev</command>ブートスクリプトによって、<filename class="directory">/dev</filename>ディレクトリにコピーされます。</para>
 
     </sect3>
 
