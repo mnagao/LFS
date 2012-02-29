@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 8902 -->
+<!-- revision 9597 -->
 
 <sect1 id="ch-scripts-setclock">
   <?dbhtml filename="setclock.html"?>
@@ -82,4 +82,9 @@ EOF</userinput></screen>
   time zones, UTC, and the <envar>TZ</envar> environment variable.</para>
   <para>LFSにおける、時刻の取り扱い方法の良いヒントが<ulink url="&hints-root;time.txt"/>で得られます。
   そこでは、例えばタイムゾーン、UTC、環境変数<envar>TZ</envar>の問題について説明があります。</para>
+
+  <note><para>The CLOCKPARAMS and UTC paramaters may be alternatively set 
+  in the <filename>/etc/sysconfig/rc.site</filename> file.</para>
+  <para>CLOCKPARAMSとUTCパラメータは、<filename>/etc/sysconfig/rc.site</filename>ファイルの中で、どちらか一方をセットします。</para></note>
+
 </sect1>
