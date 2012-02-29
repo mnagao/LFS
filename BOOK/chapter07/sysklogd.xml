@@ -5,6 +5,8 @@
   %general-entities;
 ]>
 
+<!-- revision 9597 -->
+
 <sect1 id="ch-scripts-sysklogd">
   <?dbhtml filename="sysklogd.html"?>
 
@@ -17,16 +19,21 @@
   </indexterm>
 
   <para>The <filename>sysklogd</filename> script invokes the
-  <command>syslogd</command> program with the <parameter>-m 0</parameter> option.
-  This option turns off the periodic timestamp mark that
-  <command>syslogd</command> writes to the log files every 20 minutes by default.
-  If you want to turn on this periodic timestamp mark, edit the
-  <filename>sysklogd</filename> script and make the changes accordingly. See
-  <userinput>man syslogd</userinput> for more information.</para>
+  <command>syslogd</command> program with the <parameter>-m 0</parameter>
+  option.  This option turns off the periodic timestamp mark that
+  <command>syslogd</command> writes to the log files every 20 minutes by
+  default.  If you want to turn on this periodic timestamp mark, edit
+  <filename>/etc/sysconfig/rc.site</filename> and define the variable
+  SYSKLOGD_PARMS to the desired value.  For instance, to remove all parameters,
+  set the variable to a null value:</para>
   <para><filename>sysklogd</filename>スクリプトは、<parameter>-m 0</parameter>オプションを指定して<command>syslogd</command>プログラムを起動します。
-  <command>syslogd</command>が、デフォルトで20分毎にログファイルに書く定期的なタイムスタンプマーク機能をOFFにします。
-  もし定期的なタイムスタンプマーク機能をONにするのであれば、<filename>sysklogd</filename>スクリプトを編集し、適宜修正を行ってください。
-  より詳しい情報は、<userinput>man syslogd</userinput>を見てください。
-</para>
+  <command>syslogd</command>が、デフォルトで20分毎にログファイルに書く定期的なタイムスタンプマーク機能>をOFFにします。
+  もし定期的なタイムスタンプマーク機能をONにするのであれば、<filename>/etc/sysconfig/rc.site</filename>を編集し、変数SYSKLOGD_PARMSに必要な値をセットしてください。
+  例えば、全てのパラメータを取り除くには、変数にnullをセットしてください：</para>
+
+<screen role="nodump">SYSKLOGD_PARMS=</screen>
+
+  <para>See <userinput>man syslogd</userinput> for more options.</para>
+  <para>他のオプションについては、<userinput>man syslogd</userinput>を参照してください。</para>
 
 </sect1>
