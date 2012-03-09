@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9372 -->
+<!-- revision 9588 -->
 
 <sect1 id="ch-bootable-kernel" role="wrap">
   <?dbhtml filename="kernel.html"?>
@@ -148,14 +148,14 @@
 
     <para>The path to the kernel image may vary depending on the platform being
     used. The filename below can be changed to suit your taste, but the stem of
-    the filename should be <emphasis>vmlinux</emphasis> to be compatible with
+    the filename should be <emphasis>vmlinuz</emphasis> to be compatible with
     the automatic setup of the boot process described in the next section.  The
     following command assumes an x86 architecture:</para>
     <para>カーネルイメージのパスは、使用するプラットフォームによって異なります。
-    以下のファイルネームはあなたの好きなように変更することが出来ますが、次章に記述されているブートプロセスの自動セットアップに適合させるためには、ファイルネームを<emphasis>vmlinux</emphasis>にすべきです。
+    以下のファイルネームはあなたの好きなように変更することが出来ますが、次章に記述されているブートプロセスの自動セットアップに適合させるためには、ファイルネームを<emphasis>vmlinuz</emphasis>にすべきです。
     次のコマンドはx86アーキテクチャを想定しています：</para>
 
-<screen><userinput remap="install">cp -v arch/x86/boot/bzImage /boot/vmlinux-&linux-version;-lfs-&version;</userinput></screen>
+<screen><userinput remap="install">cp -v arch/x86/boot/bzImage /boot/vmlinuz-&linux-version;-lfs-&version;</userinput></screen>
 
     <para><filename>System.map</filename> is a symbol file for the kernel.
     It maps the function entry points of every function in the kernel API,
