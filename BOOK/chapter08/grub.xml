@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9449 -->
+<!-- revision 9588 -->
 
 <sect1 id="ch-bootable-grub" role="wrap">
   <?dbhtml filename="grub.html"?>
@@ -22,33 +22,39 @@
     <!--<title>Introduction</title>-->
     <title>イントロダクション</title>
 
-    <para>Boot loading can be a complex area, so a few cautionary
-    words are in order. Be familiar with the current boot loader and any other
-    operating systems present on the hard drive(s) that need to be
-    bootable. Make sure that an emergency boot disk is ready to
+    <warning><para>Configuring GRUB incorrectly can render your system
+    inoperable without an alternate boot device such as a CD-ROM.  This
+    section is not required to boot your LFS system.  You may just
+    want to modify your current boot loader, e.g. Grub-Legacy, GRUB2, or
+    LILO.</para>
+    <para>GRUBの設定を間違ってしまうと、CD-ROMのような別のブートデバイスを使わない限り、システムを操作できなくなります。
+    このセクションは構築したLFSシステムブートするために必要というわけではありません。
+    あなたが、現在のブートローダーを変えたいと考えているかもしれないので。
+    例えば、Grub-Legacy、GRUB2、LILOなどに。
+    </para></warning>
+
+    <para> Ensure that an emergency boot disk is ready to
     <quote>rescue</quote> the computer if the computer becomes
-    unusable (un-bootable).</para>
-    <para>ブートローディングは複雑な領域です。ですので、いくつかの注意事項が整理されています。
-    現在使用しているブートローダーと、HDDに同居しているブート可能にする必要のある他のオペレーティングシステムについて、理解を深めておいてください。
-    コンピュータが使用不可能(ブート不能)に陥った場合に備え、コンピュータを<quote>レスキュー</quote>するための緊急用ブートディスクが準備されていることを確認してください。</para>
+    unusable (un-bootable).  If you do not already have a boot device, 
+    you can create one.  In order for the procedure below to work, 
+    you need to jump ahead to BLFS and install <ulink 
+    url="http://www.linuxfromscratch.org/blfs/view/svn/multimedia/xorriso.html"> 
+    xorriso</ulink>.</para>
+    <para>もしコンピュータが使用不可能(ブートしない)状況になった場合に備え、コンピュータを<quote>救出</quote>するための緊急ブートディスクの準備をお願いします。
+    もし、ブート可能なデバイスを持っていない場合は、作成することが可能です。
+    以下の手順を実行するためには、BLFSにある<ulink url="http://www.linuxfromscratch.org/blfs/view/svn/multimedia/xorriso.html">xorriso</ulink>をインストールしてください。</para>
 
-    <para>The procedure involves writing some special GRUB files to specific
-    locations on the hard drive. We highly recommend creating a GRUB boot
-    floppy diskette as a backup. Insert a blank floppy diskette and run the
-    following commands:</para>
-    <para>手順としては、ハードドライブ上の特定の位置に、GRUBのいくつかの特別なファイルを作成する必要があります。
-    バックアップとして、GRUBのブートフロッピーを作成することを強くお勧めします。
-    空のフロッピーディスクをドライブに挿入し、次のコマンドを実行してください：</para>
+<screen role="nodump"><userinput>cd /tmp &amp;&amp;
+grub-mkrescue --output=grub-img.iso &amp;&amp;
+xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso</userinput>
+</screen>
 
-<screen role="nodump"><userinput>cd /tmp
-grub-mkrescue --output=grub-img.iso
-dd if=grub-img.iso of=/dev/fd0 bs=1440 count=1</userinput></screen>
+  </sect2>
 
-    <para>Alternatively, a boot CD can be created by using your host system's 
-    CD burning tools to burn the <filename>grub-img.iso</filename> on to a 
-    blank CD.</para>
-    <para>別の方法としては、ホストシステムのCD作成ツールを用いて<filename>grub-img.iso</filename>をブランクCDに書き込むことで、ブートCDを作成することが出来ます。</para>
-
+  <sect2>
+    <!-- <title>GRUB Naming Conventions</title> -->
+    <title>GRUBの命名規則</title>
+    
     <para>GRUB uses its own naming structure for drives and partitions in
     the form of <emphasis>(hdn,m)</emphasis>, where <emphasis>n</emphasis>
     is the hard drive number and <emphasis>m</emphasis> is the partition
@@ -77,6 +83,21 @@ dd if=grub-img.iso of=/dev/fd0 bs=1440 count=1</userinput></screen>
 
 <screen role="nodump"><userinput>grub-mkdevicemap --device-map=device.map
 cat device.map</userinput></screen> 
+
+  </sect2>
+
+  <sect2>
+    <!-- <title>Setting Up the Configuration</title> -->
+    <title>設定</title>
+
+    <para>GRUB works by writing data to the first physical track of the  
+    hard disk.  This area is not part of any file system.  The programs 
+    there access GRUB modules in the boot partition.  The default location 
+    is /boot/grub/.</para>
+    <para>ハードディスクの最初の物理トラックにデータを書くことで、GRUBが動作するようになります。
+    そのエリアはファイルシステムの領域ではありません。
+    そのエリアにあるプログラムが、bootパーティションにあるGRUBモジュールにアクセスします。
+    その位置のデフォルトは、/boot/grubです。</para>
  
     <para>The location of the boot partition is a choice of the user that 
     affects the configuration.  One recommendation is to have a separate small 
@@ -99,11 +120,6 @@ cat device.map</userinput></screen>
     <para>Using the current lfs partition will also work, but configuration 
     for multiple systems is more difficult.</para>
     <para>現在のlfsパーティションを使用してもうまくいきますが、複数のシステムの設定はより難しいです。</para> 
-  </sect2> 
- 
-  <sect2> 
-    <!--<title>Setting Up the Configuration</title>-->
-    <title>設定</title>
 
     <para>Using the above information, determine the appropriate
     designator for the root partition (or boot partition, if a separate
@@ -114,178 +130,8 @@ cat device.map</userinput></screen>
     次の例の場合、root(または別のboot)パーティションは<filename class="partition">sda2</filename>と推測されます。</para>
 
     <para>Install the GRUB files into <filename
-    class="directory">/boot/grub</filename>:</para>
-    <para><filename class="directory">/boot/grub</filename>にGRUBのファイルをインストールします：</para>
-
-<screen role="nodump"><userinput>grub-install --grub-setup=/bin/true /dev/sda</userinput></screen>
-
-    <para>We use --grub-setup=/bin/true for now to prevent updating the  
-    Master Boot Record (MBR).  In this way, we can test our installation  
-    before committing to a change that is hard to revert.</para> 
-    <para>マスターブートレコード(MBR)の更新を防ぐため、現時点では--grub-setup=/bin/trueを指定します。
-    元の状態に戻すのが困難になる変更の確定前に、この方法でインストールをテストすることができます。</para>
- 
-    <para>Generate <filename>/boot/grub/grub.cfg</filename>:</para> 
-    <para><filename>/boot/grub/grub.cfg</filename>を生成します：</para>
- 
-<screen role="nodump"><userinput>grub-mkconfig -o /boot/grub/grub.cfg</userinput></screen> 
- 
-    <para>Here <command>grub-mkconfig</command> uses the files in <filename 
-    class="directory">/etc/grub.d/</filename> to determine the contents 
-    of this file. The configuration file will look something like:</para> 
-    <para>ここで<command>grub-mkconfig</command>は、このファイルの内容を確定するため、<filename class="directory">/etc/grub.d/</filename>内のファイルを使用します。設定ファイルは次のような内容になるでしょう：</para>
-
-<screen><computeroutput># 
-# DO NOT EDIT THIS FILE 
-#
-# It is automatically generated by /usr/sbin/grub-mkconfig using templates 
-# from /etc/grub.d and settings from /etc/default/grub 
-# 
- 
-### BEGIN /etc/grub.d/00_header ### 
-set default=0 
-set timeout=5 
-### END /etc/grub.d/00_header ### 
- 
-### BEGIN /etc/grub.d/10_linux ###
-menuentry "GNU/Linux, Linux &linux-version;-lfs-&version;" {
-        insmod ext2
-        set root=(hd0,2)
-        search --no-floppy --fs-uuid --set 915852a7-859e-45a6-9ff0-d3ebfdb5cea2
-        linux   /boot/vmlinux-&linux-version;-lfs-&version; root=/dev/sda2 ro
-}
-menuentry "GNU/Linux, Linux &linux-version;-lfs-&version;" (recovery mode)" {
-        insmod ext2
-        set root=(hd0,2)
-        search --no-floppy --fs-uuid --set 915852a7-859e-45a6-9ff0-d3ebfdb5cea2
-        linux   /boot/vmlinux-&linux-version;-lfs-&version; root=/dev/sda2 ro single
-}
-menuentry "GNU/Linux, Linux 2.6.28-11-server" {
-        insmod ext2
-        set root=(hd0,2)
-        search --no-floppy --fs-uuid --set 6b4c0339-5501-4a85-8351-e398e5252be8
-        linux   /boot/vmlinuz-2.6.28-11-server \
-                root=UUID=6b4c0339-5501-4a85-8351-e398e5252be8 ro
-        initrd  /boot/initrd.img-2.6.28-11-server
-}
-menuentry "GNU/Linux, Linux 2.6.28-11-server (recovery mode)" {
-        insmod ext2
-        set root=(hd0,2)
-        search --no-floppy --fs-uuid --set 6b4c0339-5501-4a85-8351-e398e5252be8
-        linux   /boot/vmlinuz-2.6.28-11-server \
-                root=UUID=6b4c0339-5501-4a85-8351-e398e5252be8 ro single
-        initrd  /boot/initrd.img-2.6.28-11-server
-} 
-### END /etc/grub.d/10_linux ###
- 
-### BEGIN /etc/grub.d/30_os-prober ### 
-### END /etc/grub.d/30_os-prober ### 
- 
-### BEGIN /etc/grub.d/40_custom ### 
-# This file provides an easy way to add custom menu entries.  Simply type the 
-# menu entries you want to add after this comment.  Be careful not to change 
-# the 'exec tail' line above. 
-### END /etc/grub.d/40_custom ### 
-</computeroutput></screen> 
- 
-  <para>Note that even though there is a warning not to edit the file, you can 
-  do so as long as you do not re-run <command>grub-mkconfig</command>.  The 
-  <emphasis>search</emphasis> lines are not meaningful for LFS systems as that 
-  command needs an initrd image for processing. If installing on a separate 
-  partition the linux and initrd lines will not have the /boot on the file 
-  names.  In this example the kernel files for a Ubuntu installation are 
-  also found in <filename class="directory">/boot</filename>.</para> 
-  <para>ファイルを編集しないでくださいという警告がありますが、<command>grub-mkconfig</command>コマンドをリランしない限り、編集することが出来ます。
-  <emphasis>search</emphasis>の行は、処理するinitrdイメージが必要なので、LFSシステムにとっては意味がありません。
-  もし独立した/bootパーティションにインストールする場合、linuxとinitrdの行はファイル名に/bootを含みません。
-  Ubuntuのインストールであるこの例において、カーネルファイルは<filename class="directory">/boot</filename>にあります。</para>
-
-  <note>
-  <itemizedlist>
-      <listitem><para>Even though there is a warning not to edit the file, you
-      can do so as long as you do not re-run
-      <command>grub-mkconfig</command>.</para>
-      <para>ファイルを編集しないでくださいという警告がありますが、<command>grub-mkconfig</command>コマンドをリランしない限り、編集することが出来ます。</para></listitem>
-
-      <listitem><para>The <emphasis>search</emphasis> lines are generally not
-      useful for LFS systems as that command only sets an internal GRUB 
-      variable used to find the kernel image.  The <emphasis>set root</emphasis>  
-      command provides the same capability without the overhead of  
-      searching.</para>
-      <para><emphasis>search</emphasis>は一般的に、LFSシステムにとっては便利なものではありません。
-      このコマンドはカーネルイメージを見つけるために使われる、GRUB内部の変数をセットするだけのコマンドだからです。
-      <emphasis>set root</emphasis>コマンドはカーネルイメージを探すオーバーヘッドなしに、同様の機能を提供します。</para></listitem>
-
-      <listitem><para>The <emphasis>set root</emphasis> and  
-      <emphasis>insmod ext2</emphasis> commands can be moved out of the   
-      <emphasis>menuentry</emphasis> sections to apply to all sections of the file. 
-      This leads to a simple section like:</para>
-      <para><emphasis>set root</emphasis>と<emphasis>insmod ext2</emphasis>コマンドは、ファイル中の全てのセクションに適用するために、<emphasis>menuentry</emphasis>セクションの外に出すことが出来ます。
-      そうすることで次のようにシンプルなセクションとなります：</para></listitem>
- 
-      </itemizedlist> 
-<screen><computeroutput>menuentry "Linux &linux-version;-lfs-&version;" { 
-linux   /boot/vmlinux-&linux-version;-lfs-&version; root=/dev/sda2 ro 
-} 
-</computeroutput></screen>
-
-  <itemizedlist> 
- 
-      <listitem><para>Passing a UUID to the kernel requires an initial ram disk 
-      (initrd) not built by LFS.</para>
-      <para>カーネルにUUIDを渡す場合はinitrd(initial ram disk)が必要となります。
-      このinitrdはLFSではビルドしません。</para></listitem> 
-   
-      <listitem><para>If the <filename>/boot</filename> partition is installed 
-      on a separate partition, the linux and initrd lines should not have the 
-      string <emphasis>/boot</emphasis> prefixed to the file 
-      names.</para>
-      <para>もし<filename>/boot</filename>パーティションが個別のパーティションにインストールされている場合、linuxとinitrd行の値の先頭に、文字列<emphasis>/boot</emphasis>は含まれないはずです。</para></listitem>  
-   
-      <listitem><para>In this example the kernel files for a Ubuntu 
-      installation are also found in <filename 
-      class="directory">/boot</filename>.</para>
-      <para>上のサンプルでは、Ubuntuのカーネルファイルも<filename class="directory">/boot</filename>に存在しています。</para></listitem> 
- 
-   </itemizedlist> 
-   </note>
- 
-  </sect2> 
-    
-  <sect2> 
-     <!--<title>Testing the Configuration</title>-->
-     <title>設定のテスト</title>
-
-     <para>The core image of GRUB is also a Multiboot kernel, so if you already 
-     have <emphasis>GRUB Legacy</emphasis> loaded you can load
-     GRUB-&grub-version; through your old boot loader.  To accomplish this, you
-     will need to exit the <command>chroot</command> environment now and
-     re-enter it in the next section to finish the few remaining portions of
-     the book.</para> 
-     <para>GRUBのコアイメージはマルチブートのカーネルで、もしすでに<emphasis>GRUB Legacy</emphasis>がロードされているならば、その古いブートローダーを通してGRUB-&grub-version;をロードすることが出来ます。
-     これを実現するには、すぐに<command>chroot</command>環境を抜け、次のセクションで再度<command>chroot</command>環境に入り直し、本書の残りの部分を行う必要があります</para>
- 
-<screen role="nodump"><userinput>/sbin/reboot 
-... 
-grub> root (hd0,1) 
-grub> kernel /boot/grub/core.img 
-grub> boot</userinput></screen> 
- 
-     <para>Note that the GRUB commands above are assumed to be GRUB Legacy. 
-     At this point the GRUB prompt will appear (very similar to GRUB Legacy) and 
-     you can explore the interface or boot to one of the systems in the grub.cfg  
-     file.</para> 
-     <para>上記のGRUBコマンドはGRUB Legacyを想定していることに注意してください。
-     この時点でGRUBのプロンプトが現れ(GRUB Legacyにとても似ています)、インタフェースを探索したりgrub.cfgファイルに記述されたシステムの一つをブートすることが出来ます。</para>  
-   </sect2> 
- 
-  <sect2> 
-     <!--<title>Updating the Master Boot Record</title>-->
-     <title>マスターブートレコードの更新</title>
- 
-     <para>If you tested the GRUB configuration as specified above, re-enter 
-     the <command>chroot</command> environment.</para> 
-     <para>上で明記した通りGRUBの設定をテストしたのであれば、<command>chroot</command>環境に再度入ります。</para>
+    class="directory">/boot/grub</filename> and set up the boot track:</para>
+    <para><filename class="directory">/boot/grub</filename>にGRUBのファイルをインストールして、ブートトラックをセットアップします：</para>
 
     <warning>
       <para>The following command will overwrite the current boot loader. Do not
@@ -295,43 +141,69 @@ grub> boot</userinput></screen>
       もし上書きを望まないのであれば(例えばサードパーティのブートマネージャーでMBR(Master Boot Record)を管理している場合)、コマンドを実行しないでください。</para>
     </warning>
 
-    <para>Update the MBR with:</para>
-    <para>次のとおりMBRを更新します：</para>
+<screen role="nodump"><userinput>grub-install /dev/sda</userinput></screen>
 
-<screen role="nodump"><userinput>grub-setup '&lt;DEVICE&gt;'</userinput></screen>
+    <note><para><application>grub-install</application> is a script and calls another
+    program, grub-probe, that may fail with a message "cannot stat `/dev/root'".
+    If so, create a temporary symbolic link from your root partition to /dev/root:
+    </para>
+    <para><application>grub-install</application>はスクリプトで、他のプログラムやgrub-probeを実行します。
+    それらプログラムは"cannot stat `/dev/root'"というメッセージを出してエラーになるかもしれません。
+    もしそうなった場合、rootパーティションから/dev/rootに対して、一時的なシンボリックリンクを作成してください：</para>
 
-    <para>Change the DEVICE above to your boot disk, normally '(hd0)' or /dev/sda.   
-    If using (hd0) be sure to escape the parentheses with backslashes or single 
-    quotes to prevent the shell from interpreting them as a sub-shell.</para>
-    <para>上記DEVICEをあなたのブートディスクのデバイス名に変えてください。
-    通常は'(hd0)'か/dev/sdaになります。
-    もし(hd0)を使用する場合、必ずバックスラッシュでカッコをエスケープするか、シングルクォートで囲んでシェルがサブシェルだと解釈しないようにしてください。</para>
+<screen role="nodump"><userinput>ln -sv /dev/sda2 /dev/root</userinput></screen>
 
-    <para>This program uses the following defaults and are correct if you did not
-    deviate from the instructions above:</para>
-    <para>このプログラムは次のデフォルトを使用します。
-    もしあなたが上記手順からそれていないのであれば、以下の値になります。</para>
+    <para>The symbolic link will only be present until the system is rebooted.
+    The link is only needed for the installation procedure.
+    </para>
+    <para>シンボリックリンクは、システムがリブートされるまでの間だけ存在します。
+    そのリンクはインストール作業のときのみ必要です。</para></note>
 
-    <itemizedlist>
-      <listitem><para>boot image  - boot.img  </para></listitem>
-      <listitem><para>core image  - core.img  </para></listitem>
-      <listitem><para>directory   - /boot/grub</para></listitem>
-      <listitem><para>device map  - device.map</para></listitem>
-      <listitem><para>default root setting - guessed</para></listitem>
-    </itemizedlist>
+  </sect2>
 
-   <note><para>The root setting is the default value if a 'set root' 
-   instruction is not found in grub.cfg.  This is the partition that is 
-   searched for the kernel and other supporting files.  It is different from 
-   the 'root=' parameter on the 'linux' line in the configuration line.  The 
-   latter is the partition the kernel mounts as '/'.  In the example grub.cfg 
-   above, both values point to /dev/sda2, but if there is a separate boot 
-   partition, they will be different.</para>
-   <para>grub.cfgに'set root'の指定がなければ、rootの設定値はデフォルトの値が使用されます。
-   この設定値はカーネルとその他サポートファイルを探すパーティンションとなります。
-   この設定は、'linux'の行の'root="パラメータとは異なります。
-   後者はカーネルが'/'としてマウントするパーティションを指定します。
-   上記grub.cfgの例では、両方の値は/dev/sda2を指定していますが、もし独立したbootパーティションが存在するならば、それらの設定値は異なります。</para></note>
-   </sect2>
+  <sect2>
+    <!-- <title>Creating the Configuration File</title> -->
+    <title>設定ファイルの作成</title>
+
+    <para>Generate <filename>/boot/grub/grub.cfg</filename>:</para>
+    <para><filename>/boot/grub/grub.cfg</filename>の作成：</para>
+
+    <screen><userinput>cat &gt; /boot/grub/grub.cfg &lt;&lt; "EOF"
+<literal># Begin /boot/grub/grub.cfg 
+set default=0 
+set timeout=5 
+ 
+insmod ext2 
+set root=(hd0,2) 
+ 
+menuentry "GNU/Linux, Linux &linux-version;-lfs-&version;" { 
+        linux   /boot/vmlinuz-&linux-version;-lfs-&version; root=/dev/sda2 ro 
+}</literal> 
+EOF</userinput></screen> 
+ 
+    <para>GRUB is an extremely powerful program and it provides a tremendous 
+    number of options for booting from a wide variety of devices, operating 
+    systems, and partition types.  There are also many options for customization  
+    such as graphical splash screens, playing sounds, mouse input, etc.  The 
+    details of these options are beyond the scope of this introduction.</para>
+    <para>GRUBはとても強力なプログラムです。また、幅広い様々なデバイス、OS、パーティションタイプからのブートするための極めて多数のオプションを提供しています。
+    さらに、グラフィカルなスプラッシュスクリーン、サウンド、マウス入力等のようなカスタマイズのための、多くのオプションがあります。
+    それらオプションの詳細は、この導入部の範囲を超えています。
+</para> 
+ 
+    <note><para>There is a command, <application>grub-mkconfig</application> that 
+    can write a configuration file automatically.  It uses a set of scripts in 
+    /etc/grub.d/ and will destroy any customizations that you make.  These scripts 
+    are designed primarily for non-source distributions and are not recommended for  
+    LFS.  If you install a commercial Linux distribution, there is a good chance  
+    that this program will be run.  Be sure to back up your grub.cfg file.</para>
+    <para><application>grub-mkconfig</application>は、自動的に設定ファイルを作成するコマンドです。
+    このコマンドは、/etc/grub.d/ にあるスクリプトを使います。また、それまでに行っていたカスタマイズをリセットします。
+    それらスクリプトは主に非ソース配布用に設計されており、LFSでは非推奨です。
+    もし商用のディストリビューションをインストールするならば、このプログラムを実行するいい機会です。
+    その際は、確実にgrub.cfgファイルをバックアップしてください。
+    </para></note>
+
+  </sect2>
 
 </sect1>
