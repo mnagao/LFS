@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9303 -->
+<!-- revision 9592 -->
 
 <sect1 id="pre-hostreqs">
   <?dbhtml filename="hostreqs.html"?>
@@ -95,28 +95,30 @@
     </listitem>
 
     <listitem>
-      <para><emphasis role="strong">Linux Kernel-2.6.22.5</emphasis>
+      <para><emphasis role="strong">Linux Kernel-2.6.25</emphasis>
       (having been compiled with GCC-3.0 or greater)</para>
-      <para><emphasis role="strong">Linux Kernel-2.6.22.5</emphasis>
+      <para><emphasis role="strong">Linux Kernel-2.6.25</emphasis>
       (GCC-3.0 もしくは それ以上のバージョンでコンパイルされていること)</para>
 
       <para>The reason for the kernel version requirement is that we specify
-      that version when building <application>glibc</application> in Chapter 6 
-      at the recommendation of the developers.  </para>
-      <para>カーネルのバージョンに要求がある理由は、開発者の推奨として第6章の<application>glibc</application>のビルドにて、我々がそのバージョンを指定しているからです。</para>
+      that version when building <application>glibc</application> in Chapter 6
+      at the recommendation of the developers.  It is also required by
+      udev.</para>
+      <para>カーネルのバージョンに要求がある理由は、開発者の推奨として第6章の<application>glibc</application>のビルドにて、我々がそのバージョンを指定しているからです。
+      また、udevからも要求されています。</para>
 
-      <para>If the host kernel is either earlier than 2.6.22.5, or it was not
+      <para>If the host kernel is either earlier than 2.6.25, or it was not
       compiled using a GCC-4.1.2 (or later) compiler, you will need to replace
       the kernel with one adhering to the specifications. There are two ways
-      you can go about this. First, see if your Linux vendor provides a 2.6.22.5.
+      you can go about this. First, see if your Linux vendor provides a 2.6.25.
       or lator kernel package. If so, you may wish to install it. If your
       vendor doesn't offer an acceptable kernel package, or you would prefer not to
       install it, you can compile a kernel yourself. Instructions for compiling the
       kernel and configuring the boot loader (assuming the host uses GRUB) are
       located in <xref linkend="chapter-bootable"/>.</para>
-      <para>もしカーネルが2.6.22.5以前のものか、GCC-4.1.2以上でコンパイルされていない場合、条件に合ったものに置き換える必要があります。
+      <para>もしカーネルが2.6.25以前のものか、GCC-4.1.2以上でコンパイルされていない場合、条件に合ったものに置き換える必要があります。
       その方法として、2つのやり方があります。
-      1つ目としては、Linuxベンダーが2.6.22.5以降のカーネルパッケージを用意してくれているか確認することです。
+      1つ目としては、Linuxベンダーが2.6.25以降のカーネルパッケージを用意してくれているか確認することです。
       そのようなパッケージが用意されているのであれば、それをインストールすればいいです。
       もし、ベンダーが条件を満たしたカーネルパッケージを提供していない場合、または2.6のカーネルパッケージをインストールしたくない場合は、カーネルを自分でコンパイルすることになります。
       カーネルのコンパイルやブートローダー(GRUBを使用すると思うが)の設定方法は、<xref linkend="chapter-bootable"/>にあります。
