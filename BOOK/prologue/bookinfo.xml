@@ -4,6 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
+<!-- revision 9182 -->
 
 <bookinfo>
   <title>Linux From Scratch</title>
