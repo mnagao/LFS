@@ -5,6 +5,8 @@
   %general-entities;
 ]>
 
+<!-- revision 9636 -->
+
 <sect1 id="ch-scripts-usage">
   <?dbhtml filename="usage.html"?>
 
@@ -45,14 +47,101 @@
 5: same as 4, it is usually used for GUI login (like X's <command>xdm</command> or KDE's <command>kdm</command>)
 6: reboot the computer</literallayout>
 
-  <para>The command used to change run-levels is <command>init
+  <sect2 id="conf-sysvinit" role="configuration"> 
+  <!-- <title>Configuring Sysvinit</title> -->
+  <title>Sysvinitの設定</title>
+ 
+  <indexterm zone="conf-sysvinit"> 
+    <primary sortas="a-Sysvinit">Sysvinit</primary> 
+    <secondary>configuring</secondary> 
+  </indexterm> 
+ 
+  <indexterm zone="conf-sysvinit"> 
+    <primary sortas="e-/etc/inittab">/etc/inittab</primary> 
+  </indexterm> 
+ 
+  <para>During the kernel initialization, the first program that is run 
+  is either specified on the command line or, by default  
+  <command>init</command>.  This program reads the initialization file 
+  <filename>/etc/inittab</filename>.  Create this file with:</para>
+  <para>カーネルを起動する際、最初に起動されるプログラムは、コマンドラインで指定するか、デフォルトの<command>init</command>のどちらかになります。
+  このプログラムは初期設定ファイルの<filename>/etc/inittab</filename>を読み込みます。
+  このファイルを次のようにして作成します：</para>
+ 
+<screen><userinput>cat &gt; /etc/inittab &lt;&lt; "EOF" 
+<literal># Begin /etc/inittab 
+ 
+id:3:initdefault: 
+ 
+si::sysinit:/etc/rc.d/init.d/rc S
+ 
+l0:0:wait:/etc/rc.d/init.d/rc 0 
+l1:S1:wait:/etc/rc.d/init.d/rc 1 
+l2:2:wait:/etc/rc.d/init.d/rc 2 
+l3:3:wait:/etc/rc.d/init.d/rc 3 
+l4:4:wait:/etc/rc.d/init.d/rc 4 
+l5:5:wait:/etc/rc.d/init.d/rc 5 
+l6:6:wait:/etc/rc.d/init.d/rc 6 
+ 
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now 
+ 
+su:S016:once:/sbin/sulogin 
+
+1:2345:respawn:/sbin/agetty --noclear tty1 9600 
+2:2345:respawn:/sbin/agetty tty2 9600 
+3:2345:respawn:/sbin/agetty tty3 9600 
+4:2345:respawn:/sbin/agetty tty4 9600 
+5:2345:respawn:/sbin/agetty tty5 9600 
+6:2345:respawn:/sbin/agetty tty6 9600 
+ 
+# End /etc/inittab</literal> 
+EOF</userinput></screen> 
+ 
+  <para>An explanation of this initialization file is in the man page for 
+  <emphasis>inittab</emphasis>.  For LFS, the key command that is run is 
+  <command>rc</command>. The intialization file above will instruct 
+  <command>rc</command> to run all the scripts starting with an S in the 
+  <filename class="directory">/etc/rc.d/rcsysinit.d</filename> directory 
+  followed by all the scripts starting with an S in the <filename 
+  class="directory">/etc/rc.d/rc?.d</filename> directory where the question 
+  mark is specified by the initdefault value.</para>
+  <para>この初期設定ファイルの説明は、<emphasis>inittab</emphasis>のmanページにあります。
+  LFSにおいては、キーとなるコマンドは<command>rc</command>です。
+  上記初期設定ファイルは<command>rc</command>に対して、<filename class="directory">/etc/rc.d/rcsysinit.d</filename>ディレクトリにあるSで始まる全てのスクリプトを実行するよう指示します。
+  続いて、<filename class="directory">/etc/rc.d/rc?.d</filename>にあるSで始まる全てのスクリプトの実行を指示します(クエスチョンマークは、initdefaultで指定された値が入ります)。</para>
+ 
+  <para>As a convenience, the <command>rc</command> script reads a library of
+  functions in <filename class="directory">/lib/lsb/init-functions</filename>.
+  This library also reads an optional configuration file, 
+  <filename>/etc/sysconfig/init_params</filename>.  Any of the system 
+  configuration file parameters described in subsequent sections can be 
+  alternatively placed in this file allowing consolidation of all system 
+  parameters in this one file.</para>
+  <para>利便性を考慮し、<command>rc</command>スクリプトは<filename class="directory">/lib/lsb/init-functions</filename>にあるライブラリを読み込みます。
+  このライブラリはまた、オプションの設定ファイル<filename>/etc/sysconfig/init_params</filename>を読み込みます。
+  この後に続くセクションで説明する、システムの各設定パラメータは、この一つの設定ファイルに全てのシステムパラメータをまとめて記述することができます。</para> 
+
+  <para>As a debugging convenience, the functions script also logs all output 
+  to <filename>/run/var/bootlog</filename>.  Since the <filename 
+  class="directory">/run</filename> directory is a tmpfs, this file is not 
+  persistent across boots.</para>
+  <para>デバッグのため、スクリプトは全ての出力を<filename>/run/var/bootlog</filename>に記録します。
+  <filename class="directory">/run</filename>ディレクトリはtmpfsであるため、このログファイルはリブート時に消えてしまいます。</para> 
+
+  </sect2> 
+ 
+  <sect2 id="init-levels" > 
+  <!--<title>Changing Run Levels</title>-->
+  <title>ランレベルの変更</title>
+
+  <para>Changing run-levels is done with <command>init
   <replaceable>&lt;runlevel&gt;</replaceable></command>, where
   <replaceable>&lt;runlevel&gt;</replaceable> is the target run-level. For example, to
   reboot the computer, a user could issue the <command>init 6</command> command,
   which is an alias for the <command>reboot</command> command. Likewise,
   <command>init 0</command> is an alias for the <command>halt</command>
   command.</para>
-  <para>run-levelを変更するために使用するコマンドは、<command>init <replaceable>&lt;runlevel&gt;</replaceable></command>です。<replaceable>&lt;runlevel&gt;</replaceable>は移行するrun-levelを指定します。
+  <para>run-levelの変更は、<command>init <replaceable>&lt;runlevel&gt;</replaceable></command>で行います。<replaceable>&lt;runlevel&gt;</replaceable>は移行するrun-levelを指定します。
   例えば、コンピュータをリブートする場合は、<command>init 6</command>を実行します。
   これは、<command>reboot</command>コマンドの別名です。
   同じように、<command>init 0</command>は、<command>halt</command>の別名です。</para>
@@ -79,7 +168,7 @@
 
   <para>The real scripts are in <filename
   class="directory">/etc/rc.d/init.d</filename>. They do the actual work, and
-  the symlinks all point to them. Killing links and starting links point to
+  the symlinks all point to them. K links and S links point to
   the same script in <filename class="directory">/etc/rc.d/init.d</filename>.
   This is because the scripts can be called with different parameters like
   <parameter>start</parameter>, <parameter>stop</parameter>,
@@ -90,7 +179,7 @@
   <parameter>start</parameter> argument.</para>
   <para>実際のスクリプトは、<filename class="directory">/etc/rc.d/init.d</filename>にあります。
   それらスクリプトが実際の処理を行い、シンボリックリンクは全てそれら実際のスクリプトを指しています。
-  停止(Kill)のリンクと開始(Start)のリンクは、<filename class="directory">/etc/rc.d/init.d</filename>にある同一のスクリプトを指しています。
+  停止(K)のリンクと開始(S)のリンクは、<filename class="directory">/etc/rc.d/init.d</filename>にある同一のスクリプトを指しています。
   これは、スクリプトが異なるパラメータで呼び出すことが出来るからです。パラメータには、<parameter>start</parameter>, <parameter>stop</parameter>, <parameter>restart</parameter>, <parameter>reload</parameter>, <parameter>status</parameter>があります。
   Kのリンクが呼び出されるとき、対応するスクリプトはパラメータ<parameter>stop</parameter>が指定されて実行されます。
   また、Sのリンクが呼び出されるときは、パラメータ<parameter>start</parameter>が指定されて実行されます。</para>
@@ -166,4 +255,6 @@
   it can be done.</para>
   <para>遠慮せずにブートプロセスの動作を変更してください(結局のところ、あなたのLFSシステムなので)。
   ここで提供したファイルは、ブートがどのようになされるかという一つの例なのですから。</para>
+
+  </sect2>
 </sect1>
