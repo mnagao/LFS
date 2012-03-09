@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 8892 -->
+<!-- revision 9637 -->
 
 <sect1 id="ch-bootable-fstab">
   <?dbhtml filename="fstab.html"?>
@@ -34,7 +34,7 @@
 proc           /proc        proc   defaults        0     0
 sysfs          /sys         sysfs  defaults        0     0
 devpts         /dev/pts     devpts gid=4,mode=620  0     0
-tmpfs          /dev/shm     tmpfs  defaults        0     0
+tmpfs          /run         tmpfs  defaults        0     0
 # End /etc/fstab</literal>
 EOF</userinput></screen>
 
@@ -49,6 +49,7 @@ EOF</userinput></screen>
   例えば、<filename class="partition">hda2</filename>、<filename class="partition">hda5</filename>、<systemitem class="filesystem">ext3</systemitem>のような値です。
   このfstabファイルの詳細は、<command>man 5 fstab</command>を見てください。</para>
 
+<!--
   <para>The <filename class="directory">/dev/shm</filename> mount point
   for <systemitem class="filesystem">tmpfs</systemitem> is included to
   allow enabling POSIX-shared memory. The kernel must have the required
@@ -65,6 +66,7 @@ EOF</userinput></screen>
   したがって、<filename class="directory">/dev/shm</filename>の選択は任意です。
   この機能のより詳しい情報は、カーネルソースツリーの<filename>Documentation/filesystems/tmpfs.txt</filename>を参照してください。
   </para>
+-->
 
   <para>Filesystems with MS-DOS or Windows origin (i.e.: vfat, ntfs, smbfs, cifs,
   iso9660, udf) need the <quote>iocharset</quote> mount option in order for
