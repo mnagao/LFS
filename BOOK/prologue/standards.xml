@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+<!-- revision 9574 -->
 
 <sect1 id="pre-standards">
   <?dbhtml filename="standards.html"?>
@@ -22,12 +22,8 @@
 
     <itemizedlist>
       <listitem>
-        <para><ulink url="http://www.unix.org/single_unix_specification">The 
-        Single UNIX Specification Version 3 (POSIX)</ulink>.  Note: 
-        Free registration is required.</para>
-        <para><ulink url="http://www.unix.org/single_unix_specification">The
-        Single UNIX Specification Version 3 (POSIX)</ulink>。
-        留意点：登録(無料)が必要です。</para>
+        <para><ulink url="http://pubs.opengroup.org/onlinepubs/9699919799/">
+        POSIX.1-2008</ulink>.</para>
       </listitem>
       <listitem>
         <para><ulink url="http://www.pathname.com/fhs/pub/fhs-2.3.html">Filesystem 
@@ -129,8 +125,8 @@
       <varlistentry>
         <term><emphasis>LSB Core:</emphasis></term>
         <listitem>
-          <para>Bc, Cpio, Ed, Fcrontab, PAM, Sendmail (or Postfix or Exim)
-          </para>
+          <para>Bc, Cpio, Ed, Fcrontab, Initd-tools, PAM,
+          Sendmail (or Postfix or Exim) </para>
         </listitem>
       </varlistentry>
 
@@ -183,7 +179,7 @@
       <varlistentry>
         <term><emphasis>LSB Core:</emphasis></term>
         <listitem>
-          <para>At, Batch, Install_initd, Lsb_release, Remove_initd, Test
+          <para>At, Batch, Lsb_release
           </para>
         </listitem>
       </varlistentry>
