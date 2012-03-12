@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+<!-- revision 9647 -->
 
 <sect1 id="pre-why">
   <?dbhtml filename="package-choices.html"?>
@@ -423,6 +423,18 @@
         いくつかのLFSのパッケージにおいて、ビルド手順の中で必要とされます。</para>
       </listitem>
 
+      <listitem> 
+        <para>PCRE</para> 
+ 
+        <para>This package provides a library that can be used to implement 
+        regular expression pattern matching using the same syntax and semantics 
+        as Perl 5.  It is a mandatory dependency of Glib, and can also be used 
+        by Grep.</para>
+        <para>このパッケージは、Perl 5と同じ文法を使った正規表現によるパターンマッチングの機能を提供します。
+        このパッケージはGlibに必須なライブラリで、Grepからも使用されます。
+        </para> 
+      </listitem>
+
       <listitem>
         <para>Perl</para>
 
@@ -431,16 +443,6 @@
         packages.</para>
         <para>このパッケージは、ランタイム言語PERLのインタープリターです。
         LFSのいくつかのパッケージのインストールとテストツールで必要とされます。</para>
-      </listitem>
-
-      <listitem>
-        <para>Pkg-config</para>
-
-        <para>This package contains a tool for passing the include path 
-        and/or library paths to build tools during the configure and make 
-        processes.  It is needed by many LFS packages.</para>
-        <para>このパッケージは、configureとmakeプロセスの間でビルドツールに対して、インクルードパスと(または)ライブラリパスを渡すためのツールを含んでいます。
-        このパッケージはまた、多くのLFSのパッケージから必要とされています。</para>
       </listitem>
 
       <listitem>
@@ -573,7 +575,7 @@
  
         <para>This package contains programs for compressing and decompressing  
         files.  It provides the highest compression generally available 
-        and the useful for decompressing packages XZ or LZMA format.</para>
+        and is useful for decompressing packages XZ or LZMA format.</para>
         <para>このパッケージはファイルを圧縮・解凍するためのプログラムを含んでいます。
         そして、一般的に利用可能な最高の圧縮アルゴリズムを提供し、XZまたはLZMA形式の解凍に便利です。</para>
       </listitem>
