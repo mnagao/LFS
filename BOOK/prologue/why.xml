@@ -364,6 +364,14 @@
         <para>このパッケージは、基本的なLinuxのmanページの内容を含んでいます。</para>
       </listitem>
 
+      <listitem>
+        <para>Module-Init-Tools</para>
+
+        <para>This package contains programs needed to administer Linux
+        kernel modules.</para>
+        <para>このパッケージは、Linuxカーネルモジュールを管理するために必要なプログラムを含んでいます。</para>
+      </listitem>
+
       <listitem> 
         <para>MPC</para> 
 
@@ -381,24 +389,6 @@
         <para>このパッケージは多倍長演算のためのファンクションを含んでいます。
         このパッケージはGccが必要とします。</para>
      </listitem>
-
-      <listitem>
-        <para>Module-Init-Tools</para>
-
-        <para>This package contains programs needed to administer Linux
-        kernel modules.</para>
-        <para>このパッケージは、Linuxカーネルモジュールを管理するために必要なプログラムを含んでいます。</para>
-      </listitem>
-
-      <listitem>
-        <para>MPFR</para>
-
-        <para>This package contains functions for multiple precision 
-        arithmetic.  It is required by Gcc.
-        </para>
-        <para>このパッケージは、多倍精度演算のための機能を含んでいます。
-        これはGCCに必要なパッケージです。</para>
-      </listitem>
 
       <listitem>
         <para>Ncurses</para>
