@@ -169,8 +169,8 @@ esac</userinput></screen>
 <screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
 mv -v mpfr-&mpfr-version; mpfr
 tar -jxf ../gmp-&gmp-version;.tar.bz2
-mv -v gmp-&gmp-version; gmp 
-tar -zxf ../mpc-&mpc-version;.tar.gz 
+mv -v gmp-&gmp-version; gmp
+tar -zxf ../mpc-&mpc-version;.tar.gz
 mv -v mpc-&mpc-version; mpc</userinput></screen>
 
     <para>Create a separate build directory again:</para>
@@ -321,8 +321,8 @@ cd ../gcc-build</userinput></screen>
     <para>ここで、新しいツールチェインの基本的な機能(コンパイルとリンク)が、期待通りに動くことを確認することが必須です。
     サニティチェックを実行するには、次のコマンドを実行してください：</para>
  
-<screen><userinput>echo 'main(){}' &gt; dummy.c 
-cc dummy.c 
+<screen><userinput>echo 'main(){}' &gt; dummy.c
+cc dummy.c
 readelf -l a.out | grep ': /tools'</userinput></screen> 
  
     <para>If everything is working correctly, there should be no errors, 
