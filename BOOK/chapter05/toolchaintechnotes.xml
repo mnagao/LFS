@@ -54,7 +54,7 @@
     linker <command>ld</command> that is part of Binutils). The dynamic linker
     provided by Glibc finds and loads the shared libraries needed by a program,
     prepares the program to run, and then runs it. The name of the dynamic
-    linker for a 32-bit intel machine will be
+    linker for a 32-bit Intel machine will be
     <filename class="libraryfile">ld-linux.so.2</filename>.
     A sure-fire way to determine the name of the dynamic linker is to
     inspect a random binary from the host system by running:
@@ -154,8 +154,8 @@
   <command>configure</command> 実行による結果表示の例は以下のとおりです：
   </para>
 
-<screen><computeroutput>checking what assembler to use... /tools/i686-pc-linux-gnu/bin/as
-checking what linker to use... /tools/i686-pc-linux-gnu/bin/ld</computeroutput></screen>
+<screen><computeroutput>checking what assembler to use... /tools/i686-lfs-linux-gnu/bin/as
+checking what linker to use... /tools/i686-lfs-linux-gnu/bin/ld</computeroutput></screen>
 
   <para>This is important for the reasons mentioned above. It also demonstrates
   that GCC's configure script does not search the PATH directories to find which
