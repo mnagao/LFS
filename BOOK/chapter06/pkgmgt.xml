@@ -395,6 +395,15 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</userinput></screen>
     that file via network transfer or CD-ROM to the new system and expanding 
     it.  From that point, a few configuration files will have to be changed. 
     Configuration files that may need to be updated include:  
+    <filename>/etc/hosts</filename>, 
+    <filename>/etc/fstab</filename>, 
+    <filename>/etc/passwd</filename>, 
+    <filename>/etc/group</filename>, 
+    <filename>/etc/shadow</filename>, 
+    <filename>/etc/ld.so.conf</filename>, 
+    <filename>/etc/scsi_id.config</filename>, 
+    <filename>/etc/sysconfig/network</filename> and 
+    <filename>/etc/sysconfig/network-devices/ifconfig.eth0/ipv4</filename>.     
     </para> 
     <para>LFSシステムの利点の一つに、ディスク上のファイルの位置に依存するファイルがないことが挙げられます。
     元となるシステムとアーキテクチャが似ている他のコンピュータにLFSシステムをクローンすることは、rootディレクトリ(ベースのLFSシステムでは約250MB)を含むLFSパーティション上で<command>tar</command>を使用し、そのアーカイブファイルをネットワーク経由またはCD-ROMで新しいシステムにコピーし、展開するだけという簡単さです。
