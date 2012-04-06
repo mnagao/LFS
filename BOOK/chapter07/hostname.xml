@@ -32,7 +32,7 @@
 
   <para><replaceable>&lt;lfs&gt;</replaceable> needs to be replaced with the name given
   to the computer. Do not enter the Fully Qualified Domain Name (FQDN) here. That
-  information will be put in the <filename>/etc/hosts</filename> file.</para>
+  information is put in the <filename>/etc/hosts</filename> file.</para>
   <para><replaceable>&lt;lfs&gt;</replaceable>は、コンピュータの名前で置き換える必要があります。
   ここではFQDN(Fully Qualified Domain Name)を入力しないでください。
   FQDNは<filename>/etc/hosts</filename>に記述します。</para>
