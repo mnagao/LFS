@@ -116,8 +116,8 @@ ln -sfv ../../lib/libhistory.so.6 /usr/lib/libhistory.so</userinput></screen>
     <para>If desired, install the documentation:</para>
     <para>もし必要であれば、ドキュメントをインストールしてください：</para>
 
-<screen><userinput remap="install">mkdir   -v       /usr/share/doc/readline-&readline-version; 
-install -v -m644 doc/*.{ps,pdf,html,dvi} \ 
+<screen><userinput remap="install">mkdir   -v       /usr/share/doc/readline-&readline-version;
+install -v -m644 doc/*.{ps,pdf,html,dvi} \
                  /usr/share/doc/readline-&readline-version;</userinput></screen>
 
   </sect2>
