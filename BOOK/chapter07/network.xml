@@ -198,6 +198,12 @@ EOF</userinput></screen>
     もし<quote>yes</quote>以外に設定されている場合は、NICはネットワークスクリプトから無視され、自動的に起動されません。
     インタフェースは、<command>ifup</command>・<command>ifdown</command>コマンドを使用して、手動で起動・停止することが出来ます。</para>
 
+    <para>The <envar>IFACE</envar> variable defines the interface name, 
+    for example, eth0.  It is required for all network device configuration  
+    files. </para>
+    <para><envar>IFACE</envar>はインタフェースの名前を定義します。例えばeth0のように定義します。
+    全てのネットワークデバイスの設定で必須となります。</para>
+
     <para>The <envar>SERVICE</envar> variable defines the method used for
     obtaining the IP address. The LFS-Bootscripts package has a modular IP
     assignment format, and creating additional files in the <filename
