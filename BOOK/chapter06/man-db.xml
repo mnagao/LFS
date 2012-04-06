@@ -331,6 +331,7 @@
         <listitem>
           <para>Dumps the <command>whatis</command> database contents in
           human-readable form</para>
+          <para>人が読める形式で、<command>whatis</command>データベースの内容をダンプします。</para>
           <indexterm zone="ch-system-man-db accessdb">
             <primary sortas="b-accessdb">accessdb</primary>
           </indexterm>
