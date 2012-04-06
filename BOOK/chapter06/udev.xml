@@ -132,8 +132,10 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
 
 <screen><userinput remap="make">make</userinput></screen>
 
-    <para>This package does not come with a test suite.</para>
-    <para>このパッケージにはテストツールは付属していません。</para>
+    <para>Test the package.</para>
+    <para>パッケージのテストを行います。</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
