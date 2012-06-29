@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# <!-- revision 9556 -->
-
 rm -f lfs-bootscripts*.tar.bz2
 
 # Get base file name and move bootscripts directory to that name

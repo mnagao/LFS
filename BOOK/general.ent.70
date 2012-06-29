@@ -1,11 +1,11 @@
-<!ENTITY version "7.1">
-<!ENTITY releasedate "Mar 2, 2012">
-<!ENTITY copyrightdate "1999-2012"><!-- jhalfs needs a literal dash, not &ndash; -->
-<!ENTITY milestone "7.1">
-<!ENTITY generic-version "7.1"> <!-- Use "development", "testing", or "x.y[-pre{x}]" -->
+<!ENTITY version "7.0">
+<!ENTITY releasedate "Oct 29, 2011">
+<!ENTITY copyrightdate "1999-2011"><!-- jhalfs needs a literal dash, not &ndash; -->
+<!ENTITY milestone "7.0">
+<!ENTITY generic-version "7.0"> <!-- Use "development", "testing", or "x.y[-pre{x}]" -->
 
-<!ENTITY previous-revision "9651">
-<!ENTITY original-revision "9759">
+<!ENTITY previous-revision "9481">
+<!ENTITY original-revision "9651">
 
 <!ENTITY lfs-root "http://www.linuxfromscratch.org/">
 <!ENTITY lfs-ticket-root "http://wiki.linuxfromscratch.org/lfs/ticket/">

@@ -1,11 +1,13 @@
-BASEDIR = ~/lfs-book
+#BASEDIR = ~/lfs-book
+BASEDIR = /usr/local/apache2/htdocs/LFS
 DUMPDIR = ~/lfs-commands
 RENDERTMP = $(HOME)/tmp
 CHUNK_QUIET = 1
 ROOT_ID =
 PDF_OUTPUT = LFS-BOOK.pdf
 NOCHUNKS_OUTPUT = LFS-BOOK.html
-SHELL = /bin/bash
+
+# <!-- revision 9622 -->
 
 ifdef V
   Q =
@@ -72,9 +74,6 @@ nochunks: maketar validxml profile-html
 	$(Q)bash obfuscate.sh $(BASEDIR)/$(NOCHUNKS_OUTPUT)
 	$(Q)sed -i -e "s@text/html@application/xhtml+xml@g"  \
 	  $(BASEDIR)/$(NOCHUNKS_OUTPUT)
-	$(Q)sed -i -e "s@../wget-list@wget-list@"  \
-	  $(BASEDIR)/$(NOCHUNKS_OUTPUT)
-	$(Q)$(MAKE) wget-list
 
 tmpdir:
 	@echo "Creating and cleaning $(RENDERTMP)"
