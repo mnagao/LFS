@@ -5,13 +5,14 @@
   %general-entities;
 ]>
 
-<!-- revision 9616 -->
+<!-- revision 9745 -->
 
 <appendix id="appendixc" xreflabel="Appendix C">
   <?dbhtml dir="appendices"?>
   <?dbhtml filename="dependencies.html"?>
 
-  <title>Dependencies</title>
+  <!--<title>Dependencies</title>-->
+  <title>依存関係</title>
 
   <para>Every package built in LFS relies on one or more other packages in
   order to build and install properly. Some packages even participate in
@@ -20,7 +21,8 @@
   which packages are built in LFS is very important. The purpose of this page
   is to document the dependencies of each package built in LFS.</para>
   <para>LFSでビルドするそれぞれのパッケージは、一つまたはそれ以上の他のパッケージに依存しています。
-  いくつかのパッケージは循環依存状態になっているものもあります。すなわち、最初のパッケージが2番目のパッケージに>依存し
+  いくつかのパッケージは循環依存状態になっているものもあります。すなわち、最初のパッケージが2番目のパッケージに>
+依存し
 ており、同様に2番目のパッケージは最初のパッケージに依存しているのです。
   それら依存関係のために、LFSにおいてはパッケージをビルドする順序がとても重要になってきます。
   このページの目的は、LFSにおけるそれぞれのパッケージの依存関係についてを記録することです。</para>
@@ -40,15 +42,17 @@
 。
   最初の依存関係は、パッケージをコンパイル・インストールするために、利用可能となっている必要があるパッケージです
 。
-  2つ目の依存関係は、最初の依存関係に加え、テストツールを実行するために利用可能となっている必要があるパッケージ>です。
-  3つ目の依存関係のリストは、ビルド・インストールする前に、最終的にインストールされる場所にインストールされてい>る必要があるパッケージのリストです。
+  2つ目の依存関係は、最初の依存関係に加え、テストツールを実行するために利用可能となっている必要があるパッケージ>
+です。
+  3つ目の依存関係のリストは、ビルド・インストールする前に、最終的にインストールされる場所にインストールされてい>
+る必要があるパッケージのリストです。
   ほとんどの依存関係は、それらパッケージがスクリプトの中で、バイナリへのパスをハードコードしていることが理由です
 。
   もし正しい順序でビルドしなかったら、/tools/bin/[binary]のパスが、最終的なLFSシステムにインストールされるスクリ
 プトの中に組み込まれてしまいます。
   これは明らかに望んでいないことです。
   </para>
-  
+
   <para>The last list of dependencies are optional packages that are not
   addressed in LFS, but could be useful to the user.  These packages may have
   additional mandatory or optional dependencies of their own.  For these
@@ -435,7 +439,7 @@
         <segtitle>&testsuites;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Psmisc</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -861,7 +865,7 @@
 
         <seglistitem>
          <seg>Bash, Binutils, Bison, Coreutils, Diffutils, GCC, Gettext, Glibc, 
-         Grep, Make, Ncurses, Sed, and Texinfo</seg>
+         Grep, Make, Ncurses, Sed, Texinfo, and Xz</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1068,6 +1072,42 @@
         </seglistitem>
       </segmentedlist>
 
+<!-- Begin Kmod dependency info -->
+  <bridgehead renderas="sect2" id="kmod-dep">Kmod</bridgehead>
+
+      <segmentedlist>
+        <segtitle>&dependencies;</segtitle>
+
+        <seglistitem>
+         <seg>Bash, Binutils, Bison, Coreutils, Flex, GCC, Gettext, Glibc,
+         Gzip, Make, Sed, Xz-Utils, Zlib</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&testsuites;</segtitle>
+
+        <seglistitem>
+          <seg>No test suite available</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&before;</segtitle>
+
+        <seglistitem>
+          <seg>Udev</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&external;</segtitle>
+
+        <seglistitem>
+          <seg>None</seg>
+        </seglistitem>
+      </segmentedlist>
+
 <!-- Begin Less dependency info -->
   <bridgehead renderas="sect2" id="less-dep">Less</bridgehead>
 
@@ -1184,7 +1224,7 @@
 
         <seglistitem>
          <seg>Bash, Binutils, Coreutils, Diffutils, Findutils, GCC, Glibc, Grep,
-         Gzip, Make, Module-Init-Tools, Ncurses, Perl, and Sed</seg>
+         Gzip, Kmod, Make, Ncurses, Perl, and Sed</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1336,42 +1376,6 @@
 
         <seglistitem>
           <seg>No test suite available</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&before;</segtitle>
-
-        <seglistitem>
-          <seg>None</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&external;</segtitle>
-
-        <seglistitem>
-          <seg>None</seg>
-        </seglistitem>
-      </segmentedlist>
-
-<!-- Begin Module-Init-Tools dependency info -->
-  <bridgehead renderas="sect2" id="module-init-tools-dep">Module-Init-Tools</bridgehead>
-
-      <segmentedlist>
-        <segtitle>&dependencies;</segtitle>
-
-        <seglistitem>
-         <seg>Bash, Binutils, Coreutils, Findutils, GCC, Glibc, Grep, Make,
-         Patch, Sed, and Zlib</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&testsuites;</segtitle>
-
-        <seglistitem>
-          <seg>Diffutils, File, Gawk, and Gzip</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1746,7 +1750,7 @@
         <segtitle>&external;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Acl, Attr, Cracklib, PAM</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1936,7 +1940,7 @@
 
         <seglistitem>
          <seg>Bash, Binutils, Coreutils, Diffutils, Gawk, GCC, Glibc, Grep,
-         Make, and Sed</seg>
+         Kmod, Make, and Sed</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1960,7 +1964,7 @@
         <segtitle>&external;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Glib, Pci-Utils, Python, Systemd, USB-Utils</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -2059,7 +2063,7 @@
         <segtitle>&before;</segtitle>
 
         <seglistitem>
-          <seg>Man-DB</seg>
+          <seg>GRUB, Kmod, Man-DB, Udev</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -2094,7 +2098,7 @@
         <segtitle>&before;</segtitle>
 
         <seglistitem>
-          <seg>File, Module-Init-Tools, Perl, and Util-linux</seg>
+          <seg>File, Kmod, Perl, and Util-linux</seg>
         </seglistitem>
       </segmentedlist>
 

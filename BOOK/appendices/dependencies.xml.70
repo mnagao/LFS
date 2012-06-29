@@ -4,14 +4,14 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9459 -->
+
+<!-- revision 9616 -->
 
 <appendix id="appendixc" xreflabel="Appendix C">
   <?dbhtml dir="appendices"?>
   <?dbhtml filename="dependencies.html"?>
 
-  <!--<title>Dependencies</title>-->
-  <title>依存関係</title>
+  <title>Dependencies</title>
 
   <para>Every package built in LFS relies on one or more other packages in
   order to build and install properly. Some packages even participate in
@@ -19,8 +19,8 @@
   in turn depends on the first. Because of these dependencies, the order in
   which packages are built in LFS is very important. The purpose of this page
   is to document the dependencies of each package built in LFS.</para>
- <para>LFSでビルドするそれぞれのパッケージは、一つまたはそれ以上の他のパッケージに依存しています。
-  いくつかのパッケージは循環依存状態になっているものもあります。すなわち、最初のパッケージが2番目のパッケージに依存し
+  <para>LFSでビルドするそれぞれのパッケージは、一つまたはそれ以上の他のパッケージに依存しています。
+  いくつかのパッケージは循環依存状態になっているものもあります。すなわち、最初のパッケージが2番目のパッケージに>依存し
 ており、同様に2番目のパッケージは最初のパッケージに依存しているのです。
   それら依存関係のために、LFSにおいてはパッケージをビルドする順序がとても重要になってきます。
   このページの目的は、LFSにおけるそれぞれのパッケージの依存関係についてを記録することです。</para>
@@ -36,12 +36,16 @@
   built in a certain order, this could result in paths of /tools/bin/[binary]
   being placed inside scripts installed to the final system. This is obviously
   not desirable.</para>
-  <para>ビルドするそれぞれのパッケージについて、私たちは3つ、あるいは4つのタイプの依存関係をリストアップしました。
-  最初の依存関係は、パッケージをコンパイル・インストールするために、利用可能となっている必要があるパッケージです。
-  2つ目の依存関係は、最初の依存関係に加え、テストツールを実行するために利用可能となっている必要があるパッケージです。
-  3つ目の依存関係のリストは、ビルド・インストールする前に、最終的にインストールされる場所にインストールされている必要があるパッケージのリストです。
-  ほとんどの依存関係は、それらパッケージがスクリプトの中で、バイナリへのパスをハードコードしていることが理由です。
-  もし正しい順序でビルドしなかったら、/tools/bin/[binary]のパスが、最終的なLFSシステムにインストールされるスクリプトの中に組み込まれてしまいます。
+  <para>ビルドするそれぞれのパッケージについて、私たちは3つ、あるいは4つのタイプの依存関係をリストアップしました
+。
+  最初の依存関係は、パッケージをコンパイル・インストールするために、利用可能となっている必要があるパッケージです
+。
+  2つ目の依存関係は、最初の依存関係に加え、テストツールを実行するために利用可能となっている必要があるパッケージ>です。
+  3つ目の依存関係のリストは、ビルド・インストールする前に、最終的にインストールされる場所にインストールされてい>る必要があるパッケージのリストです。
+  ほとんどの依存関係は、それらパッケージがスクリプトの中で、バイナリへのパスをハードコードしていることが理由です
+。
+  もし正しい順序でビルドしなかったら、/tools/bin/[binary]のパスが、最終的なLFSシステムにインストールされるスクリ
+プトの中に組み込まれてしまいます。
   これは明らかに望んでいないことです。
   </para>
   
@@ -53,7 +57,7 @@
   reinstallation is addressed in BLFS.</para>
   <para>最後の依存関係は、LFSで扱っていませんがユーザにとって便利な、オプションパッケージについてです。
   それらパッケージは、それらパッケージ自身にとっての必須または任意の依存関係を持つ場合もあります。
-  それら依存関係に対する推奨の対応としては、LFSブックの内容でビルドを完了させた後、それらパッケージをインストールし、そしてまたLFSのパッケージをインストールするやり方があります。
+  それら依存関係に対する推奨の対応としては、LFSブックの内容でビルドを完了させた後、それらパッケージをインストー>ルし、そしてまたLFSのパッケージをインストールするやり方があります。
   いくつかのケースにおける再インストールについては、BLFSで取り上げています。</para>
 
 <!-- Begin Autoconf dependency info -->
@@ -423,7 +427,7 @@
 
         <seglistitem>
          <seg>Bash, Binutils, Coreutils, Diffutils, Gawk, GCC, Glibc, Grep,
-         Gzip, Make, Pkg-config, Sed, Texinfo, and Util-linux</seg>
+         Gzip, Make, Sed, Texinfo, and Util-linux</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1100,6 +1104,42 @@
         </seglistitem>
       </segmentedlist>
 
+<!-- Begin Libpipeline dependency info -->
+  <bridgehead renderas="sect2" id="libpipeline-dep">Libpipeline</bridgehead>
+
+      <segmentedlist>
+        <segtitle>&dependencies;</segtitle>
+
+        <seglistitem>
+         <seg>Bash, Binutils, Coreutils, Diffutils, Gawk, GCC, Glibc, Grep,
+         Make, Sed, and Texinfo</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&testsuites;</segtitle>
+
+        <seglistitem>
+          <seg>No test suite available</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&before;</segtitle>
+
+        <seglistitem>
+          <seg>Man-DB</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&external;</segtitle>
+
+        <seglistitem>
+          <seg>None</seg>
+        </seglistitem>
+      </segmentedlist>
+
 <!-- Begin Libtool dependency info -->
   <bridgehead renderas="sect2" id="libtool-dep">Libtool</bridgehead>
 
@@ -1252,7 +1292,7 @@
 
         <seglistitem>
          <seg>Bash, Binutils, Bzip2, Coreutils, Flex, GCC, GDBM, Gettext,
-         Glibc, Grep, Groff, Gzip, Less, Make, Sed, and Xz</seg>
+         Glibc, Grep, Groff, Gzip, Less, Libpipeline, Make, Sed, and Xz</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1520,42 +1560,6 @@
 
         <seglistitem>
           <seg>Autoconf</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&external;</segtitle>
-
-        <seglistitem>
-          <seg>None</seg>
-        </seglistitem>
-      </segmentedlist>
-
-<!-- Begin Pkg-config dependency info -->
-  <bridgehead renderas="sect2" id="pkg-config-dep">Pkg-config</bridgehead>
-
-      <segmentedlist>
-        <segtitle>&dependencies;</segtitle>
-
-        <seglistitem>
-         <seg>Bash, Binutils, Coreutils, Diffutils, Gawk, GCC, Glibc, Grep,
-         Make, and Sed</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&testsuites;</segtitle>
-
-        <seglistitem>
-          <seg>None</seg>
-        </seglistitem>
-      </segmentedlist>
-
-      <segmentedlist>
-        <segtitle>&before;</segtitle>
-
-        <seglistitem>
-          <seg>None</seg>
         </seglistitem>
       </segmentedlist>
 
