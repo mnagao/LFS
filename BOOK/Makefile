@@ -1,4 +1,4 @@
-BASEDIR = ~/lfs-book
+BASEDIR = /usr/local/apache2/htdocs/LFS
 DUMPDIR = ~/lfs-commands
 RENDERTMP = $(HOME)/tmp
 CHUNK_QUIET = 1

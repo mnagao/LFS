@@ -5,7 +5,7 @@
   %general-entities;
 ]>
 
-<!-- revision 9646 -->
+<!-- revision 9758 -->
 
 <sect1 id="ch-scatter-changelog">
   <?dbhtml filename="changelog.html"?>
@@ -43,841 +43,563 @@
     </listitem>
 
 -->
+
     <listitem>
-      <para>2011-10-28</para>
+      <para>2012-03-02</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Upgrade to Linux-3.1. Fixes
-          <ulink url="&lfs-ticket-root;2937">#2937</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Remove hardcoded paths from GCC's MPFR-related
-          configure switches. Fixes
-          <ulink url="&lfs-ticket-root;2948">#2948</ulink>.</para>
+          <para>[bdubbs] - LFS-7.1 released.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-10-20</para>
+      <para>2012-02-24</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Spell out the fact that the linux kernel headers
-          are located in the linux kernel tarball.</para>
+          <para>[bdubbs] - Minor changes to ifup boot script.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-10-19</para>
+      <para>2012-02-24</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Remove reference to /dev/shm in fstab description.
-          It is now automatic at /run/shm.</para>
+          <para>[bdubbs] - Add a patch for glibc that fixes a problem
+          (segfault) for dlopen() in some cases.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-10-17</para>
+      <para>2012-02-23</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Add statusproc back to bootscripts.</para>
+          <para>[bdubbs] - Add a note in section about partitioning using
+          advanced techniques (e.g. RAID and LVM).</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-20</para>
+      <itemizedlist>
+        <listitem>
+          <para>[bdubbs] - LFS-7.1-rc1 released.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-19</para>
+      <itemizedlist>
+        <listitem>
+          <para>[bdubbs] - Add sed to the m4 package to fix a false test
+          error.  Fixes <ulink url="&lfs-ticket-root;3022">#3022</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Also remove doc/ files when stripping in Chapter 5.
+          <para>[bdubbs] - Update mountfs script to support LVM volumes when
+          stopping.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-15</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Upgrade to Man-DB-2.6.1. Fixes
+          <ulink url="&lfs-ticket-root;3020">#3020</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[bdubbs] - Activate any possible LVM partitions
+          in checkfs script.  Thanks ot Qrux for pointing out
+          the issue.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-14</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Upgrade to Shadow-4.1.5. Fixes
+          <ulink url="&lfs-ticket-root;3019">#3019</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Linux-3.2.6. Fixes
+          <ulink url="&lfs-ticket-root;3018">#3018</ulink>.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-11</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Correct some markup for a couple of installation
+          commands. This helps with jhalfs' package management feature.  Thanks
+          to Pierre Labastie for the patch.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Create /usr/lib/libstdc++.la early in chapter 6 to
+          fix an ICA issue.  Thanks to Pierre Labastie for the patch.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to GMP-5.0.4. Fixes
+          <ulink url="&lfs-ticket-root;3017">#3017</ulink>.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-09</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Remove a fixup for GMP's testsuite which was added upstream in
+          GMP-5.0.3. Fixes <ulink url="&lfs-ticket-root;3016">#3016</ulink>.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-07</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Upgrade to Udev-181. Fixes
+          <ulink url="&lfs-ticket-root;3015">#3015</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Kmod-5. Fixes
+          <ulink url="&lfs-ticket-root;3014">#3014</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Linux-3.2.5. Fixes
+          <ulink url="&lfs-ticket-root;3013">#3013</ulink>.</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>2012-02-05</para>
+      <itemizedlist>
+        <listitem>
+          <para>[matthew] - Upgrade to Linux-3.2.4. Fixes
+          <ulink url="&lfs-ticket-root;3012">#3012</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Automake-1.11.3. Fixes
+          <ulink url="&lfs-ticket-root;3011">#3011</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Remove last remaining mentions of Module-Init-Tools.
           </para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Add --noclear to agetty for tty1 in inittab.</para>
+          <para>[matthew] - Install Kmod's and Xz's pkgconfig files in
+          the standard location.  Thanks to John Burrell and Bryan for the
+          original reports and Ken for the suggested fix.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-10-13</para>
+      <para>2012-02-04</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Added Xz to the prerequisites due to Coreutils
-          now only distributed in .xz format.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Change file location for kbd, udev, util-linux,
-          and moduule-init-tools to anduin until kernel.org gets repopulated.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Upgrade to Coreutils-8.14. Fixes
-          <ulink url="&lfs-ticket-root;2945">#2945</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-12</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Really fix the Coreutils i18n patch so that it runs
-          and passes all tests again.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to MPFR-3.1.0. Fixes
-          <ulink url="&lfs-ticket-root;2934">#2934</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Module-Init-Tools-3.16. Fixes
-          <ulink url="&lfs-ticket-root;2882">#2882</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Glibc-2.14.1. Fixes
-          <ulink url="&lfs-ticket-root;2940">#2940</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-10</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Add a patch for gcc to fix some locale
-          tests. Fixes
-          <ulink url="&lfs-ticket-root;2938">#2938</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Add check to Chapter 5 and incorate it into
-          libpipeline. Fixes
-          <ulink url="&lfs-ticket-root;2941">#2941</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Add a paragraph in Chapter 3.1 about obtaining and
-          using md5sums for the packages in the book.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-08</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Update to man-pages-3.35. Fixes
-          <ulink url="&lfs-ticket-root;2936">#2936</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Add additional environment variable
-          to man-db.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-07</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Minor update to bootscripts Makefile. Fixes
-          <ulink url="&lfs-ticket-root;2939">#2939</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Remove Pkg-Config, and its dependencies PCRE and
-          Glib.  E2fsprogs, Man-DB and Udev can all be built without Pkg-Config,
-          and later Glib versions are becoming a little much for LFS.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-06</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bryan] - Fix the udev_retry script, and add an explanation
-          for how to configure it.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-05</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Add a small change from upstream to gmp.  Fixes
-          <ulink url="&lfs-ticket-root;2935">#2935</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-10-02</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Fix the Coreutils i18n patch so that it runs and
-          passes all tests again.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-29</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Upgrade to Perl-5.14.2. Fixes
-          <ulink url="&lfs-ticket-root;2933">#2933</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to File-5.09. Fixes
-          <ulink url="&lfs-ticket-root;2932">#2932</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Coreutils-8.13. Fixes
-          <ulink url="&lfs-ticket-root;2928">#2928</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Add a fix for a bug in Glibc that causes programs
-          linked to SDL to segfault. Fixes
-          <ulink url="&lfs-ticket-root;2920">#2920</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Diffutils-3.2. Fixes
-          <ulink url="&lfs-ticket-root;2919">#2919</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Add a patch to correct several bugs in MPFR.  Fixes
-          <ulink url="&lfs-ticket-root;2918">#2918</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-26</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Correct syntax in modules boot script.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-23</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Allow variables in rc.site to override defaults.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-22</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Updates to lfs-bootscripts console script.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-21</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Updates to lfs-bootscripts Makefile.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-18</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Review and update recent changes to bootscripts.</para>
+          <para>[bdubbs] - Fixes to bootscripts:
           <itemizedlist>
-             <listitem><para>Rename /etc/sysconfig/init_params to /etc/sysconfig/rc.site.</para>
-             </listitem>
-             <listitem><para>Move network services to /lib/services.</para></listitem>
-             <listitem><para>Move init-functions to /lib/lsb.</para></listitem>
-             <listitem><para>Make /lib/lsb a symlink to /lib/services.</para></listitem>
-             <listitem><para>Create convenience symlink /etc/init.d->/etc/rc.d/init.d
-                       </para></listitem>
-             <listitem><para>Add help and man pages to ifup/ifdown.
-                             </para></listitem>
-             <listitem><para>Append /run/var/bootlog to /var/log/boot.log at the end of
-                  the boot sequence.</para></listitem>
-             <listitem><para>Add capability to step through the boot scripts at boot time.
-                  </para></listitem>
-             <listitem><para>Optionally allow environment variables in sysconfig directory's
-                  console, network, and clock files to be placed in rc.site.
-                  </para></listitem>
-             <listitem><para>Add an optional FASTBOOT parameter to set /fastboot when rebooting.
-                  </para></listitem>
+            <listitem><para>Remove unneeded function literals.</para></listitem>
+            <listitem><para>Fix pidlist logic in statusproc.</para></listitem>
+            <listitem><para>Fix statusproc usage statement.</para></listitem>
+            <listitem><para>Add nodevtmpfs in mountfs stop.</para></listitem>
           </itemizedlist>
-        </listitem>
-        <listitem>
-           <para>[bdubbs] - Remove a minor warning message from udev that is triggered
-           by the udev_retry boot script.</para>
-        </listitem>
-        <listitem>
-           <para>[bdubbs] - Add SKIPTMPCLEAN as an optional parameter to skip cleaning
-           /tmp at boot time.</para>
-        </listitem>
-        <listitem>
-           <para>[bdubbs] - Add a page to Chapter 7 documenting rc.site.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-04</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Fix a broken popt function in pkg-config.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Suppress sysvinit overwriting mountpoint from util-linux.
           </para>
         </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-09-03</para>
-      <itemizedlist>
+         <listitem>
+           <para>[bdubbs] Add nodump to xml so command to print out 
+           70-persistent-net.rules will not be used in jhalfs.
+           Fixes a problem in kvm.</para>
+         </listitem>
         <listitem>
-          <para>[bdubbs] - Fix binutils extracted directory version in binutils 
-          build instructions.  This will be reverted at the next upstream release
-          when the tarball name is again synced with the extracted directory
-          name.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Fix bootscripts to properly export IN_BOOT variable.</para>
+          <para>[bryan] - Fix up text in section 7.4 ("device and module
+          handling"), and change the recommendation for wrapper modules to
+          use kmod's support for soft post-dependencies instead.  Fixes
+          <ulink url="&lfs-ticket-root;3010">#3010</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-09-01</para>
+      <para>2012-02-02</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Adjust minimum kernel for the host sysem to 2.6.25
-          due to a udev requirement.</para>
+          <para>[bdubbs] - Remove oblolete references to consolelog.</para>
+        </listitem>
+        <listitem>
+          <para>[bdubbs] - Reformat udev configure command.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-31</para>
+      <para>2012-02-01</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Remove the creation of a spurious file
-          in grep's test suite.</para>
+          <para>[bdubbs] - Clarify (again) the extraction order
+          in GCC Pass 1.</para>
+        </listitem>
+        <listitem>
+          <para>[bdubbs] - Reformat Kmod configure command.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-29</para>
+      <para>2012-01-30</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update to binutils-2.21.1a. Fixes 
-          <ulink url="&lfs-ticket-root;2917">#2917</ulink>.</para>
+          <para>[matthew] - Upgrade to Zlib-1.2.6. Fixes
+          <ulink url="&lfs-ticket-root;3009">#3009</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to linux-3.0.4. Fixes 
-          <ulink url="&lfs-ticket-root;2914">#2914</ulink>.</para>
+          <para>[matthew] - Move Xz to before GRUB so that the latter can
+          support compressed kernel images.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to util-linux-2.20. Fixes 
-          <ulink url="&lfs-ticket-root;2915">#2915</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Fix shutdown problem in bootscripts.  
-          Replace tab characters with spaces.
-          </para>
+          <para>[matthew] - Upgrade to Udev-180. Fixes
+          <ulink url="&lfs-ticket-root;3008">#3008</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-14</para>
+      <para>2012-01-28</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Added a patch to fix a couple of bugs in Glibc-2.14.
-          </para>
+          <para>[matthew] - Upgrade to Psmisc-22.15. Fixes
+          <ulink url="&lfs-ticket-root;3007">#3007</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Update to GDBM-1.9.1. Fixes
-          <ulink url="&lfs-ticket-root;2913">#2913</ulink>.</para>
+          <para>[matthew] - Upgrade to GMP-5.0.3. Fixes
+          <ulink url="&lfs-ticket-root;3006">#3006</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Update to Diffutils-3.1. Fixes
-          <ulink url="&lfs-ticket-root;2912">#2912</ulink>.</para>
+          <para>[matthew] - Upgrade to Linux-3.2.2. Fixes
+          <ulink url="&lfs-ticket-root;3005">#3005</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Udev-179. Fixes
+          <ulink url="&lfs-ticket-root;3004">#3004</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-03</para>
+      <para>2012-01-22</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Minor corrections to bootscripts.</para>
+          <para>[bdubbs] - Update network bootscripts to support bridge
+          devices in BLFS.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Linux-3.2.1. Fixes
+          <ulink url="&lfs-ticket-root;2999">#2999</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Udev-178, including adding its new
+          depdendency, Kmod-4. Fixes
+          <ulink url="&lfs-ticket-root;2998">#2998</ulink> and
+          <ulink url="&lfs-ticket-root;3001">#3001</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-07</para>
+      <para>2012-01-16</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Update to Linux-3.0.1. Fixes
-          <ulink url="&lfs-ticket-root;2911">#2911</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Update to File-5.08. Fixes
-          <ulink url="&lfs-ticket-root;2909">#2909</ulink>.</para>
+          <para>[bdubbs] - Change bootscripts to use devtmpfs for /dev.
+          Move mounting of /dev to mountvirtfs and ensure /dev gets
+          placed in /etc/mtab.  Change fstab and kernel configuration
+          sections to reflect these changes.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-02</para>
+      <para>2012-01-11</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Update to Udev-173. Fixes
-          <ulink url="&lfs-ticket-root;2908">#2908</ulink>.</para>
+          <para>[bdubbs] - Add clarification to the GRUB configuration about
+          using a separate boot partition. </para>
         </listitem>
         <listitem>
-          <para>[matthew] - Update to Linux-3.0. Fixes
-          <ulink url="&lfs-ticket-root;2905">#2905</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Add /etc/sysconfig to Creating Directories.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Update boot logging to remove terminal escape
-          sequences.</para>
+          <para>[matthew] - Remove Libnl, as it's not actually required by
+          IPRoute2 after all. Thanks to Markku Pesonen for the pointer to the
+          upstream fix.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-08-01</para>
+      <para>2012-01-08</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Rewrite bootscripts and Chaper 7.</para>
-          <itemizedlist>
-             <listitem><para>Make scripts compatible with initd format (see BLFS).</para></listitem>
-             <listitem><para>Move functions and services to /lib/boot.</para></listitem>
-             <listitem><para>Log boot messages to /run/var/bootlog.</para></listitem>
-             <listitem><para>Move ifup/ifdown to /sbin.</para></listitem>
-             <listitem><para>Move network device configuration files to
-                             /etc/sysconfig/ifconfig.*.</para></listitem>
-             <listitem><para>Add IFACE variable to network configuration files.
-                             </para></listitem>
-             <listitem><para>Read optional configuration file /etc/sysconfig/init_params
-                             in functions.</para></listitem>
-          </itemizedlist>
+          <para>[matthew] - Prevent Libnl from installing static libraries.
+          Thanks to Ken Moffat for the report.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Coreutils-8.15. Fixes
+          <ulink url="&lfs-ticket-root;2996">#2996</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to IPRoute2-3.2.0, and add its new
+          dependency, libnl-2.0. Fixes
+          <ulink url="&lfs-ticket-root;2995">#2995</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Linux-3.2. Fixes
+          <ulink url="&lfs-ticket-root;2993">#2993</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to Inetutils-1.9.1. Fixes
+          <ulink url="&lfs-ticket-root;2992">#2992</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Fix typo in Linux tarball name. Fixes
+          <ulink url="&lfs-ticket-root;2991">#2991</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Upgrade to File-5.10. Fixes
+          <ulink url="&lfs-ticket-root;2989">#2989</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-07-17</para>
+      <para>2012-01-06</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Upgrade to Udev-172. Fixes
-          <ulink url="&lfs-ticket-root;2904">#2904</ulink>.</para>
+          <para>[bdubbs] - Change to simpler command for version-check.sh's 
+          Glibc version detection on all platforms.
+          Thanks to Pierre Labastie for the report and fix.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.39.3. Fixes
-          <ulink url="&lfs-ticket-root;2903">#2903</ulink>.</para>
+          <para>[bdubbs] - Change to php script for 'get counted'.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-07-08</para>
+      <para>2011-12-28</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update location of POSIX Standard.</para>
+          <para>[matthew] - Fix version-check.sh's Glibc version detection 
+          on 64-bit Debian hosts.
+          Thanks to Pierre Labastie for the report and fix.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-07-01</para>
+      <para>2011-12-22</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update to gawk-4.0.0. Fixes
-          <ulink url="&lfs-ticket-root;2900">#2900</ulink>.</para>
+          <para>[matthew] - Upgrade to Automake-1.11.2. Fixes
+          <ulink url="&lfs-ticket-root;2986">#2986</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to iproute2-2.6.39. Fixes
-          <ulink url="&lfs-ticket-root;2901">#2901</ulink>.</para>
+          <para>[matthew] - Upgrade to Linux-3.1.6. Fixes
+          <ulink url="&lfs-ticket-root;2985">#2985</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Correct permissions on /run/shm. Fixes
+          <ulink url="&lfs-ticket-root;2984">#2984</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Add upstream patches for MPFR. Fixes
+          <ulink url="&lfs-ticket-root;2983">#2983</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-06-29</para>
+      <para>2011-12-10</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update to Glibc-2.14. Fixes
-          <ulink url="&lfs-ticket-root;2883">#2883</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Update to Tcl-8.5.10. Fixes
-          <ulink url="&lfs-ticket-root;2896">#2896</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Update to GCC 4.6.1. Fixes
-          <ulink url="&lfs-ticket-root;2897">#2897</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Update to Binutils-2.21.1. Fixes
-          <ulink url="&lfs-ticket-root;2898">#2898</ulink>.</para>
+          <para>[matthew] - Upgrade to Linux-3.1.5. Fixes
+          <ulink url="&lfs-ticket-root;2981">#2981</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-06-26</para>
+      <para>2011-12-05</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update to perl-5-14.1. Fixes
-          <ulink url="&lfs-ticket-root;2874">#2874</ulink>.</para>
+          <para>[matthew] - Improve the accuracy of the list of installed files
+          for a number of packages.  Thanks to Chris Staub for the patch. Fixes
+          <ulink url="&lfs-ticket-root;2979">#2979</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to less-444. Fixes
-          <ulink url="&lfs-ticket-root;2887">#2887</ulink>.</para>
+          <para>[matthew] - Prevent some arpd artefacts from being installed by
+          IPRoute2. Fixes
+          <ulink url="&lfs-ticket-root;2977">#2977</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to glib-2.28.8. Fixes
-          <ulink url="&lfs-ticket-root;2886">#2886</ulink>.</para>
+          <para>[matthew] - Correct location of Coreutils' libstdbuf. Fixes
+          <ulink url="&lfs-ticket-root;2976">#2976</ulink>.</para>
+        </listitem>
+        <listitem>
+          <para>[matthew] - Move Psmisc to before E2fsprogs because the
+          E2fsprogs testsuite uses killall. Fixes
+          <ulink url="&lfs-ticket-root;2975">#2975</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-06-24</para>
+      <para>2011-12-01</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update to linux-2.6.39.2. Fixes
-          <ulink url="&lfs-ticket-root;2894">#2894</ulink>.</para>
+          <para>[matthew] - Upgrade to E2fsprogs-1.42. Fixes
+          <ulink url="&lfs-ticket-root;2973">#2973</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to psmisc-22.14. Fixes
-          <ulink url="&lfs-ticket-root;2889">#2889</ulink>.</para>
+          <para>[matthew] - Upgrade to Linux-3.1.4. Fixes
+          <ulink url="&lfs-ticket-root;2970">#2970</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - Update to grep-2.9. Fixes
-          <ulink url="&lfs-ticket-root;2893">#2893</ulink>.</para>
+          <para>[matthew] - Upgrade to IPRoute2-3.1.0. Fixes
+          <ulink url="&lfs-ticket-root;2969">#2969</ulink>.</para>
         </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-06-20</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Update to grub-1.99. Fixes
-          <ulink url="&lfs-ticket-root;2818">#2818</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-06-19</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - Update shadow location. Fixes
-          <ulink url="&lfs-ticket-root;2888">#2888</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-06-05</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.39.1. Fixes
-          <ulink url="&lfs-ticket-root;2884">#2884</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Glib-2.28.7. Fixes
-          <ulink url="&lfs-ticket-root;2881">#2881</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Udev-171. Fixes
-          <ulink url="&lfs-ticket-root;2880">#2880</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to XZ-5.0.3. Fixes
-          <ulink url="&lfs-ticket-root;2879">#2879</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-05-31</para>
-      <itemizedlist>
-        <listitem>
-          <para>[dj] - Updated to lfs-bootscripts-20110531.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-05-23</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Fix a typo in the PCRE instructions, and make
-          Glib put its configuration in
-          <filename class="directory">/etc</filename>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-05-22</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Upgrade to Udev-170. Fixes
-          <ulink url="&lfs-ticket-root;2878">#2878</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.39. Fixes
-          <ulink url="&lfs-ticket-root;2877">#2877</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Pkg-config-0.26, including its
-          dependency of Glib and Glib's dependency of PCRE. Fixes
-          <ulink url="&lfs-ticket-root;2876">#2876</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Bison-2.5. Fixes
-          <ulink url="&lfs-ticket-root;2875">#2875</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-05-15</para>
-      <itemizedlist>
-        <listitem>
-          <para>[matthew] - Upgrade to Grep-2.8. Fixes
-          <ulink url="&lfs-ticket-root;2872">#2872</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to File-5.07. Fixes
-          <ulink url="&lfs-ticket-root;2871">#2871</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.38.6. Fixes
-          <ulink url="&lfs-ticket-root;2870">#2870</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to GMP-5.0.2. Fixes
-          <ulink url="&lfs-ticket-root;2869">#2869</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-05-07</para>
-      <itemizedlist>
         <listitem>
           <para>[matthew] - Add latest upstream patches for Bash. Fixes
-          <ulink url="&lfs-ticket-root;2868">#2868</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.38.5. Fixes
-          <ulink url="&lfs-ticket-root;2867">#2867</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Fix a couple of test failures in Binutils, due to
-          incompatibilities with GCC-4.6.x. Fixes
-          <ulink url="&lfs-ticket-root;2866">#2866</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Util-Linux-2.19.1. Fixes
-          <ulink url="&lfs-ticket-root;2865">#2865</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Don't create the
-          <filename class="directory">/dev/shm</filename> directory anymore, as
-          it is created in the udev bootscript now. Fixes
-          <ulink url="&lfs-ticket-root;2864">#2864</ulink>.</para>
+          <ulink url="&lfs-ticket-root;2968">#2968</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-04-25</para>
+      <para>2011-11-28</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Upgrade to Udev-168. Fixes
-          <ulink url="&lfs-ticket-root;2862">#2862</ulink>.</para>
+          <para>[dj] - Update to lfs-bootscripts-20111128.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.38.4. Fixes
-          <ulink url="&lfs-ticket-root;2861">#2861</ulink>.</para>
+          <para>[ken] - Fix daylight saving time bug in coreutils testsuite.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-04-19</para>
+      <para>2011-11-26</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Update cleanfs bootscript to 
-          not clean /var/run or /var/lock because
-          they are now linked to a fresh tmpfs.</para>
+          <para>[bdubbs] - Clean up console script.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-04-18</para>
+      <para>2011-11-25</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Add new /run mount point to top
-          level directories.  Mount a tmpfs on /run in
-          bootscripts.</para>
+          <para>[matthew] - Upgrade to Binutils-2.22. Fixes
+          <ulink url="&lfs-ticket-root;2967">#2967</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[bdubbs] - In Chapter 6, move File to before
-          binutils to prevent some configure warnings.</para>
+          <para>[matthew] - Install Glibc's NIS and RPC headers again.  The
+          headers have not been installed by default since Glibc-2.14, but that
+          causes various BLFS packages to break. Fixes
+          <ulink url="&lfs-ticket-root;2965">#2965</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to File-5.06. Fixes
-          <ulink url="&lfs-ticket-root;2860">#2860</ulink>.</para>
+          <para>[matthew] - Upgrade to Grep-2.10. Fixes
+          <ulink url="&lfs-ticket-root;2964">#2964</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.38.3. Fixes
-          <ulink url="&lfs-ticket-root;2859">#2859</ulink>.</para>
+          <para>[matthew] - Add a patch to fix a security vulnerability in Perl.
+          Fixes <ulink url="&lfs-ticket-root;2963">#2963</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Coreutils-8.11. Fixes
-          <ulink url="&lfs-ticket-root;2858">#2858</ulink>.</para>
+          <para>[matthew] - Upgrade to GDBM-1.10. Fixes
+          <ulink url="&lfs-ticket-root;2962">#2962</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Man-DB-2.6.0.2, including adding its
-          dependency, libpipeline-1.2.0. Fixes
-          <ulink url="&lfs-ticket-root;2857">#2857</ulink>.</para>
+          <para>[matthew] - Install Coreutils'
+          <filename class="libraryfile">libstdbuf.so</filename> to
+          <filename class="directory">/usr/lib/coreutils</filename> to
+          maintain consistency with other packages' shared library locations.
+          Fixes <ulink url="&lfs-ticket-root;2961">#2961</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Less-443. Fixes
-          <ulink url="&lfs-ticket-root;2856">#2856</ulink>.</para>
+          <para>[matthew] - Upgrade to Linux-3.1.2. Fixes
+          <ulink url="&lfs-ticket-root;2960">#2960</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Add latest upstream patch for Bash. Fixes
-          <ulink url="&lfs-ticket-root;2855">#2855</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Ncurses-5.9. Fixes
-          <ulink url="&lfs-ticket-root;2853">#2853</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to MPFR-3.0.1. Fixes
-          <ulink url="&lfs-ticket-root;2852">#2852</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to XZ-Utils-5.0.2. Fixes
-          <ulink url="&lfs-ticket-root;2851">#2851</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Udev-167. Fixes
-          <ulink url="&lfs-ticket-root;2850">#2850</ulink>.</para>
+          <para>[matthew] - Upgrade to Tcl-8.5.11. Fixes
+          <ulink url="&lfs-ticket-root;2959">#2959</ulink>.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-04-13</para>
+      <para>2011-11-16</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Added a sed to fix an intermittent test 
-          failure in coreutils.  Fixes
-          <ulink url="&lfs-ticket-root;2833">#2833</ulink>.</para>
+          <para>[bdubbs] - Make /var/log/btmp have 660 permissions.
+          Suggestion from Michael Blanchard.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-04-12</para>
+      <para>2011-11-14</para>
       <itemizedlist>
         <listitem>
-          <para>[bdubbs] - Added optional instructions to allow a user
-          to use an include directory to supplement ld.so.conf.  Fixes
-          <ulink url="&lfs-ticket-root;2843">#2843</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[bdubbs] - Rewrote General Compilation Instructions using
-          better docbook structures and clarified a couple of points. Fixes
-          <ulink url="&lfs-ticket-root;2725">#2725</ulink>.</para>
+          <para>[bdubbs] - Updates to boot scripts: 
+          general cleanup;
+          move consolelog function to rc;
+          clean up boot logging functions;
+          fix interactive prompt between run level S and target run level.  
+          Thanks to DJ Lucas.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-03-30</para>
+      <para>2011-10-29</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Upgrade to IPRoute2-2.6.38. Fixes
-          <ulink url="&lfs-ticket-root;2849">#2849</ulink>.</para>
+          <para>[bdubbs] - Text correction in bootscripts description.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to GCC-4.6.0. Fixes
-          <ulink url="&lfs-ticket-root;2848">#2848</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.38.2. Fixes
-          <ulink url="&lfs-ticket-root;2847">#2847</ulink>.</para>
+          <para>[bdubbs] - Remove erroneous sourcing line in bootscript 
+          functions used for backward BLFS compatibility.</para>
         </listitem>
       </itemizedlist>
     </listitem>
 
     <listitem>
-      <para>2011-03-14</para>
+      <para>2011-10-29</para>
       <itemizedlist>
         <listitem>
-          <para>[matthew] - Upgrade to Tar-1.26. Fixes
-          <ulink url="&lfs-ticket-root;2846">#2846</ulink>.</para>
+          <para>[matthew] - Upgrade to GCC-4.6.2. Fixes
+          <ulink url="&lfs-ticket-root;2951">#2951</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Upgrade to Dejagnu-1.5. Fixes
-          <ulink url="&lfs-ticket-root;2845">#2845</ulink>.</para>
+          <para>[matthew] - Upgrade to Util-Linux-2.20.1. Fixes
+          <ulink url="&lfs-ticket-root;2947">#2947</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Add patch to fix the sparse-fiemap test failure in
-          Coreutils-8.10.  Thanks to Tadeus (Eus) Prastowo for the report and
-          patch.</para>
+          <para>[matthew] - Upgrade to Libtool-2.4.2. Fixes
+          <ulink url="&lfs-ticket-root;2946">#2946</ulink>.</para>
         </listitem>
         <listitem>
-          <para>[matthew] - Add latest upstream patches for Readline-6.2.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Add latest upstream patches for Bash-4.2. Fixes
-          <ulink url="&lfs-ticket-root;2841">#2841</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to M4-1.4.16. Fixes
-          <ulink url="&lfs-ticket-root;2840">#2840</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Ncurses-5.8. Fixes
-          <ulink url="&lfs-ticket-root;2838">#2838</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to MPC-0.9. Fixes
-          <ulink url="&lfs-ticket-root;2837">#2837</ulink>.</para>
-        </listitem>
-        <listitem>
-          <para>[matthew] - Upgrade to Linux-2.6.37.3. Fixes
-          <ulink url="&lfs-ticket-root;2835">#2835</ulink>.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
-
-    <listitem>
-      <para>2011-03-04</para>
-      <itemizedlist>
-        <listitem>
-          <para>[bdubbs] - LFS-6.8 released.
+          <para>[bdubbs] - LFS-7.0 released.
           </para>
         </listitem>
       </itemizedlist>
