@@ -46,7 +46,6 @@ case "${1}" in
       mount -f /proc || failed=1
       mount -f /sys  || failed=1
       mount -f /run  || failed=1
-      mount -f /dev  || failed=1
       (exit ${failed})
       evaluate_retval
 
@@ -62,11 +61,9 @@ case "${1}" in
    stop)
       # Don't unmount tmpfs like /run
       log_info_msg "Unmounting all other currently mounted file systems..."
-      umount -a -d -r -t notmpfs,nosysfs,nodevtmpfs >/dev/null
+      umount -a -d -r -t notmpfs >/dev/null
       evaluate_retval
-
-      # Make all LVM volume groups unavailable, if appropriate
-      if [ -x /sbin/vgchange ]; then /sbin/vgchange -an; fi
+      exit 0
       ;;
 
    *)
