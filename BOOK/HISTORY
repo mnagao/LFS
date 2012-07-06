@@ -2,5 +2,7 @@
            chapter03/packages.xml
                     /patches.xml
            chapter04/gcc-pass1.xml
+                    /gcc-pass2.xml
+
 
 
