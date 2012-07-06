@@ -1,20 +1,28 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
 
+<!-- revision 9758 -->
+
 <sect1 id="materials-patches">
   <?dbhtml filename="patches.html"?>
 
-  <title>Needed Patches</title>
+  <!--<title>Needed Patches</title>-->
+  <title>必要なパッチ</title>
 
   <para>In addition to the packages, several patches are also required.
   These patches correct any mistakes in the packages that should be
   fixed by the maintainer.  The patches also make small modifications to
   make the packages easier to work with. The following patches will be
   needed to build an LFS system:</para>
+  <para>パッケージに加えて、いくつかのパッチも必要となります。
+  それらパッチによってパッケージの不具合を修正します。
+  また、パッチによって、パッケージがより容易に動作するように、多少の修正が行われます。
+  以下のパッチは、LFSシステムを構築するために必要となります。
+  </para>
 
   <variablelist role="materials">
 
@@ -214,5 +222,9 @@
   default. Feel free to peruse the patches database located at
   <ulink url="&lfs-root;patches/downloads/"/> and acquire any additional
   patches to suit your system needs.</para>
+  <para>上記のパッチに加え、LFSのコミュニティによって作られた、多くの追加パッチがあります。
+  それら追加パッチは、小さな問題を解決したり、デフォルトでは無効になっている機能を有効にします。
+  自由に<ulink url="&lfs-root;patches/downloads/"/>にあるパッチデータベースを調べてみてください。
+  そしてあなたのLFSシステムの要求に合わせて、追加のパッチを入手してください。</para>
 
 </sect1>
