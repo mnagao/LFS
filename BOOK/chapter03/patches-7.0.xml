@@ -1,20 +1,28 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
 
+<!-- revision 9630 -->
+
 <sect1 id="materials-patches">
   <?dbhtml filename="patches.html"?>
 
-  <title>Needed Patches</title>
+  <!--<title>Needed Patches</title>-->
+  <title>必要なパッチ</title>
 
   <para>In addition to the packages, several patches are also required.
   These patches correct any mistakes in the packages that should be
   fixed by the maintainer.  The patches also make small modifications to
   make the packages easier to work with. The following patches will be
   needed to build an LFS system:</para>
+  <para>パッケージに加えて、いくつかのパッチも必要となります。
+  それらパッチによってパッケージの不具合を修正します。
+  また、パッチによって、パッケージがより容易に動作するように、多少の修正が行われます。
+  以下のパッチは、LFSシステムを構築するために必要となります。
+  </para>
 
   <variablelist role="materials">
 
@@ -83,14 +91,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Glibc Bug Sort Relocatable Objects Patch - <token>&glibc-sort-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-sort-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-sort-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term>Glibc GCC Build Fix Patch - <token>&glibc-gcc_fix-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&glibc-gcc_fix-patch;"/></para>
@@ -103,6 +103,14 @@
       <listitem>
         <para>Download: <ulink url="&patches-root;&glibc-cpuid-patch;"/></para>
         <para>MD5 sum: <literal>&glibc-cpuid-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>GCC Locale Patch - <token>&gcc-locale-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&gcc-locale-patch;"/></para>
+        <para>MD5 sum: <literal>&gcc-locale-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -132,10 +140,10 @@
     </varlistentry>
 
     <varlistentry>
-      <term>MPFR Fixes Patch - <token>&mpfr-fixes-patch-size;</token>:</term>
+      <term>Module Init Tools - <token>&module-init-tools-man-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&mpfr-fixes-patch;"/></para>
-        <para>MD5 sum: <literal>&mpfr-fixes-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&module-init-tools-man-patch;"/></para>
+        <para>MD5 sum: <literal>&module-init-tools-man-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -152,14 +160,6 @@
       <listitem>
         <para>Download: <ulink url="&patches-root;&perl-libc-patch;"/></para>
         <para>MD5 sum: <literal>&perl-libc-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Perl Security Patch - <token>&perl-security-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&perl-security-patch;"/></para>
-        <para>MD5 sum: <literal>&perl-security-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -188,13 +188,13 @@
       </listitem>
     </varlistentry>
 
-    <varlistentry>
-      <term>Shadow nscd Patch - <token>&shadow-nscd-patch-size;</token>:</term>
+    <!-- <varlistentry>
+      <term>Shadow Useradd Patch - <token>&shadow-useradd-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&shadow-nscd-patch;"/></para>
-        <para>MD5 sum: <literal>&shadow-nscd-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&shadow-useradd-patch;"/></para>
+        <para>MD5 sum: <literal>&shadow-useradd-patch-md5;</literal></para>
       </listitem>
-    </varlistentry>
+    </varlistentry> -->
 
     <!--<varlistentry>
       <term>Zlib fPIC Patch - <token>&zlib-fpic-patch-size;</token>:</term>
@@ -207,6 +207,7 @@
   </variablelist>
 
   <para>Total size of these patches: about <returnvalue/></para>
+  <para>これらパッチの合計サイズ： 約 <returnvalue/></para>
 
   <para>In addition to the above required patches, there exist a number of
   optional patches created by the LFS community. These optional patches
@@ -214,5 +215,9 @@
   default. Feel free to peruse the patches database located at
   <ulink url="&lfs-root;patches/downloads/"/> and acquire any additional
   patches to suit your system needs.</para>
-
+  <para>上に挙げた必要なパッチに加え、LFSコミュニティによって作成されたオプション的なたくさんのパッチが存在します
+。
+  それらパッチは、軽微な不具合の修正もしくはデフォルトで無効となっている機能を有効にします。
+  <ulink url="&lfs-root;patches/downloads/"/> に存在するパッチのデータベースを調べ、構築するLFSシステムの要件に合わせて追加のパッチを入手してください。
+  </para>
 </sect1>
