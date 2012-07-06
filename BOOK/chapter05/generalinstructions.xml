@@ -1,20 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9495 -->
 
 <sect1 id="ch-tools-generalinstructions">
   <?dbhtml filename="generalinstructions.html"?>
 
-  <!--<title>General Compilation Instructions</title>-->
-  <title>一般的なコンパイルの手順</title>
+  <title>General Compilation Instructions</title>
 
   <para>When building packages there are several assumptions made within 
   the instructions:</para>
-  <para>パッケージをビルドする際、手順の中にいくつかの条件が存在します：</para>
 
   <itemizedlist>
 
@@ -27,12 +24,6 @@
     <emphasis>fuzz</emphasis> may also be encountered when applying a patch. Do
     not worry about these warnings, as the patch was still successfully
     applied.</para>
-    <para>いくつかのパッケージでは、コンパイルの前にパッチを適用しますが、パッチは問題を回避するためだけのものです。
-    パッチは本章と次章でしばしば必要となりますが、どちらか一方の章のみに必要な場合もあります。
-    もしダウンロードしたパッチの手順が見当たらなくても、心配しないでください。
-    パッチ適用時に<emphasis>offset</emphasis>や<emphasis>fuzz</emphasis>のような警告メッセージが出ることもあります。
-    これら警告メッセージが出ても、パッチは正常に適用されているので心配しないでください。
-    </para>
   </listitem>
 
   <listitem>
@@ -42,87 +33,67 @@
     deprecated, but not invalid, use of the C or C++ syntax. C standards change
     fairly often, and some packages still use the older standard. This is not a
     problem, but does prompt the warning.</para>
-    <para>ほとんどのパッケージにおいて、コンパイル中にスクリーン上にいくつかの警告メッセージが表示されます。
-    それらは問題はなく、無視することが出来ます。
-    それら警告メッセージは、C/C++の文法として非推奨ではあるが有効なものとして表示されます。
-    それは、Cの標準はかなり頻繁に変更され、いくつかのパッケージはいまだ古い標準を使用しているからです。
-    したがって、このことは問題としてではなく、警告として表示されます。</para>
-
   </listitem>
 
   <listitem>
     <para>Check one last time that the <envar>LFS</envar> environment variable
     is set up properly:</para>
-    <para>最後にもう一度、環境変数<envar>LFS</envar>が正しくセットされていることを確認してください：</para>
 
 <screen role="nodump"><userinput>echo $LFS</userinput></screen>
 
     <para>Make sure the output shows the path to the LFS partition's mount
     point, which is <filename class="directory">/mnt/lfs</filename>, using our
     example.</para>
-    <para>LFSパーティションのマウントポイントが表示されることを確かめてください。
-    本書の例に沿ったのであれば、<filename class="directory">/mnt/lfs</filename>が表示されます。</para>
   </listitem>
 
   <listitem>
 
     <para>Finally, two last important items must be emphasized:</para>
-    <para>最後に二つ、強調すべき重要な事項を説明します：</para>
 
-    <important> 
-      <para>The build instructions assume that the <command>bash</command>  
+    <important>
+      <para>The build instructions assume that the <command>bash</command> 
       shell is in use.</para>
-      <para>ビルドの手順は、<command>bash</command>シェルが使用されていることを想定しています。</para> 
     </important>
 
     <important>
       <para>To re-emphasize the build process:</para>
-      <para>ビルドの手順を再度示します：</para>
 
       <orderedlist numeration="arabic" spacing="compact">
         <listitem>
-          <para>Place all the sources and patches in a directory that will be 
-          accessible from the chroot environment such as 
-          <filename class="directory">/mnt/lfs/sources/</filename>.  Do 
-          <emphasis>not</emphasis> put sources in 
+          <para>Place all the sources and patches in a directory that will be
+          accessible from the chroot environment such as
+          <filename class="directory">/mnt/lfs/sources/</filename>.  Do
+          <emphasis>not</emphasis> put sources in
           <filename class="directory">/mnt/lfs/tools/</filename>.</para>
-          <para><filename class="directory">/mnt/lfs/sources/</filename> のようなchroot環境からアクセス可能なディレクトリに、全てのソースとパッチを置いてください。決して、<filename class="directory">/mnt/lfs/tools/</filename>には、<emphasis>置かないでください。</emphasis></para> 
-        </listitem> 
-        <listitem> 
+        </listitem>
+        <listitem>
           <para>Change to the sources directory.</para>
-          <para>ソースを置いたディレクトリに移動してください。</para> 
-        </listitem> 
-        <listitem> 
-          <para>For each package:</para> 
-          <para>それぞれのパッケージに対して：</para>
-          <orderedlist numeration="loweralpha" spacing="compact"> 
-            <listitem> 
-              <para>Using the <command>tar</command> program, extract the package 
-              to be built.  In Chapter 5, ensure you are the <emphasis>lfs</emphasis>  
+        </listitem>
+        <listitem id='buildinstr' xreflabel='Package build instructions'>
+          <para>For each package:</para>
+          <orderedlist numeration="loweralpha" spacing="compact">
+            <listitem>
+              <para>Using the <command>tar</command> program, extract the package
+              to be built.  In Chapter 5, ensure you are the <emphasis>lfs</emphasis> 
               user when extracting the package.</para>
-              <para><command>tar</command>プログラムを使って、ビルドするパッケージを展開してください。第5章においては、パッケージを展開する際のユーザーが、<emphasis>lfs</emphasis>であることを確認してください。</para>
-            </listitem> 
-            <listitem> 
-              <para>Change to the directory created when the package was 
+            </listitem>
+            <listitem>
+              <para>Change to the directory created when the package was
               extracted.</para>
-              <para>パッケージを展開した際に作られたディレクトリに移動してください。</para> 
-            </listitem> 
-            <listitem> 
+            </listitem>
+            <listitem>
               <para>Follow the book's instructions for building the package.</para>
-              <para>ブックの手順に沿って、パッケージをビルドしてください。</para> 
-            </listitem> 
-            <listitem> 
+            </listitem>
+            <listitem>
               <para>Change back to the sources directory.</para>
-              <para>ソースを置いたディレクトリに戻ってください。</para> 
-            </listitem> 
-            <listitem> 
-              <para>Delete the extracted source directory and any 
-              <filename class="directory"><replaceable>&lt;package&gt;</replaceable>-build</filename> 
+            </listitem>
+            <listitem>
+              <para>Delete the extracted source directory and any
+              <filename class="directory"><replaceable>&lt;package&gt;</replaceable>-build</filename>
               directories that were created in the build process unless instructed otherwise.</para>
-              <para>展開したソースディレクトリと、ビルドの際に作成した<filename class="directory"><replaceable>&lt;package&gt;</replaceable>-build</filename>ディレクトリを削除してください。ただし、他の手順が指示されている場合は、この限りではありません。</para>
-            </listitem> 
-          </orderedlist> 
-        </listitem> 
+            </listitem>
+          </orderedlist>
+        </listitem>
       </orderedlist>
     </important>
   </listitem>

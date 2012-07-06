@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9645 -->
+<!-- revision 9724 -->
 
 <sect1 id="ch-tools-gcc-pass1" role="wrap">
   <?dbhtml filename="gcc-pass1.html"?>
@@ -53,9 +53,20 @@
     <para>現在GCCでは、GMPとMPFRとMPCパッケージが必要です。
     これらパッケージはあなたのホストシステムとなるディストリビューションに含まれていないと思いますので、GCCと一緒にビルドします。それぞれのパッケージをGCCのソースディレクトリー内で展開し、展開されたディレクトリをリネームしてください。そうすることで、自動的にそれらパッケージを使ってビルドが行われます。：</para>
 
+<note><para>There are frequent misunderstandings about this chapter.  The 
+    procedures are the same as every other chapter as explained earlier (<xref 
+    linkend='buildinstr'/>).  First extract the gcc tarball from the sources 
+    directory and then change to the directory created.  Only then should you 
+    proceed with the instructions below.</para>
+    <para>本章について、たびたび誤解が起こります。
+    前に説明したとおり(<xref linkend='buildinstr'/>)、その他どの章も手順は同じです。
+    最初にソースディレクトリで、gccのtarballを展開し、次に展開したディレクトリに移動します。
+    そうすることによって初めて、以下の手順を進めていきます。
+    </para></note>
+
 <screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
 mv -v mpfr-&mpfr-version; mpfr
-tar -jxf ../gmp-&gmp-version;.tar.bz2
+tar -Jxf ../gmp-&gmp-version;.tar.xz
 mv -v gmp-&gmp-version; gmp
 tar -zxf ../mpc-&mpc-version;.tar.gz
 mv -v mpc-&mpc-version; mpc</userinput></screen>

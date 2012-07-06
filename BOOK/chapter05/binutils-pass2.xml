@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9597 -->
+<!-- revision 9671 -->
 
 <sect1 id="ch-tools-binutils-pass2" role="wrap">
   <?dbhtml filename="binutils-pass2.html"?>
@@ -56,10 +56,9 @@ cd ../binutils-build</userinput></screen>
 
 <screen><userinput remap="configure">CC="$LFS_TGT-gcc -B/tools/lib/" \
    AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib \
-   ../binutils-&binutils-dir;/configure --prefix=/tools \
+   ../binutils-&binutils-version;/configure --prefix=/tools \
    --disable-nls --with-lib-path=/tools/lib</userinput></screen>
 
-<!--   ../binutils-&binutils-version;/configure - -prefix=/tools \ -->
     <variablelist>
       <title>configureオプションの意味:</title>
 
