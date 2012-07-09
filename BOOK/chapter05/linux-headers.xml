@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9257 -->
+<!-- revision 9742 -->
 
 <sect1 id="ch-tools-linux-headers" role="wrap">
   <?dbhtml filename="linux-headers.html"?>
@@ -57,7 +57,7 @@
     from previous activity:</para>
     <para>以前に行った操作等による古いファイルや依存関係が残っていないことを確実にします：</para>
 
-<screen><userinput remap="install">make mrproper</userinput></screen>
+<screen><userinput remap="pre">make mrproper</userinput></screen>
 
     <para>Now test and extract the user-visible kernel headers from the source.
     They are placed in an intermediate local directory and copied to the needed
@@ -67,10 +67,9 @@
     それらヘッダファイルは、一旦ローカルディレクトリに置き、それから実際の場所にコピーされます。
     それは、抽出のプロセスで、ターゲットとなるディレクトリにある既存のファイル全てが削除されてしまうからです。</para>
 
-<screen><userinput remap="install">make headers_check
+<screen><userinput remap="make">make headers_check
 make INSTALL_HDR_PATH=dest headers_install
-cp -rv dest/include/* /tools/include</userinput></screen>
-
+</userinput><userinput remap="install">cp -rv dest/include/* /tools/include</userinput></screen>
   </sect2>
 
   <sect2 role="content">
