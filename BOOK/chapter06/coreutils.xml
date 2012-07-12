@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9505 -->
+<!-- revision 9677 -->
 
 <sect1 id="ch-system-coreutils" role="wrap">
   <?dbhtml filename="coreutils.html"?>
@@ -77,10 +77,16 @@ esac</userinput></screen>
       </para>
     </note>
 
+    <para>The following patch fixes a bug in the testsuite:</para>
+    <para>次のパッチでテストツールのバグを修正します：</para>
+ 
+<screen><userinput remap="pre">patch -Np1 -i ../&coreutils-tests-patch;</userinput></screen>
+
     <para>Now prepare Coreutils for compilation:</para>
     <para>さて、Coreutilsをコンパイルする準備をします：</para>
 
 <screen><userinput remap="configure">./configure --prefix=/usr \
+    --libexecdir=/usr/lib/coreutils \
     --enable-no-install-program=kill,uptime</userinput></screen>
 
     <variablelist>
@@ -197,7 +203,7 @@ sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8</userinput></screen>
         touch, tr, true, truncate, tsort, tty, uname, unexpand, uniq, unlink,
         users, vdir, wc, who, whoami, and yes</seg>
         <seg>libstdbuf.so</seg>
-        <seg>/usr/lib/coreutils</seg>
+        <seg>/usr/libexec/coreutils</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -1349,13 +1355,13 @@ sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8</userinput></screen>
         </listitem>
       </varlistentry>
 
-      <varlistentry id="libstdbuf"> 
-        <term><filename class="libraryfile">libstdbuf</filename></term> 
+      <varlistentry id="libstdbuf">
+        <term><filename class="libraryfile">libstdbuf.so</filename></term>
         <listitem> 
           <para>Library used by <command>stdbuf</command></para>
           <para><command>stdbuf</command>が使用するライブラリです。</para> 
-          <indexterm zone="ch-system-coreutils libstdbuf"> 
-            <primary sortas="c-libstdbuf">libstdbuf</primary> 
+          <indexterm zone="ch-system-coreutils libstdbuf">
+            <primary sortas="c-libstdbuf">libstdbuf.so</primary> 
           </indexterm> 
         </listitem> 
       </varlistentry>
