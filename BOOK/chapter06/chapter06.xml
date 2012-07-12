@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9616 -->
+<!-- revision 9730 -->
 
 <chapter id="chapter-building-system" xreflabel="第6章">
   <?dbhtml dir="chapter06"?>
@@ -34,6 +34,7 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="bzip2.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ncurses.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="util-linux.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="psmisc.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="e2fsprogs.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="coreutils.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="iana-etc.xml"/>
@@ -55,18 +56,17 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="flex.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gettext.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="groff.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xz.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="grub.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gzip.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="iproute2.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="kbd.xml"/>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="kmod.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="less.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="libpipeline.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="make.xml"/>
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xz.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="man-db.xml"/>
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="module-init-tools.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="patch.xml"/>
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="psmisc.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="shadow.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sysklogd.xml"/>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sysvinit.xml"/>
