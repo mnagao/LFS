@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-gawk" role="wrap">
   <?dbhtml filename="gawk.html"?>
@@ -83,8 +83,8 @@ cp    -v doc/{awkforai.txt,*.{eps,pdf,jpg}} \
       <segtitle>インストールされるディレクトリ</segtitle>
 
       <seglistitem>
-        <seg>awk (link to gawk), gawk, gawk-&gawk-version;, grcat, igawk, pgawk,
-        pgawk-&gawk-version;, and pwcat</seg>
+        <seg>awk (link to gawk), dgawk, gawk, gawk-&gawk-version;, grcat, igawk,
+        pgawk, pgawk-&gawk-version;, and pwcat</seg>
         <seg>/usr/lib/awk, /usr/share/awk</seg>
       </seglistitem>
     </segmentedlist>
@@ -104,6 +104,17 @@ cp    -v doc/{awkforai.txt,*.{eps,pdf,jpg}} \
             <primary sortas="b-awk">awk</primary>
           </indexterm>
         </listitem>
+      </varlistentry>
+
+      <varlistentry id="dgawk"> 
+        <term><command>dgawk</command></term> 
+        <listitem> 
+          <para>An awk debugger</para>
+          <para>awkデバッガです。</para>
+          <indexterm zone="ch-system-gawk dgawk"> 
+            <primary sortas="b-dgawk">dgawk</primary>
+          </indexterm> 
+        </listitem> 
       </varlistentry>
 
       <varlistentry id="gawk">
