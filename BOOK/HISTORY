@@ -16,4 +16,5 @@
                     /gcc.xml
                     /gdbm.xml
                     /glibc.xml
+                    /gmp.xml
 
