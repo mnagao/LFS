@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9585 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-gdbm" role="wrap">
   <?dbhtml filename="gdbm.html"?>
@@ -90,10 +90,13 @@
     <title>GDBMの内容</title>
 
     <segmentedlist>
+      <!--<segtitle>Installed program</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
       <!--<segtitle>Installed libraries</segtitle>-->
       <segtitle>インストールされるライブラリ</segtitle>
 
       <seglistitem>
+        <seg>testgdbm</seg>
         <seg>libgdbm.{so,a} and libgdbm_compat.{so,a}</seg>
       </seglistitem>
     </segmentedlist>
@@ -103,6 +106,17 @@
       <bridgehead renderas="sect3">簡単な説明</bridgehead>
       <?dbfo list-presentation="list"?>
       <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="testgdbm"> 
+        <term><command>testgdbm</command></term> 
+        <listitem> 
+          <para>Tests and modifies a GDBM database</para>
+          <para>GDBMデータベースをテスト・変更します。</para> 
+          <indexterm zone="ch-system-gdbm testgdbm"> 
+            <primary sortas="b-testgdbm">testgdbm</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
 
       <varlistentry id="libgdbm">
         <term><filename class="libraryfile">libgdbm</filename></term>
