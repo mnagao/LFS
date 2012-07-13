@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9563 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-grub" role="wrap">
   <?dbhtml filename="grub.html"?>
@@ -87,10 +87,11 @@
       <segtitle>インストールされるディレクトリ</segtitle>
 
       <seglistitem>
-        <seg>grub-bin2h, grub-editenv, grub-install, grub-mkconfig,
-        grub-mkdevicemap, grub-mkelfimage, grub-mkimage, grub-mkisofs,
-        grub-mkpasswd-pbkdf2, grub-mkrelpath, grub-mkrescue, grub-probe,
-        grub-reboot, grub-script-check, grub-set-default, grub-setup</seg>
+        <seg>grub-bin2h, grub-editenv, grub-fstest, grub-install, grub-kbdcomp,
+        grub-menulst2cfg, grub-mkconfig, grub-mkdevicemap, grub-mkimage,
+        grub-mklayout, grub-mknetdir, grub-mkpasswd-pbkdf2, grub-mkrelpath,
+        grub-mkrescue, grub-probe, grub-reboot, grub-script-check,
+        grub-set-default, grub-setup</seg>
         <seg>/usr/lib/grub, /etc/grub.d, /usr/share/grub</seg>
       </seglistitem>
     </segmentedlist>
@@ -123,6 +124,17 @@
         </listitem> 
       </varlistentry> 
 
+      <varlistentry id="grub-fstest"> 
+        <term><command>grub-fstest</command></term> 
+        <listitem> 
+          <para>Tool to debug the filesystem driver</para>
+          <para>ファイルシステムのドライバをデバッグするためのツールです。</para> 
+          <indexterm zone="ch-system-grub grub-fstest"> 
+            <primary sortas="b-grub-fstest">grub-fstest</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
       <varlistentry id="grub-install"> 
         <term><command>grub-install</command></term> 
         <listitem> 
@@ -133,6 +145,30 @@
           </indexterm> 
         </listitem> 
       </varlistentry> 
+
+      <varlistentry id="grub-kbdcomp"> 
+        <term><command>grub-kbdcomp</command></term> 
+        <listitem> 
+          <para>Script that converts an xkb layout into one recognized by 
+          GRUB</para>
+          <para>xkbレイアウトをGRUBによって認識される形にコンバートするスクリプトです。</para> 
+          <indexterm zone="ch-system-grub grub-kbdcomp"> 
+            <primary sortas="b-grub-kbdcomp">grub-kbdcomp</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry id="grub-menulst2cfg"> 
+        <term><command>grub-menulst2cfg</command></term> 
+        <listitem> 
+          <para>Converts a GRUB Legacy <filename>menu.lst</filename> 
+          into a <filename>grub.cfg</filename> for use with GRUB 2</para>
+          <para>従来の<filename>menu.lst</filename>から、GRUB 2で使用される<filename>grub.cfg</filename>に変換します。</para> 
+          <indexterm zone="ch-system-grub grub-menulst2cfg"> 
+            <primary sortas="b-grub-menulst2cfg">grub-menulst2cfg</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
  
       <varlistentry id="grub-mkconfig"> 
         <term><command>grub-mkconfig</command></term> 
@@ -156,17 +192,6 @@
         </listitem> 
       </varlistentry>
 
-      <varlistentry id="grub-mkelfimage"> 
-        <term><command>grub-mkelfimage</command></term> 
-        <listitem> 
-          <para>Make a bootable image of GRUB</para>
-          <para>ブート可能なGRUBのイメージを作成します。</para> 
-          <indexterm zone="ch-system-grub grub-mkelfimage"> 
-            <primary sortas="b-grub-mkelfimage">grub-mkelfimage</primary> 
-          </indexterm> 
-        </listitem> 
-      </varlistentry> 
- 
       <varlistentry id="grub-mkimage"> 
         <term><command>grub-mkimage</command></term> 
         <listitem> 
@@ -178,16 +203,27 @@
         </listitem> 
       </varlistentry> 
 
-      <varlistentry id="grub-mkisofs"> 
-        <term><command>grub-mkisofs</command></term> 
-        <listitem> 
-          <para>Creates a bootable ISO image</para>
-          <para>ブート可能なISOイメージを作成します。</para> 
-          <indexterm zone="ch-system-grub grub-mkisofs"> 
-            <primary sortas="b-grub-mkisofs">grub-mkisofs</primary> 
+      <varlistentry id="grub-mklayout">
+        <term><command>grub-mklayout</command></term>
+        <listitem>
+          <para>Generates a GRUB keyboard layout file</para>
+          <para>GRUBのキーボードレイアウトファイルを生成します。</para>
+          <indexterm zone="ch-system-grub grub-mklayout">
+            <primary sortas="b-grub-mklayout">grub-mklayout</primary>
           </indexterm> 
         </listitem> 
       </varlistentry> 
+ 
+      <varlistentry id="grub-mknetdir"> 
+        <term><command>grub-mknetdir</command></term> 
+        <listitem> 
+          <para>Prepares a GRUB netboot directory</para>
+          <para>GRUBのnetbootディレクトリを準備します。</para> 
+          <indexterm zone="ch-system-grub grub-mknetdir"> 
+            <primary sortas="b-grub-mknetdir">grub-mknetdir</primary>
+</indexterm> 
+        </listitem> 
+      </varlistentry>
  
       <varlistentry id="grub-mkpasswd-pbkdf2"> 
         <term><command>grub-mkpasswd-pbkdf2</command></term> 
