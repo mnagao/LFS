@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9626 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-gcc" role="wrap">
   <?dbhtml filename="gcc.html"?>
@@ -77,12 +77,6 @@ esac</userinput></screen>
     この時点でヘッダーファイルは修正が必要ないことが分かっているので、<command>fixincludes</command>スクリプトが実行されないように、次のコマンドを実行します：</para>
 
 <screen><userinput remap="pre">sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in</userinput></screen>
-
-    <para>Finally, apply a patch that corrects the test code for locale changes 
-    that were made in glibc-2.14 and later.</para>
-    <para>最後に、glibc-2.14以降に実施されたロケールの変更のためのテストコードを修正するパッチを適用します。</para>
- 
-<screen><userinput remap="pre">patch -Np1 -i ../gcc-4.6.1-locale-1.patch</userinput></screen>
 
     <para>The GCC documentation recommends building GCC outside of the source
     directory in a dedicated build directory:</para>
@@ -163,7 +157,7 @@ cd ../gcc-build</userinput></screen>
     <para>A few unexpected failures cannot always be avoided. The GCC developers
     are usually aware of these issues, but have not resolved them yet. In
     particular, the <filename class="libraryfile">libmudflap</filename> tests
-    are known be particularly problematic as a result of a bug in GCC
+    are known to be particularly problematic as a result of a bug in GCC
     (<ulink url="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=20003"/>).
     Unless the test results are vastly different from those at the above URL,
     it is safe to continue.</para>
@@ -365,7 +359,8 @@ SEARCH_DIR("/usr/lib");</computeroutput></screen>
       <seglistitem>
         <seg>c++, cc (link to gcc), cpp, g++, gcc, gccbug, and gcov</seg>
         <seg>libgcc.a, libgcc_eh.a, libgcc_s.so, libgcov.a, libgomp.{a,so},
-        libmudflap.{a,so}, libmudflapth.{a,so}, libssp.{a,so},
+        liblto_plugin.so, libmudflap.{a,so}, libmudflapth.{a,so},
+        libquadmath.{a,so}, libssp.{a,so},
         libssp_nonshared.a, libstdc++.{a,so} and libsupc++.a</seg>
         <seg>/usr/include/c++, /usr/lib/gcc, /usr/share/gcc-&gcc-version;</seg>
       </seglistitem>
@@ -493,6 +488,18 @@ SEARCH_DIR("/usr/lib");</computeroutput></screen>
         </listitem> 
       </varlistentry>
 
+      <varlistentry id="liblto_plugin"> 
+        <term><filename class="libraryfile">liblto_plugin</filename></term> 
+        <listitem> 
+          <para>GCC's Link Time Optimization (LTO) plugin allows GCC to perform 
+          optimizations across compilation units.</para>
+          <para>GCCのLink Time Optimization (LTO) プラグインは、複数のコンパイル単位に渡って最適化を可能にします。</para> 
+          <indexterm zone="ch-system-gcc liblto_plugin"> 
+            <primary sortas="c-liblto_plugin*">liblto_plugin*</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
       <varlistentry id="libmudflap">
         <term><filename class="libraryfile">libmudflap</filename></term>
         <listitem>
@@ -503,6 +510,17 @@ SEARCH_DIR("/usr/lib");</computeroutput></screen>
             <primary sortas="c-libmudflap*">libmudflap*</primary>
           </indexterm>
         </listitem>
+      </varlistentry>
+
+      <varlistentry id="libquadmath"> 
+        <term><filename class="libraryfile">libquadmath</filename></term> 
+        <listitem> 
+          <para>GCC Quad Precision Math Library API</para>
+          <para>GCC Quad Precision Math Library のAPIです。</para> 
+          <indexterm zone="ch-system-gcc libquadmath"> 
+            <primary sortas="c-libquadmath*">libquadmath*</primary> 
+          </indexterm> 
+        </listitem> 
       </varlistentry>
 
       <varlistentry id="libssp">
