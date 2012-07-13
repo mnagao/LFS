@@ -1,0 +1,14 @@
+#	deleted:    BOOK/lfs-bootscripts-20111017.tar.bz2
+#	modified:   BOOK/udev-config-20100128.tar.bz2
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	.gitignore
+#	BOOK/lfs-bootscripts-20120229.tar.bz2
+#	BOOK/make.log
+
+lfs-bootscripts-*.tar.bz2
+udev-config-*.tar.bz2
+make.log
+
