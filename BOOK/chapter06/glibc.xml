@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9626 -->
+<!-- revision 9758 -->
 
 <sect1 id="ch-system-glibc" role="wrap">
   <?dbhtml filename="glibc.html"?>
@@ -135,7 +135,8 @@ unset DL</userinput></screen>
     <para>Fix a couple of bugs in Glibc that can cause crashes and core dumps:</para>
     <para>Glibcがクラッシュしコアダンプを吐くいくつかのバグを修正します：</para> 
  
-<screen><userinput remap="pre">patch -Np1 -i ../&glibc-fixes-patch;</userinput></screen>
+<screen><userinput remap="pre">patch -Np1 -i ../&glibc-fixes-patch;
+patch -Np1 -i ../&glibc-sort-patch;</userinput></screen>
 
     <para>Fix a bug that prevents Glibc from building with GCC-&gcc-version;:</para>
     <para>GCC-&gcc-version;でビルドができないバグを修正します：</para>
@@ -290,6 +291,14 @@ grep Error glibc-check-log</userinput></screen>
     <para>パッケージのインストール：</para>
 
 <screen><userinput remap="install">make install</userinput></screen>
+
+    <para>Install NIS and RPC related headers that are not installed by 
+    default; these are required by several BLFS packages:</para>
+    <para>デフォルトではインストールされないNISとRPCに関連するヘッダファイルをインストールします。それらはいくつかのBLFSパッケージで必要とされるものです：</para>
+ 
+<screen><userinput remap="install">cp -v ../glibc-&glibc-version;/sunrpc/rpc/*.h /usr/include/rpc 
+cp -v ../glibc-&glibc-version;/sunrpc/rpcsvc/*.h /usr/include/rpcsvc 
+cp -v ../glibc-&glibc-version;/nis/rpcsvc/*.h /usr/include/rpcsvc</userinput></screen>
 
     <para>The locales that can make the system respond in a different language
     were not installed by the above command. None of the locales are required,
@@ -532,7 +541,7 @@ mkdir /etc/ld.so.conf.d</userinput></screen>
       <seglistitem>
         <seg>catchsegv, gencat, getconf, getent, iconv, iconvconfig, ldconfig,
         ldd, lddlibc4, locale, localedef, mtrace, nscd, pcprofiledump,
-        pt_chown, rpcgen, rpcinfo, sln, sprof, tzselect, xtrace,
+        pt_chown, rpcgen, sln, sotruss, sprof, tzselect, xtrace,
         zdump, and zic</seg>
         <seg>ld.so, libBrokenLocale.{a,so}, libSegFault.so, libanl.{a,so},
         libbsd-compat.a, libc.{a,so}, libc_nonshared.a, libcidn.so,
@@ -547,9 +556,10 @@ mkdir /etc/ld.so.conf.d</userinput></screen>
         /usr/include/netax25, /usr/include/neteconet, /usr/include/netinet, 
         /usr/include/netipx, /usr/include/netiucv, /usr/include/netpacket, 
         /usr/include/netrom, /usr/include/netrose, /usr/include/nfs, 
-        /usr/include/protocols, /usr/include/rpc, /usr/include/rpcsvc, 
-        /usr/include/sys, /usr/lib/gconv, /usr/lib/glibc, /usr/lib/locale, 
-        /usr/share/i18n, /usr/share/zoneinfo</seg>
+        /usr/include/protocols, /usr/include/rpc, /usr/include/rpcsvc,
+        /usr/include/sys, /usr/lib/audit, /usr/lib/gconv, /usr/lib/glibc,
+        /usr/lib/locale, /usr/share/i18n, /usr/share/zoneinfo</seg>
+
       </seglistitem>
     </segmentedlist>
 
@@ -742,17 +752,6 @@ mkdir /etc/ld.so.conf.d</userinput></screen>
         </listitem>
       </varlistentry>
 
-      <varlistentry id="rpcinfo">
-        <term><command>rpcinfo</command></term>
-        <listitem>
-          <para>Makes an RPC call to an RPC server</para>
-          <para>RPCサーバに対して、RPCコールを行います。</para>
-          <indexterm zone="ch-system-glibc rpcinfo">
-            <primary sortas="b-rpcinfo">rpcinfo</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
       <varlistentry id="sln">
         <term><command>sln</command></term>
         <listitem>
@@ -762,6 +761,17 @@ mkdir /etc/ld.so.conf.d</userinput></screen>
             <primary sortas="b-sln">sln</primary>
           </indexterm>
         </listitem>
+      </varlistentry>
+
+      <varlistentry id="sotruss"> 
+        <term><command>sotruss</command></term> 
+        <listitem> 
+          <para>Traces shared library procedure calls of a specified command</para>
+          <para>指定したコマンドの共有ライブラリのコールをトレースします。</para> 
+          <indexterm zone="ch-system-glibc sotruss"> 
+            <primary sortas="b-sotruss">sotruss</primary>
+          </indexterm> 
+        </listitem> 
       </varlistentry>
 
       <varlistentry id="sprof">
