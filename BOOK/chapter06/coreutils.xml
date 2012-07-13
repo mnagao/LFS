@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9677 -->
+<!-- revision 9716 -->
 
 <sect1 id="ch-system-coreutils" role="wrap">
   <?dbhtml filename="coreutils.html"?>
@@ -77,17 +77,12 @@ esac</userinput></screen>
       </para>
     </note>
 
-    <para>The following patch fixes a bug in the testsuite:</para>
-    <para>次のパッチでテストツールのバグを修正します：</para>
- 
-<screen><userinput remap="pre">patch -Np1 -i ../&coreutils-tests-patch;</userinput></screen>
-
     <para>Now prepare Coreutils for compilation:</para>
     <para>さて、Coreutilsをコンパイルする準備をします：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr \
-    --libexecdir=/usr/lib/coreutils \
-    --enable-no-install-program=kill,uptime</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr         \
+            --libexecdir=/usr/lib \
+            --enable-no-install-program=kill,uptime</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
