@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9616 -->
+<!-- revision 9726 -->
 
 <sect1 id="ch-system-udev" role="wrap">
   <?dbhtml filename="udev.html"?>
@@ -34,7 +34,7 @@
 
       <seglistitem>
         <seg>&udev-ch6-sbu;</seg>
-        <seg>&udev-ch6-du; plus &udev-testfiles-du; for testfiles</seg>
+        <seg>&udev-ch6-du;</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -44,26 +44,12 @@
     <!--<title>Installation of Udev</title>-->
     <title>Udevのインストール</title>
 
-    <para>Optionally remove an unneeded warning message that shows up in this 
-    version of udev at boot time.</para>
-    <para>ブート時に出力される不要な警告メッセージを取り除きます：</para> 
-
-<screen><userinput remap="pre">sed -i -e '/deprecated/d' udev/udevadm-trigger.c</userinput></screen>
-
     <para>The udev-config tarball contains LFS-specific files used to configure
     Udev. Unpack it into the Udev source directory:</para>
     <para>udev-configのtarballに、Udevを設定するために使用されるLFS固有のファイルが含まれています。
     そのtarballをUdevのソースディレクトリにUnpackします：</para>
 
 <screen><userinput remap="pre">tar -xvf ../&udev-config;.tar.bz2</userinput></screen>
-
-    <para>The udev-testfiles tarball contains files needed to test udev. The  
-    file expands to an apparent size of about 37MB but the actual disk usage 
-    is less than 7MB.</para> 
-    <para>udev-testfiles tarballには、udevをテストするために必要なファイルが含まれています。
-    展開後のファイルサイズは見かけ上約37MBですが、実際のディスク消費量は7MB以下です。</para>
- 
-<screen><userinput remap="pre">tar -xvf ../udev-&udev-version;-testfiles.tar.bz2 --strip-components=1</userinput></screen>
 
     <para>Create some devices and directories that Udev cannot handle due to
     them being required very early in the boot process, or by Udev itself:</para>
@@ -76,37 +62,35 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
     <para>パッケージをコンパイルするための準備：</para>
 
 <!-- Note that "libdir=/usr/lib64" would be required for multilib. -->
-<screen><userinput remap="configure">./configure --prefix=/usr \
-    --sysconfdir=/etc --sbindir=/sbin \
-    --with-rootlibdir=/lib --libexecdir=/lib/udev \
-    --disable-hwdb --disable-introspection \
-    --disable-keymap --disable-gudev</userinput></screen>
+<screen><userinput remap="configure">BLKID_CFLAGS="-I/usr/include/blkid"  \
+BLKID_LIBS="-L/lib -lblkid"          \
+KMOD_CFLAGS="-I/usr/include"         \
+KMOD_LIBS="-L/lib -lkmod"            \
+./configure  --prefix=/usr           \
+             --with-rootprefix=''    \
+             --bindir=/sbin          \
+             --sysconfdir=/etc       \
+             --libexecdir=/lib       \
+             --enable-rule_generator \
+             --disable-introspection \
+             --disable-keymap        \
+             --disable-gudev         \
+             --with-usb-ids-path=no  \
+             --with-pci-ids-path=no  \
+             --with-systemdsystemunitdir=no</userinput></screen>
 
     <variablelist> 
       <!--<title>The meaning of the new configure options</title>--> 
       <title>新しいconfigureオプションの意味</title> 
 
-      <varlistentry> 
-        <term><parameter>--with-rootlibdir=/lib</parameter></term> 
-        <listitem> 
-          <para>This controls where the <filename 
-          class="libraryfile">libudev</filename> library is installed.  The 
-          library needs to be in <filename class="directory">/lib</filename> 
-          because it's used by Udev at boot time, before <filename 
-          class="directory">/usr</filename> might be available, and the default 
-          --rootlibdir is <filename class="directory">/usr/lib</filename>.</para>
-          <para><filename class="libraryfile">libudev</filename>ライブラリをインストールする場所を指定します。
-          このライブラリは<filename class="directory">/lib</filename>に置く必要があります。それは、<filename class="directory">/usr</filename>が利用可能になる前のブート時に、Udevがそのライブラリを使用するからです。
-          また、--rootlibdirのデフォルトは<filename class="directory">/usr/lib</filename>になっているため、この指定が必要になります。</para> 
-        </listitem> 
-      </varlistentry> 
+      <!-- Note that libexecdir *MUST* stay /lib, even on a 64-bit
+           / multilib system where udev is compiled for 64-bit.  The udev
+           configure system automatically adds "udev" onto this path, and other
+           packages require /lib/udev; the udev maintainers have
+           said this is part of the udev API. -->
 
-      <!-- Note that libexecdir *MUST* stay /lib/udev, even on a 64-bit 
-           / multilib system where udev is compiled for 64-bit.  Other 
-           packages require this exact path; the udev maintainers have 
-           said this is part of the udev API. --> 
-      <varlistentry> 
-        <term><parameter>--libexecdir=/lib/udev</parameter></term> 
+      <varlistentry>
+        <term><parameter>--libexecdir=/lib</parameter></term>
         <listitem> 
           <para>This controls where Udev-internal rules and helper programs 
           are installed.</para>
@@ -114,8 +98,17 @@ mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
         </listitem> 
       </varlistentry> 
 
-      <varlistentry> 
-        <term><parameter>--disable-*</parameter></term> 
+      <varlistentry>
+        <term><parameter>--enable-rule_generator</parameter></term> 
+        <listitem> 
+          <para>This allows persistent rules to be generated for network and 
+          optical media devices</para>
+          <para>ネットワークと光学デバイスのために、永続的なルールを生成できるようにします。</para> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry>
+        <term><parameter>--disable-* and --with-*</parameter></term>
         <listitem> 
           <para>These options prevent Udev from installing helper programs and 
           other extras which require more external libraries.  These libraries 
@@ -179,7 +172,8 @@ make install</userinput></screen>
         firmware.sh, fstab_import, path_id, scsi_id, udevadm, udevd,
         usb_id, write_cd_rules, and write_net_rules</seg>
         <seg>libudev.{a,so}</seg>
-        <seg>/etc/udev, /lib/udev, /lib/firmware</seg>
+        <seg>/etc/udev, /lib/udev, /lib/firmware, /usr/share/doc/udev-config,
+        /usr/share/gtk-doc/html/libudev</seg>
       </seglistitem>
     </segmentedlist>
 
