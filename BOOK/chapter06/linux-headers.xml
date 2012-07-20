@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9638 -->
+<!-- revision 9742 -->
 
 <sect1 id="ch-system-linux-headers" role="wrap">
   <?dbhtml filename="linux-headers.html"?>
@@ -26,9 +26,9 @@
   <sect2 role="package">
     <title/>
 
-    <para>The Linux API Headers (in linux-&linux-version;.tar.gz) expose the kernel's
-    API for use by Glibc.</para>
-    <para>(linux-&linux-version;.tar.gzの中の) Linux APIヘッダは、Glibcが使用するカーネルAPIを公開します。</para>
+    <para>The Linux API Headers (in linux-&linux-version;.tar.xz) expose the
+    kernel's API for use by Glibc.</para>
+    <para>(linux-&linux-version;.tar.xzの中の) Linux APIヘッダは、Glibcが使用するカーネルAPIを公開します。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
@@ -59,7 +59,7 @@
     from previous activity:</para>
     <para>以前の作業によって生じた古いファイルや依存関係が存在しないようにします。</para>
 
-<screen><userinput remap="install">make mrproper</userinput></screen> 
+<screen><userinput remap="pre">make mrproper</userinput></screen> 
     <para>Now test and extract the user-visible kernel headers from the source. 
     They are placed in an intermediate local directory and copied to the needed 
     location because the extraction process removes any existing files in
@@ -70,11 +70,10 @@
     抽出のプロセスは、既存のファイルを削除してしまうので、それらファイルは中間のローカルディレクトリに置き、それから必要な場所にコピーします。
     カーネル開発者が使用するいくつかの隠しファイルもありますが、LFSでは必要ないので中間のディレクトリから削除します。</para>
 
-<screen><userinput remap="install">make headers_check
+<screen><userinput remap="pre">make headers_check
 make INSTALL_HDR_PATH=dest headers_install
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
-cp -rv dest/include/* /usr/include</userinput></screen>
-
+</userinput><userinput remap="install">cp -rv dest/include/* /usr/include</userinput></screen>
   </sect2>
 
   <sect2 id="contents-linux-headers" role="content">
