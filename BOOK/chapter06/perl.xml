@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9431 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-perl" role="wrap">
   <?dbhtml filename="perl.html"?>
@@ -52,6 +52,11 @@
     このファイルは、オプションであるテストツールと同じように、Perlの設定ファイルの1つが参照します：</para>
 
 <screen><userinput remap="pre">echo "127.0.0.1 localhost $(hostname)" &gt; /etc/hosts</userinput></screen>
+
+    <para>Apply a patch to fix a security vulnerability in Perl:</para>
+    <para>Perlのセキュリティ脆弱性を修正するためのパッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&perl-security-patch;</userinput></screen>
 
     <para>This version of Perl now builds the Compress::Raw::Zlib module. By 
     default Perl will use an internal copy of the Zlib source for the build. 
@@ -158,11 +163,11 @@
       <seglistitem>
         <seg>a2p, c2ph, config_data, corelist, cpan, cpan2dist, cpanp,
         cpanp-run-perl, dprofpp, enc2xs, find2perl, h2ph, h2xs,
-        instmodsh, libnetcfg, perl, perl&perl-version; (link to perl),
+        instmodsh, json_pp, libnetcfg, perl, perl&perl-version; (link to perl),
         perlbug, perldoc, perlivp, perlthanks (link to perlbug), piconv, pl2pm,
         pod2html, pod2latex, pod2man, pod2text, pod2usage, podchecker,
         podselect, prove, psed (link to s2p), pstruct (link to c2ph), ptar,
-        ptardiff, s2p, shasum, splain, and xsubpp</seg>
+        ptardiff, ptargrep, s2p, shasum, splain, and xsubpp</seg>
         <!--<seg>Several hundred which cannot all be listed here</seg>-->
         <seg>数百のファイルがインストールされるため、ここでは割愛。</seg>
         <seg>/usr/lib/perl5</seg>
@@ -336,6 +341,17 @@
             <primary sortas="b-instmodsh">instmodsh</primary>
           </indexterm>
         </listitem>
+      </varlistentry>
+
+      <varlistentry id="json_pp"> 
+        <term><command>json_pp</command></term> 
+        <listitem> 
+          <para>Converts data between certain input and output formats</para>
+          <para>入力と出力フォーマット間でデータをコンバートします。</para> 
+          <indexterm zone="ch-system-perl json_pp"> 
+            <primary sortas="b-json_pp">json_pp</primary> 
+          </indexterm> 
+        </listitem> 
       </varlistentry>
 
       <varlistentry id="libnetcfg">
@@ -580,6 +596,18 @@
           <para>展開されたアーカイブと展開されていないアーカイブをコンペアするPerlプログラムです。</para> 
           <indexterm zone="ch-system-perl ptardiff"> 
             <primary sortas="b-ptardiff">ptardiff</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="ptargrep"> 
+        <term><command>ptargrep</command></term> 
+        <listitem> 
+          <para>A Perl program that applies pattern matching to the contents 
+          of files in a tar archive</para>
+          <para>tarアーカイブ内のファイルの内容に対して、パターンマッチングを行うPerlのプログラムです。</para> 
+          <indexterm zone="ch-system-perl ptargrep"> 
+            <primary sortas="b-ptargrep">ptargrep</primary> 
           </indexterm> 
         </listitem> 
       </varlistentry>
