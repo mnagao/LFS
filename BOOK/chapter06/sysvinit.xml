@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9594 -->
+<!-- revision 9688 -->
 
 <sect1 id="ch-system-sysvinit" role="wrap">
   <?dbhtml filename="sysvinit.html"?>
@@ -97,10 +97,9 @@
 
       <seglistitem>
         <seg>bootlogd, fstab-decode, halt, init, killall5, last,
-        lastb (link to last), mesg, mountpoint, pidof (link to killall5),
-        poweroff (link to halt),
-        reboot (link to halt), runlevel, shutdown, sulogin,
-        telinit (link to init) and utmpdump</seg>
+        lastb (link to last), mesg, pidof (link to killall5),
+        poweroff (link to halt), reboot (link to halt), runlevel, shutdown,
+        sulogin, telinit (link to init), and utmpdump</seg>
       </seglistitem>
     </segmentedlist>
 

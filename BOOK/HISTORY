@@ -25,4 +25,5 @@
                     /ncurses.xml
                     /perl.xml
                     /shadow.xml
+                    /sysvinit.xml
 
