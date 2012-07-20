@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9382 -->
+<!-- revision 9758 -->
 
 <sect1 id="ch-system-m4" role="wrap">
   <?dbhtml filename="m4.html"?>
@@ -53,10 +53,13 @@
 
 <screen><userinput remap="make">make</userinput></screen>
 
-    <para>To test the results, issue:</para>
-    <para>コンパイル結果を確認するには、次を実行してください：</para>
+    <!--<para>To test the results, issue:</para>-->
+    <para>To test the results, first fix a test program and then run the test programs:</para>
+    <!--<para>コンパイル結果を確認するには、次を実行してください：</para>-->
+    <para>コンパイル結果を確認するには、まず最初にテストプログラムを修正してからテストを実行します：</para>
 
-<screen><userinput remap="test">make check</userinput></screen>
+<screen><userinput remap="test">sed -i -e '41s/ENOENT/&amp; || errno == EINVAL/' tests/test-readlink.h
+make check</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
