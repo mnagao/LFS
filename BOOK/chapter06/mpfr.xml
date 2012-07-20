@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9630 -->
+<!-- revision 9742 -->
 
 <sect1 id="ch-system-mpfr" role="wrap">
   <?dbhtml filename="mpfr.html"?>
@@ -44,6 +44,11 @@
     <!--<title>Installation of MPFR</title>-->
     <title>MPFRのインストール</title>
 
+    <para>Apply a patch that fixes a number of bugs in MPFR-&mpfr-version;</para>
+    <para>MPFR-&mpfr-version;の多くのバグを修正するため、パッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&mpfr-fixes-patch;</userinput></screen>
+
     <para>Prepare MPFR for compilation:</para>
     <para>MPFRをコンパイルする準備：</para>
 
@@ -75,8 +80,8 @@
     <para>Install the documentation:</para> 
     <para>ドキュメントのインストール：</para>
 
-<screen><userinput remap="install">make html 
-make install-html</userinput></screen>
+<screen><userinput remap="make">make html
+</userinput><userinput remap="install">make install-html</userinput></screen>
 
   </sect2>
 
