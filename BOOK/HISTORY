@@ -28,4 +28,5 @@
                     /sysvinit.xml
                     /tar.xml
                     /udev.xml
+                    /util-linux.xml
 
