@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9467 -->
+<!-- revision 9729 -->
 
 <sect1 id="ch-system-xz" role="wrap">
   <?dbhtml filename="xz-utils.html"?>
@@ -52,7 +52,7 @@
     <para>Prepare Xz for compilation with:</para>
     <para>Xzをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --docdir=/usr/share/doc/xz-&xz-version;</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr --libdir=/lib --docdir=/usr/share/doc/xz-&xz-version;</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
@@ -67,7 +67,7 @@
   <para>Install the package:</para>
   <para>パッケージのインストール：</para>
 
-<screen><userinput remap="install">make install</userinput></screen>
+<screen><userinput remap="install">make pkgconfigdir=/usr/lib/pkgconfig install</userinput></screen>
 
   </sect2>
 
@@ -86,11 +86,12 @@
 
       <seglistitem>
         <seg>lzcat (link to xz), lzcmp (link to xzdiff), lzdiff (link to
-        xzdiff), bzdiff, lzegrep (link to xzgrep), lzfgrep (link to xzgrep),
-        lz (link to xz), lzmadec, lzmainfo, lzmore (link to xzmore),
-        unlzma (link to xz), xzcat (link to xz), xzcmp (link to xzdiff),
-        xzdec, xzdiff, xzegrep (link to xzgrep), xzfgrep (link to xzgrep),
-        xzgrep, xzless, xzmore</seg>
+        xzdiff), lzegrep (link to xzgrep), lzfgrep (link to xzgrep),
+        lzgrep (link to xzgrep), lzless (link to xzless), lzma (link to xz),
+        lzmadec, lzmainfo, lzmore (link to xzmore),
+        unlzma (link to xz), unxz, (link to xz), xz, xzcat (link to xz),
+        xzcmp (link to xzdiff), xzdec, xzdiff, xzegrep (link to xzgrep),
+        xzfgrep (link to xzgrep), xzgrep, xzless, xzmore</seg>
         <seg>liblzma.{a,so}</seg>
         <seg>/usr/include/lzma and /usr/share/doc/xz-&xz-version;</seg>
       </seglistitem>
