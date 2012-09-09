@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9472 -->
+<!-- revision 9726 -->
 
 <sect1 id="ch-scripts-console">
   <?dbhtml filename="console.html"?>
@@ -17,33 +17,29 @@
     <secondary>configuring</secondary>
   </indexterm>
 
-  <indexterm zone="ch-scripts-console">
-    <primary sortas="d-consolelog">consolelog</primary>
-    <secondary>configuring</secondary>
-  </indexterm>
-
   <para>This section discusses how to configure the <command>console</command>
-  and <command>consolelog</command> bootscripts that set up the keyboard map,
-  console font and console kernel log level. If non-ASCII characters (e.g.,
-  the copyright sign, the British pound sign and Euro symbol) will not be used
-  and the keyboard is a U.S. one, much of this section can be skipped. Without
-  the configuration file, the <command>console</command> bootscript will do
-  nothing.</para>
-  <para>このセクションでは、キーボードマップ、コンソールフォント、コンソールへのカーネルログレベルを設定する、<command>console</command>と<command>consolelog</command>ブートスクリプトの設定方法を取り扱います。
-  もし非ASCII文字(例：copyrightマーク、英ポンド記号、ユーロ記号)を使用せずキーボードがUSであれば、このセクションの大半はスキップ可能です。
-  設定ファイルがない場合、<command>console</command>ブートスクリプトは何もしません。</para>
+  bootscript that sets up the keyboard map, console font and console kernel log
+  level. If non-ASCII characters (e.g., the copyright sign, the British pound
+  sign and Euro symbol) will not be used and the keyboard is a U.S. one, much
+  of this section can be skipped. Without the configuration file, (or
+  equivalent settings in <filename>rc.site</filename>), the
+  <command>console</command> bootscript will do nothing.</para>
 
-  <para>The <command>console</command>  and <command>consolelog</command>
-  scripts read the <filename>/etc/sysconfig/console</filename> file for
-  configuration information.
-  Decide which keymap and screen font will be used. Various language-specific
-  HOWTOs can also help with this, see <ulink
+  <para>このセクションでは、キーボードマップ、コンソールフォント、コンソールへのカーネルログレベルを設定する、<command>console</command>ブートスクリプトの設定方法を取り扱います。
+  もし非ASCII文字(例：copyrightマーク、英ポンド記号、ユーロ記号)を使用せずキーボードがUSであれば、このセクションの大半はスキップ可能です。
+  設定ファイルがない場合(または、<filename>rc.site</filename>内の設定がない場合)、<command>console</command>ブートスクリプトは何もしません。</para>
+
+  <para>The <command>console</command> script reads the
+  <filename>/etc/sysconfig/console</filename> file for configuration
+  information.  Decide which keymap and screen font will be used. Various
+  language-specific HOWTOs can also help with this, see <ulink
   url="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html"/>. If still in
-  doubt, look in the <filename class="directory">/lib/kbd</filename>
-  directory for valid keymaps and screen fonts. Read
-  <filename>loadkeys(1)</filename> and <filename>setfont(8)</filename> manual
-  pages to determine the correct arguments for these programs.</para>
-  <para><command>console</command>と<command>consolelog</command>ブートスクリプトは、設定情報を取得するため<filename>/etc/sysconfig/console</filename>ファイルを読み込みます。
+  doubt, look in the <filename class="directory">/lib/kbd</filename> directory
+  for valid keymaps and screen fonts. Read <filename>loadkeys(1)</filename> and
+  <filename>setfont(8)</filename> manual pages to determine the correct
+  arguments for these programs.</para>
+
+  <para><command>console</command>ブートスクリプトは、設定情報を取得するため<filename>/etc/sysconfig/console</filename>ファイルを読み込みます。
   そしてどのキーマップ、どのスクリーンフォントを使用するか決定します。
   各言語のHOWTOもまた手助けとなりますので、<ulink url="http://www.tldp.org/HOWTO/HOWTO-INDEX/other-lang.html"/>を参照してください。
   それでも不明確な点がある場合は、<filename class="directory">/lib/kbd</filename>ディレクトリを見て有効なキーマップ・スクリーンフォントを探してください。
