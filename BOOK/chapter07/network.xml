@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9597 -->
+<!-- revision 9728 -->
 
 <sect1 id="ch-scripts-network">
   <?dbhtml filename="network.html"?>
@@ -66,7 +66,7 @@ done</userinput></screen>
     file, to find out which name was assigned to which network device:</para>
     <para>では、<filename>/etc/udev/rules.d/70-persistent-net.rules</filename>の内容を確認し、どのネットワークデバイスにどの名称が割り付けられているか調べます：</para>
 
-<screen><userinput>cat /etc/udev/rules.d/70-persistent-net.rules</userinput></screen>
+<screen role="nodump"><userinput>cat /etc/udev/rules.d/70-persistent-net.rules</userinput></screen>
 
     <para>The file begins with a comment block followed by two lines for each
     NIC. The first line for each NIC is a commented description showing its
