@@ -5,7 +5,7 @@
   %general-entities;
 ]>
 
-<!-- revision 9636 -->
+<!-- revision 9659 -->
 
 <sect1 id="ch-scripts-usage">
   <?dbhtml filename="usage.html"?>
@@ -113,12 +113,12 @@ EOF</userinput></screen>
   <para>As a convenience, the <command>rc</command> script reads a library of
   functions in <filename class="directory">/lib/lsb/init-functions</filename>.
   This library also reads an optional configuration file, 
-  <filename>/etc/sysconfig/init_params</filename>.  Any of the system 
+  <filename>/etc/sysconfig/rc.site</filename>.  Any of the system
   configuration file parameters described in subsequent sections can be 
   alternatively placed in this file allowing consolidation of all system 
   parameters in this one file.</para>
   <para>利便性を考慮し、<command>rc</command>スクリプトは<filename class="directory">/lib/lsb/init-functions</filename>にあるライブラリを読み込みます。
-  このライブラリはまた、オプションの設定ファイル<filename>/etc/sysconfig/init_params</filename>を読み込みます。
+  このライブラリはまた、オプションの設定ファイル<filename>/etc/sysconfig/rc.site</filename>を読み込みます。
   この後に続くセクションで説明する、システムの各設定パラメータは、この一つの設定ファイルに全てのシステムパラメータをまとめて記述することができます。</para> 
 
   <para>As a debugging convenience, the functions script also logs all output 
