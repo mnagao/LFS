@@ -36,4 +36,5 @@
 2012/12/15 chapter07/udev.xml
                     /usage.xml
            chapter08/fstab.xml
-
+                    /grub.xml
+                    /kernel.xml

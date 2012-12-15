@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9588 -->
+<!-- revision 9708 -->
 
 <sect1 id="ch-bootable-grub" role="wrap">
   <?dbhtml filename="grub.html"?>
@@ -180,6 +180,16 @@ menuentry "GNU/Linux, Linux &linux-version;-lfs-&version;" {
         linux   /boot/vmlinuz-&linux-version;-lfs-&version; root=/dev/sda2 ro 
 }</literal> 
 EOF</userinput></screen> 
+
+    <note><para>From <application>GRUB</application>'s perspective, the 
+    kernel files are relative to the partition used.  If you 
+    used a separate /boot partition, remove /boot from the above 
+    <emphasis>linux</emphasis> line.  You will also need to change the 
+    <emphasis>set root</emphasis> line to point to the boot partition. 
+    </para>
+    <para><application>GRUB</application>からみると、カーネル関連のファイルは、使用しているパーティションに関連しています。
+    もし独立した/bootパーティションを使用している場合、上記<emphasis>linux</emphasis>の行から/bootを取り除いてください。
+    また、ブートパーティションを指定している<emphasis>set root</emphasis>の行も変更する必要があるでしょう。</para></note>
  
     <para>GRUB is an extremely powerful program and it provides a tremendous 
     number of options for booting from a wide variety of devices, operating 
@@ -191,7 +201,7 @@ EOF</userinput></screen>
     それらオプションの詳細は、この導入部の範囲を超えています。
 </para> 
  
-    <note><para>There is a command, <application>grub-mkconfig</application> that 
+    <caution><para>There is a command, <application>grub-mkconfig</application>, that 
     can write a configuration file automatically.  It uses a set of scripts in 
     /etc/grub.d/ and will destroy any customizations that you make.  These scripts 
     are designed primarily for non-source distributions and are not recommended for  
@@ -202,7 +212,7 @@ EOF</userinput></screen>
     それらスクリプトは主に非ソース配布用に設計されており、LFSでは非推奨です。
     もし商用のディストリビューションをインストールするならば、このプログラムを実行するいい機会です。
     その際は、確実にgrub.cfgファイルをバックアップしてください。
-    </para></note>
+    </para></caution>
 
   </sect2>
 
