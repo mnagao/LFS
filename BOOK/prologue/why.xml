@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9647 -->
+<!-- revision 9758 -->
 
 <sect1 id="pre-why">
   <?dbhtml filename="package-choices.html"?>
@@ -296,6 +296,14 @@
         <para>このパッケージは、非USキーボードのためのキーテーブルファイル、キーボードユーティリティ、たくさんのコンソール画面用フォントを含んでいます。</para>
       </listitem>
 
+      <listitem> 
+        <para>Kmod</para> 
+ 
+        <para>This package contains programs needed to administer Linux
+        kernel modules.</para>
+        <para>このパッケージには、カーネルモジュールを管理するために必要なプログラムが含まれています。</para>
+      </listitem>
+
       <listitem>
         <para>Less</para>
 
@@ -364,14 +372,6 @@
         <para>このパッケージは、基本的なLinuxのmanページの内容を含んでいます。</para>
       </listitem>
 
-      <listitem>
-        <para>Module-Init-Tools</para>
-
-        <para>This package contains programs needed to administer Linux
-        kernel modules.</para>
-        <para>このパッケージは、Linuxカーネルモジュールを管理するために必要なプログラムを含んでいます。</para>
-      </listitem>
-
       <listitem> 
         <para>MPC</para> 
 
@@ -412,7 +412,7 @@
         <para>このパッケージは、"patch"ファイルを適用することで、ファイルの修正や作成を行うプログラムを含んでいます。"patch"ファイルは通常<application>diff</application>プログラムによって作成されます。
         いくつかのLFSのパッケージにおいて、ビルド手順の中で必要とされます。</para>
       </listitem>
-
+<!--
       <listitem> 
         <para>PCRE</para> 
  
@@ -424,7 +424,7 @@
         このパッケージはGlibに必須なライブラリで、Grepからも使用されます。
         </para> 
       </listitem>
-
+-->
       <listitem>
         <para>Perl</para>
 
