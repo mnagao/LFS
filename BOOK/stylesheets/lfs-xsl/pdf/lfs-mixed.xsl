@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 
 <!--
-$LastChangedBy: bdubbs $
-$Date: 2009-01-04 13:48:38 +0900 (日, 04  1月 2009) $
+$LastChangedBy$
+$Date$
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -108,6 +108,9 @@ $Date: 2009-01-04 13:48:38 +0900 (日, 04  1月 2009) $
           <xsl:otherwise>
             <xsl:choose>
               <xsl:when test="ancestor::appendix">auto</xsl:when>
+              <!-- Modified by Bruce Dubbs.  Allow user to specify 
+              automatic screen formatting to split across pages. -->
+              <xsl:when test="@role='auto'">auto</xsl:when>
               <xsl:otherwise>always</xsl:otherwise>
             </xsl:choose>
           </xsl:otherwise>

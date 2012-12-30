@@ -6,7 +6,7 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: ebnf.xsl 8196 2007-07-05 21:18:33Z manuel $
+     $Id$
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -18,7 +18,7 @@
 <doc:reference xmlns="">
 <referenceinfo>
 <releaseinfo role="meta">
-$Id: ebnf.xsl 8196 2007-07-05 21:18:33Z manuel $
+$Id$
 </releaseinfo>
 <author><surname>Walsh</surname>
 <firstname>Norman</firstname></author>

@@ -13,7 +13,7 @@
 <xsl:include href="../common/table.xsl"/>
 
 <!-- ********************************************************************
-     $Id: table.xsl 8782 2009-01-15 07:20:24Z bdubbs $
+     $Id$
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -27,7 +27,7 @@
   <info>
     <title>Formatting Object Table Reference</title>
     <releaseinfo role="meta">
-      $Id: table.xsl 8782 2009-01-15 07:20:24Z bdubbs $
+      $Id$
     </releaseinfo>
   </info>
   <partintro xml:id="partintro">

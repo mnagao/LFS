@@ -4,7 +4,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:doc="http://nwalsh.com/xsl/documentation/1.0" xmlns="http://www.w3.org/1999/xhtml" exclude-result-prefixes="doc" version="1.0">
 
 <!-- ********************************************************************
-     $Id: ebnf.xsl 8196 2007-07-05 21:18:33Z manuel $
+     $Id$
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.
@@ -16,7 +16,7 @@
 <doc:reference xmlns="">
 <referenceinfo xmlns="http://www.w3.org/1999/xhtml">
 <releaseinfo role="meta">
-$Id: ebnf.xsl 8196 2007-07-05 21:18:33Z manuel $
+$Id$
 </releaseinfo>
 <author><surname>Walsh</surname>
 <firstname>Norman</firstname></author>

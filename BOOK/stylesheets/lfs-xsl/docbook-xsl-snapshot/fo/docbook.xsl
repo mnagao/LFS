@@ -13,7 +13,7 @@
 <xsl:output method="xml" indent="no"/>
 
 <!-- ********************************************************************
-     $Id: docbook.xsl 8196 2007-07-05 21:18:33Z manuel $
+     $Id$
      ********************************************************************
 
      This file is part of the XSL DocBook Stylesheet distribution.

@@ -21,7 +21,7 @@
                 version="1.0">
 
 <!-- ********************************************************************
-     $Id: autoidx-kimber.xsl 8196 2007-07-05 21:18:33Z manuel $
+     $Id$
      ********************************************************************
 
      This file is part of the DocBook XSL Stylesheet distribution.
