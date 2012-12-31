@@ -30,7 +30,7 @@
   with a backslash at the end of the line.</para> 
   <para>いくつかのケースにおいて、論理的な1行は、行末のバックスラッシュにより2行以上になります。</para>
 
-<screen role="nodump"><userinput>CC="gcc -B/usr/bin/" ../binutils-2.18/configure \ 
+<screen role="nodump"><userinput>CC="gcc -B/usr/bin/" ../binutils-2.18/configure \
   --prefix=/tools --disable-nls --disable-werror</userinput></screen> 
 
   <para>Note that the backslash must be followed by an immediate return.  Other 
