@@ -5,6 +5,8 @@
   %general-entities;
 ]>
 
+<!-- revision 9734 -->
+
 <sect1 id="ch-system-kmod" role="wrap">
   <?dbhtml filename="kmod.html"?>
 
@@ -25,6 +27,7 @@
 
     <para>The Kmod package contains libraries and utilities for loading kernel
     modules</para>
+    <para>Kmodパッケージは、カーネルモジュールをロードするためのライブラリとユーティリティを含んでいます。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
@@ -39,9 +42,11 @@
   </sect2>
 
   <sect2 role="installation">
-    <title>Installation of Kmod</title>
+    <!--<title>Installation of Kmod</title>-->
+    <title>Kmodのインストール</title>
 
     <para>Prepare Kmod for compilation:</para>
+    <para>Kmodをコンパイルする準備：</para>
 
 <screen><userinput remap="configure">liblzma_CFLAGS="-I/usr/include" \
 liblzma_LIBS="-L/lib -llzma"    \
@@ -51,7 +56,8 @@ zlib_LIBS="-L/lib -lz"          \
             --with-xz     --with-zlib</userinput></screen>
 
     <variablelist>
-      <title>The meaning of the configure options:</title>
+      <!-- <title>The meaning of the configure options:</title>-->
+      <title>configureオプションの意味：</title>
 
       <varlistentry>
         <term><parameter>lib* and --with-*</parameter></term>
@@ -59,22 +65,27 @@ zlib_LIBS="-L/lib -lz"          \
           <para>These options enable Kmod to handle compressed kernel modules.
           The shell variables are required in order for the xz and zlib headers
           and libraries to be found in the absence of pkg-config.</para>
+          <para>これらオプションによって、圧縮されたカーネルモジュールを利用可能にします。
+          pkg-configが未インストールの状態で、xzとzlibのヘッダ・ライブラリを見つけられるようにするため、シェル変数の指定が必要になります。</para>
         </listitem>
       </varlistentry>
 
     </variablelist>
 
     <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
 
 <screen><userinput remap="make">make</userinput></screen>
 
     <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するため、次を実行します：</para>
 
 <screen><userinput remap="test">make check</userinput></screen>
 
     <para>Install the package, and create symlinks for compatibility with
     Module-Init-Tools, the package that previously handled Linux kernel modules:
     </para>
+    <para>パッケージのインストールと、Module-Init-Toolsとの互換性確保のためのシンボリックリンク作成を行います：</para>
 
 <screen><userinput remap="install">make pkgconfigdir=/usr/lib/pkgconfig install
 for target in depmod insmod modinfo modprobe rmmod; do
@@ -88,8 +99,11 @@ ln -sv kmod /bin/lsmod</userinput></screen>
     <title>Contents of Kmod</title>
 
     <segmentedlist>
-      <segtitle>Installed programs</segtitle>
-      <segtitle>Installed libraries</segtitle>
+      <!--<segtitle>Installed programs</segtitle>
+      <segtitle>Installed libraries</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <segtitle>インストールされるライブラリ</segtitle>
+
 
       <seglistitem>
         <seg>depmod (link to kmod), insmod (link to kmod), kmod, kmod-nolib,
@@ -100,7 +114,8 @@ ln -sv kmod /bin/lsmod</userinput></screen>
     </segmentedlist>
 
     <variablelist>
-      <bridgehead renderas="sect3">Short Descriptions</bridgehead>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
       <?dbfo list-presentation="list"?>
       <?dbhtml list-presentation="table"?>
 
@@ -111,6 +126,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
           existing set of modules; this dependency file is used by
           <command>modprobe</command> to automatically load the required
           modules</para>
+          <para>モジュール内のシンボルを基に、依存関係ファイルを作成します。この依存関係ファイルは、必要なモジュールを自動的にロードするために、<command>modprobe</command>が使用します。</para>
           <indexterm zone="ch-system-kmod depmod">
             <primary sortas="b-depmod">depmod</primary>
           </indexterm>
@@ -121,6 +137,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <term><command>insmod</command></term>
         <listitem>
           <para>Installs a loadable module in the running kernel</para>
+          <para>動作中のカーネルに、ローダブルモジュールを導入します。</para>
           <indexterm zone="ch-system-kmod insmod">
             <primary sortas="b-insmod">insmod</primary>
           </indexterm>
@@ -131,6 +148,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <term><command>kmod</command></term>
         <listitem>
           <para>Loads and unloads kernel modules</para>
+          <para>カーネルモジュールのロード/アンロードを行います。</para>
           <indexterm zone="ch-system-kmod kmod">
             <primary sortas="b-kmod">kmod</primary>
           </indexterm>
@@ -142,6 +160,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <listitem>
           <para>This library is used by other programs to load and unload kernel
            modules</para>
+          <para>他プログラムが、カーネルモジュールをロード/アンロードするために使用するライブラリです。</para>
           <indexterm zone="ch-system-kmod">
             <primary sortas="c-libkmod">libkmod</primary>
           </indexterm>
@@ -152,6 +171,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <term><command>lsmod</command></term>
         <listitem>
           <para>Lists currently loaded modules</para>
+          <para>現在ロードされているモジュールを表示します。</para>
           <indexterm zone="ch-system-kmod lsmod">
             <primary sortas="b-lsmod">lsmod</primary>
           </indexterm>
@@ -163,6 +183,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <listitem>
           <para>Examines an object file associated with a kernel module and
           displays any information that it can glean</para>
+          <para>カーネルモジュールに関連付けられたオブジェクトファイルを調査し、収集できた情報を表示します。</para>
           <indexterm zone="ch-system-kmod modinfo">
             <primary sortas="b-modinfo">modinfo</primary>
           </indexterm>
@@ -174,6 +195,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <listitem>
           <para>Uses a dependency file, created by
           <command>depmod</command>, to automatically load relevant modules</para>
+          <para><command>depmod</command>によって作成された依存関係ファイルを使用し、関連するモジュールを自動的にロードします。</para>
           <indexterm zone="ch-system-kmod modprobe">
             <primary sortas="b-modprobe">modprobe</primary>
           </indexterm>
@@ -184,6 +206,7 @@ ln -sv kmod /bin/lsmod</userinput></screen>
         <term><command>rmmod</command></term>
         <listitem>
           <para>Unloads modules from the running kernel</para>
+          <para>実行中のカーネルからモジュールをアンロードします。</para>
           <indexterm zone="ch-system-kmod rmmod">
             <primary sortas="b-rmmod">rmmod</primary>
           </indexterm>
