@@ -20,12 +20,21 @@
 <!ENTITY test-results "&lfs-root;lfs/build-logs/&generic-version;/">
 <!ENTITY errata "&lfs-root;lfs/errata/&generic-version;/">
 
+<!--
 <!ENTITY buildtime "Approximate build time">
 <!ENTITY diskspace "Required disk space">
 <!ENTITY dependencies "Installation depends on">
 <!ENTITY testsuites "Test suite depends on">
 <!ENTITY before "Must be installed before">
 <!ENTITY external "Optional dependencies">
+-->
+
+<!ENTITY buildtime "ビルドに必要なおおよその時間">
+<!ENTITY diskspace "必要なディスクスペース">
+<!ENTITY dependencies "インストールに必要なもの">
+<!ENTITY testsuites "テスト実行に必要なもの">
+<!ENTITY before "先にインストールすべきもの">
+<!ENTITY external "オプション扱いのもの">
 
 <!ENTITY gnu "http://ftp.gnu.org/gnu/">
 <!ENTITY gnu-software "http://www.gnu.org/software/">
