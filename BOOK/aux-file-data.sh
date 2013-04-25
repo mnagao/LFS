@@ -1,4 +1,5 @@
 #!/bin/bash
+# revision 9975
 
 if [ $# -lt 1 ] ; then 
   echo "This script needs the location of the xml file to update"
@@ -6,6 +7,8 @@ if [ $# -lt 1 ] ; then
 fi
 
 FILE=$1
+
+./make-aux-files.sh
 
 # Bootscript data
 bootscripts=$(ls lfs-bootscripts*.bz2)
@@ -25,14 +28,4 @@ rm -rf $TMP_DIR
 sed -i -e s/BOOTSCRIPTS-SIZE/$bootsize/              \
        -e s/BOOTSCRIPTS-INSTALL-KB/$bootinstallsize/ \
        -e s/BOOTSCRIPTS-MD5SUM/$bootmd5/ $FILE
-
-############
-
-# udev configuration tarball data
-udevconfig=$(ls udev-config*.bz2)
-udevsize=$(ls -lk $udevconfig | cut -f5 -d" ")
-udevmd5=$(md5sum $udevconfig | cut -f1 -d" ")
-
-sed -i -e s/UDEV-SIZE/$udevsize/ \
-       -e s/UDEV-MD5SUM/$udevmd5/ $FILE
 

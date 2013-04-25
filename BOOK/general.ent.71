@@ -1,11 +1,11 @@
-<!ENTITY version "7.2">
-<!ENTITY releasedate "September 1, 2012">
+<!ENTITY version "7.1">
+<!ENTITY releasedate "Mar 2, 2012">
 <!ENTITY copyrightdate "1999-2012"><!-- jhalfs needs a literal dash, not &ndash; -->
-<!ENTITY milestone "7.2">
-<!ENTITY generic-version "7.2"> <!-- Use "development", "testing", or "x.y[-pre{x}]" -->
+<!ENTITY milestone "7.1">
+<!ENTITY generic-version "7.1"> <!-- Use "development", "testing", or "x.y[-pre{x}]" -->
 
-<!ENTITY previous-revision "9759">
-<!ENTITY original-revision "9979">
+<!ENTITY previous-revision "9651">
+<!ENTITY original-revision "9759">
 
 <!ENTITY lfs-root "http://www.linuxfromscratch.org/">
 <!ENTITY lfs-ticket-root "http://wiki.linuxfromscratch.org/lfs/ticket/">
@@ -16,7 +16,6 @@
 <!ENTITY patches-root "&lfs-root;patches/lfs/&generic-version;/">
 <!ENTITY downloads-root "&lfs-root;lfs/downloads/&generic-version;/">
 <!ENTITY anduin-sources "http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomeration/">
-<!ENTITY anduin-other "http://anduin.linuxfromscratch.org/sources/other/">
 <!ENTITY livecd-root "&lfs-root;livecd/">
 <!ENTITY test-results "&lfs-root;lfs/build-logs/&generic-version;/">
 <!ENTITY errata "&lfs-root;lfs/errata/&generic-version;/">
@@ -29,6 +28,7 @@
 <!ENTITY before "Must be installed before">
 <!ENTITY external "Optional dependencies">
 -->
+
 <!ENTITY buildtime "ビルドに必要なおおよその時間">
 <!ENTITY diskspace "必要なディスクスペース">
 <!ENTITY dependencies "インストールに必要なもの">
