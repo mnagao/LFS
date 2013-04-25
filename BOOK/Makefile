@@ -1,3 +1,5 @@
+# revision 9909
+
 #BASEDIR = ~/lfs-book
 BASEDIR = /usr/local/apache2/htdocs/LFS
 DUMPDIR = ~/lfs-commands
