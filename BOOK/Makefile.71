@@ -1,4 +1,3 @@
-#BASEDIR = ~/lfs-book
 BASEDIR = /usr/local/apache2/htdocs/LFS
 DUMPDIR = ~/lfs-commands
 RENDERTMP = $(HOME)/tmp
@@ -14,7 +13,7 @@ else
   Q = @
 endif
 
-lfs: validate profile-html
+lfs: maketar validxml profile-html
 	@echo "Generating chunked XHTML files..."
 	$(Q)xsltproc --nonet -stringparam chunk.quietly $(CHUNK_QUIET) \
 	  -stringparam rootid "$(ROOT_ID)" -stringparam base.dir $(BASEDIR)/ \
@@ -42,7 +41,7 @@ lfs: validate profile-html
 
 	$(Q)$(MAKE) wget-list
 
-pdf: validate
+pdf: validxml
 	@echo "Generating profiled XML for PDF..."
 	$(Q)xsltproc --nonet --stringparam profile.condition pdf \
 	  --output $(RENDERTMP)/lfs-pdf.xml stylesheets/lfs-xsl/profile.xsl \
@@ -61,7 +60,7 @@ pdf: validate
 	fi;
 	$(Q)fop $(RENDERTMP)/lfs-pdf.fo $(BASEDIR)/$(PDF_OUTPUT)
 
-nochunks: validate profile-html
+nochunks: maketar validxml profile-html
 	@echo "Generating non chunked XHTML file..."
 	$(Q)xsltproc --nonet -stringparam rootid "$(ROOT_ID)" \
 	  --output $(BASEDIR)/$(NOCHUNKS_OUTPUT) \
@@ -83,7 +82,7 @@ tmpdir:
 	$(Q)rm -f $(RENDERTMP)/lfs-{full,html,pdf}.xml
 	$(Q)rm -f $(RENDERTMP)/lfs-pdf.fo
 
-validate: tmpdir
+validxml: tmpdir
 	@echo "Processing bootscripts..."
 	$(Q)bash process-scripts.sh
 	@echo "Validating the book..."
@@ -91,9 +90,14 @@ validate: tmpdir
 	  -o $(RENDERTMP)/lfs-full.xml index.xml
 	$(Q)rm -f appendices/*.script
 	$(Q)./aux-file-data.sh $(RENDERTMP)/lfs-full.xml
-	@echo "Validation complete."
 
-profile-html: validate
+maketar:
+	$(Q)if [ "x$(MAKETAR)" == "x" ]; then \
+	   echo "Making tarballs..."; \
+	   sh make-aux-files.sh; \
+	fi;
+
+profile-html: validxml
 	@echo "Generating profiled XML for XHTML..."
 	$(Q)xsltproc --nonet --stringparam profile.condition html \
 	  --output $(RENDERTMP)/lfs-html.xml stylesheets/lfs-xsl/profile.xsl \
@@ -112,18 +116,19 @@ md5sums:
 	  stylesheets/md5sum.xsl chapter03/chapter03.xml
 	$(Q)sed -i -e "s/BOOTSCRIPTS-MD5SUM/$(shell md5sum lfs-bootscripts*.tar.bz2 | cut -d' ' -f1)/" \
       $(BASEDIR)/md5sums
+	$(Q)sed -i -e "s/UDEV-MD5SUM/$(shell md5sum udev-config*.tar.bz2 | cut -d' ' -f1)/" \
+      $(BASEDIR)/md5sums
 
-#$(Q)sed -i -e "s/UDEV-MD5SUM/$(shell md5sum udev-config*.tar.bz2 | cut -d' ' -f1)/" \
-#   $(BASEDIR)/md5sums
 
-
-dump-commands: validate
+dump-commands: validxml
 	@echo "Dumping book commands..."
 	$(Q)xsltproc --output $(DUMPDIR)/ \
 	   stylesheets/dump-commands.xsl $(RENDERTMP)/lfs-full.xml
 
+validate: maketar validxml
+	@echo "Validation complete."
 
 all: lfs nochunks pdf dump-commands md5sums
 
 .PHONY : all dump-commands lfs nochunks pdf profile-html tmpdir validate \
-	 validate wget-list maketar md5sums
+	 validxml wget-list maketar md5sums
