@@ -5,7 +5,8 @@
   %general-entities;
 ]>
 
-<!-- revision 9758 -->
+<!-- revision 9965 -->
+<!--          9758 -->
 
 <sect1 id="materials-patches">
   <?dbhtml filename="patches.html"?>
@@ -35,6 +36,14 @@
     </varlistentry>
 
     <varlistentry>
+      <term>Binutils Build Fix Patch - <token>&binutils-build-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&binutils-build-patch;"/></para>
+        <para>MD5 sum: <literal>&binutils-build-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Bzip2 Documentation Patch - <token>&bzip2-docs-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&bzip2-docs-patch;"/></para>
@@ -51,66 +60,18 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Coreutils Uname Patch - <token>&coreutils-uname-patch-size;</token>:</term>
+      <term>Flex Regression Tests Patch - <token>&flex-bison-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&coreutils-uname-patch;"/></para>
-        <para>MD5 sum: <literal>&coreutils-uname-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&flex-bison-patch;"/></para>
+        <para>MD5 sum: <literal>&flex-bison-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term>Flex GCC-4.4.x Patch - <token>&flex-gcc-patch-size;</token>:</term>
+      <term>Glibc DNS Resolve Patch - <token>&glibc-fix-resolv-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&flex-gcc-patch;"/></para>
-        <para>MD5 sum: <literal>&flex-gcc-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>GCC Cross Compile Patch - <token>&gcc-crosscompile-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&gcc-crosscompile-patch;"/></para>
-        <para>MD5 sum: <literal>&gcc-crosscompile-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>GCC Startfiles Fix Patch - <token>&gcc-startfiles-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&gcc-startfiles-patch;"/></para>
-        <para>MD5 sum: <literal>&gcc-startfiles-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Glibc Bug Fixes Patch - <token>&glibc-fixes-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-fixes-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-fixes-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Glibc Bug Sort Relocatable Objects Patch - <token>&glibc-sort-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-sort-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-sort-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Glibc GCC Build Fix Patch - <token>&glibc-gcc_fix-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-gcc_fix-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-gcc_fix-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Glibc GCC CPUID Patch - <token>&glibc-cpuid-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&glibc-cpuid-patch;"/></para>
-        <para>MD5 sum: <literal>&glibc-cpuid-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&glibc-fix-resolv-patch;"/></para>
+        <para>MD5 sum: <literal>&glibc-fix-resolv-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -132,6 +93,14 @@
     </varlistentry>
 -->
     <varlistentry>
+      <term>Kbd Loadkeys Fix Patch - <token>&kbd-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&kbd-fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&kbd-fixes-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Kbd Backspace/Delete Fix Patch - <token>&kbd-backspace-patch-size;</token>:</term>
       <listitem>
         <para>Download: <ulink url="&patches-root;&kbd-backspace-patch;"/></para>
@@ -140,10 +109,18 @@
     </varlistentry>
 
     <varlistentry>
-      <term>MPFR Fixes Patch - <token>&mpfr-fixes-patch-size;</token>:</term>
+      <term>Kmod Testsuite Patch - <token>&kmod-testsuite-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&mpfr-fixes-patch;"/></para>
-        <para>MD5 sum: <literal>&mpfr-fixes-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&kmod-testsuite-patch;"/></para>
+        <para>MD5 sum: <literal>&kmod-testsuite-patch-md5;</literal></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Make Upstream Fixes Patch - <token>&make-fixes-patch-size;</token>:</term>
+      <listitem>
+        <para>Download: <ulink url="&patches-root;&make-fixes-patch;"/></para>
+        <para>MD5 sum: <literal>&make-fixes-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
@@ -162,15 +139,6 @@
         <para>MD5 sum: <literal>&perl-libc-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
-
-    <varlistentry>
-      <term>Perl Security Patch - <token>&perl-security-patch-size;</token>:</term>
-      <listitem>
-        <para>Download: <ulink url="&patches-root;&perl-security-patch;"/></para>
-        <para>MD5 sum: <literal>&perl-security-patch-md5;</literal></para>
-      </listitem>
-    </varlistentry>
-
 
     <varlistentry>
       <term>Procps HZ Errors Patch - <token>&procps-hz_fixes-patch-size;</token>:</term>
@@ -197,10 +165,10 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Shadow nscd Patch - <token>&shadow-nscd-patch-size;</token>:</term>
+      <term>Sed Regression Tests Patch - <token>&sed-testsuite-patch-size;</token>:</term>
       <listitem>
-        <para>Download: <ulink url="&patches-root;&shadow-nscd-patch;"/></para>
-        <para>MD5 sum: <literal>&shadow-nscd-patch-md5;</literal></para>
+        <para>Download: <ulink url="&patches-root;&sed-testsuite-patch;"/></para>
+        <para>MD5 sum: <literal>&sed-testsuite-patch-md5;</literal></para>
       </listitem>
     </varlistentry>
 
