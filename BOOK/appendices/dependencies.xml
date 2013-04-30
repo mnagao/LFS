@@ -5,7 +5,7 @@
   %general-entities;
 ]>
 
-<!-- revision 9745 -->
+<!-- revision 9942 -->
 
 <appendix id="appendixc" xreflabel="Appendix C">
   <?dbhtml dir="appendices"?>
@@ -152,7 +152,7 @@
         <segtitle>&testsuites;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Shadow</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -296,7 +296,7 @@
         <segtitle>&testsuites;</segtitle>
 
         <seglistitem>
-          <seg>Diffutils, E2fsprogs, Findutils, and Util-linux</seg>
+          <seg>Diffutils, E2fsprogs, Findutils, Shadow, and Util-linux</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -909,7 +909,7 @@
         <segtitle>&testsuites;</segtitle>
 
         <seglistitem>
-          <seg>Diffutils</seg>
+          <seg>Diffutils. Less</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1132,7 +1132,7 @@
         <segtitle>&before;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Gzip</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -1575,6 +1575,77 @@
         </seglistitem>
       </segmentedlist>
 
+<!-- Begin Pkg-config dependency info -->
+  <bridgehead renderas="sect2" id="pkgconfig-dep">Pkg-config</bridgehead>
+
+      <segmentedlist>
+        <segtitle>&dependencies;</segtitle>
+
+        <seglistitem>
+         <seg>Bash, Binutils, Coreutils, Gawk, GCC, Glibc, Grep, Make, 
+         Popt, and Sed</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&testsuites;</segtitle>
+
+        <seglistitem>
+          <seg>None</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&before;</segtitle>
+
+        <seglistitem>
+          <seg>Kmod</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&external;</segtitle>
+
+        <seglistitem>
+          <seg>None</seg>
+        </seglistitem>
+      </segmentedlist>
+
+<!-- Begin Popt dependency info -->
+  <bridgehead renderas="sect2" id="popt-dep">Popt</bridgehead>
+
+      <segmentedlist>
+        <segtitle>&dependencies;</segtitle>
+
+        <seglistitem>
+         <seg>Bash, Binutils, Coreutils, Gawk, GCC, Glibc, Grep, Make</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&testsuites;</segtitle>
+
+        <seglistitem>
+          <seg>Diffutils and Sed</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&before;</segtitle>
+
+        <seglistitem>
+          <seg>Pkg-config</seg>
+        </seglistitem>
+      </segmentedlist>
+
+      <segmentedlist>
+        <segtitle>&external;</segtitle>
+
+        <seglistitem>
+          <seg>None</seg>
+        </seglistitem>
+      </segmentedlist>
+
 <!-- Begin Procps dependency info -->
   <bridgehead renderas="sect2" id="procps-dep">Procps</bridgehead>
 
@@ -1742,7 +1813,7 @@
         <segtitle>&before;</segtitle>
 
         <seglistitem>
-          <seg>None</seg>
+          <seg>Coreutils</seg>
         </seglistitem>
       </segmentedlist>
 
@@ -2111,3 +2182,4 @@
       </segmentedlist>
 
 </appendix>
+
