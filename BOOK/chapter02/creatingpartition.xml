@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9975 -->
+<!-- revision 9967 -->
 <!--          9758 -->
 
 <sect1 id="space-creatingpartition">
