@@ -4,7 +4,8 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9671 -->
+<!-- revision 9871 -->
+<!--          9671 -->
 
 <sect1 id="ch-tools-binutils-pass1" role="wrap">
   <?dbhtml filename="binutils-pass1.html"?>
@@ -54,9 +55,13 @@
     because both Glibc and GCC perform various tests on the available
     linker and assembler to determine which of their own features to
     enable.</para>
-
     <para>Binutilsを真っ先にコンパイルすることは重要です。なぜなら、GlibcとGCCは利用可能なリンカ・アセンブラに対して、どの機能が有効か調べるためにテストを行うからです。
     </para>
+
+    <para>Apply a patch to prevent a build failure when using compiler optimizations:</para>
+   <para>コンパイラの最適化を使用するとビルドに失敗する不具合を避けるため、パッチを適用します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&binutils-build-patch;</userinput></screen>
 
     <para>The Binutils documentation recommends building Binutils outside of the
     source directory in a dedicated build directory:</para>
@@ -89,12 +94,44 @@ cd ../binutils-build</userinput></screen>
     <para>Now prepare Binutils for compilation:</para>
     <para>さて、Binutilsをコンパイルする準備を行いましょう：</para>
 
-<screen><userinput remap="configure">../binutils-&binutils-version;/configure \
-    --target=$LFS_TGT --prefix=/tools \
-    --disable-nls --disable-werror</userinput></screen>
+<screen><userinput remap="configure">../binutils-&binutils-version;/configure     \
+    --prefix=/tools            \
+    --with-sysroot=$LFS        \
+    --with-lib-path=/tools/lib \
+    --target=$LFS_TGT          \
+    --disable-nls              \
+    --disable-werror</userinput></screen>
 
     <variablelist>
       <title>configure オプションの意味：</title>
+
+      <varlistentry> 
+        <term><parameter>--prefix=/tools</parameter></term> 
+        <listitem> 
+          <para>This tells the configure script to prepare to install the 
+          Binutils programs in the <filename class="directory">/tools</filename> 
+          directory.</para>
+          <para>configureスクリプトに対して、Binutilsのプログラムを<filename class="directory">/tools</filename>にインストールするように指示します。</para> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry> 
+        <term><parameter>--with-sysroot=$LFS</parameter></term> 
+        <listitem> 
+          <para>For cross compilation, this tells the build system to look in 
+          $LFS for the target system libraries as needed.</para>
+          <para>クロスコンパイルを行うため、ターゲットシステムで必要となるライブラリの配置先として$LFSを指定します。</para>
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry> 
+        <term><parameter>--with-lib-path=/tools/lib</parameter></term> 
+        <listitem> 
+          <para>This specifies which library path the linker should be 
+          configured to use.</para>
+          <para>リンカが使用すべきライブラリパスを指定します。</para> 
+        </listitem> 
+      </varlistentry>
 
       <varlistentry>
         <term><envar>--target=$LFS_TGT</envar></term>
@@ -105,17 +142,6 @@ cd ../binutils-build</userinput></screen>
           <command>configure</command> script to adjust Binutil's build system
           for building a cross linker.  </para>
           <para>環境変数<envar>LFS_TGT</envar>の内容は、<command>config.guess</command>スクリプトが返す値よりも少し異なっているため、このスイッチによって、<command>configure</command>スクリプトに対して、クロスリンカをビルドするためのBinutilのビルドシステムを調整します。</para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term><parameter>--prefix=/tools</parameter></term>
-        <listitem>
-          <para>This tells the configure script to prepare to install the
-          Binutils programs in the <filename class="directory">/tools</filename>
-          directory.</para>
-          <para>configureスクリプトに対して、Binutilsのプログラムを<filename class="directory">/tools</filename>ディレクトリにインストールするよう指示します。
-          </para>
         </listitem>
       </varlistentry>
 

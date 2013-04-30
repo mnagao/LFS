@@ -7,4 +7,5 @@
                     /mounting.xml
            chapter03/packages.xml
                     /patches.xml
+           chapter05/binutils-pass1.xml
 
