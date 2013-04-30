@@ -33,8 +33,8 @@
 #WARNING_PREFIX="${WARNING} *** ${NORMAL}"
 
 # Interactive startup
-#IPROMPT="yes" # Whether to display the interactive boot promp
-#itime="3"    # The ammount of time (in seconds) to display the prompt
+#IPROMPT="yes" # Whether to display the interactive boot prompt
+#itime="3"    # The amount of time (in seconds) to display the prompt
 
 # The total length of the distro welcome string, without escape codes
 #wlen=$(echo "Welcome to ${DISTRO}" | wc -c )

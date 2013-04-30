@@ -158,7 +158,7 @@ start_daemon()
 
             0)
                 # Program is already running correctly, this is a 
-                # succesful start.
+                # successful start.
                 return 0
                 ;;
 
@@ -776,6 +776,18 @@ wait_for_user()
    # Wait for the user by default
    [ "${HEADLESS=0}" = "0" ] && read ENTER
    return 0
+}
+
+################################################################################
+# is_true()                                                                    #
+#                                                                              #
+# Purpose: Utility to test if a variable is true | yes | 1                     #
+#                                                                              #
+################################################################################
+is_true()
+{
+   [ "$1" = "1" ] || [ "$1" = "yes" ] || [ "$1" = "true" ] ||  [ "$1" = "y" ] ||
+   [ "$1" = "t" ]
 }
 
 # End /lib/lsb/init-functions
