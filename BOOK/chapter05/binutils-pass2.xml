@@ -4,10 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9798 -->
-<!--          9791 -->
-<!--          9771 -->
-<!--          9671 -->
+<!-- revision 9846 -->
 
 <sect1 id="ch-tools-binutils-pass2" role="wrap">
   <?dbhtml filename="binutils-pass2.html"?>
@@ -62,24 +59,25 @@ cd ../binutils-build</userinput></screen>
     <para>Prepare Binutils for compilation:</para>
     <para>Binutilsをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">CC="$LFS_TGT-gcc -B/tools/lib/" \
-AR=$LFS_TGT-ar                  \
-RANLIB=$LFS_TGT-ranlib          \
-../binutils-&binutils-version;/configure      \
-        --prefix=/tools         \
-        --disable-nls           \
-        --with-lib-path=/tools/lib</userinput></screen>
+<screen><userinput remap="configure">CC=$LFS_TGT-gcc            \
+AR=$LFS_TGT-ar             \
+RANLIB=$LFS_TGT-ranlib     \
+../binutils-&binutils-version;/configure \
+    --prefix=/tools        \
+    --disable-nls          \
+    --with-lib-path=/tools/lib</userinput></screen>
+
     <variablelist>
       <title>configureオプションの意味:</title>
 
-      <varlistentry> 
-        <term><parameter>CC="$LFS_TGT-gcc -B/tools/lib/" AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib</parameter></term> 
-        <listitem> 
-          <para>Because this is really a native build of Binutils, setting these 
-          variables ensures that the build system uses the cross-compiler and 
+      <varlistentry>
+       <term><parameter>CC=$LFS_TGT-gcc AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib</parameter></term>
+        <listitem>
+          <para>Because this is really a native build of Binutils, setting these
+          variables ensures that the build system uses the cross-compiler and
           associated tools instead of the ones on the host system.</para>
           <para>ここではBinutilsのネイティブなビルドを行うため、ホストシステム上のビルドツールの代わりに、クロスコンパイラとその関連付けられたツールを使用するようにします。</para>
-        </listitem> 
+        </listitem>
       </varlistentry>
 
       <varlistentry>
