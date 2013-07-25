@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9257 -->
+<!-- revision 9942 -->
 
 <sect1 id="ch-tools-coreutils" role="wrap">
   <?dbhtml filename="coreutils.html"?>
@@ -91,21 +91,19 @@
     <para>パッケージのインストール：</para>
 
 <screen><userinput remap="install">make install</userinput></screen>
-
+<!--
     <para>The above command refuses to install <filename>su</filename>
     because the program cannot be installed setuid root as a non-privileged
-    user. By manually installing it with a different name, we can use it for
-    running tests in the final system as a non-privileged user and we keep a
-    possibly useful <command>su</command> from our host first in our PATH.
-    Install it with:</para>
+    user. By manually installing it, we can use it for running tests in the
+    final system as a non-privileged user. Install it with:</para>
 
     <para>上記コマンドを実行すると、<filename>su</filename>のインストールが拒否されます。これは、非特権ユーザがrootのsetuidを指定してプログラムをインストール出来ないためです。
-    手作業で異なる名前の<filename>su</filename>をインストールすることにより、非特権ユーザで最終的なLFSシステムにおけるテストが実行出来るようになります。そして、PATHの先頭に配置することで<command>su</command>を出来る限り便利にします。
+    手作業で<filename>su</filename>をインストールすることにより、非特権ユーザで最終的なLFSシステムにおけるテストが実行出来るようになります。
     それでは、次のとおりインストールを行います：
     </para>
 
-<screen><userinput remap="install">cp -v src/su /tools/bin/su-tools</userinput></screen>
-
+<screen><userinput remap="install">cp -v src/su /tools/bin</userinput></screen>
+-->
   </sect2>
 
   <sect2 role="content">
