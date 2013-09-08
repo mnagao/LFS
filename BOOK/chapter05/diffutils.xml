@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9264 -->
+<!-- revision 9975 -->
 
 <sect1 id="ch-tools-diffutils" role="wrap">
   <?dbhtml filename="diffutils.html"?>
@@ -43,6 +43,11 @@
 
   <sect2 role="installation">
     <title>Diffutilsのインストール</title>
+
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>このパッケージとGlibc-&glibc-version;間の不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' lib/stdio.in.h</userinput></screen>
 
     <para>Prepare Diffutils for compilation:</para>
     <para>Diffutilsのコンパイルの準備：</para>
