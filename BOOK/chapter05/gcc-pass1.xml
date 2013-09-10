@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9724 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-tools-gcc-pass1" role="wrap">
   <?dbhtml filename="gcc-pass1.html"?>
@@ -64,19 +64,68 @@
     そうすることによって初めて、以下の手順を進めていきます。
     </para></note>
 
-<screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
+<screen><userinput remap="pre">tar -Jxf ../mpfr-&mpfr-version;.tar.xz
 mv -v mpfr-&mpfr-version; mpfr
 tar -Jxf ../gmp-&gmp-version;.tar.xz
 mv -v gmp-&gmp-version; gmp
 tar -zxf ../mpc-&mpc-version;.tar.gz
 mv -v mpc-&mpc-version; mpc</userinput></screen>
 
-<para>Apply a patch that will allow the building of the libiberty and zlib 
-target libraries to be disabled as these do not build correctly in a 
-cross-compiled environment:</para>
-<para>クロスコンパイル環境においてビルドがうまくいかないため、libibertyとzlibのビルドを行わないようにするパッチを適用します：</para>
+    <para>The following command will change the location of GCC's default
+    dynamic linker to use the one installed in <filename
+    class="directory">/tools</filename>. It also removes <filename
+    class="directory">/usr/include</filename> from GCC's include search path.
+    Issue:</para>
+    <para><filename class="directory">/tools</filename>にインストールしたダイナミックリンカを使うようにするため、次のコマンドでGCCのデフォルトのダイナミックリンカを変更します。
+    また、GCCのインクルードファイルのサーチパスから、<filename class="directory">/usr/include</filename>を取り除きます。</para> 
  
-<screen><userinput remap="pre">patch -Np1 -i ../&gcc-crosscompile-patch;</userinput></screen>
+<screen><userinput remap="pre">for file in \
+ $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
+do
+  cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
+      -e 's@/usr@/tools@g' $file.orig &gt; $file
+  echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
+#define STANDARD_STARTFILE_PREFIX_2 ""' &gt;&gt; $file
+  touch $file.orig
+done</userinput></screen>
+ 
+    <para>In case the above seems hard to follow, let's break it down a bit.
+    First we find all the files under the <filename 
+    class="directory">gcc/config</filename> directory that are named either 
+    <filename>linux.h</filename>, <filename>linux64.h</filename> or 
+    <filename>sysv4.h</filename>.  For each file found, we copy it to a file of 
+    the same name but with an added suffix of <quote>.orig</quote>. Then the 
+    first sed expression prepends <quote>/tools</quote> to every instance of 
+    <quote>/lib/ld</quote>, <quote>/lib64/ld</quote> or 
+    <quote>/lib32/ld</quote>, while the second one replaces hard-coded 
+    instances of <quote>/usr</quote>. Next, we add our define statements which 
+    alter the default startfile prefix to the end of the file. Note that the 
+    trailing <quote>/</quote> in <quote>/tools/lib/</quote> is required. 
+    Finally, we use <command>touch</command> to update the timestamp on the 
+    copied files.  When used in conjunction with <command>cp -u</command>, this 
+    prevents unexpected changes to the original files in case the commands are 
+    inadvertently run twice.  </para>
+    <para>上記を理解することが難しい場合は、一つずつ見ていきましょう。
+    最初に、<filename class="directory">gcc/config</filename>ディレクトリ以下にある、<filename>linux.h</filename>、<filename>linux64.h</filename>、<filename>sysv4.h</filename>を探します。
+    それらファイルが見つかる度に、サフィックス<quote>.orig</quote>を追加して、そのファイルをコピーします。
+    そして、sedコマンドの1つ目のexpressionによって、<quote>/lib/ld</quote>、<quote>/lib64/ld</quote>、<quote>/lib32/ld</quote>を各ファイル名の先頭に付加します。さらに2つ目のexpressionで、<quote>/usr</quote>を<quote>/tools</quote>に置き換えます。
+    次に、デフォルトのstartfileのプリフィックスを変更するdefine文をファイルの最後に追加します。
+    <quote>/tools/lib/</quote>の末尾にある<quote>/</quote>が必要です。
+    最後に、コピーしたファイルのタイムスタンプを更新するため、<command>touch</command>を実行します。
+    <command>cp -u</command>を使用するのは、誤ってコマンドを2回実行して元のファイルを変更してしまうことを避けるためです。</para>
+
+    <para>GCC doesn't detect stack protection correctly, which causes problems 
+    for the build of Glibc-&glibc-version;, so fix that by issuing the following 
+    command:</para> 
+    <para>GCCはスタック保護(Stack Protection)を正しく検知せず、それによりGlibc-&glibc-version;のビルドに問題が生じます。
+    そのため、次のコマンドで修正します。：
+    </para>
+ 
+<screen><userinput remap="pre">sed -i '/k prot/agcc_cv_libc_provides_ssp=yes' gcc/configure</userinput></screen>
 
     <para>The GCC documentation recommends building GCC outside of the
     source directory in a dedicated build directory:</para>
@@ -89,20 +138,83 @@ cd ../gcc-build</userinput></screen>
 
     <para>Prepare GCC for compilation:</para>
     <para>以下のとおり、GCCをコンパイルする準備を行います：</para>
-
-<screen><userinput remap="configure">../gcc-&gcc-version;/configure \
-    --target=$LFS_TGT --prefix=/tools \
-    --disable-nls --disable-shared --disable-multilib \
-    --disable-decimal-float --disable-threads \
-    --disable-libmudflap --disable-libssp \
-    --disable-libgomp --disable-libquadmath \
-    --disable-target-libiberty --disable-target-zlib \
-    --enable-languages=c --without-ppl --without-cloog \
+<screen><userinput remap="configure">../gcc-&gcc-version;/configure         \
+    --target=$LFS_TGT          \
+    --prefix=/tools            \
+    --with-sysroot=$LFS        \
+    --with-newlib              \
+    --without-headers          \
+    --with-local-prefix=/tools \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls              \
+    --disable-shared           \
+    --disable-multilib         \
+    --disable-decimal-float    \
+    --disable-threads          \
+    --disable-libmudflap       \
+    --disable-libssp           \
+    --disable-libgomp          \
+    --disable-libquadmath      \
+    --enable-languages=c       \
     --with-mpfr-include=$(pwd)/../gcc-&gcc-version;/mpfr/src \
     --with-mpfr-lib=$(pwd)/mpfr/src/.libs</userinput></screen>
 
     <variablelist>
       <title>configureオプションの意味：</title>
+
+      <varlistentry> 
+        <term><parameter>--with-newlib</parameter></term> 
+        <listitem> 
+          <para>Since a working C library is not yet available, this ensures 
+          that the inhibit_libc constant is defined when building libgcc. This prevents 
+          the compiling of any code that requires libc support.</para>
+          <para>この時点で動作するCライブラリがないため、このオプションによって、libgccをビルドする際に、inhibit_libc定数を定義します。
+          また、libcサポートを必要とするコードのコンパイルを防ぎます。</para> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry> 
+        <term><parameter>--without-headers</parameter></term> 
+        <listitem> 
+          <para>When creating a complete cross-compiler, GCC requires 
+          standard headers compatible with the target system. For our 
+          purposes these headers will not be needed. This switch prevents 
+          GCC from looking for them.</para>
+          <para>完全なクロスコンパイラをビルドする際、GCCはターゲットとなるシステムと互換の標準ヘッダファイルを必要とします。
+          しかし、ここでは、それらヘッダは必要ではありません。
+          このオプションによって、GCCがそれらヘッダファイルをサーチしないようにします。</para> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry> 
+        <term><parameter>--with-local-prefix=/tools</parameter></term> 
+        <listitem> 
+          <para>The local prefix is the location in the system that GCC will search 
+          for locally installed include files. The default is <filename>/usr/local</filename>. 
+          Setting this to <filename>/tools</filename> helps keep the host location of 
+          <filename>/usr/local</filename> out of this GCC's search path.</para>
+          <para>local prefixは、GCCが、ローカルにインストールされたインクルードファイルをサーチする場所を指定します。
+          そのデフォルトは<filename>/usr/local</filename>です。
+          local prefixを<filename>/tools</filename>にセットすることで、ホストシステムの<filename>/usr/local</filename>をGCCのサーチパスから外します。</para> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry> 
+        <term><parameter>--with-native-system-header-dir=/tools/include</parameter></term> 
+        <listitem> 
+          <para>By default GCC searches <filename>/usr/include</filename> for system 
+          headers. In conjunction with the sysroot switch, this would translate normally 
+          to <filename>$LFS/usr/include</filename>. However the headers that will be installed 
+          in the next two sections will go to <filename>$LFS/tools/include</filename>. This 
+          switch ensures that gcc will find them correctly. In the second pass of GCC, this 
+          same switch will ensure that no headers from the host system are found.</para>
+          <para>デフォルトでは、GCCはシステムヘッダを探すために、<filename>/usr/include</filename>をサーチします。
+          sysrootにスイッチすると、そのサーチパスは<filename>$LFS/usr/include</filename>に置き換えられます。
+          しかしながら、次に続く2つのセクションでインストールされるヘッダファイルは、<filename>$LFS/tools/include</filename>に格納されてしまいます。
+          この問題に対して、このオプションによって、GCCがそれらヘッダファイルを正しく見つけられるようにします。
+          GCCのビルド2回目において、この同じオプションを指定することで、ホストシステム上のヘッダファイルが使われないようにします。</para>
+        </listitem> 
+      </varlistentry>
 
       <varlistentry>
         <term><parameter>--disable-shared</parameter></term>
@@ -116,14 +228,15 @@ cd ../gcc-build</userinput></screen>
       </varlistentry>
 
       <varlistentry>
-        <term><parameter>--disable-decimal-float, --disable-threads, --disable-libmudflap, --disable-libssp, --disable-libgomp, --disable-libquadmath --disable-target-libiberty --disable-target-zlib</parameter></term>
+        <term><parameter>--disable-decimal-float, --disable-threads, --disable-libmudflap, --disable-libssp, --disable-libgomp, --disable-libquadmath</parameter></term>
         <listitem>
           <para>These switches disable support for the decimal floating point
-          extension, threading, libmudflap, libssp and libgomp, libquadmath,
-          libiberty and zlib respectively. These features will fail to compile
-          when building a cross-compiler and are not necessary for the task of 
-          cross-compiling the temporary libc.</para>
-          <para>これらスイッチによって、浮動小数点拡張、スレッド、libmudflap、libssp、libgomp、libquadmath、libiberty、zlibそれぞれのサポートをオフにします。
+          extension, threading, libmudflap, libssp and libgomp and libquadmath
+          respectively. These features will fail to compile when building a
+          cross-compiler and are not necessary for the task of cross-compiling
+          the temporary libc.</para>
+
+          <para>これらスイッチによって、浮動小数点拡張、スレッド、libmudflap、libssp、libgomp、libquadmathそれぞれのサポートをオフにします。
           これら機能をオンにすることで、クロスコンパイラをビルドする際にコンパイルに失敗します。また、一時的なlibcをクロスコンパイルするためには不要です。</para>
         </listitem> 
       </varlistentry> 
@@ -145,16 +258,6 @@ cd ../gcc-build</userinput></screen>
           This is the only language needed now.</para>          
           <para>Cコンパイラのみをビルドします。これは、現時点で必要なたった一つの言語です。</para>
         </listitem>
-      </varlistentry>
-
-      <varlistentry> 
-        <term><parameter>--without-ppl, --without-cloog</parameter></term> 
-        <listitem> 
-          <para>These switches prevent GCC from building against the PPL and 
-          CLooG libraries which may be present on the host system, but will not 
-          be available in the chroot environment.</para>
-          <para>ホストシステムに存在するがchroot環境には存在しないPPLとCLooGライブラリとのリンクをこのオプションによって防ぎます。</para> 
-        </listitem> 
       </varlistentry>
 
     </variablelist>
@@ -188,8 +291,7 @@ cd ../gcc-build</userinput></screen>
     Glibcパッケージは、ビルドシステム内で<parameter>-lgcc_eh</parameter>を使用するので、このライブラリに依存しています。
     この<filename>libgcc.a</filename>ファイルは、結局のところ、<filename>libgcc_eh.a</filename>に通常含まれるオブジェクトを含んでいるので、<filename>libgcc.a</filename>へのシンボリックリンクを作成することで、この依存を解決できます。：</para>
 
-<screen><userinput remap="install">ln -vs libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | \
-    sed 's/libgcc/&amp;_eh/'`</userinput></screen>
+<screen><userinput remap="install">ln -vs libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | sed 's/libgcc/&amp;_eh/'`</userinput></screen>
 
   </sect2>
 
