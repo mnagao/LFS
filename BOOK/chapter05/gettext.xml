@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9379 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-tools-gettext" role="wrap">
   <?dbhtml filename="gettext.html"?>
@@ -50,14 +50,29 @@
     <para>LFS構築に使用する一時的なツールとしては、Gettextパッケージのただ1つのバイナリだけが必要です。
     </para>
 
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>このパッケージとGlibc-&glibc-version;との相性が悪いため修正を行います：</para> 
+ 
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' gettext-*/*/stdio.in.h</userinput></screen>
+
     <para>Prepare Gettext for compilation:</para>
     <para>Gettextをコンパイルする準備：</para>
 
 <screen><userinput remap="configure">cd gettext-tools
-./configure --prefix=/tools --disable-shared</userinput></screen>
+EMACS="no" ./configure --prefix=/tools --disable-shared</userinput></screen>
 
     <variablelist>
       <title>configureオプションの意味：</title>
+
+      <varlistentry> 
+        <term><parameter>EMACS="no"</parameter></term> 
+        <listitem> 
+          <para>This prevents the configure script from determining where to 
+          install Emacs Lisp files as the test is known to hang on some hosts. 
+          </para>
+          <para>configureスクリプトが、Emacs Lispファイルのインストール先を決定する処理を実行しないようにします。その処理によってハングが発生する可能性があるからです。</para>
+        </listitem> 
+      </varlistentry>
 
       <varlistentry>
         <term><parameter>--disable-shared</parameter></term>
