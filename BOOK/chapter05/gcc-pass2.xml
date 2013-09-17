@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9719 -->
+<!-- revision 9903 -->
 
 <sect1 id="ch-tools-gcc-pass2" role="wrap">
   <?dbhtml filename="gcc-pass2.html"?>
@@ -45,39 +45,25 @@
     <!--<title>Installation of GCC</title>-->
     <title>GCCのインストール</title>
 
-    <para>Versions of GCC later than 4.3 will treat this build as if
-    it were a relocated compiler and disallow searching for startfiles in
-    the location specified by <parameter>--prefix</parameter>. Since this
-    will not be a relocated compiler, and the startfiles in
-    <filename class="directory">/tools</filename> are crucial to building
-    a working compiler linked to the libs in <filename class="directory">/tools</filename>,
-    apply the following patch which partially reverts GCC to its old behavior:</para>
-    <para>GCCバージョン4.3以降は、ここでのビルドをリロケイトされたコンパイラのように取り扱います。
-    また、<parameter>--prefix</parameter>で指定されたパスのスタートファイルをサーチすることを許しません。
-    ここでは、リロケイトされるコンパイラではなく、<filename class="directory">/tools</filename>のライブラリとリンクされる作業用のコンパイラをビルドするため、<filename class="directory">/tools</filename>のスタートファイルは重要です。
-    したがって、GCCを前の挙動に一部戻す次のパッチを適用します：</para>
+    <para>Our first build of GCC has installed a couple of internal system
+    headers.  Normally one of them, <filename>limits.h</filename> will in turn
+    include the corresponding system <filename>limits.h</filename> header, in
+    this case, <filename>/tools/include/limits.h</filename>. However, at the
+    time of the first build of gcc <filename>/tools/include/limits.h</filename>
+    did not exist, so the internal header that GCC installed is a partial,
+    self-contained file and does not include the extended features of the
+    system header. This was adequate for building the temporary libc, but this
+    build of GCC now requires the full internal header.  Create a full version
+    of the internal header using a command that is identical to what the GCC
+    build system does in normal circumstances:</para>
+    <para>GCCの最初のビルドでは、2,3の内部のシステムヘッダファイルがインストールされました。
+    通常、それらのうちの1つである<filename>limits.h</filename>は、対応するシステムの<filename>limits.h</filename>をインクルードします。このケースでは<filename>/tools/include/limits.h</filename>がインクルードされます。
+    しかしながら、GCCの最初のビルド時、<filename>/tools/include/limits.h</filename>は存在しませんので、GCCがインストールした内部ヘッダファイルは、部分的に自身を含むファイルで、システムヘッダファイルの拡張された機能は含んでいません。
+    一時的なlibcをビルドする場合は、これで問題はありませんが、ここでのビルドでは完全な内部ヘッダファイルを必要とします。
+    通常の環境において、GCCのビルドシステムが実行するコマンドと全く同一のコマンドを用いて、完全な内部ヘッダファイルを作成します。：</para>
 
-<screen><userinput remap="pre">patch -Np1 -i ../&gcc-startfiles-patch;</userinput></screen>
-
-
-    <para>Under normal circumstances the GCC <command>fixincludes</command> script
-    is run in order to fix potentially broken header files. As GCC-&gcc-version;
-    and Glibc-&glibc-version; have already been installed at this point, and
-    their respective header files are known to not require fixing, the
-    <command>fixincludes</command> script is not required. In fact, running
-    this script may actually pollute the build environment by
-    installing fixed headers from the host system into GCC's private include
-    directory. The running of the <command>fixincludes</command> script can
-    be suppressed by issuing the following commands:</para>
-
-    <para>通常はGCCの<command>fixincludes</command>スクリプトが、潜在的に壊れているヘッダファイルを修正するために実行されます。
-    この時点でGCC-&gcc-version;とGlibc-&glibc-version;は既にインストールされており、それぞれのヘッダファイルは修正する必要がないことが知られているため、<command>fixincludes</command>スクリプトは必要ではありません。
-    実際、このスクリプトを実行してみると、ホストシステムからGCCのプライベートなインクルードディレクトリに、修正されたヘッダファイルがインストールされることによって、構築環境を汚染してしまいます。
-    次のコマンドを実行することによって、<command>fixincludes</command>の実行を抑えることが出来ます：
-    </para>
-
-<screen><userinput remap="pre">cp -v gcc/Makefile.in{,.orig}
-sed 's@\./fixinc\.sh@-c true@' gcc/Makefile.in.orig &gt; gcc/Makefile.in</userinput></screen>
+<screen><userinput remap="pre">cat gcc/limitx.h gcc/glimits.h gcc/limity.h &gt; \
+ `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h</userinput></screen>
 
     <para>For x86 machines, a bootstrap build of GCC uses the
     <option>-fomit-frame-pointer</option> compiler flag.  Non-bootstrap builds
@@ -93,19 +79,10 @@ sed 's@\./fixinc\.sh@-c true@' gcc/Makefile.in.orig &gt; gcc/Makefile.in</userin
 sed 's/^T_CFLAGS =$/&amp; -fomit-frame-pointer/' gcc/Makefile.in.tmp \
   &gt; gcc/Makefile.in</userinput></screen>
 
-    <para>The following command will change the location of GCC's default
-    dynamic linker to use the one installed in
-    <filename class="directory">/tools</filename>. It also removes <filename
-    class="directory">/usr/include</filename> from GCC's include search path.
-    Doing this now rather than adjusting the specs file after installation
-    ensures that the new dynamic linker is used during the actual build of
-    GCC. That is, all of the binaries created during the build will link
-    against the new Glibc. Issue:</para>
-    <para>次のコマンドは、<filename class="directory">/tools</filename>にインストールしたGCCのデフォルトのダイナミックリンカの位置を変更します。
-    また、GCCのインクルードサーチパスから<filename class="directory">/usr/include</filename>を取り除きます。
-    このコマンドによって、インストール後のspecsファイルの調整ではなく、最終的なGCCのビルドにおいて、新しいダイナミックリンカが使用されることを保証します。
-    すなわち、ビルドされるバイナリ全ては新しいGlibcにリンクされることになります：
-    </para>
+    <para>Once again, change the location of GCC's default dynamic linker to
+    use the one installed in <filename
+    class="directory">/tools</filename>.</para> 
+    <para><filename class="directory">/tools</filename>にあるダイナミックリンカを使うようにするため、もう一度、GCCのデフォルトのダイナミックリンカの位置を変更します。</para>
 
 <screen><userinput remap="pre">for file in \
  $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
@@ -114,51 +91,12 @@ do
   sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&amp;@g' \
   -e 's@/usr@/tools@g' $file.orig &gt; $file
   echo '
-#undef STANDARD_INCLUDE_DIR
-#define STANDARD_INCLUDE_DIR 0
-#define STANDARD_STARTFILE_PREFIX_1 ""
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
 #define STANDARD_STARTFILE_PREFIX_2 ""' &gt;&gt; $file
   touch $file.orig
 done</userinput></screen>
-
-    <para>In case the above seems hard to follow, let's break it down a bit.
-    First we find all the files under the
-    <filename class="directory">gcc/config</filename> directory that are named
-    either <filename>linux.h</filename>, <filename>linux64.h</filename> or
-    <filename>sysv4.h</filename>.
-    For each file found, we copy it to a file of the same name but with an added
-    suffix of <quote>.orig</quote>. Then the first sed expression prepends
-    <quote>/tools</quote> to every instance of <quote>/lib/ld</quote>,
-    <quote>/lib64/ld</quote> or <quote>/lib32/ld</quote>, while the second one
-    replaces hard-coded instances of <quote>/usr</quote>. Then we add our define
-    statements which alter the include search path and the default startfile prefix
-    to the end of the file. 
-    Finally, we use <command>touch</command> to update the timestamp on the copied files.
-    When used in conjunction with <command>cp -u</command>, this prevents unexpected
-    changes to the original files in case the commands are inadvertently run twice.
-    </para>
-    <para>上記を理解するのが難しい場合は、少し段階を踏んで考えてみましょう。
-    まず最初に、gcc/configディレクトリ以下にある<filename>linux.h</filename>または<filename>linux64.h</filename>または<filename>sysv4.h</filename>という名前のファイルを検索します。
-    それらのファイルが見つかったら、拡張子に<quote>.orig</quote>を付加したファイル名でコピーします。
-    そして、最初のsedの処理で、<quote>/lib/ld</quote>または<quote>/lib64/ld</quote>または<quote>/lib32/ld</quote>の前に、<quote>/tools</quote>を追加します。
-    同時に、2つ目のsedの処理で、ハードコーディングされた<quote>/usr</quote>を<quote>/tools</quote>で置き換えます。
-    次に、インクルードサーチパスとデフォルトのstartfileのprefixを変更するdefine文をファイルの最後に追加します。
-    最後に、<command>touch</command>でコピーされたファイルのタイムスタンプを更新します。
-    <command>cp -u</command>を指定しているのは、コマンドが不注意で2回実行された場合に、オリジナルのファイルが思いがけずに変更されてしまうのを防ぐためです。
-    </para>
-
-    <para>On x86_64, unsetting the multilib spec for GCC ensures that it 
-    won't attempt to link against libraries on the host:</para> 
-    <para>x86_64の環境においては、GCCのmultilib specの設定を外すことで、ホストシステム上のライブラリに対してリンクしないようにします。</para>
- 
-<screen><userinput remap="pre">case $(uname -m) in
-  x86_64)
-    for file in $(find gcc/config -name t-linux64) ; do \
-      cp -v $file{,.orig}
-      sed '/MULTILIB_OSDIRNAMES/d' $file.orig &gt; $file
-    done
-  ;;
-esac</userinput></screen>
 
     <para>As in the first build of GCC it requires the GMP, MPFR and MPC
     packages. Unpack the tarballs and move them into the required directory
@@ -166,7 +104,7 @@ esac</userinput></screen>
     <para>GCCの最初のビルドの時に、GMPとMPFRとMPCパッケージが必要になります。
     tarballを展開し、ディレクトリを必要とされる名前に変更します：</para>
 
-<screen><userinput remap="pre">tar -jxf ../mpfr-&mpfr-version;.tar.bz2
+<screen><userinput remap="pre">tar -Jxf ../mpfr-&mpfr-version;.tar.xz
 mv -v mpfr-&mpfr-version; mpfr
 tar -Jxf ../gmp-&gmp-version;.tar.xz
 mv -v gmp-&gmp-version; gmp
@@ -188,15 +126,22 @@ cd ../gcc-build</userinput></screen>
     <para>Now prepare GCC for compilation:</para>
     <para>GCCをコンパイルする準備を行います：</para>
 
-<screen><userinput remap="configure">CC="$LFS_TGT-gcc -B/tools/lib/" \
-    AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib \
-    ../gcc-&gcc-version;/configure --prefix=/tools \
-    --with-local-prefix=/tools --enable-clocale=gnu \
-    --enable-shared --enable-threads=posix \
-    --enable-__cxa_atexit --enable-languages=c,c++ \
-    --disable-libstdcxx-pch --disable-multilib \
-    --disable-bootstrap --disable-libgomp \
-    --without-ppl --without-cloog \
+<screen><userinput remap="configure">CC=$LFS_TGT-gcc \
+AR=$LFS_TGT-ar                  \
+RANLIB=$LFS_TGT-ranlib          \
+../gcc-&gcc-version;/configure          \
+    --prefix=/tools             \
+    --with-local-prefix=/tools  \
+    --with-native-system-header-dir=/tools/include \
+    --enable-clocale=gnu        \
+    --enable-shared             \
+    --enable-threads=posix      \
+    --enable-__cxa_atexit       \
+    --enable-languages=c,c++    \
+    --disable-libstdcxx-pch     \
+    --disable-multilib          \
+    --disable-bootstrap         \
+    --disable-libgomp           \
     --with-mpfr-include=$(pwd)/../gcc-&gcc-version;/mpfr/src \
     --with-mpfr-lib=$(pwd)/mpfr/src/.libs</userinput></screen>
 
