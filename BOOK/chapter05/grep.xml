@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9257 -->
+<!-- revision 9881 -->
 
 <sect1 id="ch-tools-grep" role="wrap">
   <?dbhtml filename="grep.html"?>
@@ -47,27 +47,7 @@
     <para>Prepare Grep for compilation:</para>
     <para>Grepのコンパイル準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/tools \
-    --disable-perl-regexp</userinput></screen>
-
-    <variablelist>
-      <title>configureオプションの意味：</title>
-
-      <varlistentry>
-        <term><parameter>--disable-perl-regexp</parameter></term>
-        <listitem>
-          <para>This ensures that the <command>grep</command> program does
-          not get linked against a Perl Compatible Regular Expression (PCRE)
-          library that may be present on the host but will not be available
-          once we enter the <command>chroot</command> environment.</para>
-
-          <para><command>grep</command>プログラムが、ホストシステムに存在する Perl Comptible Regular Expression(PCRE)とリンクされないようにします。
-          <command>chroot</command>環境に移行すると、PCREライブラリが使用できなくなるからです。
-          </para>
-        </listitem>
-      </varlistentry>
-
-    </variablelist>
+<screen><userinput remap="configure">./configure --prefix=/tools</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
