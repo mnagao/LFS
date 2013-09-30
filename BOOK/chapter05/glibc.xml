@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9592 -->
+<!-- revision 9963 -->
 
 <sect1 id="ch-tools-glibc" role="wrap">
   <?dbhtml filename="glibc.html"?>
@@ -44,16 +44,24 @@
   <sect2 role="installation">
     <title>Glibcのインストール</title>
 
-    <para>Fix a bug that prevents Glibc from building with GCC-&gcc-version;:</para>
-    <para>GlibcがGCC-&gcc-version;を使ってビルド出来ないバグを修正します：</para>
+    <para>In some cases, particularly LFS 7.1, the rpc headers were not 
+    installed properly.  Test to see if they are installed in the host system 
+    and install if they are not:</para>
 
-<screen><userinput remap="pre">patch -Np1 -i ../&glibc-gcc_fix-patch;</userinput></screen>
+    <para>特にLFS 7.1において、時々、rpcヘッダファイルが正常にインストールされない場合はあります。
+    ホストシステムにそれらヘッダファイルがインストールされているか確認し、もしインストールされていない場合はインストールします：
+</para>
+ 
+<screen><userinput remap="pre">if [ ! -r /usr/include/rpc/types.h ]; then
+  su -c 'mkdir -p /usr/include/rpc'
+  su -c 'cp -v sunrpc/rpc/*.h /usr/include/rpc'
+fi</userinput></screen>
+ 
+    <para>Fix an issue when building Glibc-&glibc-version; with GCC-&gcc-version;:</para>
 
-    <para>Also address a header check that fails due to an incomplete build  
-    environment at this point:</para>
-    <para>この時点では不完全なビルド環境であるため、処理に失敗するヘッダーチェックを修正します。</para> 
-
-    <screen><userinput remap="pre">patch -Np1 -i ../&glibc-cpuid-patch;</userinput></screen>
+    <para>GCC-&gcc-version;でGlibc-&glibc-version;をビルドする際の問題を修正します：</para>
+ 
+<screen><userinput remap="pre">sed -i 's/ -lgcc_s//' Makeconfig</userinput></screen>
 
     <para>The Glibc documentation recommends building Glibc outside of the source
     directory in a dedicated build directory:</para>
@@ -63,7 +71,7 @@
 
 <screen><userinput>mkdir -v ../glibc-build
 cd ../glibc-build</userinput></screen>
-
+<!--
     <para>Because Glibc no longer supports i386, its developers say to use the
     compiler flag <parameter>-march=i486</parameter> when building it for x86
     machines. There are several ways to accomplish that, but testing shows that
@@ -82,15 +90,27 @@ cd ../glibc-build</userinput></screen>
 <screen><userinput remap="configure">case `uname -m` in
   i?86) echo "CFLAGS += -march=i486 -mtune=native" &gt; configparms ;;
 esac</userinput></screen>
+-->
+
+<para>Fix an issue when building Glibc-&glibc-version; with GCC-&gcc-version;:</para>
+<para>GCC-&gcc-version;でGlibc-&glibc-version;をビルドする際の問題を修正します：</para>
+
+<screen><userinput remap="pre">sed -i 's/ -lgcc_s//' ../glibc-&glibc-version;/Makeconfig</userinput></screen>
 
     <para>Next, prepare Glibc for compilation:</para>
     <para>次にGlibcをコンパイルする準備を行います：</para>
 
-<screen><userinput remap="configure">../glibc-&glibc-version;/configure --prefix=/tools \
-    --host=$LFS_TGT --build=$(../glibc-&glibc-version;/scripts/config.guess) \
-    --disable-profile --enable-add-ons \
-    --enable-kernel=2.6.25 --with-headers=/tools/include \
-    libc_cv_forced_unwind=yes libc_cv_c_cleanup=yes</userinput></screen>
+<screen><userinput remap="configure">../glibc-&glibc-version;/configure                             \
+      --prefix=/tools                                 \
+      --host=$LFS_TGT                                 \
+      --build=$(../glibc-&glibc-version;/scripts/config.guess) \
+      --disable-profile                               \
+      --enable-add-ons                                \
+      --enable-kernel=2.6.25                          \
+      --with-headers=/tools/include                   \
+      libc_cv_forced_unwind=yes                       \
+      libc_cv_ctors_header=yes                        \
+      libc_cv_c_cleanup=yes</userinput></screen>
 
     <variablelist>
       <title>configureオプションの意味：</title>
@@ -171,6 +191,15 @@ esac</userinput></screen>
           <para>同じように、configureによるチェックをスキップし、C cleanup handlingサポートが有効になるように、libc_cv_c_cleanup=yesを<command>configure</command>スクリプトに渡します。</para>
         </listitem>
       </varlistentry>
+      <varlistentry> 
+        <term><parameter>libc_cv_ctors_header=yes</parameter></term> 
+        <listitem> 
+          <para>Simlarly, we pass libc_cv_ctors_header=yes through to the 
+          <command>configure</command> script so that the test is skipped and 
+          gcc constructor support is configured.</para>
+          <para>同じように、<command>configure</command>スクリプトに libc_cv_ctors_header=yes を渡し、configureによるチェックをスキップし、gccのコンストラクタサポートを有効にします。</para>
+        </listitem> 
+      </varlistentry>
 
     </variablelist>
 
@@ -222,6 +251,51 @@ esac</userinput></screen>
     <para>パッケージのインストール：</para>
 
 <screen><userinput remap="install">make install</userinput></screen>
+
+  <caution> 
+    <para>At this point, it is imperative to stop and ensure that the basic 
+    functions (compiling and linking) of the new toolchain are working as 
+    expected. To perform a sanity check, run the following commands:</para>
+    <para>ここで、新しいtoolchainの基本的な機能(コンパイルとリンク)が期待通りに動作することを確認する必要があります。
+    プログラムの正当性を確認するため、次のコマンドを実行します：</para> 
+ 
+<screen><userinput>echo 'main(){}' &gt; dummy.c
+$LFS_TGT-gcc dummy.c
+readelf -l a.out | grep ': /tools'</userinput></screen>
+ 
+    <para>If everything is working correctly, there should be no errors, 
+    and the output of the last command will be of the form:</para>
+    <para>全てが正常に動作していれば、エラーが出力されず、最後のコマンドの出力は次のようになるはずです：</para>
+ 
+<screen><computeroutput>[Requesting program interpreter: /tools/lib/ld-linux.so.2]</computeroutput></screen> 
+ 
+    <para>Note that <filename class="directory">/tools/lib</filename>, or
+    <filename class="directory">/tools/lib64</filename> for 64-bit machines
+    appears as the prefix of the dynamic linker.</para>
+    <para>64-bit環境では、ダイナミックリンカのプリフィックスとして、<filename class="directory">/tools/lib</filename>または<filename class="directory">/tools/lib64</filename>が出力されます。</para>
+ 
+    <para>If the output is not shown as above or there was no output at all, 
+    then something is wrong. Investigate and retrace the steps to find out 
+    where the problem is and correct it. This issue must be resolved before 
+    continuing on.</para>
+    <para>もし、上記のような出力が得られない場合、または全く出力がない場合は、何か異常があります。
+    手順を後戻りして詳細に調べて、どこに問題があったのか見つけ出して修正してください。
+    この後の手順を続ける前に、問題を修正する必要があります。</para>
+ 
+    <para>Once all is well, clean up the test files:</para>
+    <para>全てがうまくいったら、テストで使用したファイルを削除します：</para> 
+ 
+<screen><userinput>rm -v dummy.c a.out</userinput></screen> 
+ 
+  </caution> 
+ 
+  <note><para>Building Binutils in the next section will serve as an additional check that 
+  the toolchain has been built properly. If Binutils fails to build, it is an 
+  indication that something has gone wrong with the previous Binutils, GCC, or Glibc 
+  installations.</para>
+  <para>次章のBinutilsのビルドでは、toolchainが正しくビルドされたことをチェックする追加のテストとして役立ちます。
+  もしBinutilsのビルドに失敗する場合、BinutilsのPass 1、GCC、またはGlibcのインストールが何かうまくいっていないことを示しています。</para>
+  </note> 
 
   </sect2>
 
