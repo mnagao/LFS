@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9106 -->
+<!-- revision 9842 -->
 
 <sect1 id="ch-tools-toolchaintechnotes">
   <?dbhtml filename="toolchaintechnotes.html"?>
@@ -34,7 +34,7 @@
   <command>chroot</command>コマンドを使用することで、これ以降の章で実行するコマンドの影響はその環境内だけに封じ込まれ、構築するLFSシステムをきれいにトラブルなしでビルドされることを保証します。
   ビルドのプロセスは、新しい読者のためにリスクを最小限にするようデザインされており、同時に最大限の教育的な価値を提供します。</para>
 
-  <important>
+  <note>
     <para>Before continuing, be aware of the name of the working platform,
     often referred to as the target triplet. A simple way to determine the
     name of the target triplet is to run the <command>config.guess</command>
@@ -69,7 +69,7 @@
     ダイナミックリンカの名前を確実に知る方法は、ホストシステム上の適当なバイナリファイルに対して、<userinput>readelf -l &lt;name of binary&gt; | grep interpreter</userinput> を実行し、出力結果を書き留めることです。
     全てのプラットフォームをカバーする正式なリファレンスは、Glibcのソースツリーのルートの<filename>shlib-versions</filename>にあります。
     </para>
-  </important>
+  </note>
 
   <para>Some key technical points of how the <xref
   linkend="chapter-temporary-tools"/> build method works:</para>
@@ -102,11 +102,9 @@
       クロスコンパイルはまた、64-bitハードウェア上で32-bitと64-bitの両方のライブラリをビルドすることを可能とします。</para>
     </listitem>
     <listitem>
-      <para>Careful manipulation of <command>gcc</command>'s
-      <filename>specs</filename> file tells the compiler which target dynamic
-      linker will be used</para>
-      <para><command>gcc</command>の<filename>specs</filename>ファイルを注意深く操作することにより、コンパイラにどのダイナミックリンカを使用するか指定します。
-      </para>
+    <para>Careful manipulation of the GCC source tells the compiler which target
+    dynamic linker will be used.</para>
+    <para>GCCのソースファイルを注意深く操作することにより、コンパイラに対して、どのダイナミックリンカを使用するか指定します。</para>
     </listitem>
   </itemizedlist>
 
@@ -174,12 +172,15 @@ checking what linker to use... /tools/i686-lfs-linux-gnu/bin/ld</computeroutput>
   a dummy program. For example, <userinput>gcc -v dummy.c</userinput> will show
   detailed information about the preprocessor, compilation, and assembly stages,
   including <command>gcc</command>'s included search paths and their order.</para>
-
   <para><command>gcc</command> に <parameter>-v</parameter> オプションを渡すことで、詳細な情報を得ることが出来ます。
   例えば、<userinput>gcc -v dummy.c</userinput> を実行することで、プリプロセッサ、コンパイル、アセンブラステージ、<command>gcc</command>のインクルードサーチパスとその順序も含めて詳細情報が表示されます。
   </para>
 
-<!-- ここから -->
+  <para>Next installed are sanitized Linux API headers. These allow the standard
+  C library (Glibc) to interface with features that the Linux kernel will
+  provide.</para>
+  <para>その次にインストールするのは、Linux APIヘッダファイルです。
+  それらヘッダファイルによって、標準的なCライブラリ(Glibc)は、Linuxカーネルが提供する機能とインターフェースを取ることが可能となります。</para>
 
   <para>The next package installed is Glibc. The most important considerations
   for building Glibc are the compiler, binary tools, and kernel headers. The
@@ -210,47 +211,27 @@ checking what linker to use... /tools/i686-lfs-linux-gnu/bin/ld</computeroutput>
   上記で述べたこれら項目(コンパイラ・バイナリツール・カーネルヘッダ)は、Glibcの重要な側面を明らかにします &mdash; ビルドの仕組みに関してはとても自己充足的で、toolchainのデフォルトに依存していません。
   </para>
 
-  <para>After the Glibc installation, change <command>gcc</command>'s specs file
-  to point to the new dynamic linker in <filename
-  class="directory">/tools/lib</filename>.  This last step is vital in ensuring
-  that searching and linking take place only within the <filename
-  class="directory">/tools</filename> prefix. A hard-wired
-  path to a dynamic linker is embedded into every Executable and Link Format
-  (ELF)-shared executable.  This can be inspected by running:
-  <userinput>readelf -l &lt;name of binary&gt; | grep interpreter</userinput>.
-  Amending <command>gcc</command>'s specs file ensures that every program
-  compiled from here through the end of this chapter will use the new dynamic
-  linker in <filename class="directory">/tools/lib</filename>.</para>
-  <para>Glibcのインストール後、<command>gcc</command>のspecsファイルを変更し、<filename class="directory">/tools/lib</filename>にある新しいダイナミックリンカを指し示すようにします。
-  この最後のステップは、ライブラリのサーチとリンクが<filename class="directory">/tools</filename>プリフィックスだけになることを保証するためには不可欠です。
-  全てのELF(Executable and Link Format)共有実行ファイルに、ハードコーディングされたダイナミックリンカのパスが埋め込まれます。
-  これは、次のコマンドを実行することで確認できます：
-  <userinput>readelf -l &lt;name of binary&gt; | grep interpreter</userinput>。
-  gccのspecsファイルを修正することで、ここから本章の最後までの間にコンパイルする各プログラムが、<filename class="directory">/tools/lib</filename>にある新しいダイナミックリンカを使用するようになります。
-  </para>
-
-  <para>For the second pass of GCC, its sources also need to be modified
-  to tell GCC to use the new dynamic linker. Failure to do
-  so will result in the GCC programs themselves having the name of the
-  dynamic linker from the host system's <filename
-  class="directory">/lib</filename> directory embedded into them, which
-  would defeat the goal of getting away from the host.</para>
-
-  <para>GCCの2回目のコンパイルに備え、GCCに新しいダイナミックリンカを使用させるため、GCCのソースを変更する必要があります。
-  新しいダイナミックリンカを使用しないと、ホストシステムの<filename class="directory">/lib</filename>がGCC自身に埋め込まれてしまい、ホストシステムに依存しないという目標の実現に失敗してしまいます。
-  </para>
-
   <para>During the second pass of Binutils, we are able to utilize the
   <parameter>--with-lib-path</parameter> configure switch to control
-  <command>ld</command>'s library search path.  From this point onwards,
-  the core toolchain is self-contained and self-hosted. The remainder of
-  the <xref linkend="chapter-temporary-tools"/> packages all build against
-  the new Glibc in <filename class="directory">/tools</filename>.</para>
-
+  <command>ld</command>'s library search path.</para>
   <para>Binutilsの2回目の構築において、<command>ld</command>のライブラリサーチパスをコントロールするために、<parameter>--with-lib-path</parameter>のconfigureスイッチを利用することが出来ます。
-  この2回目の構築時点以降、コアとなるtoolchainは自らのものを使用することになります。
-  <xref linkend="chapter-temporary-tools"/>の残りのパッケージは、<filename class="directory">/tools</filename>の新しいGlibcが使用されるようになります。
   </para>
+
+  <para>For the second pass of GCC, its sources also need to be modified to
+  tell GCC to use the new dynamic linker. Failure to do so will result in the
+  GCC programs themselves having the name of the dynamic linker from the host
+  system's <filename class="directory">/lib</filename> directory embedded into
+  them, which would defeat the goal of getting away from the host. From this
+  point onwards, the core toolchain is self-contained and self-hosted. The
+  remainder of the <xref linkend="chapter-temporary-tools"/> packages all build
+  against the new Glibc in <filename
+  class="directory">/tools</filename>.</para>
+  <para>GCCの2回目のビルドにおいても、GCCが新しいダイナミックリンカを使うようにするため、ソースを変更する必要があります。
+  変更しなかった場合、GCCはホストシステムの<filename class="directory">/lib</filename>ディレクトリの名前が埋め込まれてしまいます。そうなると、ホストシステムから分離するという目標を達成できなくなります。
+  GCCの2回目のビルド以降、コアとなるtoolchainは、自己完結でホストシステムから独立した状態となります。
+  <xref linkend="chapter-temporary-tools"/>のパッケージの残り全ては、<filename
+  class="directory">/tools</filename>の新しいGlibcに対してビルドされるようになります。
+</para>
 
   <para>Upon entering the chroot environment in <xref
   linkend="chapter-building-system"/>, the first major package to be
@@ -263,53 +244,5 @@ checking what linker to use... /tools/i686-lfs-linux-gnu/bin/ld</computeroutput>
   <para><xref linkend="chapter-building-system"/>のchroot環境に移り、最初のインストールするメジャーなパッケージはGlibcです。これは、上で述べたとおり、この時点で自立したtoolchainが構築されているからです。
   <filename class="directory">/usr</filename>にGlibcをインストール後、toolchainのデフォルトの変更を行います。そして、LFSシステムの残りの構築手順を進めていきます。
   </para>
-
-  <!-- FIXME: Removed as part of the fix for bug 1061 - we no longer build pass1
-      packages statically, therefore this explanation isn't required
-
-  <sect2>
-  <title>Notes on Static Linking</title>
-
-  <para>Besides their specific task, most programs have to perform many
-  common and sometimes trivial operations. These include allocating
-  memory, searching directories, reading and writing files, string
-  handling, pattern matching, arithmetic, and other tasks. Instead of
-  obliging each program to reinvent the wheel, the GNU system provides
-  all these basic functions in ready-made libraries. The major library
-  on any Linux system is Glibc.</para>
-
-  <para>There are two primary ways of linking the functions from a
-  library to a program that uses them&mdash;statically or dynamically. When
-  a program is linked statically, the code of the used functions is
-  included in the executable, resulting in a rather bulky program. When
-  a program is dynamically linked, it includes a reference to the
-  dynamic linker, the name of the library, and the name of the function,
-  resulting in a much smaller executable. A third option is to use the
-  programming interface of the dynamic linker (see <filename>dlopen(3)</filename>
-  for more information).</para>
-
-  <para>Dynamic linking is the default on Linux and has three major
-  advantages over static linking. First, only one copy of the executable
-  library code is needed on the hard disk, instead of having multiple
-  copies of the same code included in several programs, thus saving
-  disk space. Second, when several programs use the same library
-  function at the same time, only one copy of the function's code is
-  required in core, thus saving memory space. Third, when a library
-  function gets a bug fixed or is otherwise improved, only the one
-  library needs to be recompiled instead of recompiling all programs
-  that make use of the improved function.</para>
-
-  <para>If dynamic linking has several advantages, why then do we
-  statically link the first two packages in this chapter? The reasons
-  are threefold&mdash;historical, educational, and technical. The
-  historical reason is that earlier versions of LFS statically linked
-  every program in this chapter. Educationally, knowing the difference
-  between static and dynamic linking is useful. The technical benefit is
-  a gained element of independence from the host, meaning that those
-  programs can be used independently of the host system. However, it is
-  worth noting that an overall successful LFS build can still be
-  achieved when the first two packages are built dynamically.</para>
-
-  </sect2>-->
 
 </sect1>
