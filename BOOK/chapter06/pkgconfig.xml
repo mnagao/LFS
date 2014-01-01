@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+  "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+  <!ENTITY % general-entities SYSTEM "../general.ent">
+  %general-entities;
+]>
+<!-- revision 9916 -->
+
+<sect1 id="ch-system-pkgconfig" role="wrap">
+  <?dbhtml filename="pkg-config.html"?>
+
+  <sect1info condition="script">
+    <productname>pkgconfig</productname>
+    <productnumber>&pkgconfig-version;</productnumber>
+    <address>&pkgconfig-url;</address>
+  </sect1info>
+
+  <title>Pkg-config-&pkgconfig-version;</title>
+
+  <indexterm zone="ch-system-pkgconfig">
+    <primary sortas="a-pkgconfig">pkgconfig</primary>
+  </indexterm>
+
+  <sect2 role="package">
+    <title/>
+
+    <para> The pkg-config package contains a tool for passing the include path
+    and/or library paths to build tools during the configure and make file
+    execution.</para>
+    <para>pkg-configパッケージは、configureとmakeファイルの実行の間、ビルドツールに対して、インクルードパスと(ま
+たは)ライブラリパスを渡すためのツールを含んでいます。</para>
+
+    <segmentedlist>
+      <segtitle>&buildtime;</segtitle>
+      <segtitle>&diskspace;</segtitle>
+
+      <seglistitem>
+        <seg>&pkgconfig-ch6-sbu;</seg>
+        <seg>&pkgconfig-ch6-du;</seg>
+      </seglistitem>
+    </segmentedlist>
+
+  </sect2>
+
+  <sect2 role="installation">
+    <!--<title>Installation of Pkg-config</title>-->
+    <title>Pkg-configのインストール</title>
+
+    <para>Prepare Pkg-config for compilation:</para>
+    <para>Pkg-configをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr         \
+            --with-internal-glib  \
+            --docdir=/usr/share/doc/pkg-config-&pkgconfig-version;</userinput></screen>
+
+    <para>Compile the package:</para>
+    <para>パッケージのコンパイル：</para>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+    <para>To test the results, issue:</para>
+    <para>コンパイル結果を確認するため、次のコマンドを実行します：</para>
+
+<screen><userinput remap="test">make check</userinput></screen>
+
+    <para>Install the package:</para>
+    <para>パッケージのインストール：</para>
+
+<screen><userinput remap="install">make install</userinput></screen>
+
+  </sect2>
+
+  <sect2 id="contents-pkgconfig" role="content">
+    <title>Contents of Pkg-config</title>
+
+    <segmentedlist>
+      <!--<segtitle>Installed program</segtitle>-->
+      <segtitle>インストールされるプログラム</segtitle>
+      <!--<segtitle>Installed directory</segtitle>-->
+      <segtitle>インストールされるディレクトリ</segtitle>
+
+      <seglistitem>
+        <seg>pkg-config</seg>
+        <seg>/usr/share/doc/pkg-config-0.26</seg>
+      </seglistitem>
+    </segmentedlist>
+
+    <variablelist>
+      <!--<bridgehead renderas="sect3">Short Descriptions</bridgehead>-->
+      <bridgehead renderas="sect3">簡単な説明</bridgehead>
+      <?dbfo list-presentation="list"?>
+      <?dbhtml list-presentation="table"?>
+
+      <varlistentry id="pkgconfig">
+         <!-- Don't remove the extra space, it prevents a FOP warning. -->
+        <term><command>pkg-config </command></term>
+        <listitem>
+          <para>returns meta information for the specified library or package.
+          </para>
+          <para>指定したライブラリまたはパッケージについてのメタ情報を返します。</para>
+          <indexterm zone="ch-system-pkgconfig pkgconfig">
+            <primary sortas="b-pkgconfig">pkg-config</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </sect2>
+
+</sect1>

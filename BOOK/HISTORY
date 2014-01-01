@@ -26,4 +26,6 @@
 2014/01/01 chapter06/bash.xml
                     /binutils.xml
                     /bzip2.xml
+                    /chapter06.xml
+                    /pkgconfig.xml
 
