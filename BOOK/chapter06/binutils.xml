@@ -4,7 +4,9 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9878 -->
+<!--          9791 -->
+<!--          9688 -->
 
 <sect1 id="ch-system-binutils" role="wrap">
   <?dbhtml filename="binutils.html"?>
@@ -75,11 +77,10 @@ Ask your system administrator to create more.</computeroutput></screen>
 <screen><userinput remap="pre">rm -fv etc/standards.info 
 sed -i.bak '/^INFO/s/standards.info //' etc/Makefile.in</userinput></screen> 
 
-    <para>Fix a couple of the tests, which fail when using GCC-&gcc-version;</para> 
-    <para>GCC-&gcc-version;でビルドすると、2,3のテストが失敗する不具合を修正します：</para>
+    <para>Apply a patch to prevent a build failure when using compiler optimizations:</para>
+    <para>コンパイラの最適化を有効にするとビルドに失敗する不具合を避けるため、パッチを適用します：</para>
 
-<screen><userinput remap="pre">sed -i "/exception_defines.h/d" ld/testsuite/ld-elf/new.cc 
-sed -i "s/-fvtable-gc //" ld/testsuite/ld-selective/selective.exp</userinput></screen>
+<screen><userinput remap="pre">patch -Np1 -i ../&binutils-build-patch;</userinput></screen>
 
     <para>The Binutils documentation recommends building Binutils outside of the
     source directory in a dedicated build directory:</para>
