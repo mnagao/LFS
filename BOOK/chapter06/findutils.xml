@@ -4,7 +4,8 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9771 -->
+<!--          9285 -->
 
 <sect1 id="ch-system-findutils" role="wrap">
   <?dbhtml filename="findutils.html"?>
@@ -52,8 +53,9 @@
     <para>Prepare Findutils for compilation:</para>
     <para>Findutilsをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --libexecdir=/usr/lib/findutils \
-    --localstatedir=/var/lib/locate</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr                   \
+            --libexecdir=/usr/lib/findutils \
+            --localstatedir=/var/lib/locate</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
