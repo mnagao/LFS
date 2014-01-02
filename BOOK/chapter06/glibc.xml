@@ -4,6 +4,24 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
+<!-- revision 9969 -->
+<!-- revision 9967 -->
+<!-- revision 9966 -->
+<!-- revision 9965 -->
+<!-- revision 9964 -->
+<!-- revision 9963 -->
+<!-- revision 9962 -->
+<!-- revision 9956 -->
+<!-- revision 9952 -->
+<!-- revision 9950 -->
+<!-- revision 9945 -->
+<!-- revision 9944 -->
+<!-- revision 9930 -->
+<!-- revision 9922 -->
+<!-- revision 9843 -->
+<!-- revision 9790 -->
+<!-- revision 9787 -->
+<!-- revision 9771 -->
 <!-- revision 9758 -->
 
 <sect1 id="ch-system-glibc" role="wrap">
@@ -93,7 +111,13 @@
 
 <screen><userinput remap="pre">sed -i '/vi_VN.TCVN/d' localedata/SUPPORTED</userinput></screen>
 -->
-    <para>When running <command>make install</command>, a script called
+
+    <para>Fix a problem that causes the build to fail in the LFS environment:</para>
+    <para>LFSの環境において、ビルドに失敗する問題を修正します：：</para> 
+
+<screen><userinput remap="pre">sed -i 's#&lt;rpc/types.h&gt;#"rpc/types.h"#' sunrpc/rpc_clntout.c</userinput></screen>
+
+<!--    <para>When running <command>make install</command>, a script called
     <filename>test-installation.pl</filename> performs a small sanity test on
     our newly installed Glibc. However, because our toolchain still points to
     the <filename class="directory">/tools</filename> directory, the sanity
@@ -108,17 +132,16 @@
 <screen><userinput remap="pre">DL=$(readelf -l /bin/sh | sed -n 's@.*interpret.*/tools\(.*\)]$@\1@p')
 sed -i &quot;s|libs -o|libs -L/usr/lib -Wl,-dynamic-linker=$DL -o|&quot; \
         scripts/test-installation.pl
-unset DL</userinput></screen>
+unset DL</userinput></screen>-->
 
-    <para>In addition, there is a bug in the
-    <filename>test-installation.pl</filename> script in that it tries to link 
-    a test program to a library that isn't installed by 
-    <command>make install</command>.  Issue the following <command>sed</command> 
-    command to fix it:</para>
-    <para>加えて、<filename>test-installation.pl</filename>スクリプトにはバグがあり、<command>make install</command>でインストールされないライブラリに対して、テストプログラムをリンクしようとします。
-    次の<command>sed</command>コマンドでこの問題を修正します：</para>
- 
-    <screen><userinput remap="pre">sed -i -e 's/"db1"/&amp; \&amp;\&amp; $name ne "nss_test1"/' scripts/test-installation.pl</userinput></screen>
+    <para>When running <command>make install</command>, a script called
+    <filename>test-installation.pl</filename> performs a small sanity test on
+    our newly installed Glibc. However, it contains a bug that causes it to
+    fail, so prevent it from running by issuing the following command:</para>
+    <para><command>make install</command>を実行すると、<filename>test-installation.pl</filename>というスクリプトが、インストールされたGlibcに対して少しのテストを行います。
+    しかし、そのスクリプトにはテストに失敗するバグが含まれているので、次のコマンドによって、そのスクリプトの実行しないようにします：</para>
+
+<screen><userinput remap="pre">sed -i '/test-installation.pl/d' Makefile</userinput></screen>
 
     <para>The <command>ldd</command> shell script contains Bash-specific
     syntax. Change its default program interpreter to <command>/bin/bash</command>
@@ -132,22 +155,11 @@ unset DL</userinput></screen>
 
 <screen><userinput remap="pre">sed -i 's|@BASH@|/bin/bash|' elf/ldd.bash.in</userinput></screen>
 
-    <para>Fix a couple of bugs in Glibc that can cause crashes and core dumps:</para>
-    <para>Glibcがクラッシュしコアダンプを吐くいくつかのバグを修正します：</para> 
+    <para>Now fix a problem that causes some applications to crash when
+    utilizing problem nameservers:</para>
+    <para>問題のあるnameserverを利用すると、いくつかのアプリケーションがクラッシュする不具合を修正します：</para>
  
-<screen><userinput remap="pre">patch -Np1 -i ../&glibc-fixes-patch;
-patch -Np1 -i ../&glibc-sort-patch;</userinput></screen>
-
-    <para>Fix a bug that prevents Glibc from building with GCC-&gcc-version;:</para>
-    <para>GCC-&gcc-version;でビルドができないバグを修正します：</para>
-
-<screen><userinput remap="pre">patch -Np1 -i ../&glibc-gcc_fix-patch;</userinput></screen>
-
-    <para>Fix a stack imbalance that occurs under some conditions:</para>
-    <para>ある状態で発生する、スタックの不均衡を修正します：</para>
- 
-<screen><userinput remap="pre">sed -i '195,213 s/PRIVATE_FUTEX/FUTEX_CLOCK_REALTIME/' \
-nptl/sysdeps/unix/sysv/linux/x86_64/pthread_rwlock_timed{rd,wr}lock.S</userinput></screen>
+<screen><userinput remap="pre">patch -Np1 -i ../&glibc-fix-resolv-patch;</userinput></screen>
 
     <para>The Glibc documentation recommends building Glibc outside of the source
     directory in a dedicated build directory:</para>
@@ -156,7 +168,7 @@ nptl/sysdeps/unix/sysv/linux/x86_64/pthread_rwlock_timed{rd,wr}lock.S</userinput
 
 <screen><userinput remap="pre">mkdir -v ../glibc-build
 cd ../glibc-build</userinput></screen>
-
+<!--
     <para>As in Chapter 5, add the needed compiler flags to CFLAGS for x86 machines.
     Here, the optimization of the library is also set for the gcc compiler to
     enhance compilation speed (-pipe) and package performance (-O3).</para>
@@ -166,13 +178,16 @@ cd ../glibc-build</userinput></screen>
 <screen><userinput remap="configure">case `uname -m` in
   i?86) echo "CFLAGS += -march=i486 -mtune=native -O3 -pipe" &gt; configparms ;;
 esac</userinput></screen>
-
+-->
     <para>Prepare Glibc for compilation:</para>
     <para>Glibcのコンパイル準備：</para>
 
-<screen><userinput remap="configure">../glibc-&glibc-version;/configure --prefix=/usr \
-    --disable-profile --enable-add-ons \
-    --enable-kernel=2.6.25 --libexecdir=/usr/lib/glibc</userinput></screen>
+<screen><userinput remap="configure">../glibc-&glibc-version;/configure  \
+    --prefix=/usr          \
+    --disable-profile      \
+    --enable-add-ons       \
+    --enable-kernel=2.6.25 \
+    --libexecdir=/usr/lib/glibc</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the new configure options:</title>-->
@@ -204,22 +219,23 @@ esac</userinput></screen>
       どのような事情であれ、テスト実施をスキップしてはいけません。 </para>
     </important>
 
-    <para>Before running the tests, copy a file from the source tree into our
-    build tree to prevent a couple of test failures, then test the
-    results:</para>
+    <para>Generally a few tests do not pass, but you can generally ignore
+    any of the test failures listed below. Now test the build results:</para>
+    <para>通常は2,3のテストが失敗しますが、以下に挙げるテスト失敗は無視して構いません。
+    以下の手順でビルド結果をテストします：</para>
 
-    <para>テストを実行する前に、2,3個のテストの失敗を防ぐため、ソースツリーからビルドツリーにファイルをコピーします。それから結果を確認します：</para>
+<!-- cp -v ../glibc-&glibc-version;/iconvdata/gconv-modules iconvdata --> 
 
-<screen><userinput remap="test">cp -v ../glibc-&glibc-version;/iconvdata/gconv-modules iconvdata
-make -k check 2&gt;&amp;1 | tee glibc-check-log
+<screen><userinput remap="test">make -k check 2&gt;&amp;1 | tee glibc-check-log
 grep Error glibc-check-log</userinput></screen>
 
     <para>You will probably see an expected (ignored) failure in the
-    <emphasis>posix/annexc</emphasis> test.  In addition the Glibc test suite
-    is somewhat dependent on the host system.  This is a list of the most
-    common issues:</para>
+    <emphasis>posix/annexc</emphasis> and
+    <emphasis>conform/run-conformtest</emphasis> tests.  In addition the Glibc
+    test suite is somewhat dependent on the host system.  This is a list of the
+    most common issues:</para>
 
-    <para><emphasis>posix/annexc</emphasis> テストにおいて、おそらく、予期される(ignored)エラーが発生すると思います。
+    <para><emphasis>posix/annexc</emphasis> と<emphasis>conform/run-conformtest</emphasis>テストにおいて、おそらく、予期される(ignored)エラーが発生すると思います。
     加えて、Glibcのテストツールは、いくぶんホストシステムに依存します。
     以下は、最も一般的な問題の一例です：
     </para>
@@ -232,18 +248,19 @@ grep Error glibc-check-log</userinput></screen>
         <para>GCC 4.1.x を使用した場合、<emphasis>nptl/tst-cancel1</emphasis> テストに失敗します。</para>
       </listitem>-->
       <!-- Was true in glibc-2.3.6, rt/tst-cpuclock2 in glibc-2.11.1 -->
-      <listitem>
 
+      <listitem>
         <para>The <emphasis>nptl/tst-clock2</emphasis>,
-        <emphasis>nptl/tst-attr3</emphasis>, and
+        <emphasis>nptl/tst-attr3</emphasis>,
+        <emphasis>tst/tst-cputimer1</emphasis>, and
         <emphasis>rt/tst-cpuclock2</emphasis>
         tests have been known to fail.  The
         reason is not completely understood, but indications are that minor
         timing issues can trigger these failures.</para>
-        <para><emphasis>nptl/tst-clock2</emphasis>、<emphasis>nptl/tst-attr3</emphasis>、<emphasis>rt/tst-cpuclock2</emphasis>のテストは失敗することが分かっています。
+        <para><emphasis>nptl/tst-clock2</emphasis>、<emphasis>nptl/tst-attr3</emphasis>、<emphasis>tst/tst-cputimer1</emphasis>、<emphasis>rt/tst-cpuclock2</emphasis>のテストは失敗することが分かっています。
         その理由ははっきりと分かっていませんが、微妙なタイミングの問題がそれらのテスト失敗を引き起こしているような兆候があります。</para>
-
       </listitem>
+
       <listitem>
         <para>The math tests sometimes fail when running on
         systems where the CPU is not a relatively new genuine Intel or
@@ -251,6 +268,8 @@ grep Error glibc-check-log</userinput></screen>
         <para>比較的新しい genuine Intel または authentic AMD プロセッサを使用したシステムでは、数学テストで時々エラーになります。
         </para>
       </listitem>
+
+      <!--
       <listitem>
         <para>If you have mounted the LFS partition with the
         <parameter>noatime</parameter> option, the <emphasis>atime</emphasis>
@@ -260,6 +279,8 @@ grep Error glibc-check-log</userinput></screen>
         <xref linkend="space-mounting"/>で述べたように、LFSシステムを構築している間は、<parameter>noatime</parameter>オプションを使用しないでください。
         </para>
       </listitem>
+      -->
+
       <listitem>
         <para>When running on older and slower hardware or on systems under
         load, some tests can fail because of test timeouts being exceeded.
@@ -271,10 +292,12 @@ grep Error glibc-check-log</userinput></screen>
         (例： <command>TIMEOUTFACTOR=16 make -k check</command>)
         </para>
       </listitem>
+
       <listitem> 
         <para>Other tests known to fail on some architectures are posix/bug-regex32,  
         misc/tst-writev, elf/check-textrel, nptl/tst-getpid2, and stdio-common/bug22.</para>
         <para>いくつかのアーキテクチャにおいて、テストに失敗する他のテストは、posix/bug-regex32,               misc/tst-writev, elf/check-textrel, nptl/tst-getpid2, stdio-common/bug22 です。</para>
+
       </listitem>
     </itemizedlist>
 
@@ -292,9 +315,10 @@ grep Error glibc-check-log</userinput></screen>
 
 <screen><userinput remap="install">make install</userinput></screen>
 
-    <para>Install NIS and RPC related headers that are not installed by 
-    default; these are required by several BLFS packages:</para>
-    <para>デフォルトではインストールされないNISとRPCに関連するヘッダファイルをインストールします。それらはいくつかのBLFSパッケージで必要とされるものです：</para>
+    <para>Install NIS and RPC related headers that are not installed by
+    default; these are required to rebuild glibc and by several BLFS
+    packages:</para> 
+    <para>デフォルトではインストールされないNISとRPCに関連するヘッダファイルをインストールします。それらヘッダファイルは、glibcの再ビルドといくつかのBLFSパッケージで必要とされるものです：</para>
  
 <screen><userinput remap="install">cp -v ../glibc-&glibc-version;/sunrpc/rpc/*.h /usr/include/rpc 
 cp -v ../glibc-&glibc-version;/sunrpc/rpcsvc/*.h /usr/include/rpcsvc 
@@ -328,6 +352,7 @@ localedef -i cs_CZ -f UTF-8 cs_CZ.UTF-8
 localedef -i de_DE -f ISO-8859-1 de_DE
 localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
 localedef -i de_DE -f UTF-8 de_DE.UTF-8
+localedef -i en_GB -f UTF-8 en_GB.UTF-8
 localedef -i en_HK -f ISO-8859-1 en_HK
 localedef -i en_PH -f ISO-8859-1 en_PH
 localedef -i en_US -f ISO-8859-1 en_US
@@ -338,7 +363,10 @@ localedef -i fr_FR -f ISO-8859-1 fr_FR
 localedef -i fr_FR@euro -f ISO-8859-15 fr_FR@euro
 localedef -i fr_FR -f UTF-8 fr_FR.UTF-8
 localedef -i it_IT -f ISO-8859-1 it_IT
+localedef -i it_IT -f UTF-8 it_IT.UTF-8
 localedef -i ja_JP -f EUC-JP ja_JP
+localedef -i ru_RU -f KOI8-R ru_RU.KOI8-R
+localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
 localedef -i tr_TR -f UTF-8 tr_TR.UTF-8
 localedef -i zh_CN -f GB18030 zh_CN.GB18030</userinput></screen>
 
@@ -414,10 +442,75 @@ rpc: files
 # End /etc/nsswitch.conf</literal>
 EOF</userinput></screen>
 
-    <para>One way to determine the local time zone, run the following
-    script:</para>
+    <para>Install timezone data:</para>
+    <para>timezoneデータのインストール：</para>
 
-    <para>ローカルなタイムゾーンを特定する1つの方法は、次のスクリプトを実行することです。：</para>
+<screen><userinput>tar -xf ../tzdata&tzdata-version;.tar.gz 
+
+mkdir -pv /usr/share/zoneinfo/{posix,right}
+
+for tz in etcetera southamerica northamerica europe africa antarctica \
+          asia australasia backward pacificnew solar87 solar88 solar89 systemv; do
+    zic -L /dev/null   -d /usr/share/zoneinfo       -y "sh yearistype.sh" ${tz}
+    zic -L /dev/null   -d /usr/share/zoneinfo/posix -y "sh yearistype.sh" ${tz}
+    zic -L leapseconds -d /usr/share/zoneinfo/right -y "sh yearistype.sh" ${tz}
+done
+
+cp -v zone.tab iso3166.tab /usr/share/zoneinfo
+zic -d /usr/share/zoneinfo -p America/New_York</userinput></screen>
+
+    <variablelist> 
+      <!--<title>The meaning of the zic commands:</title>-->
+      <title>zicコマンドの意味</title>
+ 
+      <varlistentry> 
+        <term><parameter>zic -L /dev/null ...</parameter></term> 
+        <listitem> 
+          <para>This creates posix timezones, without any leap seconds.  It is 
+          conventional to put these in both 
+          <filename class="directory">zoneinfo</filename> and 
+          <filename class="directory">zoneinfo/posix</filename>. It is 
+          necessary to put the POSIX timezones in 
+          <filename class="directory">zoneinfo</filename>, otherwise various 
+          test-suites will report errors. On an embedded system, where space is 
+          tight and you do not intend to ever update the timezones, you could save 
+          1.9MB by not using the <filename class="directory">posix</filename> 
+          directory, but some applications or test-suites might give less good 
+          results</para>
+          <para>うるう秒を含まないPOSIXタイムゾーンを作成します。
+          このタイムゾーンは、従来どおり<filename class="directory">zoneinfo</filename>と<filename class="directory">zoneinfo/posix</filename>の両方に格納します。
+          POSIXタイムゾーンを<filename class="directory">zoneinfo</filename>に格納する必要があります。格納しなければ、テストツールの実行時にエラーが発生します。
+          組み込みシステムにおいて容量の制限が厳しく、タイムゾーンを更新する予定がないのであれば、<filename class="directory">posix</filename>ディレクトリを使用しなければ、1.9MBを節約することができます。
+          しかし、いくつかのアプリケーションにおいて、テストツールが多少悪い結果を残すかもしれません。</para> 
+        </listitem> 
+      </varlistentry> 
+      <varlistentry> 
+        <term><parameter>zic -L leapseconds ...</parameter></term> 
+        <listitem> 
+          <para>This creates right timezones, including leap seconds. On an 
+          embedded system, where space is tight and you do not intend to 
+          ever update the timezones, or care about the correct time, you could 
+          save 1.9MB by omitting the <filename class="directory">right</filename> 
+          directory.</para>
+          <para>うるう秒を含む正しいタイムゾーンを作成します。
+          組み込みシステムにおいて容量の制限が厳しく、タイムゾーンを更新する予定がない、もしくはうるう秒を考慮した正確な時刻を必要としない場合は、<filename class="directory">right</filename>ディレクトリを削除することで1.9MBを節約できます。</para> 
+        </listitem> 
+      </varlistentry> 
+      <varlistentry> 
+        <term><parameter>zic ... -p ...</parameter></term> 
+        <listitem>
+          <para>This creates the <filename>posixrules</filename> file. We use
+          New York because POSIX requires the daylight savings time rules
+          to be in accordance with US rules,</para>
+          <para><filename>posixrules</filename>ファイルを作成します。
+          POSIXは、アメリカのルールに沿った夏時間ルールを必要としているため、ここではNew Yorkのタイムゾーンを使用しています。</para> 
+        </listitem> 
+      </varlistentry> 
+    </variablelist>
+
+    <para>One way to determine the local time zone is to run the following
+    script:</para>
+    <para>ローカルタイムゾーンを特定する1つの方法は、次のスクリプトを実行することです。：</para>
 
 <screen role="nodump"><userinput>tzselect</userinput></screen>
 
