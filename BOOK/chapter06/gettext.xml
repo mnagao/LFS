@@ -4,7 +4,8 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9307 -->
+<!-- revision 9922 -->
+<!--          9307 -->
 
 <sect1 id="ch-system-gettext" role="wrap">
   <?dbhtml filename="gettext.html"?>
@@ -48,6 +49,11 @@
   <sect2 role="installation">
     <!--<title>Installation of Gettext</title>-->
     <title>Gettextのインストール</title>
+
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>GettextとGlibc-&glibc-version;の相性問題を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' gettext-*/*/stdio.in.h</userinput></screen>
 
     <para>Prepare Gettext for compilation:</para>
     <para>Gettextのコンパイルの準備：</para>
