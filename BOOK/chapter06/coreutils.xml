@@ -4,7 +4,8 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9945 -->
+<!-- revision 9977 -->
+<!--          9945 -->
 <!--          9943 -->
 <!--          9941 -->
 <!--          9922 -->
@@ -139,7 +140,8 @@
     environment includes /tools/bin.</para>
     <para>ではテストを実行します。<userinput>su</userinput>の環境のPATHに/tools/binが含まれていることを確認してください。</para>
 
-<screen><userinput remap="test">su nobody -s /bin/bash -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes -k check || true"</userinput></screen>
+<screen><userinput remap="test">su nobody -s /bin/bash \
+          -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes -k check || true"</userinput></screen>
 
     <para>Remove the temporary group:</para>
     <para>一時的に作成したグループを削除します：</para>
