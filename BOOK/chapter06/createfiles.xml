@@ -4,7 +4,10 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9743 -->
+<!-- revision 9816 -->
+<!--          9797 -->
+<!--          9794 -->
+<!--          9743 -->
 
 <sect1 id="ch-system-createfiles">
   <?dbhtml filename="createfiles.html"?>
@@ -100,8 +103,8 @@ EOF</userinput></screen>
 bin:x:1:
 sys:x:2:
 kmem:x:3:
-tty:x:4:
-tape:x:5:
+tape:x:4:
+tty:x:5:
 daemon:x:6:
 floppy:x:7:
 disk:x:8:
@@ -170,21 +173,24 @@ EOF</userinput></screen>
   したがって、ログファイルを初期化し、適切なパーミッションを与えます：
   </para>
 
-<screen><userinput>touch /var/run/utmp /var/log/{btmp,lastlog,wtmp}
-chgrp -v utmp /var/run/utmp /var/log/lastlog
-chmod -v 664 /var/run/utmp /var/log/lastlog
-chmod -v 600 /var/log/btmp</userinput></screen>
+<screen><userinput>touch /var/log/{btmp,lastlog,wtmp}
+chgrp -v utmp /var/log/lastlog
+chmod -v 664 /var/log/lastlog
+chmod -v 600  /var/log/btmp</userinput></screen>
 
-  <para>The <filename>/var/run/utmp</filename> file records the users
-  that are currently logged in. The <filename>/var/log/wtmp</filename>
-  file records all logins and logouts. The
-  <filename>/var/log/lastlog</filename> file records when
-  each user last logged in. The <filename>/var/log/btmp</filename> file
-  records the bad login attempts.</para>
-
-  <para><filename>/var/run/utmp</filename>には、現在ログインしているユーザが記録されます。
-  <filename>/var/log/wtmp</filename>には、全てのログインとログアウトが記録されます。
+  <para>The <filename>/var/log/wtmp</filename> file records all logins and
+  logouts. The <filename>/var/log/lastlog</filename> file records when each
+  user last logged in. The <filename>/var/log/btmp</filename> file records the
+  bad login attempts.</para>
+  <para><filename>/var/log/wtmp</filename>には、全てのログインとログアウトが記録されます。
   <filename>/var/log/lastlog</filename>には、それぞれのユーザが最後にログインした情報が記録されます。
   <filename>/var/log/btmp</filename>には、悪意のあるログイン試行についての情報が記録されます。
   </para>
+
+  <note><para>The <filename>/run/utmp</filename> file records the users that
+  are currently logged in.  This file is created dynamically in the boot
+  scripts.</para>
+  <para><filename>/run/utmp</filename>ファイルには、現在ログイン中のユーザが記録されています。
+  このファイルはブートスクリプトの中で、動的に作成されます。</para></note>
+
 </sect1>
