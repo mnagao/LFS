@@ -4,7 +4,16 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9939 -->
+<!--          9850 -->
+<!--          9831 -->
+<!--          9807 -->
+<!--          9806 -->
+<!--          9805 -->
+<!--          9795 -->
+<!--          9772 -->
+<!--          9771 -->
+<!--          9688 -->
 
 <sect1 id="ch-system-gcc" role="wrap">
   <?dbhtml filename="gcc.html"?>
@@ -64,19 +73,13 @@
     <para>一貫性のあるコンパイラのビルドを保証するため、次の<command>sed</command>コマンドを実行することで、<xref linkend="ch-tools-gcc-pass2"/>と同じように、<option>-fomit-frame-pointer</option>フラグを使用してビルドを行うようにします：</para>
 
 <screen><userinput remap="pre">case `uname -m` in
-  i?86) sed -i 's/^T_CFLAGS =$/&amp; -fomit-frame-pointer/' \
-        gcc/Makefile.in ;;
+  i?86) sed -i 's/^T_CFLAGS =$/&amp; -fomit-frame-pointer/' gcc/Makefile.in ;;
 esac</userinput></screen>
 
-    <para>The <command>fixincludes</command> script is known to occasionally
-    erroneously attempt to &quot;fix&quot; the system headers installed so far.
-    As the headers up to this point are known to not require fixing,
-    issue the following command to prevent the <command>fixincludes</command>
-    script from running:</para>
-    <para><command>fixincludes</command>スクリプトが、今までインストールされたシステムヘッダを時々誤って&quot;修正&quot;しようとすることが知られています。
-    この時点でヘッダーファイルは修正が必要ないことが分かっているので、<command>fixincludes</command>スクリプトが実行されないように、次のコマンドを実行します：</para>
+    <para>Also fix an error in one of the check Makefiles:</para>
+    <para>Makefileをチェックする処理のエラーを修正します：</para>
 
-<screen><userinput remap="pre">sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in</userinput></screen>
+<screen><userinput remap="pre">sed -i -e /autogen/d -e /check.sh/d fixincludes/Makefile.in</userinput></screen>
 
     <para>The GCC documentation recommends building GCC outside of the source
     directory in a dedicated build directory:</para>
@@ -89,11 +92,16 @@ cd ../gcc-build</userinput></screen>
     <para>Prepare GCC for compilation:</para>
     <para>GCCのコンパイルの準備：</para>
 
-<screen><userinput remap="configure">../gcc-&gcc-version;/configure --prefix=/usr \
-    --libexecdir=/usr/lib --enable-shared \
-    --enable-threads=posix --enable-__cxa_atexit \
-    --enable-clocale=gnu --enable-languages=c,c++ \
-    --disable-multilib --disable-bootstrap --with-system-zlib</userinput></screen>
+<screen><userinput remap="configure">../gcc-&gcc-version;/configure --prefix=/usr            \
+                       --libexecdir=/usr/lib    \
+                       --enable-shared          \
+                       --enable-threads=posix   \
+                       --enable-__cxa_atexit    \
+                       --enable-clocale=gnu     \
+                       --enable-languages=c,c++ \
+                       --disable-multilib       \
+                       --disable-bootstrap      \
+                       --with-system-zlib</userinput></screen>
 
     <para>Note that for other languages, there are some prerequisites that
     are not available. See the BLFS Book for instructions on how to
@@ -132,7 +140,7 @@ cd ../gcc-build</userinput></screen>
     so increase the stack size prior to running the tests:</para> 
     <para>GCCのテストツールのうち1つは、スタックを使い尽くすことが知られています。テストを実行するために、スタックサイズを増やします。</para>
 
-<screen><userinput remap="test">ulimit -s 16384</userinput></screen>
+<screen><userinput remap="test">ulimit -s 32768</userinput></screen>
 
     <para>Test the results, but do not stop at errors:</para>
     <para>テストの結果を検証してください。ただし、エラーが発生してもテストツールを停止しないでください。</para>
@@ -341,6 +349,12 @@ SEARCH_DIR("/usr/lib");</computeroutput></screen>
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
     href="adjusting.xml"
     xpointer="xpointer(//*[@os='v'])"/>
+
+    <para>Finally, move a misplaced file:</para>
+    <para>最後に、間違った場所に配置されたファイルを移動します：</para> 
+
+<screen><userinput remap="install">mkdir -pv /usr/share/gdb/auto-load/usr/lib
+mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib</userinput></screen>
 
   </sect2>
 
