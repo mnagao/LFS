@@ -4,7 +4,13 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9716 -->
+<!-- revision 9945 -->
+<!--          9943 -->
+<!--          9941 -->
+<!--          9922 -->
+<!--          9810 -->
+<!--          9799 -->
+<!--          9716 -->
 
 <sect1 id="ch-system-coreutils" role="wrap">
   <?dbhtml filename="coreutils.html"?>
@@ -45,18 +51,11 @@
     <!--<title>Installation of Coreutils</title>-->
     <title>Coreutilsのインストール</title>
 
-    <para>A known issue with the <command>uname</command> program from
-    this package is that the <parameter>-p</parameter> switch always
-    returns <computeroutput>unknown</computeroutput>. The following patch
-    fixes this behavior for Intel architectures:</para>
+    <para>Fix a bug in a test case:</para>
+    <para>テストケースのバグを修正します：</para>
 
-    <para>このパッケージの<command>uname</command>コマンドは、<parameter>-p</parameter>スイッチを指定すると、いつも<computeroutput>unknown</computeroutput>を返す不具合があることが知られています。
-    次のパッチによって、Intelアーキテクチャでのこの振る舞いを修正します。
-    </para>
-
-<screen><userinput remap="pre">case `uname -m` in 
- i?86 | x86_64) patch -Np1 -i ../&coreutils-uname-patch; ;; 
-esac</userinput></screen>
+<screen><userinput remap="pre">sed -i -e 's/! isatty/isatty/' \
+       -e '45i\              || errno == ENOENT' gnulib-tests/test-getlogin.c</userinput></screen>
 
     <para>POSIX requires that programs from Coreutils recognize character
     boundaries correctly even in multibyte locales. The following patch
@@ -80,7 +79,8 @@ esac</userinput></screen>
     <para>Now prepare Coreutils for compilation:</para>
     <para>さて、Coreutilsをコンパイルする準備をします：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr         \
+<screen><userinput remap="configure">FORCE_UNSAFE_CONFIGURE=1 ./configure \
+            --prefix=/usr         \
             --libexecdir=/usr/lib \
             --enable-no-install-program=kill,uptime</userinput></screen>
 
@@ -135,10 +135,11 @@ esac</userinput></screen>
 
 <screen><userinput remap="test">chown -Rv nobody . </userinput></screen>
 
-    <para>Now run the tests:</para>
-    <para>ではテストを実行します：</para>
+    <para>Now run the tests. Make sure the PATH in the <userinput>su</userinput>
+    environment includes /tools/bin.</para>
+    <para>ではテストを実行します。<userinput>su</userinput>の環境のPATHに/tools/binが含まれていることを確認してください。</para>
 
-<screen><userinput remap="test">su-tools nobody -s /bin/bash -c "make RUN_EXPENSIVE_TESTS=yes check"</userinput></screen>
+<screen><userinput remap="test">su nobody -s /bin/bash -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes -k check || true"</userinput></screen>
 
     <para>Remove the temporary group:</para>
     <para>一時的に作成したグループを削除します：</para>
