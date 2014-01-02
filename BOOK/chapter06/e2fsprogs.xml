@@ -4,7 +4,10 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9922 -->
+<!--          9918 -->
+<!--          9771 -->
+<!--          9688 -->
 
 <sect1 id="ch-system-e2fsprogs" role="wrap">
   <?dbhtml filename="e2fsprogs.html"?>
@@ -61,15 +64,18 @@ cd build</userinput></screen>
     <para>Prepare E2fsprogs for compilation:</para>
     <para>E2fsprogsのコンパイル準備：</para>
 
-<screen><userinput remap="configure">PKG_CONFIG=/tools/bin/true LDFLAGS="-lblkid -luuid" \
-    ../configure --prefix=/usr --with-root-prefix="" \
-    --enable-elf-shlibs --disable-libblkid --disable-libuuid \
-    --disable-uuidd --disable-fsck</userinput></screen>
+<screen><userinput remap="configure">../configure --prefix=/usr         \
+             --with-root-prefix="" \
+             --enable-elf-shlibs   \
+             --disable-libblkid    \
+             --disable-libuuid     \
+             --disable-uuidd       \
+             --disable-fsck</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
       <title>configureオプションの意味：</title>
-
+<!--
       <varlistentry> 
         <term><parameter>PKG_CONFIG...</parameter></term> 
         <listitem> 
@@ -78,7 +84,7 @@ cd build</userinput></screen>
           <para>先にPkg-configをビルド・インストールしなくても、E2fsprogsをビルド出来るようにします。</para>
         </listitem> 
       </varlistentry>
-
+-->
       <varlistentry>
         <term><parameter>--with-root-prefix=""</parameter></term>
         <listitem>
@@ -130,7 +136,7 @@ cd build</userinput></screen>
     <para>To test the results, issue:</para>
     <para>結果をチェックするには、次のコマンドを実行します：</para>
 
-<screen><userinput remap="test">make check</userinput></screen>
+<screen><userinput remap="test">make -k check</userinput></screen>
 
     <para>One of the E2fsprogs tests will attempt to allocate 256 MB
     of memory. If you do not have significantly more RAM than this, it
@@ -167,9 +173,8 @@ cd build</userinput></screen>
     <para>このパッケージはgzipした<filename class="extension">.info</filename>ファイルをインストールしますが、システムの<filename>dir</filename>ファイルを更新しません。
     このファイルをunzipして、それから次のコマンドを実行して、システムの<filename>dir</filename>ファイルを更新します。</para>
 
-<screen><userinput remap="install">gunzip -v /usr/share/info/libext2fs.info.gz 
-install-info --dir-file=/usr/share/info/dir \
-             /usr/share/info/libext2fs.info</userinput></screen> 
+<screen><userinput remap="install">gunzip -v /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info</userinput></screen>
 
     <para>If desired, create and install some additional documentation by 
     issuing the following commands:</para> 
@@ -177,8 +182,8 @@ install-info --dir-file=/usr/share/info/dir \
 
 <screen><userinput remap="install">makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
 install -v -m644 doc/com_err.info /usr/share/info
-install-info --dir-file=/usr/share/info/dir \
-             /usr/share/info/com_err.info</userinput></screen>
+install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info</userinput></screen>
+
   </sect2>
 
   <sect2 id="contents-e2fsprogs" role="content">
