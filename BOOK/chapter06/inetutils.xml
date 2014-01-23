@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9412 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-system-inetutils" role="wrap">
   <?dbhtml filename="inetutils.html"?>
@@ -43,9 +43,21 @@
     <!--<title>Installation of Inetutils</title>-->
     <title>Inetutilsのインストール</title>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --libexecdir=/usr/sbin \
-    --localstatedir=/var --disable-ifconfig \
-    --disable-logger --disable-syslogd --disable-whois \
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;</para>
+    <para>このパッケージとGlibc-&glibc-version;との不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' lib/stdio.in.h</userinput></screen>
+
+    <para>Prepare Inetutils for compilation:</para>
+    <para>Inetutilsをコンパイルする準備：</para>
+
+<screen><userinput remap="configure">./configure --prefix=/usr  \
+    --libexecdir=/usr/sbin \
+    --localstatedir=/var   \
+    --disable-ifconfig     \
+    --disable-logger       \
+    --disable-syslogd      \
+    --disable-whois        \
     --disable-servers</userinput></screen>
 
     <variablelist>
