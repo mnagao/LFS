@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9937 -->
 
 <sect1 id="ch-system-grub" role="wrap">
   <?dbhtml filename="grub.html"?>
@@ -43,15 +43,26 @@
     <!--<title>Installation of GRUB</title>-->
     <title>GRUBのインストール</title>
 
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>このパッケージとGlibc-&glibc-version;間の不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' grub-core/gnulib/stdio.in.h</userinput></screen>
+
     <para>Prepare GRUB for compilation:</para>
     <para>GRUBをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr           \
-             --sysconfdir=/etc      \
-             --disable-grub-emu-usb \
-             --disable-efiemu       \
-             --disable-werror</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr          \
+            --sysconfdir=/etc      \
+            --disable-grub-emu-usb \
+            --disable-efiemu       \
+            --disable-werror</userinput></screen>
 
+    <para>The --disable-werror option allows the build to complete with
+    warnings introduced by more recent flex versions.  The other --disable
+    switches minimize what is built by disabling features and testing programs
+    not needed for LFS.</para>
+    <para>--disable-werrorオプションによって、最近のバージョンのflexが原因によるwarningが発生しても、ビルドが完了するようにします。
+    他の--disableスイッチによって、LFSでは不要な機能やテスト用のプログラムを不使用にすることで、ビルドを最小化します。</para>
 
     <para>The --disable switches minimize what is built by disabling features
     and testing programs not really needed for LFS.</para>
@@ -87,12 +98,14 @@
       <segtitle>インストールされるディレクトリ</segtitle>
 
       <seglistitem>
-        <seg>grub-bin2h, grub-editenv, grub-fstest, grub-install, grub-kbdcomp,
-        grub-menulst2cfg, grub-mkconfig, grub-mkdevicemap, grub-mkimage,
-        grub-mklayout, grub-mknetdir, grub-mkpasswd-pbkdf2, grub-mkrelpath,
-        grub-mkrescue, grub-probe, grub-reboot, grub-script-check,
-        grub-set-default, grub-setup</seg>
-        <seg>/usr/lib/grub, /etc/grub.d, /usr/share/grub</seg>
+       <seg>grub-bin2h,           grub-bios-setup, grub-editenv,     grub-fstest,
+            grub-install,         grub-kbdcomp,    grub-menulst2cfg, grub-mkconfig,
+            grub-mkdevicemap,     grub-mkimage,    grub-mklayout,    grub-mknetdir,
+            grub-mkpasswd-pbkdf2, grub-mkrelpath,  grub-mkrescue,    grub-mkstandalone,
+            grub-ofpathname,      grub-probe,      grub-reboot,      grub-script-check,
+            grub-set-default,     grub-setup,      grub-sparc64-setup </seg>
+
+        <seg>/usr/lib/grub, /etc/grub.d, /usr/share/grub, /boot/grub</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -109,6 +122,17 @@
           <para>バイナリファイルをCのヘッダーファイルに変換します。</para> 
           <indexterm zone="ch-system-grub grub-bin2h"> 
             <primary sortas="b-grub-bin2h">grub-bin2h</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
+      <varlistentry id="grub-bios-setup"> 
+        <term><command>grub-bios-setup</command></term> 
+        <listitem> 
+          <para>Is a helper program for grub-install</para>
+          <para>grub-installの補助プログラムです。</para> 
+          <indexterm zone="ch-system-grub grub-bios-setup"> 
+            <primary sortas="b-grub-bios-setup">grub-bios-setup</primary> 
           </indexterm> 
         </listitem> 
       </varlistentry>
@@ -259,6 +283,28 @@
         </listitem> 
       </varlistentry> 
 
+     <varlistentry id="grub-mkstandalone"> 
+        <term><command>grub-mkstandalone</command></term> 
+        <listitem> 
+          <para>Generates a standalone image</para>
+          <para>スタンドアローンのイメージを作成します。</para> 
+          <indexterm zone="ch-system-grub grub-mkstandalone"> 
+            <primary sortas="b-grub-mkstandalone">grub-mkstandalone</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry> 
+ 
+      <varlistentry id="grub-ofpathname"> 
+        <term><command>grub-ofpathname</command></term> 
+        <listitem> 
+          <para>Is a helper program that prints the path of a GRUB device</para>
+          <para>GRUBデバイスのパスを表示する補助プログラムです。</para>
+          <indexterm zone="ch-system-grub grub-ofpathname"> 
+            <primary sortas="b-grub-ofpathname">grub-ofpathname</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry>
+
       <varlistentry id="grub-probe">
         <term><command>grub-probe</command></term>
         <listitem>
@@ -313,6 +359,18 @@
           </indexterm>
         </listitem>
       </varlistentry>
+
+      <varlistentry id="grub-sparc64-setup"> 
+        <term><command>grub-sparc64-setup</command></term> 
+        <listitem> 
+          <para>Is a helper program for grub-setup</para>
+          <para>grub-setupの補助プログラムです。</para> 
+          <indexterm zone="ch-system-grub grub-sparc64-setup"> 
+            <primary sortas="b-grub-sparc64-setup">grub-setup</primary> 
+          </indexterm> 
+        </listitem> 
+      </varlistentry> 
+
     </variablelist>
 
   </sect2>
