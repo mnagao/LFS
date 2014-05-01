@@ -4,7 +4,10 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9882 -->
+
+<!-- FIXME: upstream git has been persuaded by SuSe to build resizecons on x86_64,
+so the sed will need attention if that change is not removed before the next release -->
 
 <sect1 id="ch-system-kbd" role="wrap">
   <?dbhtml filename="kbd.html"?>
@@ -24,8 +27,9 @@
   <sect2 role="package">
     <title/>
 
-    <para>The Kbd package contains key-table files and keyboard utilities.</para>
-    <para>Kbdパッケージは、key-tableファイルとキーボードユーティリティを含んでいます。</para>
+    <para>The Kbd package contains key-table files, console fonts, and keyboard
+    utilities.</para>
+    <para>Kbdパッケージは、key-tableファイル、コンソールフォント、キーボードユーティリティを含んでいます。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
@@ -43,6 +47,13 @@
     <!--<title>Installation of Kbd</title>-->
     <title>Kbdのインストール</title>
 
+    <para>The behaviour of <command>loadkeys</command> when run without a
+    filename was broken in this release. The following patch fixes this:</para>
+    <para>このバージョンの<command>loadkeys</command>をファイル名の指定なしに実行すると、動作に異常が生じます。
+    次のパッチでその不具合を修正します：</para>
+ 
+<screen><userinput remap="pre">patch -Np1 -i ../&kbd-fixes-patch;</userinput></screen>
+
     <para>The behaviour of the Backspace and Delete keys is not consistent
     across the keymaps in the Kbd package. The following patch fixes this
     issue for i386 keymaps:</para>
@@ -55,6 +66,30 @@
     and the Delete key generates a well-known escape sequence.</para>
     <para>パッチ適用の後、Backspaceキーはキャラクターコード127を発生するようになります。
     また、Deleteキーはよく知られたエスケープシーケンスを発生するようになります。</para>
+
+    <para>Fix a bug in the Spanish message translations which prevents kbd from 
+    building with gettext-&gettext-version;:</para>
+    <para>スペイン語のメッセージのバグによって、kbdとgettext-&gettext-version;の組み合わせでビルドできない不具合を修正します：</para>
+ 
+<screen><userinput remap="pre">sed -i '/guardado\ el/s/\(^.*en\ %\)\(.*\)/\14\$\2/' po/es.po</userinput></screen>
+
+    <para>Remove the redundant <command>resizecons</command> program (32-bit x86
+    only, needs the defunct svgalib, which predates linux-2.6 and is incompatible
+    with modern KMS, to provide the video mode files - for normal use
+    <command>setfont</command> sizes the console appropriately) and its manpage.</para>
+    <para>不要である<command>resizecons</command>のプログラムとmanページを除外します (32-bit x86のみ、現在もう使われていないsvgalib(linux 2.6以前から存在している)を必要としており、ビデオモード関連のファイルを提供する最新のKMSに対応していません。- 通常は、<command>setfont</command>を使用することで、コンソールのサイズを正しく設定できます)。</para>
+ 
+    <para>The shipped version of <filename>configure.ac</filename> is newer than
+    <filename>aclocal.m4</filename>, so autotools will be run by <command>make</command>
+    which will overwrite the change to <filename>configure</filename>. Alter the date
+    and time of <filename>configure.ac</filename> - this uses the system timezone, so we
+    pick a time that is sufficiently old in all timezones.</para>
+    <para>リリースバージョンの<filename>configure.ac</filename>は<filename>aclocal.m4</filename>よりも更新日付が新しいです。そのため、<command>make</command>コマンドの実行によってautotoolsが実行され、<filename>configure</filename>ファイルへの変更が上書きされてしまいます。
+    これを回避するため、<filename>configure.ac</filename>の日付・時刻を変更します - このときシステムのタイムゾーンが使われるので、全てのタイムゾーンで十分に古い時刻を使います。</para>
+
+<screen><userinput remap="pre">sed -i 's/\(RESIZECONS_PROGS=\)yes/\1no/' configure &amp;&amp;
+sed -i 's/resizecons.8 //' man/man8/Makefile.in &amp;&amp;
+touch -d '2011-05-07 08:30' configure.ac</userinput></screen>
 
     <para>Prepare Kbd for compilation:</para>
     <para>Kbdをコンパイルする準備：</para>
@@ -133,7 +168,7 @@ cp -R -v doc/* \
         <seg>chvt, deallocvt, dumpkeys, fgconsole, getkeycodes, kbd_mode,
         kbdrate, loadkeys, loadunimap,
         mapscrn, openvt, psfaddtable (link to psfxtable), psfgettable (link to
-        psfxtable), psfstriptable (link to psfxtable), psfxtable, resizecons,
+        psfxtable), psfstriptable (link to psfxtable), psfxtable, <!--resizecons,-->
         setfont, setkeycodes, setleds, setmetamode,
         showconsolefont, showkey, unicode_start, and unicode_stop</seg>
        <seg>/lib/kbd</seg>
@@ -313,7 +348,7 @@ cp -R -v doc/* \
         </listitem>
       </varlistentry>
 
-      <varlistentry id="resizecons">
+  <!--<varlistentry id="resizecons">
         <term><command>resizecons</command></term>
         <listitem>
           <para>Changes the kernel idea of the console size</para>
@@ -322,7 +357,7 @@ cp -R -v doc/* \
             <primary sortas="b-resizecons">resizecons</primary>
           </indexterm>
         </listitem>
-      </varlistentry>
+      </varlistentry>-->
 
       <varlistentry id="setfont">
         <term><command>setfont</command></term>
