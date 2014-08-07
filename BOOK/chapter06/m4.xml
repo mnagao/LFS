@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9758 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-system-m4" role="wrap">
   <?dbhtml filename="m4.html"?>
@@ -42,6 +42,11 @@
   <sect2 role="installation">
     <!--<title>Installation of M4</title>-->
     <title>M4のインストール</title>
+
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>本パッケージとGlibc-&glibc-version;間の不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' lib/stdio.in.h</userinput></screen>
 
     <para>Prepare M4 for compilation:</para>
     <para>M4をコンパイルする準備：</para>
