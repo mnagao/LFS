@@ -5,6 +5,10 @@
   %general-entities;
 ]>
 <!-- revision 9626 -->
+<!--          9771 -->
+<!--          9871 -->
+<!--          9897 -->
+<!--          9922 -->
 
 <sect1 id="ch-system-libpipeline" role="wrap">
   <?dbhtml filename="libpipeline.html"?>
@@ -26,6 +30,7 @@
 
     <para>The Libpipeline package contains a library for manipulating pipelines
     of subprocesses in a flexible and convenient way.</para>
+
     <para>Libpipelineパッケージは、サブプロセスのパイプラインを操作するための、柔軟性がある使いやすいライブラリを含んでいます。</para>
 
     <segmentedlist>
@@ -44,22 +49,27 @@
     <!--<title>Installation of Libpipeline</title>-->
     <title>Libpipelineのインストール</title>
 
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;:</para>
+    <para>本パッケージとGlibc-&glibc-version;間の不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' gnulib/lib/stdio.in.h</userinput></screen>
+
     <para>Prepare Libpipeline for compilation:</para>
     <para>Libpipelineをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure CHECK_CFLAGS=-I/tools/include \
-    CHECK_LIBS="-L/tools/lib -lcheck" --prefix=/usr</userinput></screen>
+<screen><userinput remap="configure">PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
       <title>configureオプションの意味：</title>
 
       <varlistentry>
-        <term><parameter>CHECK_CFLAGS=, CHECK_LIBS=</parameter></term>
+        <term><parameter>PKG_CONFIG_PATH</parameter></term>
         <listitem>
-          <para>These environment variables specify the location of the test
-          library built in <xref linkend="ch-tools-check"/>.</para>
-          <para>これら環境変数に、<xref linkend="ch-tools-check"/>でビルドしたテストライブラリの位置をセットします。</para>
+          <para>Use pkg-config to obtain the location of the test
+          library metadata built in <xref linkend="ch-tools-check"/>.</para>
+
+          <para>pkg-configを使用して、<xref linkend="ch-tools-check"/>でビルドしたtestライブラリのメタデータの場所を取得します。</para>
         </listitem>
       </varlistentry>
 
