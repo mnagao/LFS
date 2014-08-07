@@ -5,7 +5,7 @@
   %general-entities;
 ]>
 
-<!-- revision 9734 -->
+<!-- revision 9901 -->
 
 <sect1 id="ch-system-kmod" role="wrap">
   <?dbhtml filename="kmod.html"?>
@@ -45,15 +45,21 @@
     <!--<title>Installation of Kmod</title>-->
     <title>Kmodのインストール</title>
 
+    <para>Apply the following patch to fix a problem when running the testsuite
+    on x86 hosts:</para>
+    <para>x86のホスト上でテストツールを実行する際の問題を修正するため、次の通りパッチを適用します：</para>
+ 
+<screen><userinput remap="pre">patch -Np1 -i ../&kmod-testsuite-patch;</userinput></screen>
+
     <para>Prepare Kmod for compilation:</para>
     <para>Kmodをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">liblzma_CFLAGS="-I/usr/include" \
-liblzma_LIBS="-L/lib -llzma"    \
-zlib_CFLAGS="-I/usr/include"    \
-zlib_LIBS="-L/lib -lz"          \
-./configure --prefix=/usr --bindir=/bin --libdir=/lib --sysconfdir=/etc \
-            --with-xz     --with-zlib</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr       \
+            --bindir=/bin       \
+            --libdir=/lib       \
+            --sysconfdir=/etc   \
+            --with-xz           \
+            --with-zlib</userinput></screen>
 
     <variablelist>
       <!-- <title>The meaning of the configure options:</title>-->
@@ -88,9 +94,11 @@ zlib_LIBS="-L/lib -lz"          \
     <para>パッケージのインストールと、Module-Init-Toolsとの互換性確保のためのシンボリックリンク作成を行います：</para>
 
 <screen><userinput remap="install">make pkgconfigdir=/usr/lib/pkgconfig install
+
 for target in depmod insmod modinfo modprobe rmmod; do
   ln -sv ../bin/kmod /sbin/$target
 done
+
 ln -sv kmod /bin/lsmod</userinput></screen>
 
   </sect2>
