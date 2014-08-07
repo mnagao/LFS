@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9476 -->
+<!-- revision 9870 -->
 
 <sect1 id="ch-system-kernfs">
   <?dbhtml filename="kernfs.html"?>
@@ -88,9 +88,22 @@ mknod -m 666 $LFS/dev/null c 1 3</userinput></screen>
       <para>では、残りの仮想カーネルファイルシステムをマウントします：</para>
 
 <screen><userinput>mount -vt devpts devpts $LFS/dev/pts
-mount -vt tmpfs shm $LFS/dev/shm
 mount -vt proc proc $LFS/proc
 mount -vt sysfs sysfs $LFS/sys</userinput></screen>
+
+      <para>In some host systems, <filename>/dev/shm</filename> is a
+      symbolic link to <filename class="directory">/run/shm</filename>.
+      Inside a chroot environment, this symbolic link needs to be
+      changed to a normal directory before mounting as a temporary
+      file system:</para>
+      <para>いくつかのホストシステムにおいては、<filename>/dev/shm</filename>は<filename class="directory">/run/shm</filename>へのシンボリックリンクとなっています。chroot環境では、このシンボリックリンクは、一時的なファイルシステムとしてマウントされる前に通常のディレクトリに変える必要があります。</para>
+ 
+<screen><userinput>if [ -h /dev/shm ]; then
+   rm -f $LFS/dev/shm
+   mkdir $LFS/dev/shm
+fi
+ 
+mount -vt tmpfs shm $LFS/dev/shm</userinput></screen>
 
   </sect2>
 
