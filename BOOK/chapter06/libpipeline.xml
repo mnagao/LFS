@@ -4,11 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9626 -->
-<!--          9771 -->
-<!--          9871 -->
-<!--          9897 -->
-<!--          9922 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-system-libpipeline" role="wrap">
   <?dbhtml filename="libpipeline.html"?>
