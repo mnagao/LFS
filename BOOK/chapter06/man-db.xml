@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9619 -->
+<!-- revision 9922 -->
 
 <sect1 id="ch-system-man-db" role="wrap">
   <?dbhtml filename="man-db.html"?>
@@ -44,30 +44,26 @@
     <!--<title>Installation of Man-DB</title>-->
     <title>Man-DBのインストール</title>
 
+    <para>Fix an incompatibility between this package and Glibc-&glibc-version;</para>
+    <para>本パッケージとGlibc-&glibc-version;間の不整合を修正します：</para>
+
+<screen><userinput remap="pre">sed -i -e '/gets is a/d' gnulib/lib/stdio.in.h</userinput></screen>
+
     <para>Prepare Man-DB for compilation:</para>
     <para>Man-DBをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">PKG_CONFIG=/tools/bin/true \
-    libpipeline_CFLAGS='' \
-    libpipeline_LIBS='-lpipeline' \
-    ./configure --prefix=/usr --libexecdir=/usr/lib \
-    --docdir=/usr/share/doc/man-db-&man-db-version; --sysconfdir=/etc \
-    --disable-setuid --with-browser=/usr/bin/lynx \
-    --with-vgrind=/usr/bin/vgrind --with-grap=/usr/bin/grap</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr                        \
+            --libexecdir=/usr/lib                \
+            --docdir=/usr/share/doc/man-db-&man-db-version; \
+            --sysconfdir=/etc                    \
+            --disable-setuid                     \
+            --with-browser=/usr/bin/lynx         \
+            --with-vgrind=/usr/bin/vgrind        \
+            --with-grap=/usr/bin/grap</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure options:</title>-->
      <title>configureオプションの意味：</title>
-
-      <varlistentry> 
-        <term><parameter>PKG_CONFIG=, libpipeline_ ...</parameter></term> 
-         <listitem> 
-          <para>These environment variables allow the configuration  
-          process to complete without the external <command>pkg-config</command>  
-          program.</para>
-          <para>これら環境変数を指定することで、<command>pkg-config</command>がインストールされていなくても、configureプロセスを正常に完了させることができます。</para>
-        </listitem> 
-      </varlistentry>
 
       <varlistentry>
         <term><parameter>--disable-setuid</parameter></term>
