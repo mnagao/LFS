@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9285 -->
+<!-- revision 9951 -->
 
 <sect1 id="ch-system-sed" role="wrap">
   <?dbhtml filename="sed.html"?>
@@ -42,6 +42,11 @@
   <sect2 role="installation">
     <!--<title>Installation of Sed</title>-->
     <title>Sedのインストール</title>
+
+    <para>First, fix some regression tests:</para>
+    <para>まず、いくつかのリグレッションテストを修正します：</para>
+
+<screen><userinput remap="pre">patch -Np1 -i ../&sed-testsuite-patch;</userinput></screen>
 
     <para>Prepare Sed for compilation:</para>
     <para>Sedのコンパイル準備：</para>
