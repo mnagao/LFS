@@ -61,4 +61,5 @@
                     /shadow.xml
                     /systemd.xml
                     /sysvinit.xml
+                    /tar.xml
 
