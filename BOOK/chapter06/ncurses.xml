@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9867 -->
 
 <sect1 id="ch-system-ncurses" role="wrap">
   <?dbhtml filename="ncurses.html"?>
@@ -58,7 +58,8 @@
     <para>Prepare Ncurses for compilation:</para>
     <para>Ncursesをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --with-shared --without-debug --enable-widec</userinput></screen>
+<screen><userinput remap="configure">./configure --prefix=/usr --mandir=/usr/share/man --with-shared \
+            --without-debug --enable-widec</userinput></screen>
 
     <variablelist>
       <!--<title>The meaning of the configure option:</title>-->
