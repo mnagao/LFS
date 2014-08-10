@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9745 -->
+<!-- revision 9967 -->
 
 <sect1 id="ch-system-shadow" role="wrap">
   <?dbhtml filename="shadow.html"?>
@@ -53,13 +53,6 @@
       <para>もし、強固なパスワードの使用を強制したいなら、<ulink url="&blfs-root;view/svn/postlfs/cracklib.html"/>を参照し、Shadowよりも前にCrackLibをインストールしてください。
       その後、以下のとおり<command>configure</command>コマンドに<parameter>--with-libcrack</parameter>を追加してください。</para>
     </note>
-
-    <para>Apply a patch to fix an issue when running various programs from this 
-    package when they are used when the <command>nscd</command> daemon is not 
-    running:</para>
-    <para><command>nscd</command>デーモンが動いていないときに、このパッケージの様々なプログラムが使用されたときの問題を修正するため、パッチを適用します：</para> 
- 
-<screen><userinput remap="pre">patch -Np1 -i ../&shadow-nscd-patch;</userinput></screen>
 
     <para>Disable the installation of the <command>groups</command> program
     and its man pages, as Coreutils provides a better version:</para>
@@ -159,7 +152,7 @@ ln -sfv ../../lib/libshadow.so.0 /usr/lib/libshadow.so</userinput></screen> -->
     a group of the same name as the user. By default the user ID (UID) and
     group ID (GID) numbers will begin with 1000. This means if you don't pass
     parameters to <command>useradd</command>, each user will be a member of a
-    unique group on the system. If this behaviour is undesireable, you'll need
+    unique group on the system. If this behaviour is undesirable, you'll need
     to pass the <parameter>-g</parameter> parameter to 
     <command>useradd</command>. The default parameters are stored in the 
     <filename>/etc/default/useradd</filename> file. You may need to modify two 
