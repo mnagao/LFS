@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9224 -->
+<!-- revision 9968 -->
 
 <sect1 id="ch-system-pkgmgt">
   <?dbhtml filename="pkgmgt.html"?>
@@ -400,10 +400,10 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</userinput></screen>
     <filename>/etc/passwd</filename>, 
     <filename>/etc/group</filename>, 
     <filename>/etc/shadow</filename>, 
-    <filename>/etc/ld.so.conf</filename>, 
-    <filename>/etc/scsi_id.config</filename>, 
-    <filename>/etc/sysconfig/network</filename> and 
-    <filename>/etc/sysconfig/network-devices/ifconfig.eth0/ipv4</filename>.     
+    <filename>/etc/ld.so.conf</filename>,
+    <filename>/etc/sysconfig/rc.site</filename>,
+    <filename>/etc/sysconfig/network</filename>, and
+    <filename>/etc/sysconfig/ifconfig.eth0</filename>.
     </para> 
     <para>LFSシステムの利点の一つに、ディスク上のファイルの位置に依存するファイルがないことが挙げられます。
     元となるシステムとアーキテクチャが似ている他のコンピュータにLFSシステムをクローンすることは、rootディレクトリ(ベースのLFSシステムでは約250MB)を含むLFSパーティション上で<command>tar</command>を使用し、そのアーカイブファイルをネットワーク経由またはCD-ROMで新しいシステムにコピーし、展開するだけという簡単さです。
@@ -415,10 +415,10 @@ make DESTDIR=/usr/pkg/libfoo/1.1 install</userinput></screen>
     <filename>/etc/passwd</filename>, 
     <filename>/etc/group</filename>, 
     <filename>/etc/shadow</filename>, 
-    <filename>/etc/ld.so.conf</filename>, 
-    <filename>/etc/scsi_id.config</filename>, 
-    <filename>/etc/sysconfig/network</filename> and 
-    <filename>/etc/sysconfig/network-devices/ifconfig.eth0/ipv4</filename>.     
+    <filename>/etc/ld.so.conf</filename>,
+    <filename>/etc/sysconfig/rc.site</filename>,
+    <filename>/etc/sysconfig/network</filename>, and
+    <filename>/etc/sysconfig/ifconfig.eth0</filename>.
    </para>
  
     <para>A custom kernel may need to be built for the new system depending on 
