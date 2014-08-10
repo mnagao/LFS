@@ -60,4 +60,5 @@
                     /sed.xml
                     /shadow.xml
                     /systemd.xml
+                    /sysvinit.xml
 

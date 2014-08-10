@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9771 -->
 
 <sect1 id="ch-system-sysvinit" role="wrap">
   <?dbhtml filename="sysvinit.html"?>
@@ -58,8 +58,7 @@
     上記の処理を行っている間、<command>init</command>は<quote>Sending processes the TERM signal</quote>のようなメッセージを出力し、動作中の全てのプロセスに対してTERMシグナル送っているようなことを示します。
     この誤解を招く表現を避けるため、ソースを書き換え、メッセージを<quote>Sending processes configured via /etc/inittab the TERM signal</quote>に変更します。</para>
 
-<screen><userinput remap="pre">sed -i 's@Sending processes@&amp; configured via /etc/inittab@g' \
-    src/init.c</userinput></screen>
+<screen><userinput remap="pre">sed -i 's@Sending processes@&amp; configured via /etc/inittab@g' src/init.c</userinput></screen>
 
     <para>Maintained versions of the <command>wall</command> and
     <command>mountpoint</command> programs were
