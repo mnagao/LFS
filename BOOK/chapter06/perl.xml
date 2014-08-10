@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9939 -->
 
 <sect1 id="ch-system-perl" role="wrap">
   <?dbhtml filename="perl.html"?>
@@ -53,11 +53,6 @@
 
 <screen><userinput remap="pre">echo "127.0.0.1 localhost $(hostname)" &gt; /etc/hosts</userinput></screen>
 
-    <para>Apply a patch to fix a security vulnerability in Perl:</para>
-    <para>Perlのセキュリティ脆弱性を修正するためのパッチを適用します：</para>
-
-<screen><userinput remap="pre">patch -Np1 -i ../&perl-security-patch;</userinput></screen>
-
     <para>This version of Perl now builds the Compress::Raw::Zlib module. By 
     default Perl will use an internal copy of the Zlib source for the build. 
     Issue the following command so that Perl will use the Zlib library 
@@ -79,7 +74,7 @@
     または、以下コマンドをそのまま使用し、Perlが自動認識するデフォルト設定を選ぶことも出来ます：
     </para>
 
-<screen><userinput remap="configure">sh Configure -des -Dprefix=/usr \
+<screen><userinput remap="configure">sh Configure -des -Dprefix=/usr                 \
                   -Dvendorprefix=/usr           \
                   -Dman1dir=/usr/share/man/man1 \
                   -Dman3dir=/usr/share/man/man3 \
@@ -139,7 +134,7 @@
     <para>To test the results (approximately 2.5 SBU), issue:</para>
     <para>コンパイル結果をテスト(約 2.5 SBU)するには、次を実行してください：</para>
 
-<screen><userinput remap="test">make test</userinput></screen>
+<screen><userinput remap="test">make -k test</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
