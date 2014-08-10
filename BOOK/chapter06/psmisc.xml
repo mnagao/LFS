@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9385 -->
+<!-- revision 9771 -->
 
 <sect1 id="ch-system-psmisc" role="wrap">
   <?dbhtml filename="psmisc.html"?>
@@ -62,28 +62,11 @@
 
 <screen><userinput remap="install">make install</userinput></screen>
 
-<!--
-    <para>By default, Psmisc's <command>pidof</command> program is not
-    installed. This usually is not a problem because it is installed later
-    in the Sysvinit package, which provides a better
-    <command>pidof</command> program. If Sysvinit will not be used for a
-    particular system, complete the installation of Psmisc by first moving
-    the <command>killall</command> to the correct location, as specified by the
-    FHS, then create a symlink to it:</para>
-    <para>デフォルトでは、Psmiscの<command>pidof</command>プログラムはインストールされません。
-    より優れた<command>pidof</command>を提供するSysvinitパッケージを後ほどインストールするため、通常これは問題ではありません。
-    特別なシステム等でSysvinitを使用しない場合、FHSで指定されている通り、<command>killall</command>を正しい場所に移動し、シンボリックリンクを作成してください：
-    </para>
-
-<screen><userinput remap="install">mv /usr/bin/killall /bin
-ln -sv killall /bin/pidof</userinput></screen>
--->
-
     <para>Finally, move the <command>killall</command> and <command>fuser</command>
     programs to the location specified by the FHS:</para>
     <para>最後に、<command>killall</command>と<command>fuser</command>プログラムをFHSで指定された場所に移動します：</para>
 
-<screen><userinput remap="install">mv -v /usr/bin/fuser /bin
+<screen><userinput remap="install">mv -v /usr/bin/fuser   /bin
 mv -v /usr/bin/killall /bin</userinput></screen>
 
   </sect2>
