@@ -4,18 +4,18 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9726 -->
+<!-- revision 9966 -->
 
 <sect1 id="ch-system-udev" role="wrap">
   <?dbhtml filename="udev.html"?>
 
   <sect1info condition="script"> 
     <productname>udev</productname> 
-    <productnumber>&udev-version;</productnumber> 
-    <address>&udev-url;</address> 
+    <productnumber>&systemd-version;</productnumber> 
+    <address>&systemd-url;</address> 
   </sect1info>
 
-  <title>Udev-&udev-version;</title>
+  <title>Udev-&systemd-version; (Extracted from systemd-&systemd-version;)</title>
 
   <indexterm zone="ch-system-udev">
     <primary sortas="a-Udev">Udev</primary>
@@ -25,16 +25,20 @@
     <title/>
 
     <para>The Udev package contains programs for dynamic creation of device
-    nodes.</para>
-    <para>Udevパッケージは、ダイナミックなデバイスノード作成のためのプログラムを含んでいます。</para>
+    nodes.  The development of udev has been merged with systemd, but
+    most of systemd is incompatible with LFS.  Here we build and install just
+    the needed udev files.</para>
+    <para>Udevパッケージは、デバイスノードを動的に作成するためのプログラムを含んでいます。
+    udevの開発はsystemdとマージされましたが、systemdのほとんどの部分はLFS上で動作しません。
+    したがって、ここでは必要となるudev関連のファイルのみビルド・インストールします。</para>
 
     <segmentedlist>
       <segtitle>&buildtime;</segtitle>
       <segtitle>&diskspace;</segtitle>
 
       <seglistitem>
-        <seg>&udev-ch6-sbu;</seg>
-        <seg>&udev-ch6-du;</seg>
+        <seg>&systemd-ch6-sbu;</seg>
+        <seg>&systemd-ch6-du;</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -44,114 +48,43 @@
     <!--<title>Installation of Udev</title>-->
     <title>Udevのインストール</title>
 
-    <para>The udev-config tarball contains LFS-specific files used to configure
-    Udev. Unpack it into the Udev source directory:</para>
-    <para>udev-configのtarballに、Udevを設定するために使用されるLFS固有のファイルが含まれています。
-    そのtarballをUdevのソースディレクトリにUnpackします：</para>
+    <note><para>This package is a little different from other packages.  The
+    initial package that is extracted is
+    <filename>systemd-&systemd-version;.tar.xz</filename> even though the
+    application we are installing is udev. After changing to the
+    systemd directory, follow the instructions below.</para>
+    <para>このパッケージは他のパッケージと少し異なっています。
+    最初に展開したパッケージは<filename>systemd-&systemd-version;.tar.xz</filename>ですが、インストールしようとするものはudevです。
+    systemdのディレクトリに移った後、下の手順に沿ってください。</para>
+    </note>
 
-<screen><userinput remap="pre">tar -xvf ../&udev-config;.tar.bz2</userinput></screen>
+    <para>The udev-lfs tarball contains LFS-specific files used to build
+    Udev. Unpack it into the systemd source directory:</para>
+    <para>udev-lfsのtarballに、Udevをビルドするために使用されるLFS固有のファイルが含まれています。
+    そのtarballをsystemdのソースディレクトリにUnpackします：</para>
 
-    <para>Create some devices and directories that Udev cannot handle due to
-    them being required very early in the boot process, or by Udev itself:</para>
-    <para>Udevは、ブートプロセスの初期またはUdev自身が必要とするデバイスやディレクトリを取り扱えないため、ここでそれらを作成します：</para>
-
-<screen><userinput remap="install">install -dv /lib/{firmware,udev/devices/pts}
-mknod -m0666 /lib/udev/devices/null c 1 3</userinput></screen>
-
-    <para>Prepare the package for compilation:</para> 
-    <para>パッケージをコンパイルするための準備：</para>
-
-<!-- Note that "libdir=/usr/lib64" would be required for multilib. -->
-<screen><userinput remap="configure">BLKID_CFLAGS="-I/usr/include/blkid"  \
-BLKID_LIBS="-L/lib -lblkid"          \
-KMOD_CFLAGS="-I/usr/include"         \
-KMOD_LIBS="-L/lib -lkmod"            \
-./configure  --prefix=/usr           \
-             --with-rootprefix=''    \
-             --bindir=/sbin          \
-             --sysconfdir=/etc       \
-             --libexecdir=/lib       \
-             --enable-rule_generator \
-             --disable-introspection \
-             --disable-keymap        \
-             --disable-gudev         \
-             --with-usb-ids-path=no  \
-             --with-pci-ids-path=no  \
-             --with-systemdsystemunitdir=no</userinput></screen>
-
-    <variablelist> 
-      <!--<title>The meaning of the new configure options</title>--> 
-      <title>新しいconfigureオプションの意味</title> 
-
-      <!-- Note that libexecdir *MUST* stay /lib, even on a 64-bit
-           / multilib system where udev is compiled for 64-bit.  The udev
-           configure system automatically adds "udev" onto this path, and other
-           packages require /lib/udev; the udev maintainers have
-           said this is part of the udev API. -->
-
-      <varlistentry>
-        <term><parameter>--libexecdir=/lib</parameter></term>
-        <listitem> 
-          <para>This controls where Udev-internal rules and helper programs 
-          are installed.</para>
-          <para>Udevの内部ルールとヘルパープログラムをインストールする場所を指定します。</para> 
-        </listitem> 
-      </varlistentry> 
-
-      <varlistentry>
-        <term><parameter>--enable-rule_generator</parameter></term> 
-        <listitem> 
-          <para>This allows persistent rules to be generated for network and 
-          optical media devices</para>
-          <para>ネットワークと光学デバイスのために、永続的なルールを生成できるようにします。</para> 
-        </listitem> 
-      </varlistentry>
-
-      <varlistentry>
-        <term><parameter>--disable-* and --with-*</parameter></term>
-        <listitem> 
-          <para>These options prevent Udev from installing helper programs and 
-          other extras which require more external libraries.  These libraries 
-          are not part of the base LFS system.  See the Udev 
-          <filename>README</filename> file for more information.</para>
-          <para>ヘルパープログラムおよび、外部ライブラリを必要とするその他の余分なものをインストールしないようにします。</para> 
-        </listitem> 
-      </varlistentry>
-
-    </variablelist>
+<screen><userinput remap="pre">tar -xvf ../&udev-lfs;.tar.bz2</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
 
-<screen><userinput remap="make">make</userinput></screen>
-
-    <para>Test the package.</para>
-    <para>パッケージのテストを行います。</para>
-
-<screen><userinput remap="test">make check</userinput></screen>
+<screen><userinput remap="make">make -f udev-lfs-&systemd-version;/Makefile.lfs</userinput></screen>
 
     <para>Install the package:</para>
     <para>パッケージのインストール：</para>
 
-<screen><userinput remap="install">make install</userinput></screen>
+<screen><userinput remap="install">make -f udev-lfs-&systemd-version;/Makefile.lfs install</userinput></screen>
 
-    <para>Remove an empty documentation directory:</para>
-    <para>空のドキュメントディレクトリを削除します：</para>
-
-<screen><userinput remap="install">rmdir -v /usr/share/doc/udev</userinput></screen>
-
-    <para>Now install the LFS-specific custom rules files:</para>
-    <para>そして、LFS固有のカスタムルールをインストールします：</para>
-
-<screen><userinput remap="install">cd &udev-config;
-make install</userinput></screen>
-
-    <para>Install the documentation that explains the LFS-specific rules
-    files:</para>
-    <para>LFS固有のルールファイルを説明したドキュメントをインストールします：</para>
-
-<screen><userinput remap="install">make install-doc</userinput></screen>
-
+    <para>Finally set up the persistent network udev rules.  This task will be
+    explained in detail in <xref linkend='stable-net-names'/>.  Note that the
+    <filename class='directory'>/sys</filename> and <filename
+    class='directory'>/proc</filename> filesystems must be mounted in the
+    chroot environment as explained at the beginning of this chapter for the
+    following script to work.</para>
+    <para>最後に、永続的なネットワークのudevルールを設定します。この作業の詳細な説明は<xref linkend='stable-net-names'/>にあります。
+    <filename class='directory'>/sys</filename> と <filename class='directory'>/proc</filename>ファイルシステムは、この章の最初で説明したように、chroot環境でマウントされている必要があります。また、この後に続くスクリプトを正しく動かすために必要です。</para>
+ 
+<screen><userinput remap="install">bash udev-lfs-&systemd-version;/init-net-rules.sh</userinput></screen>
   </sect2>
 
   <sect2 id="contents-udev" role="content">
@@ -168,12 +101,10 @@ make install</userinput></screen>
       <segtitle>インストールされるディレクトリ</segtitle>
 
       <seglistitem>
-        <seg>ata_id, cdrom_id, collect, create_floppy_devices, edd_id,
-        firmware.sh, fstab_import, path_id, scsi_id, udevadm, udevd,
-        usb_id, write_cd_rules, and write_net_rules</seg>
-        <seg>libudev.{a,so}</seg>
-        <seg>/etc/udev, /lib/udev, /lib/firmware, /usr/share/doc/udev-config,
-        /usr/share/gtk-doc/html/libudev</seg>
+        <seg>accelerometer, ata_id, cdrom_id, collect, mtd_probe,
+         scsi_id, v4l_id, udevadm, and udevd</seg>
+        <seg>libudev.so</seg>
+        <seg>/etc/udev, /lib/udev, /lib/firmware, /usr/share/doc/udev</seg>
       </seglistitem>
     </segmentedlist>
 
@@ -220,64 +151,6 @@ make install</userinput></screen>
         </listitem> 
       </varlistentry>
 
-      <varlistentry id="create_floppy_devices">
-        <term><command>create_floppy_devices</command></term>
-        <listitem>
-          <para>Creates all possible floppy devices based on the CMOS type</para>
-          <para>CMOSのタイプに基づき、全ての利用可能なフロッピーデバイスを作成します。</para>
-          <indexterm zone="ch-system-udev create_floppy_devices">
-            <primary sortas="b-create_floppy_devices">create_floppy_devices</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="edd_id">
-        <term><command>edd_id</command></term>
-        <listitem>
-          <para>Provides Udev with the EDD ID for a BIOS disk drive</para>
-          <para>Udevに対して、BIOSが管理するディスクドライブのEDD IDを提供します。</para>
-          <indexterm zone="ch-system-udev edd_id">
-            <primary sortas="b-edd_id">edd_id</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="firmware.sh">
-        <term><command>firmware.sh</command></term>
-        <listitem>
-          <para>Uploads firmware to devices</para>
-          <para>デバイスに対してファームウェアのアップロードを行います。</para>
-          <indexterm zone="ch-system-udev firmware.sh">
-            <primary sortas="b-firmware.sh">firmware.sh</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="fstab_import"> 
-        <term><command>fstab_import</command></term> 
-        <listitem> 
-          <para>Finds an entry in <filename>/etc/fstab</filename> that 
-          matches the current device, and provides its information to 
-          Udev</para>
-          <para><filename>/etc/fstab</filename>の中から、現在のデバイスとマッチするエントリーを検索し、その情報をUdevに提供します。</para>
-          <indexterm zone="ch-system-udev fstab_import"> 
-            <primary sortas="b-fstab_import">fstab_import</primary>
-          </indexterm> 
-        </listitem> 
-      </varlistentry>
-
-      <varlistentry id="path_id">
-        <term><command>path_id</command></term>
-        <listitem>
-          <para>Provides the shortest possible unique hardware path to a
-          device</para>
-          <para>デバイスに対して、最も短いユニークなハードウェアパスを提供します。</para>
-          <indexterm zone="ch-system-udev path_id">
-            <primary sortas="b-path_id">path_id</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
       <varlistentry id="scsi_id">
         <term><command>scsi_id</command></term>
         <listitem>
@@ -314,44 +187,6 @@ make install</userinput></screen>
           <para>netlink socket上のueventを見張り、それらueventのレスポンスによりデバイスの作成と、設定された外部プログラムを実行するデーモンです。</para>
           <indexterm zone="ch-system-udev udevd">
             <primary sortas="b-udevd">udevd</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="usb_id">
-        <term><command>usb_id</command></term>
-        <listitem>
-          <para>Provides Udev with information about USB
-          devices</para>
-          <para>Udevに対して、USBデバイスに関する情報を提供します。</para>
-          <indexterm zone="ch-system-udev usb_id">
-            <primary sortas="b-usb_id">usb_id</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="write_cd_rules">
-        <term><command>write_cd_rules</command></term>
-        <listitem>
-          <para>A script which generates Udev rules to provide stable names for
-          optical drives (see also <xref linkend="ch-scripts-symlinks"/>)</para>
-          <para>光学ドライブの固定的な名称を提供するUdevルールを生成するスクリプトです。
-          (<xref linkend="ch-scripts-symlinks"/>を参照してください)</para>
-          <indexterm zone="ch-system-udev write_cd_rules">
-            <primary sortas="b-write_cd_rules">write_cd_rules</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="write_net_rules">
-        <term><command>write_net_rules</command></term>
-        <listitem>
-          <para>A script which generates rules to provide stable names for
-          network interfaces (see also <xref linkend="ch-scripts-network"/>)
-          </para>
-          <para>ネットワークインタフェースの固定的な名称を提供するUdevルールを生成するスクリプトです(<xref linkend="ch-scripts-network"/>を参照してください)。</para>
-          <indexterm zone="ch-system-udev write_net_rules">
-            <primary sortas="b-write_net_rules">write_net_rules</primary>
           </indexterm>
         </listitem>
       </varlistentry>

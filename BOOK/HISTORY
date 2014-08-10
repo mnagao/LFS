@@ -59,4 +59,5 @@
                     /psmisc.xml
                     /sed.xml
                     /shadow.xml
+                    /systemd.xml
 
