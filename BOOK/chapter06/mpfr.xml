@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9742 -->
+<!-- revision 9903 -->
 
 <sect1 id="ch-system-mpfr" role="wrap">
   <?dbhtml filename="mpfr.html"?>
@@ -44,16 +44,12 @@
     <!--<title>Installation of MPFR</title>-->
     <title>MPFRのインストール</title>
 
-    <para>Apply a patch that fixes a number of bugs in MPFR-&mpfr-version;</para>
-    <para>MPFR-&mpfr-version;の多くのバグを修正するため、パッチを適用します：</para>
-
-<screen><userinput remap="pre">patch -Np1 -i ../&mpfr-fixes-patch;</userinput></screen>
-
     <para>Prepare MPFR for compilation:</para>
     <para>MPFRをコンパイルする準備：</para>
 
-<screen><userinput remap="configure">./configure --prefix=/usr --enable-thread-safe \
-  --docdir=/usr/share/doc/mpfr-&mpfr-version;</userinput></screen>
+<screen><userinput remap="configure">./configure  --prefix=/usr        \
+             --enable-thread-safe \
+             --docdir=/usr/share/doc/mpfr-&mpfr-version;</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
