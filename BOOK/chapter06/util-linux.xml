@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9688 -->
+<!-- revision 9967 -->
 
 <sect1 id="ch-system-util-linux" role="wrap">
   <?dbhtml filename="util-linux.html"?>
@@ -55,8 +55,8 @@
     <para><filename>adjtime</filename>ファイルの配置場所として、FHSは、通例である<filename class="directory">/etc</filename>の代わりに、<filename class="directory">/var/lib/hwclock</filename>を使用することを推奨しています。
     <command>hwclock</command>プログラムをFHS準拠にするために、次を実行します：</para>
 
-<screen><userinput remap="pre">sed -e 's@etc/adjtime@var/lib/hwclock/adjtime@g' \
-    -i $(grep -rl '/etc/adjtime' .)
+<screen><userinput remap="pre">sed -i -e 's@etc/adjtime@var/lib/hwclock/adjtime@g' \
+    $(grep -rl '/etc/adjtime' .)
 mkdir -pv /var/lib/hwclock</userinput></screen>
 
   </sect2>
@@ -65,36 +65,7 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
     <!--<title>Installation of Util-linux</title>-->
     <title>Util-linuxのインストール</title>
 
-<screen><userinput remap="configure">./configure --enable-arch --enable-partx --enable-write</userinput></screen>
-    <variablelist> 
-      <!--<title>The meaning of the configure options:</title>-->
-      <title>configureオプションの意味：</title> 
-
-      <varlistentry> 
-        <term><parameter>--enable-arch</parameter></term> 
-        <listitem> 
-          <para>Enables building the <command>arch</command> program</para>
-          <para><command>arch</command>プログラムをビルドします。</para>
-        </listitem> 
-      </varlistentry> 
-      <varlistentry> 
-        <term><parameter>--enable-partx</parameter></term> 
-        <listitem> 
-          <para>Enables building the <command>addpart</command>, 
-          <command>delpart</command> and <command>partx</command> 
-          programs</para>
-          <para><command>addpart</command>、<command>delpart</command>、<command>partx</command>プログラムをビルドします。</para>
-        </listitem> 
-      </varlistentry> 
-      <varlistentry> 
-        <term><parameter>--enable-write</parameter></term> 
-        <listitem> 
-          <para>Enables building the <command>write</command> program</para>
-          <para><command>write</command>プログラムをビルドします。</para>
-        </listitem> 
-      </varlistentry> 
- 
-    </variablelist>
+<screen><userinput remap="configure">./configure</userinput></screen>
 
     <para>Compile the package:</para>
     <para>パッケージのコンパイル：</para>
@@ -124,17 +95,17 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
       <segtitle>インストールされるディレクトリ</segtitle>
 
       <seglistitem>
-        <seg>addpart, agetty, arch, blkid, blockdev, cal, cfdisk, chkdupexe,
+        <seg>addpart, agetty, blkid, blockdev, cal, cfdisk, chcpu, chkdupexe,
         chrt, col, colcrt, colrm, column, ctrlaltdel, cytune, delpart,
         dmesg, fallocate, fdformat, fdisk, findfs, findmnt, flock, fsck,
         fsck.cramfs, fsck.minix, fsfreeze, fstrim, getopt, hexdump, hwclock, i386,
         ionice, ipcmk, ipcrm, ipcs, isosize, ldattach, linux32, linux64,
         logger, look, losetup, lsblk, lscpu, mcookie, mkfs, mkfs.bfs, mkfs.cramfs,
         mkfs.minix, mkswap, more, mount, mountpoint, namei, partx, pg, pivot_root,
-        readprofile, rename, renice, rev, rtcwake, script, scriptreplay,
+        prlimit, raw, readprofile, rename, renice, rev, rtcwake, script, scriptreplay,
         setarch, setsid, setterm, sfdisk, swaplabel, swapoff (link to swapon),
         swapon, switch_root, tailf, taskset, tunelp, ul, umount, unshare,
-        uuidd, uuidgen, wall, whereis, wipefs, and write</seg>
+        uuidd, uuidgen, wall, whereis, wipefs, and x86_64</seg>
         <seg>/usr/include/blkid, /usr/include/libmount, /usr/include/uuid,
         /usr/share/getopt, /var/lib/hwclock</seg>
       </seglistitem>
@@ -165,17 +136,6 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
           <para>ttyポートをオープンし、ログイン名を求めるプロンプトを表示し、<command>login</command>プログラムを起動します。</para>
           <indexterm zone="ch-system-util-linux agetty">
             <primary sortas="b-agetty">agetty</primary>
-          </indexterm>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry id="arch">
-        <term><command>arch</command></term>
-        <listitem>
-          <para>Reports the machine's architecture</para>
-          <para>マシンのアーキテクチャを表示します。</para>
-          <indexterm zone="ch-system-util-linux arch">
-            <primary sortas="b-arch">arch</primary>
           </indexterm>
         </listitem>
       </varlistentry>
@@ -222,6 +182,17 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
           <para>与えられたデバイスのパーティションテーブルを操作します。</para>
           <indexterm zone="ch-system-util-linux cfdisk">
             <primary sortas="b-cfdisk">cfdisk</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="chcpu">
+        <term><command>chcpu</command></term>
+        <listitem>
+          <para>Modifies the state of CPUs</para>
+          <para>CPUの状態を変更します。</para>
+          <indexterm zone="ch-system-util-linux chcpu">
+            <primary sortas="b-chcpu">chcpu</primary>
           </indexterm>
         </listitem>
       </varlistentry>
@@ -649,8 +620,8 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
 
       <varlistentry id="lscpu"> 
         <term><command>lscpu</command></term> 
-        <listitem> 
-          <para>Prints CPU architechture information</para>
+        <listitem>
+          <para>Prints CPU architecture information</para>
           <para>CPUのアーキテクチャ情報を表示します。</para> 
           <indexterm zone="ch-system-util-linux lscpu"> 
             <primary sortas="b-lscpu">lscpu</primary>
@@ -803,6 +774,28 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
           <para>指定されたファイルシステムを現在のプロセスの新しいrootファイルシステムにします。</para>
           <indexterm zone="ch-system-util-linux pivot_root">
             <primary sortas="b-pivot_root">pivot_root</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry id="prlimit">
+        <term><command>prlimit</command></term>
+        <listitem>
+          <para>Get and set a process' resource limits</para>
+          <para>プロセスのリソース制限値を取得・セットします。</para>
+          <indexterm zone="ch-system-util-linux prlimit">
+            <primary sortas="b-prlimit">prlimit</primary>
+          </indexterm>
+        </listitem>
+      </varlistentry>
+ 
+      <varlistentry id="raw">
+        <term><command>raw</command></term>
+        <listitem>
+          <para>Bind a Linux raw character device to a block device</para>
+          <para>rawキャラクターデバイスをブロックデバイスに関連付けます。</para>
+          <indexterm zone="ch-system-util-linux raw">
+            <primary sortas="b-raw">raw</primary>
           </indexterm>
         </listitem>
       </varlistentry>
@@ -1108,14 +1101,13 @@ mkdir -pv /var/lib/hwclock</userinput></screen>
         </listitem> 
       </varlistentry>
 
-      <varlistentry id="write">
-        <term><command>write</command></term>
+      <varlistentry id="x86_64">
+        <term><command>x86_64</command></term>
         <listitem>
-          <para>Sends a message to the given user <emphasis>if</emphasis> that
-          user has not disabled receipt of such messages</para>
-          <para>もし、送信先のユーザが、メッセージの受け取りを禁止されていなければ、そのユーザへメッセージを送信します。</para>
-          <indexterm zone="ch-system-util-linux write">
-            <primary sortas="b-write">write</primary>
+          <para>A symbolic link to setarch</para>
+          <para>setarchへのシンボリックリンクです。</para>
+          <indexterm zone="ch-system-util-linux x86_64">
+            <primary sortas="b-x86_64">x86_64</primary>
           </indexterm>
         </listitem>
       </varlistentry>
