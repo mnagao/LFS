@@ -4,7 +4,7 @@
   <!ENTITY % general-entities SYSTEM "../general.ent">
   %general-entities;
 ]>
-<!-- revision 9728 -->
+<!-- revision 9966 -->
 
 <sect1 id="ch-scripts-network">
   <?dbhtml filename="network.html"?>
@@ -20,15 +20,16 @@
   configured.</para>
   <para>ネットワークカードを設定する場合のみ、このセクションの手順を行ってください。</para>
 
-  <para>If a network card will not be used, there is likely no need to
-  create any configuration files relating to network cards. If that is
-  the case, remove the <filename class="symlink">network</filename>
-  symlinks from all run-level directories (<filename
-  class="directory">/etc/rc.d/rc*.d</filename>).</para>
-  <para>もしネットワークカードを使用するつもりがないのであれば、ネットワークカードに関する設定ファイルを作成する必要はないと思います。
-  もしそうであれば、全てのrun-levelディレクトリ(<filename class="directory">/etc/rc.d/rc*.d</filename>)から、シンボリックリンク<filename class="symlink">network</filename>を削除してください。</para>
+  <para>If a network card will not be used, there is likely no need to create
+  any configuration files relating to network cards. If that is the case, you
+  will need to remove the <filename class="symlink">network</filename> symlinks
+  from all run-level directories (<filename
+  class="directory">/etc/rc.d/rc*.d</filename>) after the bootscripts are
+  installed in <xref linkend="ch-scripts-bootscripts"/>.</para>
+  <para>もしネットワークカードを使用するつもりがないのであれば、ネットワークカードに関する設定ファイルを作成する必要はないと思われます。
+  もしそうであれば、<xref linkend="ch-scripts-bootscripts"/>でブートスクリプトをインストールした後に、全てのrun-levelディレクトリ(<filename class="directory">/etc/rc.d/rc*.d</filename>)から、<filename class="symlink">network</filename>シンボリックリンクを削除する必要があります。</para>
 
-  <sect2>
+  <sect2 id='stable-net-names'>
     <!--<title>Creating stable names for network interfaces</title>-->
     <title>ネットワークインタフェースに固定的な名前を付ける</title>
 
@@ -48,25 +49,29 @@
     cases, after a reboot the cards get renumbered the other way around. To
     avoid this, Udev comes with a script and some rules to assign stable names
     to network cards based on their MAC address.</para>
+
     <para>Udevとmodularネットワークドライバにおいて、ネットワークインタフェースの番号付けは、デフォルトではブート毎に固定されません。
     なぜなら、ドライバは並行してロードされ、その結果ランダムな順番で認識されるからです。
     例えば、コンピュータにIntelとRealtekの2つのネットワークカードが存在している場合、Intelの方が<filename class="devicefile">eth0</filename>で、Realtekが<filename class="devicefile">eth1</filename>と認識されるかもしれません。
     リブートの後、カードには異なった順番で番号付けされることがあります。
     これを避けるには、Udevに付属するスクリプトと、MACアドレスによってネットワークカードに固定的な名称を割り当てるルールを作る方法があります。</para>
 
-    <para>Pre-generate the rules to ensure the same names get assigned to the
-    same devices at every boot, including the first:</para>
-    <para>ブートの際、デバイスに同じ名称を割り付けるルールを事前に作成します：</para>
-
-<screen><userinput>for NIC in /sys/class/net/* ; do
-    INTERFACE=${NIC##*/} udevadm test --action=add $NIC
-done</userinput></screen>
-
-    <para>Now, inspect the <filename>/etc/udev/rules.d/70-persistent-net.rules</filename>
-    file, to find out which name was assigned to which network device:</para>
-    <para>では、<filename>/etc/udev/rules.d/70-persistent-net.rules</filename>の内容を確認し、どのネットワークデバイスにどの名称が割り付けられているか調べます：</para>
+    <para>The rules were pre-generated in the build instructions for
+    <application>udev (systemd)</application> in the last chapter.  Inspect the
+    <filename>/etc/udev/rules.d/70-persistent-net.rules</filename> file, to
+    find out which name was assigned to which network device:</para>
+    <para>ルールは、前の章にある<application>udev (systemd)</application>のビルド手順の中で、すでに生成されているます。
+    <filename>/etc/udev/rules.d/70-persistent-net.rules</filename>を見て、どのネットワークデバイスに、どのデバイス名が割当てられているか確認してください。</para>
 
 <screen role="nodump"><userinput>cat /etc/udev/rules.d/70-persistent-net.rules</userinput></screen>
+
+    <note><para>In some cases such as when MAC addresess have been assigned to
+    a network card manually or in a virtual envirnment such as Xen,
+    the network rules file may not have been generated because addresses
+    are not consistently assigned.  In these cases, just continue to
+    the next section.</para></note>
+    <para>いくつかのケースにおいて、例えば、MACアドレスをネットワークカードにマニュアルで割り当てるケース、またはXenのような仮想環境の場合、アドレスが固定的に割り当てられないため、ネットワークのruleファイルは生成されないかもしれません。
+    これらケースに当てはまる場合は、次のセクションに進んでください。</para>
 
     <para>The file begins with a comment block followed by two lines for each
     NIC. The first line for each NIC is a commented description showing its
@@ -221,20 +226,26 @@ EOF</userinput></screen>
     <para><envar>GATEWAY</envar>は、もし存在するならば、デフォルトゲートウェイのIPアドレスをセットします。
     もしセットしなければ、変数を完全にコメントアウトしてください。</para>
 
-    <para>The <envar>PREFIX</envar> variable needs to contain the number of
+    <para>The <envar>PREFIX</envar> variable contains the number of
     bits used in the subnet. Each octet in an IP address is 8 bits. If the
     subnet's netmask is 255.255.255.0, then it is using the first three octets
     (24 bits) to specify the network number. If the netmask is 255.255.255.240,
     it would be using the first 28 bits.  Prefixes longer than 24 bits are
     commonly used by DSL and cable-based Internet Service Providers (ISPs).
     In this example (PREFIX=24), the netmask is 255.255.255.0. Adjust the
-    <envar>PREFIX</envar> variable according to your specific subnet.</para>
-    <para><envar>PREFIX</envar>はサブネットとして使用するビットの数をセットします。
+    <envar>PREFIX</envar> variable according to your specific subnet.i
+    If omitted, the PREFIX defaults to 24.</para>
+
+    <para><envar>PREFIX</envar>にサブネットとして使用するビットの数をセットします。
     IPアドレスのそれぞれのオクテットは8ビットです。
     もしサブネットマスクが255.255.255.0であれば、ネットワークアドレスの指定に、最初の3つのオクテット(24ビット)を使用します。
     24ビットを越えるPrefixは、一般にDSLやケーブルのISP(Internet Service Provider)で使用されます。
     この例では(PREFIX=24)、ネットマスクは255.255.255.0となります。
-    ここではあなたのサブネットに合わせて<envar>PREFIX</envar>の設定を調整してください。</para>
+    ここではあなたのサブネットに合わせて<envar>PREFIX</envar>の設定を調整してください。
+    もし設定しなかった場合、PREFIXのデフォルトは24です。</para>
+
+    <para>For more information see the <command>ifup</command> man page.</para>
+    <para>より詳しい情報は、<command>ifup</command>のmanページを参照してください。</para>
   </sect2>
 
   <sect2 id="resolv.conf">
